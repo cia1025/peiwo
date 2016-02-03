@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:id="@+id/iv_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:onClick="click">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/icon_anonymous_close"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="星座匹配"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        android:layout_marginTop="36dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tv_match_constell"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="选择喜欢的星座，系统将优先匹配此星座男生"
+        android:layout_marginTop="14dp"
+        android:textColor="#ffffff"
+        android:textSize="14sp"
+        android:layout_below="@+id/tv_match_constell"
+        android:layout_centerHorizontal="true"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="44dp"
+        >
+
+
+        <me.peiwo.peiwo.widget.PWGridView
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/gv_layout"
+            android:stretchMode="columnWidth"
+            android:numColumns="3"
+            android:listSelector="@null"
+            android:cacheColorHint="@null"
+            android:horizontalSpacing="0dp"
+            android:verticalSpacing="10dp"
+            android:gravity="center"
+            />
+
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            >
+
+
+            <TextView
+                android:clickable="true"
+                android:onClick="click"
+                android:id="@+id/tv_hepai"
+                android:text="合拍星座"
+                android:visibility="invisible"
+                android:drawableTop="@drawable/ic_baiyang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:drawablePadding="4dp"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBar"
+                android:layout_gravity="center_horizontal"
+                />
+        </FrameLayout>
+    </LinearLayout>
+</RelativeLayout>

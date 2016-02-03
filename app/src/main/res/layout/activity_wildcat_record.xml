@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@id/title_bar"
+        style="@style/fillx"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/c_white">
+
+        <LinearLayout
+            android:id="@+id/view_left"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/btn_left"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/ic_nav_back"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical"
+                android:visibility="visible"/>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/v_line_left"
+            android:layout_width="0.3dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/view_left"
+            android:background="@color/c_de2"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_toRightOf="@+id/v_line_left"
+            android:layout_marginLeft="10dp"
+            android:singleLine="true"
+            android:textColor="#4d4d4d"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/sp_title_txt_size"/>
+
+        <TextView
+            android:id="@+id/btn_right"
+            style="@style/choice_please_blue"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingRight="18dp"
+            android:paddingLeft="18dp"
+            android:text="战绩"
+            android:layout_centerVertical="true"
+            android:textColor="#00b8d0"
+            android:textSize="13sp"
+            />
+
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/c_de2"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/call_record_head_text"
+        android:layout_width="match_parent"
+        android:layout_height="21dp"
+        android:paddingLeft="18dp"
+        android:background="#f5f5f5"
+        android:gravity="center_vertical"
+        android:text="★展示通话时长超过15秒,且未被举报的最近6个记录"
+        android:textColor="#8e8e8e"
+        android:textSize="10sp"
+        android:visibility="gone"/>
+
+    <me.peiwo.peiwo.widget.PWPullToRefreshListView
+        android:id="@+id/call_record_list"
+        style="@style/ListViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+</LinearLayout>

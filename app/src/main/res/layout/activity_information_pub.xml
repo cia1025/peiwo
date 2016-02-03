@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/layout_top"
+        layout="@layout/title_bar"/>
+
+    <RelativeLayout
+        android:id="@+id/layout_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_top"
+        android:layout_margin="12dp">
+
+        <EditText
+            android:id="@+id/tv_words"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="我也想看看你的世界"
+            android:lines="6"
+            android:textSize="13sp"
+            android:textColor="#4d4d4d"
+            android:textColorHint="#8e8e8e"/>
+
+        <GridView
+            android:id="@+id/gridview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_words"
+            android:layout_marginTop="10dp"
+            android:horizontalSpacing="3dp"
+            android:numColumns="4"
+            android:scrollbars="none"
+            android:verticalSpacing="5dp">
+        </GridView>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_divder"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@id/layout_content"
+        android:layout_marginTop="6dp"
+        android:background="#F7F7F7"/>
+
+    <RelativeLayout
+        android:id="@+id/layout_tag_bootom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_divder"
+        android:layout_marginLeft="12dp">
+
+        <RelativeLayout
+            android:id="@+id/title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="55dp">
+
+            <ImageView
+                android:id="@+id/image_title"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_tag"/>
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/image_title"
+                android:text="你窗外的那个画面"
+                android:textColor="#8e8e8e"
+                android:textSize="13sp"/>
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_below="@id/title_layout"
+            android:background="@color/c_de2"/>
+
+        <RelativeLayout
+            android:id="@+id/location_layout"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_below="@id/line">
+
+            <ImageView
+                android:id="@+id/image_location"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_release_coordinate"/>
+
+            <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@id/image_location"
+                android:text="显示坐标"
+                android:textColor="#4d4d4d"
+                android:textSize="13sp"/>
+
+            <ImageView
+                android:id="@+id/image_location_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="12dp"
+                android:visibility="gone"
+                android:src="@drawable/icon_cancel_coordinates"/>
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_below="@id/location_layout"
+            android:background="@color/c_de2"/>
+    </RelativeLayout>
+
+</RelativeLayout>

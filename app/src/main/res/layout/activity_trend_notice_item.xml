@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="75dp">
+
+    <ImageView
+        android:id="@+id/iv_uface"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:src="@drawable/ic_default_avatar"/>
+
+    <TextView
+        android:maxLength="10"
+        android:maxLines="1"
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/iv_uface"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/iv_uface"
+        android:paddingTop="4dp"
+
+        android:text="小菜菜"
+        android:textColor="#383838"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_name"
+        android:layout_below="@id/tv_name"
+        android:layout_marginTop="4dp"
+        android:text="1小时前"
+        android:textColor="#8e8e8e"
+        android:textSize="10sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tv_name"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/tv_name"
+        android:paddingTop="4dp"
+        android:text="赞了"
+        android:textColor="#00b8d0"
+        android:textSize="12sp"/>
+
+    <ImageView
+        android:id="@+id/iv_pub_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/bg_font"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:layout_alignLeft="@id/tv_name"
+        android:layout_alignParentBottom="true"
+        android:background="@color/c_de"/>
+
+</RelativeLayout>

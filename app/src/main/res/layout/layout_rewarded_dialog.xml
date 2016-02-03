@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:background="@color/c_white"
+    >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:src="@drawable/bg_reward_receive"
+        android:scaleType="centerCrop"
+        />
+
+    <ImageView
+        android:id="@+id/iv_reward_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_reward_close_p"
+        android:layout_gravity="top|left"
+        android:layout_margin="10dp"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_retitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="壕的技能"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="top|center_horizontal"
+        />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:src="@drawable/icon_anonymous"
+        android:id="@+id/iv_avatar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#ffffff"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="top|center_horizontal"
+        />
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="135dp"
+        android:background="@color/c_white"
+        >
+
+        <TextView
+            android:text="hhewfewhjfewkj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#1e1e1e"
+            android:id="@+id/tv_reward_from"
+            />
+
+        <TextView
+            android:text="hhewfewhjfewkj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textSize="16sp"
+            android:textColor="#8e8e8e"
+            android:id="@+id/tv_reward_message"
+            />
+
+        <TextView
+            android:text="hhewfewhjfewkj"
+            android:id="@+id/tv_reward_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="26sp"
+            android:textColor="#343434"
+            />
+
+        <TextView
+            android:id="@+id/tv_reward_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textSize="16sp"
+            android:textColor="#00b8d0"
+            android:text="已存入钱包，可用来提现"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:textSize="16sp"
+            android:text="礼尚往来"
+            android:textColor="#00b8d0"
+            android:background="@drawable/bg_rewarded_btn"
+            android:id="@+id/btn_reward_toyou"
+            />
+
+        <!--有些手机margin不好使 TCL手机-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            />
+    </LinearLayout>
+
+
+</FrameLayout>

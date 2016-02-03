@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="74dp"
+    >
+
+    <ImageView
+        android:id="@+id/call_record_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:src="@drawable/ic_default_avatar"/>
+
+    <TextView
+        android:id="@+id/call_record_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/call_record_image"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="12dp"
+        android:layout_toRightOf="@id/call_record_image"
+        android:drawablePadding="6dp"
+        android:drawableLeft="@drawable/icon_anonmous_name"
+        android:text="5/23  14:32"
+        android:textColor="#4d4d4d"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/call_record_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/call_record_name"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="12dp"
+        android:layout_toRightOf="@id/call_record_image"
+        android:drawablePadding="6dp"
+        android:drawableLeft="@drawable/icon_anonmous_time"
+        android:text="60分28秒"
+        android:textColor="#8e8e8e"
+        android:textSize="10sp"/>
+
+
+    <Button
+        android:id="@+id/v_report_user"
+        android:layout_width="62dp"
+        android:layout_height="23dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="14dp"
+        android:background="@drawable/bg_rect_blue"
+        android:text="讨厌"
+        android:layout_toLeftOf="@+id/call_record_apply_btn"
+        android:textSize="12sp"
+        android:textColor="#8e8e8e"
+        />
+
+    <Button
+        android:id="@+id/call_record_apply_btn"
+        android:layout_width="62dp"
+        android:layout_height="23dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="14dp"
+        android:background="@drawable/bg_rect_blue"
+        android:text="申请"
+        android:textSize="12sp"
+        android:textColor="#8e8e8e"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/c_de2"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/call_record_duration"
+        />
+</RelativeLayout>

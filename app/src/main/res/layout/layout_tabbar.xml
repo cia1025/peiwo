@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_tab_control"
+    android:baselineAligned="false"
+    android:orientation="horizontal" >
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.0" >
+
+        <TextView
+            android:id="@+id/tv_discover"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="1dp"
+            android:drawablePadding="2dp"
+            android:drawableTop="@drawable/tab_discover_selector"
+            android:gravity="center"
+            android:text="发现"
+            android:textColor="@drawable/tab_text_selector"
+            android:textSize="10sp" />
+    </FrameLayout>
+    <!-- wildcat -->
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.0" >
+
+        <TextView
+            android:id="@+id/tv_wildcat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="1dp"
+            android:drawablePadding="2dp"
+            android:drawableTop="@drawable/tab_call_selector"
+            android:gravity="center"
+            android:text="限时聊"
+            android:textColor="@drawable/tab_text_selector"
+            android:textSize="10sp" />
+    </FrameLayout>
+    <!-- wildcat -->
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.0" >
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="1dp"
+            android:drawablePadding="2dp"
+            android:drawableTop="@drawable/tab_msg_selector"
+            android:gravity="center"
+            android:text="消息"
+            android:textColor="@drawable/tab_text_selector"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_badge"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/green_dot_n"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="9sp"
+            android:visibility="invisible" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.0" >
+
+        <TextView
+            android:id="@+id/tv_me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="1dp"
+            android:drawablePadding="2dp"
+            android:drawableTop="@drawable/tab_me_selector"
+            android:gravity="center"
+            android:text="我"
+            android:textColor="@drawable/tab_text_selector"
+            android:textSize="10sp" />
+
+        <ImageView
+            android:id="@+id/iv_red_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/green_dot_n"
+            android:visibility="visible" />
+    </FrameLayout>
+
+</LinearLayout>

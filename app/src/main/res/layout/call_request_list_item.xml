@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+    >
+
+    <ImageView
+        android:id="@+id/iv_uface"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="18dp"
+        android:src="@drawable/ic_default_avatar"/>
+
+    <RelativeLayout
+        android:layout_marginLeft="12dp"
+        android:id="@+id/rl_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/iv_uface"
+        android:layout_toLeftOf="@+id/v_accpept_action"
+        android:clickable="true">
+
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="16"
+            android:singleLine="true"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentTop="true"
+            android:textColor="#383838"
+            android:textSize="16sp"/>
+
+
+        <RelativeLayout
+            android:id="@+id/voice_player_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_name"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/recorder_bg">
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/iv_play_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="3dp"
+                android:src="@drawable/play_bg"/>
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/iv_time_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/iv_play_btn"
+                android:src="@drawable/time_bg"/>
+
+            <Chronometer
+                android:layout_centerVertical="true"
+                android:id="@+id/chronometer_voice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0:10"
+                android:gravity="center"
+                android:layout_alignRight="@+id/iv_time_bg"
+                android:layout_marginRight="6dp"
+                android:textSize="10sp"
+                android:textColor="@color/valid_clickable_color"/>
+        </RelativeLayout>
+
+        <me.peiwo.peiwo.widget.PWTextViewCompat
+            android:id="@+id/tv_hello_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_name"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            android:maxLines="2"
+            android:ellipsize="end"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/v_accpept_action"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/btn_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_line_selector"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="@string/text_accept"
+            android:textSize="12sp"
+            android:padding="12dp"
+            android:textColor="@color/text_normal_color"/>
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="20dp"
+            android:background="@color/c_de2"
+            />
+
+        <TextView
+            android:padding="12dp"
+            android:id="@+id/btn_doblock_report"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_line_selector"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="@string/text_refuse"
+            android:textSize="12sp"
+            android:textColor="@color/text_dim_color"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/rl_info"
+        android:background="@color/c_de2"/>
+
+
+</RelativeLayout>

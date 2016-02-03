@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include layout="@layout/title_bar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:text="请确认你的国家或地区并输入手机号"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <include layout="@layout/layout_countries_code" />
+
+    <me.peiwo.peiwo.widget.ClearEditText
+        android:id="@+id/et_phoneno"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_marginTop="6dp"
+        android:hint="请输入您的手机号码"
+        android:inputType="numberSigned"
+        android:textColorHint="@color/et_hint_color"
+        android:textSize="@dimen/sp_title_other_size" />
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_bg_blue"
+        android:clickable="true"
+        android:onClick="click"
+        android:text="下一步"
+        android:textColor="@color/c_white" />
+
+    <TextView
+        android:id="@+id/tv_clause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:textColor="#999999"
+        android:layout_marginTop="20dp" />
+
+</LinearLayout>

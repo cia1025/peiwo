@@ -1,0 +1,895 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:fl="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/title_bar"
+            layout="@layout/title_bar"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_bar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <FrameLayout
+                    android:id="@+id/layout_face"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- 头像 -->
+
+                    <me.peiwo.peiwo.widget.ProfileFaceGridView
+                        android:id="@+id/dgv_images"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_line"
+                    android:background="@color/c_de2"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="#f5f5f5"
+                    android:paddingLeft="18dp"
+                    android:text="基本信息"
+                    android:textColor="#4d4d4d"
+                    android:gravity="center_vertical"
+                    android:textSize="11sp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_line"
+                    android:background="@color/c_de2"/>
+
+                <RelativeLayout
+                    android:id="@+id/rl_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="34dp"
+                    android:background="@drawable/bg_line_selector"
+                    android:onClick="click"
+                    android:paddingLeft="18dp">
+
+                    <TextView
+                        android:id="@+id/edit_userinfo_name_"
+                        android:layout_width="wrap_content"
+                        android:textColor="#8e8e8e"
+                        android:textSize="12sp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="名号"
+                        />
+
+                    <TextView
+                        android:id="@+id/edit_userinfo_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="76dp"
+                        android:textColor="#4d4d4d"
+                        android:textSize="12sp"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/c_de2"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignLeft="@+id/edit_userinfo_name"
+                        />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrow_right"
+                        android:layout_marginRight="18dp"
+                        />
+                </RelativeLayout>
+
+
+                <!-- 出生日期 -->
+
+                <RelativeLayout
+                    android:id="@+id/rl_birthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="34dp"
+                    android:background="@drawable/bg_line_selector"
+                    android:onClick="click"
+                    android:clickable="true"
+                    android:paddingLeft="18dp">
+
+                    <TextView
+                        android:id="@+id/edit_userinfo_birthday_"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="出生日期"
+                        android:textColor="#8e8e8e"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/edit_userinfo_birthday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="76dp"
+                        android:textColor="#4d4d4d"
+                        android:textSize="12sp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/c_de2"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignLeft="@+id/edit_userinfo_birthday"
+                        />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrow_right"
+                        android:layout_marginRight="18dp"
+                        />
+                </RelativeLayout>
+
+
+                <!-- 常住地 -->
+
+                <RelativeLayout
+                    android:id="@+id/rl_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="34dp"
+                    android:background="@drawable/bg_line_selector"
+                    android:onClick="click"
+                    android:paddingLeft="18dp">
+
+                    <TextView
+                        android:id="@+id/edit_userinfo_address_"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="坐标"
+                        android:textColor="#8e8e8e"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/edit_userinfo_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="76dp"
+                        android:hint="@string/show_location"
+                        android:textColor="#4d4d4d"
+                        android:textSize="12sp"/>
+
+                    <ImageView
+                        android:id="@+id/img_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="18dp"
+                        android:layout_centerVertical="true"
+                        android:onClick="click"
+                        android:src="@drawable/icon_cancel_coordinates"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/c_de2"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignLeft="@+id/edit_userinfo_address"
+                        />
+                </RelativeLayout>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="95dp"
+                    android:hint="*展示坐标视为你希望被同城用户发现"
+                    android:textSize="10dp"
+                    android:layout_marginTop="6dp"
+                    android:textColor="#8e8e8e"/>
+
+                <View
+                    android:layout_marginTop="6dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="94dp"
+                    android:background="@color/c_de2"/>
+                <!-- 个性签名 -->
+
+                <RelativeLayout
+                    android:id="@+id/rl_slogan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="34dp"
+                    android:onClick="click"
+                    android:background="@drawable/bg_line_selector"
+                    android:paddingLeft="18dp">
+
+                    <TextView
+                        android:id="@+id/edit_userinfo_slogan_"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="签名"
+                        android:textColor="#8e8e8e"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="12dp"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/edit_userinfo_slogan"
+                        android:hint="别说你不知道什么是签名"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="76dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:textColor="#4d4d4d"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingRight="18dp"
+                        android:lineSpacingExtra="3dp"
+                        android:lineSpacingMultiplier="1.5"
+                        android:textSize="12sp"
+                        />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrow_right"
+                        android:layout_marginRight="18dp"
+                        />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.3dp"
+                    android:layout_marginLeft="@dimen/dp_line_margin"
+                    android:background="@color/c_de2"/>
+
+                <RelativeLayout
+                    android:id="@+id/rl_emotion"
+                    style="@style/fillx"
+                    android:background="@drawable/bg_line_selector"
+                    android:onClick="click"
+                    android:padding="12dp"
+                    android:visibility="gone"
+                    >
+
+                    <TextView
+                        android:id="@+id/edit_userinfo_emotion_"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="情感状态"
+                        android:textColor="@color/c_gray"
+                        android:textSize="@dimen/default_text_size"/>
+
+                    <TextView
+                        android:id="@+id/edit_userinfo_emotion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_info_margin"
+                        android:layout_toRightOf="@+id/edit_userinfo_emotion_"
+                        android:textSize="@dimen/default_text_size"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrow_right"/>
+                </RelativeLayout>
+
+                <View
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.3dp"
+                    android:layout_marginLeft="@dimen/dp_line_margin"
+                    android:background="@color/c_de2"/>
+
+                <!-- 职业 -->
+
+                <RelativeLayout
+                    android:id="@+id/rl_profession"
+                    style="@style/fillx"
+                    android:background="@drawable/bg_line_selector"
+                    android:onClick="click"
+                    android:visibility="gone"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:id="@+id/edit_userinfo_profession_"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="职业"
+                        android:textColor="@color/c_gray"
+                        android:textSize="@dimen/default_text_size"/>
+
+                    <TextView
+                        android:id="@+id/edit_userinfo_profession"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_info_margin"
+                        android:layout_toRightOf="@+id/edit_userinfo_profession_"
+                        android:hint="找到志同道合的人"
+                        android:textSize="@dimen/default_text_size"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrow_right"/>
+                </RelativeLayout>
+                <!-- 情感状态 -->
+
+                <View
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_line"
+                    android:background="#EDEFF0"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical"
+                    android:background="#f5f5f5"
+                    android:paddingLeft="18dp"
+                    android:text="标签"
+                    android:textColor="#4d4d4d"
+                    android:textSize="11sp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_line"
+                    android:background="#EDEFF0"/>
+
+                <RelativeLayout
+                    android:id="@+id/rl_want_talk"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_line_selector"
+                    android:minHeight="34dp"
+                    android:onClick="click"
+                    android:paddingLeft="18dp"
+                    >
+
+                    <!--<ImageView
+                        android:id="@+id/userinfo_main_tag_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:src="@drawable/icon_mytag"/>-->
+
+                    <me.peiwo.peiwo.widget.FlowLayout
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:id="@+id/userinfo_main_tag_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="42dp"
+                        android:layout_marginRight="22dp"
+                        fl:horizontalSpacing="8dip"
+                        fl:orientation="horizontal"
+                        fl:verticalSpacing="8dp">
+                    </me.peiwo.peiwo.widget.FlowLayout>
+
+                    <TextView
+                        android:id="@+id/userinfo_null_main_tag_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="76dp"
+                        android:layout_alignParentLeft="true"
+                        android:text="# 属于你的真实标签"
+                        android:textColor="#8e8e8e"
+                        android:textSize="12sp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrow_right"
+                        android:layout_marginRight="18dp"
+                        />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_line"
+                    android:background="@color/c_de2"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="#f5f5f5"
+                    android:paddingLeft="18dp"
+                    android:text="兴趣"
+                    android:textColor="#8e8e8e"
+                    android:gravity="center_vertical"
+                    android:textSize="11sp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_line"
+                    android:background="@color/c_de2"/>
+
+                <RelativeLayout
+                    android:id="@+id/edit_food_tag_layout"
+                    style="@style/fillx"
+                    android:background="@drawable/bg_line_selector"
+                    android:minHeight="34dp"
+                    android:onClick="click"
+                    android:paddingLeft="18dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/edit_food_tag_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_tag_food"/>
+
+                    <me.peiwo.peiwo.widget.FlowLayout
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:id="@+id/edit_food_tag_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="42dp"
+                        android:layout_marginRight="22dp"
+                        fl:horizontalSpacing="8dip"
+                        fl:orientation="horizontal"
+                        fl:verticalSpacing="8dp"
+                        >
+                    </me.peiwo.peiwo.widget.FlowLayout>
+
+                    <TextView
+                        android:id="@+id/edit_food_tag_default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="42dp"
+                        android:layout_alignParentLeft="true"
+                        android:text="唯有美食不可辜负"
+                        android:textColor="#8e8e8e"
+                        android:textSize="12sp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrow_right"
+                        android:layout_marginRight="18dp"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_alignLeft="@+id/edit_food_tag_container"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/c_de2"/>
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/edit_music_tag_layout"
+                    style="@style/fillx"
+                    android:background="@drawable/bg_line_selector"
+                    android:minHeight="34dp"
+                    android:onClick="click"
+                    android:paddingLeft="18dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/edit_music_tag_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_tag_music"/>
+
+                    <me.peiwo.peiwo.widget.FlowLayout
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:id="@+id/edit_music_tag_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="42dp"
+                        android:layout_marginRight="22dp"
+                        fl:horizontalSpacing="8dip"
+                        fl:orientation="horizontal"
+                        fl:verticalSpacing="8dp">
+                    </me.peiwo.peiwo.widget.FlowLayout>
+
+                    <TextView
+                        android:id="@+id/edit_music_tag_default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="单曲循环根本停不下来"
+                        android:layout_marginLeft="42dp"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="#8e8e8e"
+                        android:textSize="12sp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrow_right"
+                        android:layout_marginRight="18dp"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_alignLeft="@+id/edit_music_tag_container"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/c_de2"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/edit_movie_tag_layout"
+                    style="@style/fillx"
+                    android:background="@drawable/bg_line_selector"
+                    android:minHeight="34dp"
+                    android:onClick="click"
+                    android:paddingLeft="18dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/edit_movie_tag_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_tag_movie"/>
+
+                    <me.peiwo.peiwo.widget.FlowLayout
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:id="@+id/edit_movie_tag_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="42dp"
+                        fl:horizontalSpacing="8dip"
+                        fl:orientation="horizontal"
+                        android:layout_marginRight="22dp"
+                        fl:verticalSpacing="8dp">
+                    </me.peiwo.peiwo.widget.FlowLayout>
+
+                    <TextView
+                        android:id="@+id/edit_movie_tag_default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="你看过值得我看的电影"
+                        android:layout_marginLeft="42dp"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="#8e8e8e"
+                        android:textSize="12sp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrow_right"
+                        android:layout_marginRight="18dp"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_alignLeft="@+id/edit_movie_tag_container"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/c_de2"/>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/edit_book_tag_layout"
+                    style="@style/fillx"
+                    android:background="@drawable/bg_line_selector"
+                    android:minHeight="34dp"
+                    android:onClick="click"
+                    android:paddingLeft="18dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/edit_book_tag_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_tag_book"/>
+
+                    <me.peiwo.peiwo.widget.FlowLayout
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:id="@+id/edit_book_tag_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="42dp"
+                        fl:horizontalSpacing="8dip"
+                        fl:orientation="horizontal"
+                        android:layout_marginRight="22dp"
+                        fl:verticalSpacing="8dp">
+                    </me.peiwo.peiwo.widget.FlowLayout>
+
+                    <TextView
+                        android:id="@+id/edit_book_tag_default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:drawablePadding="6dp"
+                        android:layout_marginLeft="42dp"
+                        android:layout_alignParentLeft="true"
+                        android:text="必须有本枕边书"
+                        android:textColor="#8e8e8e"
+                        android:textSize="12sp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrow_right"
+                        android:layout_marginRight="18dp"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_alignLeft="@+id/edit_book_tag_container"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/c_de2"/>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/edit_travel_tag_layout"
+                    style="@style/fillx"
+                    android:background="@drawable/bg_line_selector"
+                    android:minHeight="34dp"
+                    android:onClick="click"
+                    android:paddingLeft="18dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/edit_travel_tag_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_tag_travel"/>
+
+                    <me.peiwo.peiwo.widget.FlowLayout
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:id="@+id/edit_travel_tag_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="42dp"
+                        fl:horizontalSpacing="8dip"
+                        android:layout_marginRight="22dp"
+                        fl:orientation="horizontal"
+                        fl:verticalSpacing="8dp">
+                    </me.peiwo.peiwo.widget.FlowLayout>
+
+                    <TextView
+                        android:id="@+id/edit_travel_tag_default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="曾经跨过的山和大海"
+                        android:layout_marginLeft="42dp"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="#8e8e8e"
+                        android:textSize="12sp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrow_right"
+                        android:layout_marginRight="18dp"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_alignLeft="@+id/edit_travel_tag_container"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/c_de2"/>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/edit_sports_tag_layout"
+                    style="@style/fillx"
+                    android:background="@drawable/bg_line_selector"
+                    android:minHeight="34dp"
+                    android:onClick="click"
+                    android:paddingLeft="18dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/edit_sports_tag_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_tag_sports"/>
+
+                    <me.peiwo.peiwo.widget.FlowLayout
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:id="@+id/edit_sports_tag_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="42dp"
+                        android:layout_marginRight="22dp"
+                        fl:horizontalSpacing="8dip"
+                        fl:orientation="horizontal"
+                        fl:verticalSpacing="8dp">
+                    </me.peiwo.peiwo.widget.FlowLayout>
+
+                    <TextView
+                        android:id="@+id/edit_sports_tag_default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="宅也是一种运动方式"
+                        android:layout_marginLeft="42dp"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="#8e8e8e"
+                        android:textSize="12sp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrow_right"
+                        android:layout_marginRight="18dp"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_alignLeft="@+id/edit_sports_tag_container"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/c_de2"/>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/edit_game_tag_layout"
+                    style="@style/fillx"
+                    android:background="@drawable/bg_line_selector"
+                    android:minHeight="34dp"
+                    android:onClick="click"
+                    android:paddingLeft="18dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/edit_game_tag_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_tag_game"/>
+
+                    <me.peiwo.peiwo.widget.FlowLayout
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:id="@+id/edit_game_tag_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="42dp"
+                        fl:horizontalSpacing="8dip"
+                        android:layout_marginRight="22dp"
+                        fl:orientation="horizontal"
+                        fl:verticalSpacing="8dp">
+                    </me.peiwo.peiwo.widget.FlowLayout>
+
+                    <TextView
+                        android:id="@+id/edit_game_tag_default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="高逼格应用推荐"
+                        android:layout_marginLeft="42dp"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="#8e8e8e"
+                        android:textSize="12sp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrow_right"
+                        android:layout_marginRight="18dp"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_alignLeft="@+id/edit_game_tag_container"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/c_de2"/>
+                </RelativeLayout>
+                <!-- 占位 -->
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>
+                <!-- 占位 -->
+
+            </LinearLayout>
+        </ScrollView>
+
+
+    </RelativeLayout>
+
+</merge>

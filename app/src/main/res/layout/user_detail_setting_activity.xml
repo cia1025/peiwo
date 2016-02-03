@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/title_bar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/fl_uface"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="34dp"
+                android:clickable="true"
+                android:onClick="click">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_setface"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/iv_add_avatar"/>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="听说好看的人都不放自拍"
+                android:layout_marginTop="12dp"
+                android:textSize="11sp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#c5c3c3"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/c_de2"
+                android:layout_marginTop="37dp"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginTop="36dp"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_alignParentLeft="true"
+                    android:id="@+id/tv_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="昵称"
+                    android:textColor="#4d4d4d"
+                    android:textSize="13sp"/>
+
+
+                <EditText
+                    android:layout_alignParentLeft="true"
+                    android:background="@null"
+                    android:id="@+id/et_uname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="77dp"
+                    android:hint="最多可填写16个字符"
+                    android:singleLine="true"
+                    android:textColorHint="#8e8e8e"
+                    android:textColor="#4d4d4d"
+                    android:textSize="12sp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/c_de2"
+                    android:layout_alignLeft="@+id/et_uname"
+                    android:layout_alignParentBottom="true"
+                    />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/ll_gender_switch"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:onClick="click"
+                >
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="#4d4d4d"
+                    android:textSize="13sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="性别"
+                    />
+
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="77dp"
+                    android:orientation="horizontal"
+                    android:id="@+id/rg_gender_setting"
+                    android:layout_centerVertical="true"
+                    >
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#4d4d4d"
+                        android:text="男"
+                        android:textSize="13sp"
+                        android:checked="true"
+                        android:id="@+id/rb_male_setting"
+                        />
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/rb_fmale_setting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#4d4d4d"
+                        android:text="女"
+                        android:textSize="13sp"
+                        android:layout_marginLeft="20dp"
+                        />
+
+                </RadioGroup>
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/rg_gender_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:text="选择后将不可更改"
+                    android:textColor="#8e8e8e"
+                    android:textSize="12sp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/c_de2"
+                    android:layout_alignLeft="@+id/rg_gender_setting"
+                    android:layout_alignParentBottom="true"
+                    />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/ll_birthday_switch"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:onClick="click"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="生日"
+                    android:textColor="#4d4d4d"
+                    android:textSize="13sp"/>
+
+
+                <EditText
+                    android:background="@null"
+                    android:enabled="false"
+                    android:editable="false"
+                    android:id="@+id/tv_birthday_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="77dp"
+                    android:text="自动匹配年龄和星座"
+                    android:textColor="#8e8e8e"
+                    android:textSize="12sp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/c_de2"
+                    android:layout_alignLeft="@+id/tv_birthday_switch"
+                    android:layout_alignParentBottom="true"
+                    />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_clause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:textColor="#8e8e8e"
+                android:textSize="10sp"
+                android:visibility="invisible"/>
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="42dp"
+                android:layout_marginRight="42dp"
+                android:layout_marginTop="51dp"
+                android:background="@color/invalid_clickable_color"
+                android:textSize="13sp"
+                android:clickable="true"
+                android:onClick="click"
+                android:text="下一步"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

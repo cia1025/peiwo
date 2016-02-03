@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          android:textColor="@color/c_white"
+          android:textSize="12sp"
+          android:paddingLeft="8dp"
+          android:paddingRight="8dp"
+          android:paddingTop="4dp"
+          android:paddingBottom="4dp"
+          android:maxEms="12"
+          android:ellipsize="middle"
+          style="@style/tag_gray_item"/>

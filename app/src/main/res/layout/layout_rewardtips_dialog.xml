@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/c_white"
+    >
+
+    <ImageView
+        android:id="@+id/iv_reward_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_reward_close_n"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="10dp"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_retitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="壕的技能"
+        android:textColor="#8e8e8e"
+        android:textSize="18sp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        />
+
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:background="#FFDFDFDF"
+        android:layout_below="@+id/tv_retitle"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/v_line"
+        android:layout_marginTop="20dp"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:textColor="#8e8e8e"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:text="”打赏“功能作为新的女生特权，通话中互动所用。你充值到钱包的金额可用于通话中的打赏，对方收到打赏可礼尚往来回赏与你。收到的金额可提现，陪我不收取任何费用。"
+        android:id="@+id/tv_reward_message"
+        android:layout_centerHorizontal="true"
+        />
+
+
+    <Button
+        android:layout_below="@+id/tv_reward_message"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="20dp"
+        android:textSize="20sp"
+        android:textColor="#00b8d0"
+        android:text="打赏"
+        android:background="@null"
+        android:id="@+id/btn_close"
+        />
+
+</RelativeLayout>

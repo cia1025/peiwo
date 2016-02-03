@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/wild_share_bg"
+        >
+        <!--将要截图的区域包裹起来-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/v_share_view"
+            >
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:layout_marginLeft="9dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wild_share_peiwologo"
+                    />
+
+                <ImageView
+                    android:layout_marginTop="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/iv_title_img"
+                    />
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#50ffffff"
+                android:layout_marginTop="4dp"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                >
+
+                <ImageView
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wild_share_swz"
+                    android:id="@+id/iv_swz"
+                    android:layout_centerVertical="true"
+                    />
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_swz"
+                    android:layout_marginLeft="36dp"
+                    android:id="@+id/var_view_swz"
+                    android:textColor="@color/c_white"
+                    android:textSize="20sp"
+                    android:fontFamily="sans-serif-light"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="分贝"
+                    android:textColor="@color/c_white"
+                    android:textSize="12sp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/var_view_swz"
+                    />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                >
+
+                <ImageView
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wild_share_hy"
+                    android:id="@+id/iv_shycd"
+                    android:layout_centerVertical="true"
+                    />
+
+                <TextView
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="20sp"
+                    android:textColor="@color/c_white"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_shycd"
+                    android:layout_marginLeft="36dp"
+                    android:id="@+id/var_view_shycd"
+                    />
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                >
+
+                <ImageView
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wild_share_th"
+                    android:id="@+id/iv_call_time"
+                    android:layout_centerVertical="true"
+                    />
+
+                <TextView
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="20sp"
+                    android:textColor="@color/c_white"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_call_time"
+                    android:layout_marginLeft="36dp"
+                    android:id="@+id/var_view_call_time"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="分钟"
+                    android:textColor="@color/c_white"
+                    android:textSize="12sp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/var_view_call_time"
+                    />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                >
+
+                <ImageView
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wild_share_jt"
+                    android:id="@+id/iv_jietong"
+                    android:layout_centerVertical="true"
+                    />
+
+                <TextView
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="20sp"
+                    android:textColor="@color/c_white"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_jietong"
+                    android:layout_marginLeft="36dp"
+                    android:id="@+id/var_view_jietong"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="人"
+                    android:textColor="@color/c_white"
+                    android:textSize="12sp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/var_view_jietong"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                >
+
+                <ImageView
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/wild_share_recommend"
+                    android:id="@+id/iv_recomend"
+                    android:layout_centerVertical="true"
+                    />
+
+                <TextView
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="20sp"
+                    android:textColor="@color/c_white"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_recomend"
+                    android:layout_marginLeft="36dp"
+                    android:id="@+id/var_view_recommend"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="次"
+                    android:textColor="@color/c_white"
+                    android:textSize="12sp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/var_view_recommend"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#50ffffff"
+            android:layout_marginTop="15dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="立即分享"
+            android:textColor="@color/c_white"
+            android:textSize="10sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="9dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="18dp"
+            android:gravity="center_vertical"
+            >
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:src="@drawable/ic_wild_qq"
+                android:id="@+id/v_share_qq_zone"
+                />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:src="@drawable/ic_wild_wx"
+                android:id="@+id/v_share_friends_cycle"
+                />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:src="@drawable/ic_wild_weibo"
+                android:id="@+id/v_share_weibo"
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/v_close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/wild_share_bottom"
+        android:text="关闭"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:gravity="center"
+        />
+</LinearLayout>

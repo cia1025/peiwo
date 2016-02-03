@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@drawable/bg_wildcat_matched"
+             android:id="@+id/fl_parent"
+             android:onClick="click">
+
+    <LinearLayout
+        android:id="@+id/iv_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:visibility="gone"
+        android:onClick="click">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/icon_anonymous_close"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/wildcat_state_text"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="60dp"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/wild_cat_matching"
+        android:textColor="@color/c_white"
+        android:textSize="18sp"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:id="@+id/wildcat_matching_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        >
+
+
+        <ImageView
+            android:id="@+id/wildcat_anim_image1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/bg_wave"/>
+
+        <ImageView
+            android:id="@+id/wildcat_anim_image2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/bg_wave"/>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:id="@+id/iv_anonymous"
+            android:src="@drawable/icon_anonymous"/>
+
+
+        <TextView
+            android:id="@+id/tv_def_tips"
+            android:layout_below="@+id/iv_anonymous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="此时此刻，共听共鸣"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffffff"
+            />
+
+        <TextView
+            android:layout_below="@+id/tv_def_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:id="@+id/tv_hint_tips"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffffff"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal"
+            android:id="@+id/layout_finishit"
+            >
+
+            <ImageView
+                android:clickable="true"
+                android:onClick="click"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view_finishit"
+                android:src="@drawable/ic_hung_up"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:text="挂断"
+                android:paddingTop="6dp"
+                android:textSize="12sp"
+                android:textColor="#ffffff"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/wildcat_match_success_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/iv_report"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:onClick="click">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="举报"
+                android:textColor="@drawable/white"
+                android:textSize="17sp"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/wildcat_data_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bg_callslogan"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/wildcat_avatar_image"
+                    android:layout_width="63dp"
+                    android:layout_height="63dp"
+                    android:src="@drawable/ic_default_avatar"/>
+
+                <TextView
+                    android:id="@+id/wildcat_name_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_toRightOf="@id/wildcat_avatar_image"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="巨蟹小草莓蟹小草莓巨"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/wildcat_time_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/wildcat_name_text"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_toRightOf="@id/wildcat_avatar_image"
+                    android:text="102:14"
+                    android:textColor="@color/white"
+                    android:textSize="28sp"/>
+
+                <TextView
+                    android:id="@+id/wildcat_countdown_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/wildcat_time_text"
+                    android:layout_marginLeft="2dp"
+                    android:layout_toRightOf="@id/wildcat_time_text"
+                    android:text="(倒计时)"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"/>
+            </RelativeLayout>
+
+            <!-- me.peiwo.peiwo.widget -->
+
+            <me.peiwo.peiwo.widget.FlowLayout
+                android:id="@+id/wildcat_tags_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/wildcat_data_layout"
+                android:layout_alignRight="@+id/wildcat_data_layout"
+                android:layout_below="@id/wildcat_data_layout"
+                app:verticalSpacing="3dp"
+                app:horizontalSpacing="5dp"
+                android:layout_marginTop="8dp"
+
+                >
+            </me.peiwo.peiwo.widget.FlowLayout>
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="20dp"
+            android:id="@+id/view_wild_tag"
+            android:visibility="gone"
+            >
+
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:id="@+id/tv_prompt"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/c_black"
+                android:textSize="12sp"
+                android:layout_marginLeft="2dp"
+                android:background="@drawable/bg_wild_tag_green"
+                />
+
+            <ImageView
+                android:id="@+id/iv_wild_tag"
+                android:layout_gravity="left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_wild_tag_good"
+                android:clickable="true"
+                android:onClick="click"
+                />
+        </FrameLayout>
+
+        <!-- 匹配的view -->
+
+
+        <!-- 通话的view -->
+
+        <TextView
+            android:id="@+id/tv_net_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/c_white"
+            android:textSize="16sp"/>
+
+        <LinearLayout
+            android:id="@+id/ll_reputation_tips_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="152dp"
+            android:background="@drawable/bg_tips"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_reputation_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="喜欢就点赞"
+                android:textColor="@color/c_white"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_action_img_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="55dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_refreshcat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="click"
+                    android:src="@drawable/icon_anonymous_recall_n"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="换人"
+                    android:textColor="@color/c_white"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_reputation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="click"
+                    android:src="@drawable/btn_reputation_selector"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="喜欢"
+                    android:textColor="@color/c_white"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_report_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="click"
+                    android:src="@drawable/ic_report"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="讨厌"
+                    android:textColor="@color/c_white"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_push_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="18dp"
+            android:onClick="click"
+            android:src="@drawable/pull_up"/>
+        <!--申请，打赏，免提切换-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                android:id="@+id/tv_add_friend"
+                android:clickable="true"
+                android:onClick="click"
+                android:drawableTop="@drawable/ic_add_friend"
+                android:gravity="center_horizontal"
+                android:drawablePadding="10dp"
+                android:text="申请"
+                />
+
+            <TextView
+                android:id="@+id/tv_dasahng"
+                android:clickable="true"
+                android:onClick="click"
+                android:gravity="center_horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                android:drawableTop="@drawable/ic_dashang"
+                android:drawablePadding="10dp"
+                android:text="打赏"
+                />
+
+            <TextView
+                android:id="@+id/tv_voice_mode"
+                android:clickable="true"
+                android:onClick="click"
+                android:gravity="center_horizontal"
+                android:text="免提"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                android:drawableTop="@drawable/btn_callvoice_selector"
+                android:drawablePadding="10dp"
+                />
+        </LinearLayout>
+        <!--申请，打赏，免提切换-->
+    </FrameLayout>
+
+
+    <View
+        android:id="@+id/iv_control_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black"
+        android:visibility="gone"/>
+
+</FrameLayout>

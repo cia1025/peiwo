@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:padding="10dp"
+
+    >
+
+    <ImageView
+        android:layout_margin="8dp"
+        android:id="@+id/iv_gold"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/gold"
+        android:scaleType="fitXY"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/iv_gold"
+        android:layout_marginLeft="8dp"
+        >
+
+        <RelativeLayout
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:singleLine="true"
+                android:ems="12"
+                android:textColor="#000000"
+                android:text="陪我充值20元"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:layout_alignBaseline="@+id/tv_money"
+                android:id="@+id/tv_call_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textColor="#000000"
+                android:text="充值成功"
+                android:layout_marginRight="8dp"
+                android:textSize="13sp"/>
+
+            <TextView
+                android:layout_below="@+id/tv_money"
+                android:id="@+id/tv_charge_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="2014-10-14 09:12"
+                android:textColor="#8e8e8e"
+                android:textSize="11sp"/>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_toRightOf="@+id/iv_gold"
+        android:layout_marginLeft="8dp"
+        android:layout_below="@+id/rl_bar"
+        android:layout_height="0.3dp"
+        android:background="@color/c_de"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="4dp"
+        />
+
+</RelativeLayout>

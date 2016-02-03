@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="primary">#000000</color>
+    <color name="primary_dark">#000000</color>
+    <color name="c_gray">#aeaeae</color>
+    <color name="c_blue_light">#ff33b5e5</color>
+    <color name="c_blue">#212CCC</color>
+    <color name="c_blue2">#0195ff</color>
+    <color name="c_red">#ffcc040f</color>
+    <color name="c_black">#000000</color>
+    <color name="c_white">#ffffff</color>
+    <color name="tx_login">#383838</color>
+    <color name="light_gray">#99a4b7</color>
+
+    <drawable name="c_window_background">#d7d7d7</drawable>
+    <drawable name="d_white">#ffffff</drawable>
+    <drawable name="d_gray">#f7f7f7</drawable>
+    <drawable name="d_gray_pressed">#fff0f0f0</drawable>
+    <drawable name="d_gray_deep">#ffcccccc</drawable>
+
+    <color name="TextColorWhite">#FFFFFFFF</color>
+    <color name="bg_gray">#f7f7f7</color>
+    <color name="et_hint_color">#8e8e8e</color>
+    <color name="transparent">#00000000</color>
+    <color name="pro">#00000000</color>
+    <color name="progress">#48a9fd</color>
+    <color name="c_3b">#3b3b3b</color>
+    <color name="c_b7">#b7b7b7</color>
+    <color name="c_de">#e5e5e5</color>
+    <color name="c_de2">#e5e5e5</color>
+    <color name="c_de2_light">#646473</color>
+    <color name="c_50">#508de4</color>
+    <color name="c_ee">#f21e1e1e</color>
+    <color name="c_te">#ffd8d8d8</color>
+    <color name="c_33">#339df9</color>
+    <color name="c_title_txt_color">#ffffffff</color>
+    <color name="c_title_other_color">#aaaaaa</color>
+    <color name="c_base_txt_color">#383838</color>
+    <color name="btn_base_txt_color">#f5339df9</color>
+    <color name="btn_press_txt_color">#308AD8</color>
+
+    <!-- common color -->
+    <color name="black">#ff000000</color>
+    <color name="white">#ffffffff</color>
+    <color name="red">#fc0f1d</color>
+    <color name="fans_blue">#0195FF</color>
+    <color name="tab_btn_selected">#222222</color>
+    <color name="tab_btn_unselected">#E5E5E5</color>
+    <color name="expression_background">#BDC1C7</color>
+    <color name="feed_flow_picture_background">#F0F0F0</color>
+    <color name="user_info_press_color">#22000000</color>
+    <color name="user_info_default_color">#FCFCFC</color>
+    <color name="tag_male_color">#FF8083</color>
+    <color name="tag_female_color">#269FF2</color>
+    <color name="text_dim_color">#7c8e8e8e</color>
+    <color name="text_normal_color">#4d4d4d</color>
+    <color name="valid_clickable_color">#00B8D0</color>
+    <color name="blue_text_color">#00B8D0</color>
+    <color name="lazy_guy_voice_time_color">#F5F5F5</color>
+    <color name="voice_alert_pink_color">#F57208</color>
+    <color name="invalid_clickable_color">#626262</color>
+    <color name="wechat_green">#acd598</color>
+    <color name="umeng_fb_color_btn_pressed">#1495F7</color>
+    <color name="umeng_fb_color_btn_normal">#333333</color>
+
+    <drawable name="bg_drawer_item">#191818</drawable>
+
+    <color name="c_pw_main">#00b8d0</color>
+    <drawable name="d_pw_main">#00b8d0</drawable>
+    <color name="c_pw_main_alpha">#7f00b8d0</color>
+    <color name="c_control_normal">#4d4d4d</color>
+
+</resources>

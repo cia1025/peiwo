@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="me.peiwo.peiwo.activity.ChatRepuRedbagActivity">
+
+    <include layout="@layout/title_bar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/title_bar_height"
+        android:padding="14dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                >
+
+                <RelativeLayout
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:background="@drawable/bg_oval_origin"
+                    android:layout_marginLeft="100dp"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_centerInParent="true"
+                        android:gravity="center_horizontal"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="声望包个数"
+                            android:textColor="#ffffff"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#ffffff"
+                            android:layout_marginTop="4dp"
+                            android:id="@+id/tv_repuredbag_count"
+                            />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:background="@drawable/bg_oval_blue"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_centerInParent="true"
+                        android:gravity="center_horizontal"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="当前群声望值"
+                            android:textColor="#ffffff"
+                            />
+
+                        <TextView
+                            android:layout_marginTop="4dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#ffffff"
+                            android:id="@+id/tv_total_repu"
+                            />
+                    </LinearLayout>
+                </RelativeLayout>
+            </FrameLayout>
+
+
+            <Button
+                android:id="@+id/btn_repuredbag_send"
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="28dp"
+                android:background="#00b8d0"
+                android:clickable="true"
+                android:onClick="click"
+                android:text="确定发送"
+                android:textColor="@color/c_white"
+                android:textSize="13sp"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Q: 群声望有什么用"
+                android:textSize="14sp"
+                android:textColor="#000000"
+                />
+
+            <TextView
+                android:layout_marginTop="6dp"
+                android:textColor="#8e8e8e"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A：最大的作用是可兑换个！人！声！望！值！看到群里出现声望红包请使劲的戳！（游客不可抢）。"
+                android:textSize="12sp"
+                />
+
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:textColor="#000000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Q: 如何增加群声望"
+                android:textSize="14sp"
+                />
+
+
+            <TextView
+                android:layout_marginTop="6dp"
+                android:textColor="#8e8e8e"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A：1.修改群资料（包括：头像、群名）都可加声望\n       2.进群的游客越多，群声望越高；\n       3.大家聊得越嗨，声望增加越快；\n       4.发红包能促进声望值飞速上涨；"
+                android:textSize="12sp"
+                />
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:textColor="#000000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Q: 群声望会是负数吗？"
+                android:textSize="14sp"
+                />
+
+            <TextView
+                android:layout_marginTop="6dp"
+                android:textColor="#8e8e8e"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A：群组遭到举报就会扣群声望值，若举报的人数过多就有可能变成负数。所以请群成员们发挥模范带头作用，努力搞好群风气。"
+                android:textSize="12sp"
+                />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</merge>

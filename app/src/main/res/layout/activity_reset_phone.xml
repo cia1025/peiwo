@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/title_bar"/>
+
+    <TextView
+        android:id="@+id/tv_phone_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:textColor="#4d4d4d"
+        android:textSize="14sp"/>
+
+    <me.peiwo.peiwo.widget.ClearEditText
+        android:id="@+id/et_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="10dp"
+        android:hint="请输入当前登录密码"
+        android:inputType="textPassword"
+        android:textColorHint="@color/et_hint_color"
+        android:textSize="13sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:text="请输入新绑定的手机号"
+        android:textColor="#4d4d4d"
+        android:textSize="14sp"/>
+
+    <include layout="@layout/layout_phonecode_item"/>
+
+    <me.peiwo.peiwo.widget.ClearEditText
+        android:id="@+id/et_phoneno"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="8dp"
+        android:hint="请输入手机号码"
+        android:inputType="numberSigned"
+        android:textColorHint="@color/et_hint_color"
+        android:textSize="13sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textColor="#4d4d4d"
+        android:textSize="11sp"
+        android:text="更换手机号后可使用新的手机号登录"/>
+
+</LinearLayout>

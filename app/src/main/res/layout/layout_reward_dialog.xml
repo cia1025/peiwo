@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/c_white"
+    >
+
+    <ImageView
+        android:id="@+id/iv_reward_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_reward_close_n"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="10dp"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_reward_tips_n"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:id="@+id/iv_reward_tips"
+        />
+
+    <TextView
+        android:id="@+id/tv_retitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="壕的技能"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        />
+
+    <View
+        android:id="@+id/v_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#FFDFDFDF"
+        android:layout_below="@+id/tv_retitle"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/v_line"
+        android:layout_marginTop="15dp"
+        android:textSize="13sp"
+        android:textColor="#8e8e8e"
+        android:text="qfioqfje"
+        android:id="@+id/tv_reward_message"
+        android:layout_centerHorizontal="true"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/v_reward_price"
+        android:layout_below="@+id/tv_reward_message"
+        android:layout_marginTop="26dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical"
+        >
+
+
+        <TextView
+            android:id="@+id/tv_reward_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="36sp"
+            android:textColor="#8e8e8e"
+            android:text="qfioqfje"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
+            android:id="@+id/tv_refresh_reward_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="点击刷新"
+            android:textSize="11sp"
+            android:textColor="#00b8d0"
+            android:layout_toRightOf="@+id/tv_reward_price"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+
+    <Button
+        android:layout_below="@+id/v_reward_price"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:textSize="12sp"
+        android:textColor="#fdfdfd"
+        android:background="@color/c_pw_main"
+        android:id="@+id/btn_reward_action"
+        />
+    <!--有些手机margin不好使 TCL手机-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:layout_below="@+id/btn_reward_action"
+        />
+</RelativeLayout>

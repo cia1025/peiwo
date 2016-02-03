@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000" >
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </android.support.v4.view.ViewPager>
+
+    <RelativeLayout
+        android:id="@id/title_bar"
+        style="@style/fillx"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="#33cccccc" >
+
+        <TextView
+            android:id="@+id/btn_left"
+            style="@style/filly"
+            android:layout_width="@dimen/title_bar_btn_width"
+            android:background="@drawable/bg_trans_black"
+            android:drawableLeft="@drawable/arrow_left"
+            android:drawablePadding="4dp"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="6dp"
+            android:text="返回"
+            android:textColor="@color/c_white"
+            android:textSize="16dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/wrap"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+        <ImageView
+            android:id="@+id/photo_bt_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="13dp"
+            android:src="@drawable/icon_delete_photo" />
+    </RelativeLayout>
+
+</RelativeLayout>

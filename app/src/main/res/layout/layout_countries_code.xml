@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/ll_countries"
+              android:layout_width="match_parent"
+              android:layout_height="52dp"
+              android:gravity="center_vertical"
+              android:onClick="click"
+              android:orientation="vertical"
+    >
+
+
+    <TextView
+        android:id="@+id/tv_pcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="+86(中国)"
+        android:textColor="#4d4d4d"
+        android:textSize="12sp"/>
+
+
+</LinearLayout>

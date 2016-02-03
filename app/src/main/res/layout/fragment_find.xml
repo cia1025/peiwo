@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <!--<RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/c_ee">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="4dp"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_marginLeft="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/cat"/>
+
+
+            <TextView
+                android:layout_marginLeft="4dp"
+                android:id="@+id/tv_switcher"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@color/c_title_txt_color"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:layout_marginLeft="4dp"
+                android:id="@+id/iv_switcher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/arrow_down"/>
+        </LinearLayout>
+
+        &lt;!&ndash;<View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:background="@color/c_de2"/>&ndash;&gt;
+    </RelativeLayout>-->
+
+    <!--android:clipToPadding="false"
+            android:clipChildren="false"
+            android:paddingTop="@dimen/title_bar_height"-->
+    <me.peiwo.peiwo.widget.PWPullToRefreshListView
+        android:layout_marginTop="@dimen/title_bar_height"
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pullToRefreshListView"
+        style="@style/ListViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ptr:ptrMode="both"/>
+
+
+</RelativeLayout>

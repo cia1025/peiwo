@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="call_reject_arrays">
+        <item>这会在忙，等下回复你</item>
+        <item>上班呢，晚上再聊呗</item>
+        <item>吃饭ing&#8230;等吃完回你</item>
+        <item>今天超级困，明儿再聊吧？</item>
+        <item>这会没wifi，等有网了回你</item>
+        <item>自定义信息&#8230;</item>
+        <item>取消</item>
+    </string-array>
+</resources>

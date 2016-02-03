@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:paddingLeft="5dp">
+
+        <ImageButton
+            android:id="@+id/add_new_tags_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="18dp"
+            android:background="@color/transparent"
+            android:src="@drawable/icon_tag_add"/>
+
+        <Button
+            android:id="@+id/add_new_tags_button"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_horizontal"
+            android:background="#00b8d0"
+            android:onClick="click"
+            android:text="创建"
+            android:textColor="#ffffff"
+            android:textSize="12sp"/>
+
+        <EditText
+            android:id="@+id/add_new_tags_edit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="18dp"
+            android:textSize="12sp"
+            android:textColor="#4d4d4d"
+            android:textColorHint="#8e8e8e"
+            android:layout_toLeftOf="@id/add_new_tags_button"
+            android:layout_toRightOf="@id/add_new_tags_icon"
+            android:background="@drawable/transparent"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/c_de2"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="19dp"
+        android:background="#ffffff"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/c_de2"/>
+
+</LinearLayout>

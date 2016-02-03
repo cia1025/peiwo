@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/v_recycler_folder"
+        android:layout_above="@+id/layout_handle"
+        />
+
+    <RelativeLayout
+        android:id="@+id/layout_handle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FAFAFA">
+
+        <TextView
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="20dp"
+            android:text="确定"
+            android:textColor="#00b8d0"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_selected_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btn_confirm"
+            android:background="@drawable/green_badge"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:textColor="@color/white"/>
+    </RelativeLayout>
+
+</RelativeLayout>

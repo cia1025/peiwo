@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <include
+        layout="@layout/title_bar"
+        android:background="@color/white"/>
+
+    <WebView
+        android:layout_marginTop="@dimen/title_bar_height"
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="186dp"
+        android:background="#a1000000"
+        android:layout_gravity="bottom"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/v_share_panel"
+        android:visibility="gone"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true"
+            app:layout_marginLeftPercent="20%"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="30dp"
+            android:id="@+id/v_share_wxtimeline"
+            android:clickable="true"
+            android:onClick="click"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_wxtimeline_share"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微信朋友圈"
+                android:textColor="#ffffff"
+                android:layout_marginTop="11dp"
+                android:textSize="11sp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentRight="true"
+            app:layout_marginRightPercent="20%"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="30dp"
+            android:id="@+id/v_share_wx"
+            android:clickable="true"
+            android:onClick="click"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_wxsingle_share"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微信"
+                android:textColor="#ffffff"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="11dp"
+                android:textSize="11sp"
+                />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_anonymous_close"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="24dp"
+            android:clickable="true"
+            android:onClick="click"
+            android:id="@+id/v_share_close"
+            android:padding="10dp"
+            />
+
+    </android.support.percent.PercentRelativeLayout>
+</merge>

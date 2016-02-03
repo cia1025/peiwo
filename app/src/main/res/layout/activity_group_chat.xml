@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="me.peiwo.peiwo.activity.GroupChatActivity"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <!--title bar-->
+        <RelativeLayout
+            android:id="@id/title_bar"
+            style="@style/fillx"
+            android:layout_height="@dimen/title_bar_height"
+            android:background="@color/c_white">
+
+            <LinearLayout
+                android:id="@+id/view_left"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:onClick="click"
+                >
+
+                <TextView
+                    android:id="@+id/btn_left"
+                    android:clickable="true"
+                    android:onClick="click"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="2dp"
+                    android:textSize="12sp"
+                    android:drawableLeft="@drawable/ic_nav_back"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_vertical"
+                    android:visibility="visible"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/v_line_left"
+                android:layout_width="0.3dp"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/view_left"
+                android:background="@color/c_de2"/>
+
+            <TextView
+                android:id="@+id/title_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="12"
+                android:ellipsize="middle"
+                android:layout_toRightOf="@+id/v_line_left"
+                android:layout_marginLeft="10dp"
+                android:singleLine="true"
+                android:textColor="#4d4d4d"
+                android:layout_centerInParent="true"
+                android:textSize="@dimen/sp_title_txt_size"/>
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:clickable="true"
+                android:onClick="click"
+                android:id="@+id/iv_im_avatar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                />
+
+            <View
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/c_de2"/>
+
+        </RelativeLayout>
+        <!--message view-->
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/v_recycler_message"
+            />
+
+        <!--action view-->
+        <LinearLayout
+            android:id="@+id/send_message_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:background="@color/c_white"
+            >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/c_de"
+                />
+
+            <me.peiwo.peiwo.widget.EmotionEditText
+                android:id="@+id/et_message_input"
+                android:paddingLeft="18dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="45dp"
+                android:background="@null"
+                android:maxLines="5"
+                android:textSize="14sp"
+                android:textColor="#000000"
+                android:textColorHint="#8e8e8e"
+                android:hint="输入内容......"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                >
+
+
+                <ImageView
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="18dp"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/iv_msgtxt_selector"
+                    android:id="@+id/v_input_txt_start"
+                    />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/iv_express_selector"
+                    android:id="@+id/v_expression_start"
+                    android:layout_toRightOf="@+id/v_input_txt_start"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    />
+
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/iv_imgquickswitch_selector"
+                    android:id="@+id/v_image_quick_switch_start"
+                    android:layout_toRightOf="@+id/v_expression_start"
+                    android:layout_marginLeft="20dp"
+                    />
+
+                <ImageView
+                    android:clickable="true"
+                    android:onClick="click"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_chatredbag_selector"
+                    android:id="@+id/v_redbag_start"
+                    android:layout_toRightOf="@+id/v_image_quick_switch_start"
+                    android:layout_marginLeft="20dp"
+                    />
+
+
+                <Button
+                    android:id="@+id/v_send_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp"
+                    android:textColor="#00b8d0"
+                    android:text="发送"
+                    android:clickable="true"
+                    android:onClick="click"
+                    android:layout_alignParentRight="true"
+                    android:background="@null"
+                    />
+            </RelativeLayout>
+
+            <me.peiwo.peiwo.widget.GroupBottomActionView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/v_bottom_panel"
+                android:visibility="gone"
+                >
+
+                <me.peiwo.peiwo.widget.ExpressionPanelView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:id="@+id/v_express_panel"
+                    />
+
+                <me.peiwo.peiwo.widget.ImageQuickSwitchView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/v_image_quick_switch_panel"
+                    android:visibility="gone"
+                    />
+            </me.peiwo.peiwo.widget.GroupBottomActionView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--不是成员提示信息-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:orientation="vertical"
+        android:background="#be191919"
+        android:layout_marginTop="@dimen/title_bar_height"
+        android:id="@+id/v_member_type_tips"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:id="@+id/tv_lable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="您不是群成员，无法共享群声望"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            android:layout_marginTop="6dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_how_tobe_member"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="如何成为群成员？"
+            android:textColor="#00b8d0"
+            android:textSize="12sp"
+            android:layout_marginTop="6dp"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_jump_unread_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_wild_tag_green"
+        android:text=""
+        android:visibility="gone"
+        android:textSize="13sp"
+        android:textColor="#ffffff"
+        android:layout_gravity="right|top"
+        android:layout_marginTop="100dp"
+        android:clickable="true"
+        android:onClick="click"
+        />
+</merge>

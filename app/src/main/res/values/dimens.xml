@@ -1,0 +1,35 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="title_bar_height">44dp</dimen>
+    <dimen name="line_height">0.3dp</dimen>
+    <dimen name="cover_text_size">10dp</dimen>
+    <dimen name="cover_height">15dp</dimen>
+    <dimen name="setting_bar_height">42dp</dimen>
+    <dimen name="title_bar_btn_width">60dp</dimen>
+    <dimen name="text_drawable_padding">6dp</dimen>
+    <dimen name="avatar_radius">10dp</dimen>
+    <dimen name="recommentd_avatar_width">78dp</dimen>
+    <dimen name="jubao_item_height">50dp</dimen>
+    <dimen name="hong_bao_item_width">76dp</dimen>
+    <dimen name="default_text_size">16sp</dimen>
+    <dimen name="dp_info_margin">20dp</dimen>
+    <dimen name="dp_line">0.5dp</dimen>
+    <dimen name="dp_line_margin">100dp</dimen>
+    <dimen name="sp_title_txt_size">13sp</dimen>
+    <dimen name="tab_msg_frinde">15sp</dimen>
+    <dimen name="sp_title_warn_size">14sp</dimen>
+    <dimen name="sp_title_other_size">16sp</dimen>
+
+    <dimen name="img_quick_switchitem_width">220dp</dimen>
+    <dimen name="img_quick_switchview_height">200dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+
+    <dimen name="groupchat_padding_self">16dp</dimen>
+    <dimen name="groupchat_padding_other">20dp</dimen>
+    <dimen name="sp_chat_text_size">16sp</dimen>
+    <dimen name="sp_chat_name_textsize">12sp</dimen>
+</resources>

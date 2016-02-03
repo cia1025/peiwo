@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="74dp"
+    >
+
+    <FrameLayout
+        android:id="@+id/view_avatar_container"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        >
+
+        <ImageView
+            android:id="@+id/iv_uface"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"/>
+
+        <View
+            android:id="@+id/v_gender_indicator"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            />
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_left"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@+id/layout_option"
+        android:layout_toRightOf="@+id/view_avatar_container"
+        android:layout_alignTop="@+id/view_avatar_container"
+        android:layout_marginTop="-4dp"
+        android:layout_marginLeft="12dp">
+
+        <TextView
+            android:id="@+id/tv_uname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:ems="9"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_des"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="18dp"
+            android:layout_below="@id/tv_uname"
+            android:layout_marginTop="2dp"
+            android:singleLine="true"
+            android:textColor="#8e8e8e"
+            android:textSize="11sp"/>
+
+        <LinearLayout
+            android:id="@+id/ll_v_gender_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_des"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal">
+
+            <!--<me.peiwo.peiwo.widget.GenderWithAgeView
+                android:id="@+id/v_gender_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />-->
+            <TextView
+                android:id="@+id/tv_gender_constellation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#b2b2b2"
+                android:textSize="10sp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                />
+
+            <ImageView
+                android:src="@drawable/bg_charge_icon"
+                android:id="@+id/iv_price_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="center_vertical"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_option"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="28dp">
+
+        <ImageView
+            android:id="@+id/iv_add_friend"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_find_add_friend"
+            android:layout_gravity="center"/>
+
+        <ImageView
+            android:id="@+id/iv_play_voice"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon_play_blue"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/rl_left"
+        android:background="@color/c_de"/>
+
+</RelativeLayout>

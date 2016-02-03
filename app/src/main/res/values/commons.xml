@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- common ids -->
+    <item name="empty_view" type="id"/>
+    <item name="ok" type="id"/>
+    <item name="cancel" type="id"/>
+    <item name="close" type="id"/>
+    <item name="title" type="id"/>
+    <item name="back" type="id"/>
+    <item name="done" type="id"/>
+    <item name="more" type="id"/>
+    <item name="send" type="id"/>
+    <item name="title_bar" type="id"/>
+    <item name="progress_bar" type="id"/>
+    <item name="grid_last_one" type="id"/>
+    <item name="tab_msg" type="id"/>
+
+
+    <!-- common drawable -->
+    <drawable name="black">#ff000000</drawable>
+    <drawable name="white">#ffffffff</drawable>
+    <drawable name="transparent">#00000000</drawable>
+
+    <dimen name="line">0.3dp</dimen>
+
+    <drawable name="tab_bg_color_normal">#48a9fd</drawable>
+    <drawable name="tab_bg_color_selected">#ffffff</drawable>
+    <drawable name="bg_pressed">#33333333</drawable>
+    <drawable name="black_alpha50">#f2373737</drawable>
+
+    <color name="recommend_secondly_text_color">#9F492F</color>
+    <color name="text_color_gray">#b8b8b8</color>
+    <color name="tag_color_gray">#E8E8E8</color>
+    <color name="tab_color_blue">#48a9fd</color>
+    <color name="tab_color_white">#ffffff</color>
+    <color name="color_black_alpha50">#33000000</color>
+    <color name="line">#cccccc</color>
+    <color name="bg_color_pressed_gray">#7FCCCCCC</color>
+
+    <drawable name="btn_bg_yellow_normal">#FAC52E</drawable>
+    <drawable name="btn_bg_blue_normal">#48a9fd</drawable>
+
+    <color name="btn_bg_blue_color_normal">#48a9fd</color>
+
+    <drawable name="btn_bg_red_normal">#FC4A4C</drawable>
+    <drawable name="btn_bg_gray_normal">#B2B2B2</drawable>
+    <drawable name="btn_bg_gray_pressed">#CCCCCC</drawable>
+    <drawable name="bg_pic_grid">#E5E5E5</drawable>
+
+    <color name="c_list_male">#ff16aac5</color>
+    <color name="c_list_female">#ffe24d91</color>
+
+</resources>

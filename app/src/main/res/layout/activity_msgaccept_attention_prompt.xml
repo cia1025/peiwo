@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingLeft="55dp"
+                android:paddingRight="55dp"
+                android:paddingTop="10dp">
+
+    <TextView
+        android:id="@+id/attentior_default_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bg_chat_follow_n"
+        android:padding="18dp"
+        android:text="相互关注成为好友，热度不再降可实时打电话∩ˍ∩！"
+        android:textColor="#383838"
+        android:textSize="16sp"/>
+
+    <LinearLayout
+        android:id="@+id/attentior_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/attentior_default_text"
+        android:layout_alignRight="@id/attentior_default_text"
+        android:layout_below="@id/attentior_default_text"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/btn_chat_follow_n"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/attentior_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:src="@drawable/icon_chat_follow"/>
+
+        <TextView
+            android:id="@+id/attentior_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            android:text="关注"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+</RelativeLayout>

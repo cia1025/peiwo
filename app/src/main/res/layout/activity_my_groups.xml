@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="me.peiwo.peiwo.activity.MyGroupsActivity">
+
+    <include layout="@layout/title_bar"/>
+
+    <com.handmark.pulltorefresh.library.PullToRefreshExpandableListView
+        android:layout_marginTop="@dimen/title_bar_height"
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pullToRefreshExpandableListView"
+        style="@style/ListViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ptr:ptrMode="pullFromStart"/>
+
+    <LinearLayout
+        android:id="@+id/v_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:gravity="center_horizontal"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_empty_single"
+            />
+
+        <ImageView
+            android:layout_marginTop="12dp"
+            android:id="@+id/v_recommend_groups"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_recommend_groups"
+            android:clickable="true"
+            android:onClick="click"
+            />
+    </LinearLayout>
+
+</merge>

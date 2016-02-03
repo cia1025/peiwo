@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="me.peiwo.peiwo.activity.UpdateGroupNoticeActivity">
+
+    <include layout="@layout/title_bar"/>
+
+    <EditText
+        android:id="@+id/et_group_notice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="58dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:gravity="left|top"
+        android:background="@null"
+        />
+</merge>

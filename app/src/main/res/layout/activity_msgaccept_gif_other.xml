@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:paddingTop="10dp"
+              android:paddingBottom="10dp"
+              android:paddingLeft="4dp"
+              android:paddingRight="10dp">
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="2dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="2dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"/>
+
+    <RelativeLayout
+        android:id="@+id/iv_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="6dp">
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_uface"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"/>
+
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/iv_gif_face_view"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true">
+        </pl.droidsonroids.gif.GifImageView>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <me.peiwo.peiwo.widget.NavgationViewController
+            android:layout_width="match_parent"
+            android:layout_gravity="top"
+            android:layout_height="@dimen/title_bar_height"
+            android:id="@+id/navgationViewController"
+            />
+
+        <ImageView
+            android:clickable="true"
+            android:onClick="click"
+            android:id="@+id/v_drawer_indi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:src="@drawable/ic_drawer_indi"
+            />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_drawer_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_gravity="start"
+        android:clickable="true"
+        android:onClick="click"
+        android:background="#ffffff"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <me.peiwo.peiwo.widget.DrawerContentView
+                android:id="@+id/drawer_content_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/iv_ad_info"
+                />
+
+            <ImageView
+                android:id="@+id/iv_ad_info"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="10dp"
+                android:layout_centerHorizontal="true"
+                android:scaleType="centerCrop"
+                android:layout_alignParentBottom="true"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</android.support.v4.widget.DrawerLayout>
+
+
+    <!--android:layout_above="@+id/tabbar"-->
+    <!--<me.peiwo.peiwo.widget.TabBarViewController
+        android:id="@+id/tabbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#f7fafafa"/>-->

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+
+            style="@style/fillx"
+            android:layout_height="@dimen/title_bar_height"
+            android:background="@color/c_white">
+
+            <LinearLayout
+                android:id="@+id/view_left"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/btn_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/ic_nav_back"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_vertical"
+                    android:visibility="visible"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/v_line_left"
+                android:layout_width="0.3dp"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/view_left"
+                android:background="@color/c_de2"/>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="信息发布"
+                android:layout_toRightOf="@+id/v_line_left"
+                android:layout_marginLeft="10dp"
+                android:singleLine="true"
+                android:textColor="#4d4d4d"
+                android:layout_centerInParent="true"
+                android:textSize="@dimen/sp_title_txt_size"/>
+
+            <ImageView
+                android:id="@+id/image_edit"
+                android:paddingLeft="18dp"
+                android:paddingRight="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/flow_edit"
+                />
+
+            <View
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/c_de2"/>
+
+        </RelativeLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_new_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="#00b8d0"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:visibility="gone"/>
+
+                <me.peiwo.peiwo.widget.PWPullToRefreshListView
+                    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/pullToRefreshListView"
+                    style="@style/ListViewStyle"
+                    android:divider="@color/c_de2"
+                    android:dividerHeight="0.4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:cacheColorHint="@color/transparent"
+                    android:listSelector="@color/transparent"
+                    ptr:ptrMode="pullFromStart"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/empty_list_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/nodynamic"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="40dp"
+                    android:layout_marginTop="17dp"
+                    android:text="当前没有动态"
+                    android:textColor="#B3B3B3"
+                    android:textSize="20sp"/>
+            </LinearLayout>
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:visibility="gone"
+        android:id="@+id/ll_start_topic"
+        android:onClick="click"
+        android:clickable="true"
+        android:layout_gravity="center"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/c_white"
+            android:textSize="14sp"
+            android:text="今日话题"
+            />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/c_white"
+            android:textSize="16sp"
+            android:id="@+id/tv_topic_today"
+            />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff33b5e5"
+            android:textSize="14sp"
+            android:text="好有趣，去瞅瞅"
+            />
+
+    </LinearLayout>
+</merge>

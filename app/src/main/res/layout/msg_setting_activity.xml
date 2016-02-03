@@ -1,0 +1,216 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/d_gray"
+              android:orientation="vertical">
+
+    <include layout="@layout/title_bar"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/c_de2"
+        />
+
+    <RelativeLayout
+        android:id="@+id/rl_push_master_control"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="@drawable/bg_line_selector"
+        android:onClick="click"
+        >
+
+        <TextView
+            android:layout_marginLeft="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="接受新消息通知"
+            android:textSize="13sp"/>
+
+
+        <android.support.v7.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="18dp"
+            android:id="@+id/v_switch_push_master_control"
+            />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/c_de2"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_control"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/c_de2"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/d_gray"
+            >
+
+
+            <RelativeLayout
+                android:id="@+id/rl_sound_control"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_line_selector"
+                android:onClick="click"
+                >
+
+                <TextView
+                    android:layout_marginLeft="18dp"
+                    android:id="@+id/tv_sound"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="声音"
+                    android:textSize="13sp"/>
+
+
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="18dp"
+                    android:id="@+id/v_switch_sound_control"
+                    />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginLeft="18dp"
+                android:layout_height="@dimen/line_height"
+                android:background="@color/c_de2"/>
+
+            <RelativeLayout
+                android:background="@drawable/bg_line_selector"
+                android:id="@+id/rl_vibrate_control"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:onClick="click"
+                >
+
+                <TextView
+                    android:id="@+id/tv_vibrate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="18dp"
+                    android:text="震动"
+                    android:textSize="13sp"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="18dp"
+                    android:id="@+id/v_switch_vibrate_control"
+                    />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/c_de2"
+                />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/c_de2"
+            />
+
+        <RelativeLayout
+            android:id="@+id/rl_push_nodisturb_control"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_line_selector"
+            android:onClick="click"
+            >
+
+            <TextView
+                android:layout_marginLeft="18dp"
+                android:id="@+id/tv_nodisturb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="勿扰时段(00:00 至 次日00:00)"
+                android:textSize="13sp"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18dp"
+                android:id="@+id/v_switch_push_nodisturb_control"
+                />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/c_de2"
+            />
+
+        <TextView
+            android:id="@+id/tv_no_disturb_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/msg_setting_no_disturb_msg"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/ll_numpiker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <net.simonvt.numberpicker.NumberPicker
+                android:id="@+id/np_time_s"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"/>
+
+            <net.simonvt.numberpicker.NumberPicker
+                android:id="@+id/np_time_e"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1.0"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

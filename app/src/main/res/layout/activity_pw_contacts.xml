@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/title_bar_height"
+    >
+
+    <me.peiwo.peiwo.widget.PWPullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pullToRefreshListView"
+        style="@style/ListViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ptr:ptrMode="pullFromStart"/>
+
+
+    <!--<RelativeLayout
+        android:id="@+id/tv_new_friend_layout"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:visibility="invisible"
+        android:layout_gravity="top"
+        android:background="#F7F7F7">
+
+        <TextView
+            android:id="@+id/tv_new_friendnum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="18dp"
+            android:text="好友(128)"
+            android:textColor="#B2B2B2"
+            android:textSize="14sp"/>
+
+        <Button
+            android:id="@+id/tv_new_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="18dp"
+            android:background="@null"
+            android:clickable="true"
+            android:drawablePadding="-14dp"
+            android:drawableRight="@drawable/icon_friends_sorting"
+            android:text="排序"
+            android:textColor="#C8C8C8"
+            android:textSize="14sp"/>
+    </RelativeLayout>-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom|center_horizontal"
+        android:id="@+id/layout_empty"
+        android:visibility="gone"
+        app:layout_marginBottomPercent="20%"
+        >
+
+        <include
+            layout="@layout/pw_friends_empey_layout"/>
+
+    </LinearLayout>
+
+
+</android.support.percent.PercentFrameLayout>

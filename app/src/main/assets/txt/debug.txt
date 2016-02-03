@@ -1,0 +1,26 @@
+[
+	{
+	"name": "srv_http",
+	"host": "testapi.raybo.com",
+	"port": "2443",
+	"use_local": "true",
+	"type": "https"
+	},
+	{
+	"name": "srv_tcp",
+	"host": "testtcp.raybo.com",
+	"port": "8900",
+	"use_local": "true",
+	"type": "tcp"
+	},
+	{
+	"name": "srv_turn",
+	"port": "80",
+	"use_local": "false"
+	},
+	{
+	"name": "srv_sturn",
+	"port": "80",
+	"use_local": "false"
+	}
+]

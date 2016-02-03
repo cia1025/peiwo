@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:paddingLeft="12dp"
+              android:paddingRight="12dp"
+              android:layout_width="match_parent"
+              android:background="@drawable/bg_dialog_agreement"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="特权协议"
+        android:layout_gravity="center_horizontal"
+
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="#c6c6c6"
+        />
+
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:id="@+id/tv_error_tips"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="#c6c6c6"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/btn_disagree"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_bg_gray"
+            android:layout_margin="16dp"
+            android:text="不同意"
+            />
+
+        <Button
+            android:layout_margin="16dp"
+            android:id="@+id/btn_agree"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_bg_blue"
+            android:text="同意"
+            android:textColor="@color/white"
+            />
+    </LinearLayout>
+</LinearLayout>

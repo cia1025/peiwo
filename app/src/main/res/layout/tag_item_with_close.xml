@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          style="@style/tag_gray_item"
+          android:textColor="@color/c_white"
+          android:clickable="true"
+          android:drawablePadding="3dp"
+          android:drawableRight="@drawable/close"
+          android:gravity="center"
+          android:textSize="14dp"/>

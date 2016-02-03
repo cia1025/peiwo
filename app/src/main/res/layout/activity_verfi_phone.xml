@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <include layout="@layout/title_bar"/>
+
+    <TextView
+        android:id="@+id/tv_phone_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        >
+
+        <EditText
+            android:layout_toLeftOf="@+id/btn_getverifcode"
+            android:id="@+id/et_verifcode"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="请输入6位验证码"
+            android:textSize="16sp"
+            android:textColorHint="@color/et_hint_color"
+            android:inputType="numberSigned"
+            />
+
+        <Button
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="4dp"
+            android:clickable="true"
+            android:id="@+id/btn_getverifcode"
+            android:layout_width="140dp"
+            android:layout_height="match_parent"
+            android:text="获取验证码"
+            android:onClick="click"
+            android:textColor="@color/c_white"
+            android:background="@drawable/btn_bg_blue"
+            />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

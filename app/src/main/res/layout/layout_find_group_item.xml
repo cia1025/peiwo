@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="74dp">
+
+    <ImageView
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/iv_group_avatar"
+        android:layout_marginLeft="10dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitXY"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/rl_left"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/iv_add_friend"
+        android:layout_toRightOf="@+id/iv_group_avatar"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp">
+
+        <TextView
+            android:id="@+id/tv_group_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="9"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:textSize="14sp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            >
+
+
+            <TextView
+                android:id="@+id/tv_group_des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="#8e8e8e"
+                android:maxLength="12"
+                android:text=""
+                android:textSize="11sp"/>
+
+            <ImageView
+                android:src="@drawable/bg_charge_icon"
+                android:id="@+id/iv_price_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/v_add_group_action"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_join_group"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="28dp"
+        />
+
+
+    <!--<View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/rl_left"
+        android:background="@color/c_de"/>-->
+</RelativeLayout>

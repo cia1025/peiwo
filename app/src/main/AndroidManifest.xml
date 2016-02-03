@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="me.peiwo.peiwo">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!-- SDK2.1新增获取用户位置信息 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!-- <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/> -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
+    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BATTERY_STATS"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <!-- <uses-permission android:name="android.permission.CAMERA"/> -->
+    <permission
+        android:name="me.peiwo.peiwo.permission.MIPUSH_RECEIVE"
+        android:protectionLevel="signature"/>
+    <!-- 这里com.xiaomi.mipushdemo改成app的包名 -->
+    <uses-permission android:name="me.peiwo.peiwo.permission.MIPUSH_RECEIVE"/>
+
+    <!-- 这里com.xiaomi.mipushdemo改成app的包名 -->
+    <application
+        android:name=".PeiwoApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- Caution! Do not change this app key. It is only for demo usage. -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="536de5af56240b67f5003769">
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}"> <!-- channel -->
+        </meta-data>
+        <meta-data
+            android:name="DEBUGGABLE"
+            android:value="${DEBUGGABLE_VALUE}"> <!-- debug or release -->
+        </meta-data>
+        <!-- begin rong cloud -->
+        <meta-data
+            android:name="RONG_CLOUD_APP_KEY"
+            android:value="${RONG_CLOUD_APP_KEY_VALUE}"/>
+
+        <service
+            android:name="io.rong.imlib.ipc.RongService"
+            android:process=":ipc"/>
+        <service android:name="io.rong.imlib.ReConnectService"/>
+
+        <receiver android:name="io.rong.imlib.ConnectChangeReceiver"/>
+        <receiver android:name="io.rong.imlib.ipc.PushMessageReceiver">
+            <intent-filter>
+                <action android:name="io.rong.push.message"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="io.rong.imlib.HeartbeatReceiver"
+            android:process=":ipc"/>
+
+        <service
+            android:name="io.rong.push.PushService"
+            android:process="io.rong.push"> <!-- Waring: The name of the push process can't be changed!!! -->
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <action android:name="io.rong.push"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="io.rong.push.CommandService"
+            android:process="io.rong.push"> <!-- Waring: The name of the push process can't be changed!!! -->
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <action android:name="io.rong.command"/>
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="io.rong.push.PushReceiver"
+            android:process="io.rong.push"> <!-- Waring: The name of the push process can't be changed!!! -->
+            <intent-filter>
+                <action android:name="io.rong.push.HeartBeat"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+
+                <data android:scheme="package"/>
+            </intent-filter>
+        </receiver>
+        <!-- end rong cloud -->
+
+        <service
+            android:name="com.umeng.common.net.DownloadingService"
+            android:process=":DownloadingService">
+        </service>
+
+        <activity
+            android:name="com.umeng.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
+        <activity
+            android:name="com.umeng.fb.ConversationActivity"
+            android:theme="@style/PeiwoBaseTheme"/>
+        <activity
+            android:name="com.umeng.fb.ContactActivity"
+            android:theme="@style/PeiwoBaseTheme"/>
+
+        <service android:name=".service.CoreService"/>
+        <service android:name=".service.SynchronizedService"/>
+
+        <activity
+            android:name=".activity.SplashActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.MainActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+        </activity>
+        <activity
+            android:name=".activity.WelcomeActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme">
+        </activity>
+        <activity
+            android:name=".activity.RecommendUserFilterActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyNumerPickerTheme">
+        </activity>
+        <activity
+            android:name=".activity.SoundRecordActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme">
+        </activity>
+        <activity
+            android:name=".activity.UserDetailSettingActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+        </activity>
+        <activity
+            android:name=".activity.MyAccountActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme">
+        </activity>
+        <activity
+            android:name=".activity.SettingActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme">
+        </activity>
+        <activity
+            android:name=".activity.UserInfoActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+        </activity>
+        <activity
+            android:name=".activity.LazyGuyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"/>
+        <activity
+            android:name=".activity.MsgCallLogActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme">
+        </activity>
+        <activity
+            android:name=".activity.SayHelloActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme">
+        </activity>
+        <activity
+            android:name=".activity.MsgAcceptedMsgActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+        </activity>
+        <activity
+            android:name=".activity.AboutUsActivity"
+            android:theme="@style/PeiwoBaseTheme">
+        </activity>
+        <activity
+            android:name=".activity.ImagePagerActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme">
+        </activity>
+        <activity
+            android:name=".activity.InformationPubActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme">
+        </activity>
+        <activity
+            android:name=".information.picture.ImageZoomActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+        </activity>
+        <activity
+            android:name=".activity.RealCallActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/call_theme">
+        </activity>
+
+        <!--
+             <activity
+            android:name="me.peiwo.peiwo.activity.RealCallActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/call_theme" >
+        </activity>
+        -->
+        <!-- android:theme="@android:style/Theme.Translucent.NoTitleBar" -->
+        <!-- android:launchMode="singleTop" -->
+        <!-- android:excludeFromRecents="true" -->
+        <!-- android:noHistory="true" -->
+
+
+        <!-- Tencent QQ -->
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="tencent1101716237"/>
+            </intent-filter>
+        </activity>
+        <!-- Tencent QQ -->
+
+        <activity
+            android:name=".activity.GetMoneyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme">
+        </activity>
+        <activity
+            android:name=".activity.ChargeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme">
+        </activity>
+        <activity
+            android:name=".activity.MsgSettingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyNumerPickerTheme">
+        </activity>
+        <!-- 新版修改用户资料页面 -->
+        <activity
+            android:name=".activity.UpdateProfileActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyNumerPickerTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
+        <activity
+            android:name=".activity.AddTagsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme">
+        </activity>
+        <activity
+            android:name=".activity.NetworkOfflineHelpActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"/>
+        <activity
+            android:name=".activity.SearchContactByTagActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"/>
+        <activity
+            android:name=".activity.ChargeLogActvitiy"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"/>
+        <activity
+            android:name=".activity.ModifyPassWordActivty"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"/>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoDisplay" />
+        <activity
+            android:name=".activity.WantMakeMoney"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyNumerPickerTheme"/>
+
+        <!-- 【必须】 (2.30及以上版新增)展示通知的activity -->
+        <activity
+            android:name="com.tencent.android.tpush.XGPushActivity"
+            android:theme="@android:style/Theme.Translucent">
+        </activity>
+        <activity
+            android:name=".activity.UpdateUnameActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"/>
+        <activity
+            android:name=".activity.UpdateSlognActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"/>
+        <activity
+            android:name=".activity.UpdateProfessionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"/>
+        <activity
+            android:name=".activity.WildCatCallActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/call_theme"/>
+        <activity
+            android:name=".activity.GlobalWebViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data
+                    android:host="cn.peiwo.action_viewweb"
+                    android:scheme="peiwo_web"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"/>
+        <activity
+            android:name=".activity.FillPhonenoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"/>
+        <activity
+            android:name=".activity.PhoneLoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.ForgetPwdActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"/>
+        <activity
+            android:name=".activity.BindPhoneActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"/>
+        <activity
+            android:name=".activity.FillForBindPhoneActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"/>
+        <activity
+            android:name=".activity.ResetPhoneActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"/>
+        <activity
+            android:name=".activity.ResetVerfiPhoneActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"/>
+        <activity
+            android:name=".activity.BlockListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"/>
+        <activity
+            android:name=".activity.CountriesPhoneCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
+        <activity
+            android:name=".activity.WithdrawActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"/>
+        <activity
+            android:name=".activity.AddOrUpdateAlipayAccountActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"/>
+        <activity
+            android:name=".activity.WithdrawHistoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"/>
+        <activity
+            android:name=".activity.PWPreCallingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"/>
+        <activity
+            android:name=".activity.UpgradeAppActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/call_theme"/>
+        <activity
+            android:name=".activity.RedBagActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme">
+        </activity>
+        <activity
+            android:name=".activity.ResultActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/call_theme"/>
+        <activity android:name=".activity.BrowserEventActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="peiwo"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.PWPraiseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
+        </activity>
+        <activity
+            android:name=".activity.FeedFlowActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme">
+        </activity>
+        <activity
+            android:name=".activity.CreatTopicActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
+        </activity>
+        <activity
+            android:name=".activity.ConstellationChooseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/theme_noactionbar">
+        </activity>
+        <activity
+            android:name=".activity.TrendNoticeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme">
+        </activity>
+        <activity
+            android:name=".activity.WildcatCallRecordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme">
+        </activity>
+        <activity
+            android:name=".activity.WildcatShareAlertActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseDialogTheme">
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!-- alipay sdk begin -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <!-- alipay sdk end -->
+
+        <activity
+            android:name=".activity.FullScreenImgActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme">
+        </activity>
+        <activity
+            android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
+            android:configChanges="keyboardHidden|orientation"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+
+        <!-- 【必须】 信鸽receiver广播接收 -->
+        <receiver
+            android:name="com.tencent.android.tpush.XGPushReceiver"
+            android:process=":xg_service_v2">
+            <intent-filter android:priority="0x7fffffff">
+
+                <!-- 【必须】 信鸽SDK的内部广播 -->
+                <action android:name="com.tencent.android.tpush.action.SDK"/>
+                <action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE"/>
+                <!-- 【必须】 系统广播：开屏和网络切换 -->
+                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+
+                <!-- 【可选】 一些常用的系统广播，增强信鸽service的复活机会，请根据需要选择。当然，你也可以添加APP自定义的一些广播让启动service -->
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+            </intent-filter>
+            <!-- 【可选】 usb相关的系统广播，增强信鸽service的复活机会，请根据需要添加 -->
+            <intent-filter android:priority="0x7fffffff">
+                <action android:name="android.intent.action.MEDIA_UNMOUNTED"/>
+                <action android:name="android.intent.action.MEDIA_REMOVED"/>
+                <action android:name="android.intent.action.MEDIA_CHECKING"/>
+                <action android:name="android.intent.action.MEDIA_EJECT"/>
+
+                <data android:scheme="file"/>
+            </intent-filter>
+        </receiver>
+        <!-- 【必须】 信鸽service -->
+        <service
+            android:name="com.tencent.android.tpush.service.XGPushService"
+            android:exported="true"
+            android:persistent="true"
+            android:process=":xg_service_v2"/>
+
+        <!-- 【建议】 信鸽service守护进程，可以增加复活机会，提升消息抵达率 -->
+        <service
+            android:name="com.tencent.android.tpush.service.XGDaemonService"
+            android:process=":qq_push_daemon"/>
+
+        <!-- 【可选】APP实现的Receiver，用于接收消息透传和操作结果的回调，请根据需要添加 -->
+        <!-- YOUR_PACKAGE_PATH.CustomPushReceiver需要改为自己的Receiver： -->
+        <receiver android:name=".receiver.XGReceiver">
+            <intent-filter>
+
+                <!-- 接收消息透传 -->
+                <action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE"/>
+                <!-- 监听注册、反注册、设置/删除标签、通知被点击等处理结果 -->
+                <action android:name="com.tencent.android.tpush.action.FEEDBACK"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- 【必须】 请修改为APP的AccessId，“21”开头的10位数字，中间没空格 -->
+        <meta-data
+            android:name="XG_V2_ACCESS_ID"
+            android:value="2100036170"/>
+        <!-- 【必须】 请修改为APP的AccessKey，“A”开头的12位字符串，中间没空格 -->
+        <meta-data
+            android:name="XG_V2_ACCESS_KEY"
+            android:value="A8G7K5D9WE4E"/>
+
+        <!-- 小米推送 -->
+        <service
+            android:name="com.xiaomi.push.service.XMPushService"
+            android:enabled="true"
+            android:process=":pushservice"/>
+        <service
+            android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
+            android:enabled="true"
+            android:exported="true"/>
+        <service
+            android:name="com.xiaomi.mipush.sdk.MessageHandleService"
+            android:enabled="true"/>
+        <!-- 注：此service必须在2.2.5版本以后（包括2.2.5版本）加入 -->
+        <receiver
+            android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.xiaomi.push.service.receivers.PingReceiver"
+            android:exported="false"
+            android:process=":pushservice">
+            <intent-filter>
+                <action android:name="com.xiaomi.push.PING_TIMER"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receiver.XiaoMiReceiver"
+            android:exported="true">
+
+            <!-- 这里com.xiaomi.mipushdemo.DemoMessageRreceiver改成app中定义的完整类名 -->
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.ERROR"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".receiver.TcpLoginBackReceiver"
+            android:exported="false"/>
+        <receiver
+            android:name=".receiver.HeartBeatTimeOutReceiver"
+            android:exported="false"/>
+
+        <!-- 小米推送完毕 -->
+
+
+        <!-- 百度地图begin -->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2">
+                </action>
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="9bDpV3tVMdV2lsBxn2nuYtlD"/>
+        <!-- 百度地图end -->
+
+        <provider
+            android:name=".db.PWDbContentProvider"
+            android:authorities="me.peiwo.message">
+        </provider>
+
+        <activity
+            android:name=".activity.MsgAcceptActionActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
+        </activity>
+        <activity
+            android:name=".activity.CreateChatGroupActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
+        </activity>
+
+        <activity
+            android:name=".activity.GroupAddMembersActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.GroupMembersNewbiesActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.GroupHomePageActvity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyNumerPickerTheme"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
+        </activity>
+        <activity
+            android:name=".activity.GroupExhibitionActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.WildcatGuideActivity"
+            android:label="@string/title_activity_wildcat_guide"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.GroupChatActivity"
+            android:label="@string/title_activity_group_chat"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".activity.GroupListMoreActivity"
+            android:label="@string/title_activity_group_list_more"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".activity.MyGroupsActivity"
+            android:label="@string/title_activity_my_groups"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".activity.AlbumCompatActivity"
+            android:label="@string/title_activity_album_compat"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".activity.ChatRedbagActivity"
+            android:label="@string/title_activity_chat_redbag"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
+        </activity>
+        <activity
+            android:name=".activity.GroupchatMorePacketActivity"
+            android:label="@string/title_activity_groupchat_more_packet"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".activity.ChatRepuRedbagActivity"
+            android:label="@string/title_activity_chat_repu_redbag"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".activity.VerifiCodeNotReceiveActivity"
+            android:label="@string/title_activity_verifi_code_not_receive"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
+            android:name=".activity.UpdateGroupNoticeActivity"
+            android:label="@string/title_activity_update_group_notice"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:theme="@style/AppTheme">
+        </activity>
+    </application>
+
+</manifest>

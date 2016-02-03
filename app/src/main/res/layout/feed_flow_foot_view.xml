@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/feed_flow_foot_bg" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/bg_topic_release" />
+
+        <TextView
+            android:id="@+id/tv_topic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="往期趣味内容总刊"
+            android:textColor="#FFFFFF"
+            android:textSize="23sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_below="@id/tv_topic"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="12dp" >
+
+            <Button
+                android:id="@+id/btn_pub_topic"
+                android:layout_width="147dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_blue_action"
+                android:gravity="center"
+                android:text="很有趣,去瞅瞅"
+                android:textColor="#0195FF"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+</LinearLayout>

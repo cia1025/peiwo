@@ -1,0 +1,153 @@
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context="me.peiwo.peiwo.fragment.WildGuideStepOneFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        app:layout_marginTopPercent="10%"
+        >
+
+        <ImageView
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_wild_guide_step_two"
+            android:layout_gravity="right"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/guide01"
+            android:layout_gravity="center_horizontal"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        app:layout_marginBottomPercent="36%"
+        >
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_friend"
+            android:layout_weight="1.0"
+            />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dashang"
+            android:layout_weight="1.0"
+            />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/hands_free_n"
+            android:layout_weight="1.0"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        app:layout_marginBottomPercent="14%"
+        >
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_anonymous_recall_n"
+            android:layout_weight="1.0"
+            />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_anonymous_like_n"
+            android:layout_weight="1.0"
+            />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_report"
+            android:layout_weight="1.0"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#a9000000"
+        />
+
+
+    <ImageView
+        android:id="@+id/v_ind"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_wild_guide_step_five"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/v_call_actionmore_guide"
+        app:layout_marginRightPercent="16.5%"
+        />
+
+    <LinearLayout
+        android:id="@+id/v_call_actionmore_guide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        app:layout_marginBottomPercent="14%"
+        >
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_anonymous_recall_n"
+            android:layout_weight="1.0"
+            android:visibility="invisible"
+            />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_anonymous_like_n"
+            android:layout_weight="1.0"
+            android:visibility="invisible"
+            />
+
+        <ImageView
+            android:id="@+id/v_src"
+            android:visibility="invisible"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_report"
+            android:layout_weight="1.0"
+            />
+
+    </LinearLayout>
+
+
+</android.support.percent.PercentRelativeLayout>

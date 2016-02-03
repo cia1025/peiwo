@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_expression"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        >
+
+        <ImageButton
+            android:layout_alignParentLeft="true"
+            android:id="@+id/v_indicator_emotion"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/bottom_expression_pipi"
+            android:background="@color/c_gray"
+            />
+
+        <ImageButton
+            android:layout_toRightOf="@+id/v_indicator_emotion"
+            android:id="@+id/v_indicator_gif"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon_pipigif"
+            android:background="@null"
+            />
+
+        <ImageView
+            android:id="@+id/v_delete_emotion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_expression_delete"
+            />
+    </RelativeLayout>
+</merge>

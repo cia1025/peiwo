@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/layout_top"
+        layout="@layout/title_bar"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_top">
+
+        <RelativeLayout
+            android:id="@+id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="click">
+
+            <ImageView
+                android:id="@+id/iv_icon_friends_blank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="100dp"
+                android:src="@drawable/ic_empty_single"/>
+
+            <TextView
+                android:id="@+id/tv_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_icon_friends_blank"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:text="还没有新的声音哦,"
+                android:textColor="#4d4d4d"
+                android:textSize="13sp"/>
+
+            <TextView
+                android:id="@+id/tv_text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_text"
+                android:layout_centerHorizontal="true"
+                android:text="去更新资料装扮主页吧!"
+                android:textColor="#4d4d4d"
+                android:textSize="13sp"/>
+
+            <Button
+                android:id="@+id/btn_update"
+                android:layout_width="120dp"
+                android:layout_height="34dp"
+                android:layout_below="@id/tv_text2"
+                android:layout_marginTop="20dp"
+                android:background="#00b8d0"
+                android:layout_centerHorizontal="true"
+                android:text="现在就去"
+                android:textColor="@color/c_white"
+                android:textSize="13dp"/>
+        </RelativeLayout>
+
+        <me.peiwo.peiwo.widget.PWPullToRefreshListView
+            xmlns:ptr="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/pullToRefreshListView"
+            style="@style/ListViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            ptr:ptrMode="both"/>
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/bg_gray"
+        android:id="@+id/bottom_ignore_view"
+        android:text="@string/ignore_all_message"
+        android:clickable="true"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:onClick="click"/>
+
+</RelativeLayout>

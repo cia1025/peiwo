@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_name">"陪我"</string>
+
+    <string name="tab_find">"发现"</string>
+    <string name="tab_call">"随机呼叫"</string>
+    <string name="tab_msg">"消息"</string>
+    <string name="tab_me">"我"</string>
+
+    <string name="agreement">"同意用户协议"</string>
+    <string name="err_unknown">"发生未知异常"</string>
+
+    <string name="choose_please">"请选择"</string>
+
+    <string name="ver_name">"版本号："<xliff:g id="ver">%s</xliff:g></string>
+    <string name="build_ver_name">"Build："<xliff:g id="ver">%s</xliff:g></string>
+    <string name="gender_filter">"在线("<xliff:g id="gender">%s</xliff:g>")"</string>
+
+    <string name="msg_setting_close_msg">"如果你要关闭或开启陪我的新消息通知，请在设备“设置”，“通知中心”功能中，找到“陪我”进行修改。"</string>
+    <string name="msg_setting_no_disturb_msg">"开启后，勿扰时段内收到的来电和通知都不再提醒。"</string>
+
+    <string name="charge">"充值"</string>
+    <string name="make_money">"挣钱"</string>
+    <string name="free">"免费"</string>
+    <string name="price"><xliff:g id="price">%s</xliff:g>"元/分钟"</string>
+    <string name="keep_secret">"保密"</string>
+
+
+    <!-- Do not translate. Duration format for duration < 1 hour -->
+    <string name="durationformatshort" translatable="false"><xliff:g id="format">%2$d分钟%5$02d秒</xliff:g></string>
+    <!-- Do not translate. Duration format for duration >= 1 hour -->
+    <!--<string name="durationformatlong" translatable="false"><xliff:g id="format">%1$d小时%3$02d分钟%5$02d秒</xliff:g></string>-->
+    <string name="durationformatlong" translatable="false"><xliff:g id="format">%1$d小时%3$02d分钟</xliff:g></string>
+    <string name="err_get_data">"获取数据错误"</string>
+    <string name="err_http_req">"网络连接失败"</string>
+    <string name="be_reported_warning">连续被讨厌，请注意言行</string>
+    <string name="default_me_job">"请填写你的职业"</string>
+    <string name="want2talk_hint">"请填写我愿意的话题标签"</string>
+    <string name="photo_edit_label">"点击可更换位置，拖拽可移动位置，共8张"</string>
+    <string name="err_upload_img">照片上传出错！</string>
+    <string name="loading">"加载中…"</string>
+    <string name="label_addr">"常住地"</string>
+    <string name="get_award_done">"已领取"</string>
+    <string name="get_award_not">"未领取"</string>
+    <string name="msg_call_apply">"申请通话的人"</string>
+    <string name="msg_calllog">"通话记录"</string>
+    <string name="msg_sys_msg">"系统消息"</string>
+    <string name="calllog_type_miss">"未接"</string>
+    <string name="no_permission_send_img">与好友通过电话开启发送图片权限</string>
+    <string name="empty">"空空如也…"</string>
+    <string name="setting_success">"设置成功"</string>
+    <string name="confirm_del">"确认删除"</string>
+    <string name="delete_success">删除成功</string>
+    <string name="no_search_result">无搜索结果</string>
+
+    <string name="get_money_success">"申请成功"</string>
+    <string name="msg_allow_time_title">"勿扰时段"</string>
+    <string name="text_loaderror">加载失败了</string>
+    <string name="text_alert_share_wildcal_history">限时聊记录</string>
+    <string name="text_alert_share_hearing">倾听力：</string>
+    <string name="text_alert_share_connect">接通：</string>
+    <string name="text_alert_share_talk">通话：</string>
+    <string name="text_alert_share_favour">被赞：</string>
+    <string name="text_alert_share_db">分贝</string>
+    <string name="text_alert_share_pepole">人</string>
+    <string name="text_alert_share_min">分钟</string>
+    <string name="text_alert_share_time">次</string>
+    <string name="text_alert_share_friends_cycle">朋友圈</string>
+    <string name="text_alert_share_weibo">微博</string>
+    <string name="text_alert_share_qq_zone">QQ空间</string>
+    <string name="cancel">取消</string>
+    <string name="save">保存</string>
+    <string name="edit">编辑</string>
+    <string name="cancel_edition">退出编辑</string>
+    <string name="saving_image">Saving image</string>
+    <string name="preparing_card">Preparing card</string>
+    <string name="no_storage_card">No storage card</string>
+    <string name="not_enough_space">Not enough space</string>
+    <string name="offline_warning">喵! 未能连接到网络,请检查设置</string>
+    <string name="offline_title">未能连接到网络请按以下方法设置</string>
+    <string name="network_not_stable">当前网络不稳定，请稍候再尝试</string>
+    <string name="reject_by_other">对方拒绝</string>
+    <string name="offline_tips_4">客服QQ号:2737792899\n申诉邮箱:shensu@raybo.com</string>
+    <string name="text_start_permission">请去“设置-应用权限”开启陪我的录音权限。</string>
+    <string name="text_start_permission_example1">小米手机“设置=>全部设置=>应用=>陪我=>权限管理=>录音”开启录音权限即可！</string>
+    <string name="text_start_permission_example2">三星S3 “设定=>更多=>应用程序许可=>陪我=>录制音频”开启录音权限即可！</string>
+    <string name="text_request_call_tips">共建社交文明，谩骂、色情及骚扰请随手举报一经查实立即封设备。小卫士已处理10000次举报，共封禁7865个手机设备。</string>
+    <string name="welcome_back_str">欢迎来到陪我，如果在使用过程中有任何问题，请在主界面右滑到侧边栏－>点击新手引导查看。如果还有疑问或者建议，请点击侧边栏“设置”－>意见反馈，告知客服人员。</string>
+
+    <!-- common string -->
+    <string name="ignore_all_message">忽略全部</string>
+    <string name="log_on">登陆</string>
+    <string name="find_password">找回密码</string>
+    <string name="search">搜索</string>
+    <string name="account">账号</string>
+    <string name="name">姓名</string>
+    <string name="ok">"确定"</string>
+    <string name="done">"完成"</string>
+    <string name="more">"更多"</string>
+    <string name="send">"发送"</string>
+    <string name="add">添加:</string>
+    <string name="cc">抄送</string>
+    <string name="close">"关闭"</string>
+    <string name="prompt">"提示"</string>
+    <string name="retry">重试</string>
+    <string name="record">录制</string>
+    <string name="go_on">继续</string>
+    <string name="pay">支付</string>
+    <string name="delete_and_quit">删除并退出</string>
+    <string name="join_this_group">加入讨论</string>
+    <string name="is_calling">正在呼叫...</string>
+    <string name="is_speaking">通话中...</string>
+    <string name="waiting_response">等待接通...</string>
+    <string name="waiting_please">"请稍候…"</string>
+    <string name="empty_msg">"空空如也…"</string>
+    <string name="request_success">"请求成功"</string>
+    <string name="request_failed">请求失败</string>
+    <string name="wild_cat_tcp_connecting">"匹配连接中..."</string>
+    <string name="wild_cat_matching">"正在匹配..."</string>
+    <string name="wild_cat_match_success">"匹配成功,连接中..."</string>
+    <string name="tap_to_speak">按住说话</string>
+    <string name="release_to_send">松手发送</string>
+    <string name="release_to_cancel">松手取消</string>
+    <string name="release_to_hold">松手保持</string>
+    <string name="tap_is_too_short">按住时间太短</string>
+    <string name="recording">正在录音</string>
+    <string name="text_report">举报</string>
+    <string name="text_accept">接受</string>
+    <string name="text_refuse">丑拒</string>
+    <string name="quit">退出</string>
+    <string name="refuse_this_man">拒绝此人</string>
+    <string name="apply">申请</string>
+    <string name="applied_already">已申请</string>
+    <string name="accepted_already">已接受</string>
+    <string name="refuse_already">已拒绝</string>
+    <string name="apply_is_sent">申请已发送</string>
+    <string name="cc_lazy_voice">点击此处发送，使用懒人录音</string>
+    <string name="cc_lazy_voice_and_focus">抄送懒人录音申请好友</string>
+    <string name="confirm_to_save_lazy_guy_recorder">确认保存懒人录音？</string>
+    <string name="recorder_authority_access_error">请在设置中将“权限管理-录音权限”设为允许</string>
+    <string name="apply_failed">申请失败</string>
+    <string name="apply_success">申请成功</string>
+    <string name="accept_success">接受成功</string>
+    <string name="upload_lazy_voice_success">保存成功</string>
+    <string name="upload_lazy_voice_failed">保存失败</string>
+    <string name="report_success">举报成功</string>
+    <string name="report_failed">举报失败</string>
+    <string name="save_successful">保存成功</string>
+    <string name="pay_successful">支付成功</string>
+    <string name="pay_failed">支付失败</string>
+    <string name="save_failed">保存失败</string>
+    <string name="load_failed">加载失败</string>
+    <string name="voices_need_you_confirm">新的声音:%s个待鉴定的语音申请</string>
+    <string name="new_voice_message">新的声音(%s)</string>
+    <string name="apply_to_be_friend">录制语音申请</string>
+    <string name="recorder_file_error">录制文件出错，请重新录制</string>
+    <string name="click_here_to_give_charge_call">针对收费并录制懒人录音的用户，非好友也可通话</string>
+    <string name="record_lazy_voice">录制懒人录音</string>
+    <string name="group_message">我创建了一个群，加你们了。come on baby!</string>
+    <string name="group_settings">群设置</string>
+    <string name="create_group">创建群组</string>
+    <string name="create_group_member_with_counts">创建群组(%s)</string>
+    <string name="report_group">是否举报此群？</string>
+    <string name="group_feed_flow">群的小事</string>
+    <string name="group_announcement_none">暂无公告</string>
+    <string name="show_all_group_members">查看全部(%s)</string>
+    <string name="no_permission_to_create_group">黄金段用户可开启建群权限</string>
+    <string name="group_id_invalid">该群不存在</string>
+    <string name="group_join_order_error">订单错误</string>
+    <string name="join_group_failed">"加入群组失败"</string>
+    <string name="my_groups">我的群组</string>
+    <string name="group_name">群组名称</string>
+    <string name="invlolve_group_member">添加群成员</string>
+    <string name="kickout_person_with_username">被%s无情地移除了</string>
+    <string name="you_had_been_kickout">你已被移出本群</string>
+    <string name="involve_group_member_with_counts">添加群成员(%s)</string>
+    <string name="create_group_success">创建成功</string>
+    <string name="create_group_failed">创建失败</string>
+    <string name="create_group_failed_by_limit_counts">今日建群数量已达上限</string>
+    <string name="group_announcement">公告</string>
+    <string name="update_group_announcement">更新群组公告</string>
+    <string name="members_with_counts">群成员(%s)</string>
+    <string name="newbies_with_counts">游客(%s)</string>
+    <string name="quit_this_group">退出该群？</string>
+    <string name="kick_this_person">是否将此成员从群中移除？</string>
+    <string name="no_permission_distribute_group_reputation">您没有权限发群声望红包</string>
+    <string name="no_permission_distribute_group_profit">您没有权限发群红包</string>
+    <string name="group_reputation_not_enough">每人0.01分钱都不够，多攒点再发吧</string>
+    <string name="group_profit_not_enough">每人1分钱都不够，多攒点再发吧</string>
+    <string name="distribute_group_profit_by_members_counts_limit">群成员少于3人，无法发放群收益</string>
+    <string name="distribute_group_reputation_by_members_counts_limit">群成员少于3人，无法发放群声望</string>
+    <string name="current_profit">当前收益</string>
+    <string name="my_group_nickname">我在本群名号</string>
+    <string name="show_member_name">显示成员名号</string>
+    <string name="message_no_alert">消息免打扰</string>
+    <string name="group_recruition">群的招新</string>
+    <string name="group_members_list">全部(%s)</string>
+    <string name="newbie_ticket_price">游客门票</string>
+    <string name="clear_chat_history">清空聊天记录</string>
+    <string name="create_group_rules">黄金段用户可创建群组</string>
+    <string name="choose_at_least_2_people">三人成群，请至少选两人</string>
+    <string name="add_at_least_1_person">请至少添加一人</string>
+    <string name="group_reputation_value">群的声望</string>
+    <string name="group_member_counts_limited">群成员人数已达到上限</string>
+    <string name="group_reputation_announcement">*可将当前声望发放给群成员</string>
+    <string name="group_profit_announcement">*可将当前收益以红包形式发放给群成员</string>
+    <string name="group_recruition_announcement">*开启后群组可被陌生人发现并直接参与群聊</string>
+    <string name="newbie_ticket_announcement">*设置后陌生人需缴纳费用才能进入群组，此收益由群成员共享，以红包形式结算</string>
+    <string name="your_balance_is_not_enough">你的账户余额不足，充值后再进群吧</string>
+    <string name="please_choose_your_pay_way">请选择支付方式</string>
+    <string name="confirm_to_pay_with_money">确认支付%s元？</string>
+    <string name="you_need_pay_group_ticket_with_money">进入该群组需支付%s元新人门票</string>
+    <string name="input_peiwo_password">请输入陪我的登录密码</string>
+    <string name="income_this_month">本月已提现成功</string>
+    <string name="alipay_account">当前账号</string>
+    <string name="click_to_modify_remark">点击修改群组名</string>
+    <string name="wechat">微信</string>
+    <string name="wechat_pay">微信支付</string>
+    <string name="wechat_pay_announcement">*微信充值将收取2%手续费</string>
+    <string name="wechat_not_installed">您没有安装微信</string>
+    <string name="alipay">支付宝</string>
+    <string name="add_alipay_account">添加支付宝账号</string>
+    <string name="modify_alipay_account">修改支付宝账号</string>
+    <string name="modify_account">修改账号</string>
+    <string name="bind_alipay_account">绑定支付宝账号</string>
+    <string name="input_alipay_account">输入支付宝账号</string>
+    <string name="input_alipay_account_name">请输入支付宝账号姓名</string>
+    <string name="input_withdraw_money">提取金额</string>
+    <string name="withdraw_for_how_much">本次提现%s元</string>
+    <string name="input_charged_money">请输入充值金额</string>
+    <string name="charged_money_limited_by_0">充值金额不能为0</string>
+    <string name="charged_money_limited_by_1000">充值金额上限为1000元</string>
+    <string name="withdraw_1000_yuan_for_free">*本月收益超过1000元，提现加收%1手续费。</string>
+    <string name="alipay_account_name_is_for_certification">*姓名要与支付宝姓名相符哦，不然小陪无法给你转账呢。</string>
+    <string name="withdraw_money_for_how_much">陪我提现%s元，1000元以内没有手续费。</string>
+    <string name="input_text_length_over_limit">输入文字长度已超出上限</string>
+
+    <!-- 通话时网络提示语 -->
+    <string name="calling_incoming_wifi">"您当前为WiFi网络,接听完全免费"</string>
+    <string name="calling_incoming_2g">"2G网络不稳定,将影响通话质量"</string>
+    <string name="calling_incoming_3g">"您当前为非WiFi网络,将使用少量手机流量"</string>
+    <string name="calling_other_net_bad">"对方当前网络连接不稳定"</string>
+    <string name="calling_me_net_bad">"当前网络连接不稳定"</string>
+    <!-- 创建话题提示语 -->
+    <string name="feed_flow_create_topic_notice">"1.编辑创建属于您的标签；\n\n2.编辑符合标签的内容并发布；\n\n3.即可在您的个人动态查看；\n\n小陪会每日视监各位的标签，有趣的一定会被征用哒！您的陪我号将同期出现在「发现」首页。：）"</string>
+
+    <string name="recommend_for_me">"向我推荐"</string>
+    <string name="show_age">"显示年龄"</string>
+    <string name="yuan_unit">%s元</string>
+    <string name="male">"男"</string>
+    <string name="female">"女"</string>
+    <string name="user_filter_condition_text">女生完成一次完整三分钟限时聊通话。男生需收获三次限时聊被赞，即可使用</string>
+    <string name="search_in_city">显示同城</string>
+    <string name="search_position_announcement">当你选择视为你同意被同城发现，选择范围内用户不够多时，系统会推荐更多的用户给你</string>
+    <string name="not_show_location">不显示位置</string>
+    <string name="show_location">显示坐标</string>
+    <string name="online_enviroment">线上环境</string>
+    <string name="offline_enviroment">测试环境</string>
+    <string name="go_online_enviroment">正在登录线上环境，请杀掉进程后重新登录</string>
+    <string name="go_offline_enviroment">正在登录测试环境，请杀掉进程后重新登录</string>
+    <string name="offline_tis1">1.请在设置中找到\"WLAN\",打开并保持开启状态</string>
+    <string name="offline_tips2">2.请在设置中找到\"移动网络\",打开并保持开启状态</string>
+    <string name="offline_tips3">3.若还是连接不上陪我,请你致电客服热线400-6869520</string>
+    <string name="title_activity_wildcat_guide">WildcatGuideActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_group_chat">GroupChatActivity</string>
+    <string name="title_activity_group_list_more">GroupListMoreActivity</string>
+    <string name="title_activity_my_groups">MyGroupsActivity</string>
+    <string name="title_activity_album_compat">AlbumCompatActivity</string>
+
+    <string name="rc_notification_ticker_text">@string/app_name</string>
+    <string name="title_activity_chat_redbag">ChatRedbagActivity</string>
+    <string name="title_activity_groupchat_more_packet">GroupchatMorePacketActivity</string>
+    <string name="title_activity_chat_repu_redbag">ChatRepuRedbagActivity</string>
+    <string name="title_activity_verifi_code_not_receive">VerifiCodeNotReceiveActivity</string>
+    <string name="stop_zhaoxin">该群未开放，被群成员邀请方可入群</string>
+    <string name="title_activity_update_group_notice">UpdateGroupNoticeActivity</string>
+
+</resources>

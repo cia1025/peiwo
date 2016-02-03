@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include layout="@layout/title_bar"/>
+
+    <TextView
+        android:id="@+id/tv_offline_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center_horizontal"
+        android:text="@string/offline_title"
+        android:textColor="#00b8d0"
+        android:textSize="20sp"/>
+
+
+    <TextView
+        android:id="@+id/tv_offline_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:text="@string/offline_tis1"
+        android:textColor="#8e8e8e"
+        android:textSize="13sp"/>
+
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:id="@+id/tv_offline_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/offline_tips2"
+        android:textColor="#8e8e8e"
+        android:textSize="13sp"/>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:id="@+id/tv_offline_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="phone"
+        android:text="@string/offline_tips3"
+        android:textColor="#8e8e8e"
+        android:textSize="13sp"/>
+
+    <TextView
+        android:id="@+id/tv_offline_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/offline_tips_4"
+        android:layout_marginLeft="30dp"
+        android:textColor="#8e8e8e"
+        android:textSize="13sp"/>
+
+</LinearLayout>

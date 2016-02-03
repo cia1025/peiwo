@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="me.peiwo.peiwo.activity.GroupListMoreActivity">
+
+    <include layout="@layout/title_bar"/>
+
+    <me.peiwo.peiwo.widget.PWPullToRefreshListView
+        android:layout_marginTop="@dimen/title_bar_height"
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pullToRefreshListView"
+        style="@style/ListViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ptr:ptrMode="both"/>
+
+</merge>

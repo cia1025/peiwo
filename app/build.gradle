@@ -1,0 +1,140 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "23.0.1"
+
+    defaultConfig {
+        applicationId "me.peiwo.peiwo"
+        minSdkVersion 14
+        targetSdkVersion 22
+        versionCode 2440
+        versionName "2.4.4"
+        multiDexEnabled true
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "dev", RONG_CLOUD_APP_KEY_VALUE: "c9kqb3rdk0zjj"]
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a"
+        }
+    }
+    signingConfigs {
+        debug {
+            // No debug config
+        }
+
+        release {
+            storeFile file("peiwo.keystore")
+            storePassword "qqq123"
+            keyAlias "peiwo"
+            keyPassword "qqq123"
+        }
+    }
+
+    buildTypes {
+        debug {
+            manifestPlaceholders = [DEBUGGABLE_VALUE: "true", RONG_CLOUD_APP_KEY_VALUE: "c9kqb3rdk0zjj"]
+            debuggable true
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            zipAlignEnabled true
+        }
+
+        staging {
+            manifestPlaceholders = [DEBUGGABLE_VALUE: "true", RONG_CLOUD_APP_KEY_VALUE: "c9kqb3rdk0zjj"]
+            debuggable false
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            //minifyEnabled true
+            zipAlignEnabled true
+            //shrinkResources true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            manifestPlaceholders = [DEBUGGABLE_VALUE: "false", RONG_CLOUD_APP_KEY_VALUE: "6tnym1brnxdk7"]
+            debuggable false
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dexOptions {
+        preDexLibraries = false
+        javaMaxHeapSize "2g"
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+    productFlavors {
+        M360 {}
+        baidu {}
+        google {}
+        huawei {}
+        meizu {}
+        myapp {}
+        other {}
+        wdj {}
+        web {}
+        xiaomi {}
+        taobao {}
+    }
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    afterEvaluate {
+        tasks.matching {
+            it.name.startsWith('dex')
+        }.each { dx ->
+            if (dx.additionalParameters == null) {
+                dx.additionalParameters = []
+            }
+            dx.additionalParameters += '--multi-dex'
+            //dx.additionalParameters += "--main-dex-list=$projectDir/multidex.keep".toString()
+        }
+    }
+
+    lintOptions {
+        disable 'MissingTranslation'
+        disable 'InvalidPackage'
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:recyclerview-v7:22.2.1'
+    compile 'com.squareup.okio:okio:1.6.0'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
+    compile 'com.android.support:percent:22.2.0'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:design:22.2.1'
+    compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'com.qiniu:qiniu-android-sdk:7.0.+'
+    compile 'com.alibaba:fastjson:1.1.46.android'
+    compile 'com.squareup.sqlbrite:sqlbrite:0.5.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
+    //debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3'
+}

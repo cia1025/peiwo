@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:fl="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+    >
+
+
+    <ImageView
+        android:id="@+id/userinfo_tags_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="18dp"
+        android:src="@drawable/icon_mytag"/>
+
+    <me.peiwo.peiwo.widget.FlowLayout
+        android:id="@+id/userinfo_tags_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/userinfo_tags_image"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="12dp"
+        fl:horizontalSpacing="8dip"
+        fl:orientation="horizontal"
+        fl:verticalSpacing="8dp"
+        android:layout_marginBottom="12dp"
+        >
+    </me.peiwo.peiwo.widget.FlowLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_line"
+        android:layout_alignLeft="@id/userinfo_tags_container"
+        android:layout_alignParentBottom="true"
+        android:background="@color/c_de"
+        android:visibility="visible"/>
+</RelativeLayout>

@@ -1,0 +1,1698 @@
+{
+"p": [
+{
+"code": "帕勞帛琉",
+"dialingcode": "680",
+"country_name_cn": "帕劳群岛",
+"numbercode": "585",
+"country_name": "PALAU"
+},
+{
+"code": "皮特凱恩群島",
+"dialingcode": "870",
+"alias_en": "Pitcairn Islands",
+"country_name_cn": "皮特凯恩群岛",
+"numbercode": "612",
+"country_name": "PITCAIRN"
+},
+{
+"code": "PT",
+"dialingcode": "351",
+"country_name_cn": "葡萄牙",
+"numbercode": "620",
+"country_name": "PORTUGAL"
+}
+],
+"c": [
+{
+"code": "北韓",
+"dialingcode": "850",
+"alias_en": "North Korea",
+"country_name_cn": "朝鲜",
+"numbercode": "408",
+"country_name": "KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF"
+},
+{
+"code": "赤道幾內亞",
+"dialingcode": "240",
+"country_name_cn": "赤道几内亚",
+"numbercode": "226",
+"country_name": "EQUATORIAL GUINEA"
+}
+],
+"q": [
+{
+"code": "格魯吉亞",
+"dialingcode": "995",
+"country_name_cn": "乔治亚",
+"numbercode": "268",
+"country_name": "GEORGIA"
+}
+],
+"d": [
+{
+"code": "丹麥",
+"dialingcode": "45",
+"country_name_cn": "丹麦",
+"numbercode": "208",
+"country_name": "DENMARK"
+},
+{
+"code": "德國",
+"dialingcode": "49",
+"country_name_cn": "德国",
+"numbercode": "276",
+"country_name": "GERMANY"
+},
+{
+"code": "東帝汶",
+"dialingcode": "270",
+"alias_en": "Timor-Leste (East Timor)",
+"country_name_cn": "东帝汶",
+"numbercode": "626",
+"country_name": "TIMOR-LESTE"
+},
+{
+"code": "TG",
+"dialingcode": "228",
+"country_name_cn": "多哥",
+"numbercode": "768",
+"country_name": "TOGO"
+},
+{
+"code": "多米尼克",
+"dialingcode": "1767",
+"country_name_cn": "多米尼加",
+"numbercode": "212",
+"country_name": "DOMINICA"
+},
+{
+"code": "多米尼加",
+"dialingcode": "1890",
+"country_name_cn": "多米尼加共和国",
+"numbercode": "214",
+"country_name": "DOMINICAN REPUBLIC"
+}
+],
+"r": [
+{
+"code": "JP",
+"dialingcode": "81",
+"country_name_cn": "日本",
+"numbercode": "392",
+"country_name": "JAPAN"
+},
+{
+"code": "SE",
+"dialingcode": "46",
+"country_name_cn": "瑞典",
+"numbercode": "752",
+"country_name": "SWEDEN"
+},
+{
+"code": "CH",
+"dialingcode": "41",
+"country_name_cn": "瑞士",
+"numbercode": "756",
+"country_name": "SWITZERLAND"
+}
+],
+"e": [
+{
+"code": "俄羅斯",
+"dialingcode": "7",
+"country_name_cn": "俄罗斯",
+"numbercode": "643",
+"country_name": "RUSSIAN FEDERATION"
+},
+{
+"code": "厄瓜多爾",
+"dialingcode": "593",
+"country_name_cn": "厄瓜多尔",
+"numbercode": "218",
+"country_name": "ECUADOR"
+},
+{
+"code": "厄立特里亞",
+"dialingcode": "291",
+"country_name_cn": "厄立特里亚",
+"numbercode": "232",
+"country_name": "ERITREA"
+}
+],
+"s": [
+{
+"code": "薩爾瓦多",
+"dialingcode": "503",
+"country_name_cn": "萨尔瓦多",
+"numbercode": "222",
+"country_name": "EL SALVADOR"
+},
+{
+"code": "薩摩亞",
+"dialingcode": "685",
+"country_name_cn": "萨摩亚",
+"numbercode": "882",
+"country_name": "SAMOA"
+},
+{
+"code": "塞爾維亞",
+"dialingcode": "381",
+"country_name_cn": "塞尔维亚",
+"numbercode": "688",
+"country_name": "SERBIA"
+},
+{
+"code": "獅子山",
+"dialingcode": "232",
+"country_name_cn": "塞拉利昂",
+"numbercode": "694",
+"country_name": "SIERRA LEONE"
+},
+{
+"code": "塞內加爾",
+"dialingcode": "221",
+"country_name_cn": "塞内加尔",
+"numbercode": "686",
+"country_name": "SENEGAL"
+},
+{
+"code": "塞普勒斯",
+"dialingcode": "357",
+"country_name_cn": "塞浦路斯",
+"numbercode": "196",
+"country_name": "CYPRUS"
+},
+{
+"code": "塞舌爾",
+"dialingcode": "248",
+"country_name_cn": "塞舌尔",
+"numbercode": "690",
+"country_name": "SEYCHELLES"
+},
+{
+"code": "沙烏地阿拉伯",
+"dialingcode": "966",
+"country_name_cn": "沙特阿拉伯",
+"numbercode": "682",
+"country_name": "SAUDI ARABIA"
+},
+{
+"code": "聖巴托洛繆島",
+"dialingcode": "590",
+"country_name_cn": "圣巴泰勒米",
+"numbercode": "652",
+"country_name": "SAINT BARTHÉLEMY"
+},
+{
+"code": "聖誕島",
+"dialingcode": "61",
+"country_name_cn": "圣诞岛",
+"numbercode": "162",
+"country_name": "CHRISTMAS ISLAND"
+},
+{
+"code": "聖多美及普林西比",
+"dialingcode": "239",
+"alias_en": "Sao Tome (and) Principe",
+"country_name_cn": "圣多美和普林西比",
+"numbercode": "678",
+"country_name": "SAO TOME AND PRINCIPE"
+},
+{
+"code": "聖赫勒拿",
+"dialingcode": "290",
+"alias_en": "St. Helena (and) Dependencies",
+"country_name_cn": "圣赫勒拿",
+"numbercode": "654",
+"country_name": "SAINT HELENA"
+},
+{
+"code": "聖基茨和尼維斯",
+"dialingcode": "1869",
+"alias_en": "St. Kitts (and) Nevis",
+"country_name_cn": "圣基茨和尼维斯",
+"numbercode": "659",
+"country_name": "SAINT KITTS AND NEVIS"
+},
+{
+"code": "聖盧西亞",
+"dialingcode": "1758",
+"alias_en": "St. Lucia",
+"country_name_cn": "圣卢西亚",
+"numbercode": "662",
+"country_name": "SAINT LUCIA"
+},
+{
+"code": "法屬聖馬丁",
+"dialingcode": "1599",
+"alias_en": "Saint Martin (France)",
+"country_name_cn": "圣马丁",
+"numbercode": "663",
+"country_name": "SAINT MARTIN"
+},
+{
+"code": "聖馬力諾",
+"dialingcode": "378",
+"country_name_cn": "圣马力诺",
+"numbercode": "674",
+"country_name": "SAN MARINO"
+},
+{
+"code": "聖皮埃爾島和密克隆島",
+"dialingcode": "508",
+"alias_en": "Saint-Pierre and Miquelon",
+"country_name_cn": "圣皮埃尔岛和密克隆岛",
+"numbercode": "666",
+"country_name": "SAINT PIERRE AND MIQUELON"
+},
+{
+"code": "聖文森特和格林納丁斯",
+"dialingcode": "1784",
+"alias_en": "St. Vincent (and) the Grenadines",
+"country_name_cn": "圣文森特和格林纳丁斯",
+"numbercode": "670",
+"country_name": "SAINT VINCENT AND THE GRENADINES"
+},
+{
+"code": "斯里蘭卡",
+"dialingcode": "94",
+"country_name_cn": "斯里兰卡",
+"numbercode": "144",
+"country_name": "SRI LANKA"
+},
+{
+"code": "SK",
+"dialingcode": "421",
+"country_name_cn": "斯洛伐克",
+"numbercode": "703",
+"country_name": "SLOVAKIA"
+},
+{
+"code": "斯洛文尼亞",
+"dialingcode": "386",
+"country_name_cn": "斯洛文尼亚",
+"numbercode": "705",
+"country_name": "SLOVENIA"
+},
+{
+"code": "斯威士蘭",
+"dialingcode": "268",
+"country_name_cn": "斯威士兰",
+"numbercode": "748",
+"country_name": "SWAZILAND"
+},
+{
+"code": "蘇丹",
+"dialingcode": "249",
+"country_name_cn": "苏丹",
+"numbercode": "736",
+"country_name": "SUDAN"
+},
+{
+"code": "蘇里南",
+"dialingcode": "597",
+"country_name_cn": "苏里南",
+"numbercode": "740",
+"country_name": "SURINAME"
+},
+{
+"code": "所羅門群島",
+"dialingcode": "677",
+"country_name_cn": "所罗门群岛",
+"numbercode": "90",
+"country_name": "SOLOMON ISLANDS"
+},
+{
+"code": "索馬里",
+"dialingcode": "252",
+"country_name_cn": "索马里",
+"numbercode": "706",
+"country_name": "SOMALIA"
+}
+],
+"f": [
+{
+"code": "法國",
+"dialingcode": "33",
+"country_name_cn": "法国",
+"numbercode": "250",
+"country_name": "FRANCE"
+},
+{
+"code": "法羅群島",
+"dialingcode": "298",
+"country_name_cn": "法罗群岛",
+"numbercode": "234",
+"country_name": "FAROE ISLANDS"
+},
+{
+"code": "法屬波利尼西亞",
+"dialingcode": "689",
+"country_name_cn": "法属波利尼西亚",
+"numbercode": "258",
+"country_name": "FRENCH POLYNESIA"
+},
+{
+"code": "法屬圭亞那",
+"dialingcode": "594",
+"country_name_cn": "法属圭亚那",
+"numbercode": "254",
+"country_name": "FRENCH GUIANA"
+},
+{
+"code": "梵蒂岡",
+"dialingcode": "39",
+"alias_en": "Vatican City (The Holy See)",
+"country_name_cn": "梵蒂冈城",
+"numbercode": "336",
+"country_name": "HOLY SEE (VATICAN CITY STATE)"
+},
+{
+"code": "菲律賓",
+"dialingcode": "63",
+"alias_en": "The Philippines",
+"country_name_cn": "菲律宾",
+"numbercode": "608",
+"country_name": "PHILIPPINES"
+},
+{
+"code": "斐濟",
+"dialingcode": "679",
+"country_name_cn": "斐济群岛",
+"numbercode": "242",
+"country_name": "FIJI"
+},
+{
+"code": "芬蘭",
+"dialingcode": "358",
+"country_name_cn": "芬兰",
+"numbercode": "246",
+"country_name": "FINLAND"
+},
+{
+"code": "維德角",
+"dialingcode": "238",
+"country_name_cn": "佛得角",
+"numbercode": "132",
+"country_name": "CAPE VERDE"
+},
+{
+"code": "福克蘭群島（馬爾維納斯）",
+"dialingcode": "500",
+"alias_en": "Falkland Islands",
+"country_name_cn": "福克兰群岛(马尔维纳斯群岛)",
+"numbercode": "238",
+"country_name": "FALKLAND ISLANDS (MALVINAS)"
+}
+],
+"t": [
+{
+"code": "塔吉克",
+"dialingcode": "992",
+"country_name_cn": "塔吉克斯坦",
+"numbercode": "762",
+"country_name": "TAJIKISTAN"
+},
+{
+"code": "泰國",
+"dialingcode": "66",
+"country_name_cn": "泰国",
+"numbercode": "764",
+"country_name": "THAILAND"
+},
+{
+"code": "坦桑尼亞",
+"dialingcode": "255",
+"alias_en": "Tanzania",
+"country_name_cn": "坦桑尼亚",
+"numbercode": "834",
+"country_name": "TANZANIA, UNITED REPUBLIC OF"
+},
+{
+"code": "湯加",
+"dialingcode": "676",
+"country_name_cn": "汤加",
+"numbercode": "776",
+"country_name": "TONGA"
+},
+{
+"code": "特克斯和凱科斯群島",
+"dialingcode": "1649",
+"alias_en": "Turks (and) Caicos Islands",
+"country_name_cn": "特克斯群岛和凯科斯群岛",
+"numbercode": "796",
+"country_name": "TURKS AND CAICOS ISLANDS"
+},
+{
+"code": "千里達和多巴哥",
+"dialingcode": "1809",
+"alias_en": "Trinidad (and) Tobago",
+"country_name_cn": "特立尼达和多巴哥",
+"numbercode": "780",
+"country_name": "TRINIDAD AND TOBAGO"
+},
+{
+"code": "突尼西亞",
+"dialingcode": "216",
+"country_name_cn": "突尼斯",
+"numbercode": "788",
+"country_name": "TUNISIA"
+},
+{
+"code": "圖瓦盧",
+"dialingcode": "688",
+"country_name_cn": "图瓦卢",
+"numbercode": "798",
+"country_name": "TUVALU"
+},
+{
+"code": "TR",
+"dialingcode": "90",
+"country_name_cn": "土耳其",
+"numbercode": "792",
+"country_name": "TURKEY"
+},
+{
+"code": "土庫曼",
+"dialingcode": "993",
+"country_name_cn": "土库曼斯坦",
+"numbercode": "795",
+"country_name": "TURKMENISTAN"
+},
+{
+"code": "托克勞群島",
+"dialingcode": "690",
+"country_name_cn": "托克劳",
+"numbercode": "772",
+"country_name": "TOKELAU"
+}
+],
+"g": [
+{
+"code": "岡比亞",
+"dialingcode": "220",
+"country_name_cn": "冈比亚",
+"numbercode": "270",
+"country_name": "GAMBIA"
+},
+{
+"code": "剛果",
+"dialingcode": "242",
+"alias_en": "Republic of the Congo",
+"country_name_cn": "刚果",
+"numbercode": "178",
+"country_name": "CONGO"
+},
+{
+"code": "民主剛果",
+"dialingcode": "243",
+"alias_en": "Democratic Republic of the Congo",
+"country_name_cn": "刚果民主共和国",
+"numbercode": "180",
+"country_name": "CONGO, THE DEMOCRATIC REPUBLIC OF THE"
+},
+{
+"code": "哥倫比亞",
+"dialingcode": "57",
+"country_name_cn": "哥伦比亚",
+"numbercode": "170",
+"country_name": "COLOMBIA"
+},
+{
+"code": "哥斯達黎加",
+"dialingcode": "506",
+"country_name_cn": "哥斯达黎加",
+"numbercode": "188",
+"country_name": "COSTA RICA"
+},
+{
+"code": "格林納達",
+"dialingcode": "1809",
+"country_name_cn": "格林纳达",
+"numbercode": "308",
+"country_name": "GRENADA"
+},
+{
+"code": "格陵蘭",
+"dialingcode": "299",
+"country_name_cn": "格陵兰",
+"numbercode": "304",
+"country_name": "GREENLAND"
+},
+{
+"code": "CU",
+"dialingcode": "53",
+"country_name_cn": "古巴",
+"numbercode": "192",
+"country_name": "CUBA"
+},
+{
+"code": "關島",
+"dialingcode": "1671",
+"country_name_cn": "关岛",
+"numbercode": "316",
+"country_name": "GUAM"
+},
+{
+"code": "圭亞那",
+"dialingcode": "592",
+"country_name_cn": "圭亚那",
+"numbercode": "328",
+"country_name": "GUYANA"
+}
+],
+"h": [
+{
+"code": "哈薩克",
+"dialingcode": "327",
+"country_name_cn": "哈萨克斯坦",
+"numbercode": "398",
+"country_name": "KAZAKHSTAN"
+},
+{
+"code": "HT",
+"dialingcode": "509",
+"country_name_cn": "海地",
+"numbercode": "332",
+"country_name": "HAITI"
+},
+{
+"code": "韓國",
+"dialingcode": "82",
+"alias_en": "South Korea",
+"country_name_cn": "韩国",
+"numbercode": "410",
+"country_name": "KOREA, REPUBLIC OF"
+},
+{
+"code": "荷蘭",
+"dialingcode": "31",
+"country_name_cn": "荷兰",
+"numbercode": "528",
+"country_name": "NETHERLANDS"
+},
+{
+"code": "荷屬安的列",
+"dialingcode": "599",
+"country_name_cn": "荷属安的列斯群岛",
+"numbercode": "530",
+"country_name": "NETHERLANDS ANTILLES"
+},
+{
+"code": "宏都拉斯",
+"dialingcode": "504",
+"country_name_cn": "洪都拉斯",
+"numbercode": "340",
+"country_name": "HONDURAS"
+}
+],
+"w": [
+{
+"code": "瓦利斯群島和富圖納群島",
+"dialingcode": "681",
+"country_name_cn": "瓦利斯群岛和富图纳群岛",
+"numbercode": "876",
+"country_name": "WALLIS AND FUTUNA"
+},
+{
+"code": "瓦努阿圖",
+"dialingcode": "678",
+"country_name_cn": "瓦努阿图",
+"numbercode": "548",
+"country_name": "VANUATU"
+},
+{
+"code": "危地馬拉",
+"dialingcode": "502",
+"country_name_cn": "危地马拉",
+"numbercode": "320",
+"country_name": "GUATEMALA"
+},
+{
+"code": "美屬處女群島",
+"dialingcode": "1340",
+"alias_en": "United States Virgin Islands",
+"country_name_cn": "维尔京群岛（美属）",
+"numbercode": "850",
+"country_name": "VIRGIN ISLANDS, U.S."
+},
+{
+"code": "英屬處女群島",
+"dialingcode": "1284",
+"alias_en": "British Virgin Islands",
+"country_name_cn": "维尔京群岛（英属）",
+"numbercode": "92",
+"country_name": "VIRGIN ISLANDS, BRITISH"
+},
+{
+"code": "委內瑞拉",
+"dialingcode": "58",
+"alias_en": "Venezuela",
+"country_name_cn": "委内瑞拉",
+"numbercode": "862",
+"country_name": "VENEZUELA, BOLIVARIAN REPUBLIC OF"
+},
+{
+"code": "汶萊",
+"dialingcode": "673",
+"alias_en": "Brunei",
+"country_name_cn": "文莱",
+"numbercode": "96",
+"country_name": "BRUNEI DARUSSALAM"
+},
+{
+"code": "烏干達",
+"dialingcode": "256",
+"country_name_cn": "乌干达",
+"numbercode": "800",
+"country_name": "UGANDA"
+},
+{
+"code": "烏克蘭",
+"dialingcode": "380",
+"country_name_cn": "乌克兰",
+"numbercode": "804",
+"country_name": "UKRAINE"
+},
+{
+"code": "烏拉圭",
+"dialingcode": "598",
+"country_name_cn": "乌拉圭",
+"numbercode": "858",
+"country_name": "URUGUAY"
+},
+{
+"code": "烏茲別克",
+"dialingcode": "233",
+"country_name_cn": "乌兹别克斯坦",
+"numbercode": "860",
+"country_name": "UZBEKISTAN"
+}
+],
+"j": [
+{
+"code": "吉里巴斯",
+"dialingcode": "686",
+"country_name_cn": "基里巴斯",
+"numbercode": "296",
+"country_name": "KIRIBATI"
+},
+{
+"code": "吉布地",
+"dialingcode": "253",
+"country_name_cn": "吉布提",
+"numbercode": "262",
+"country_name": "DJIBOUTI"
+},
+{
+"code": "吉爾吉斯",
+"dialingcode": "331",
+"country_name_cn": "吉尔吉斯斯坦",
+"numbercode": "417",
+"country_name": "KYRGYZSTAN"
+},
+{
+"code": "幾內亞",
+"dialingcode": "224",
+"country_name_cn": "几内亚",
+"numbercode": "324",
+"country_name": "GUINEA"
+},
+{
+"code": "幾內亞比紹",
+"dialingcode": "245",
+"country_name_cn": "几内亚比绍",
+"numbercode": "624",
+"country_name": "GUINEA-BISSAU"
+},
+{
+"code": "CA",
+"dialingcode": "1",
+"country_name_cn": "加拿大",
+"numbercode": "124",
+"country_name": "CANADA"
+},
+{
+"code": "加納",
+"dialingcode": "233",
+"country_name_cn": "加纳",
+"numbercode": "288",
+"country_name": "GHANA"
+},
+{
+"code": "加彭",
+"dialingcode": "241",
+"country_name_cn": "加蓬",
+"numbercode": "266",
+"country_name": "GABON"
+},
+{
+"code": "KH",
+"dialingcode": "855",
+"country_name_cn": "柬埔寨",
+"numbercode": "116",
+"country_name": "CAMBODIA"
+},
+{
+"code": "捷克",
+"dialingcode": "420",
+"country_name_cn": "捷克共和国",
+"numbercode": "203",
+"country_name": "CZECH REPUBLIC"
+},
+{
+"code": "津巴布韋",
+"dialingcode": "263",
+"country_name_cn": "津巴布韦",
+"numbercode": "716",
+"country_name": "ZIMBABWE"
+}
+],
+"x": [
+{
+"code": "ES",
+"dialingcode": "34",
+"country_name_cn": "西班牙",
+"numbercode": "724",
+"country_name": "SPAIN"
+},
+{
+"code": "希臘",
+"dialingcode": "30",
+"country_name_cn": "希腊",
+"numbercode": "300",
+"country_name": "GREECE"
+},
+{
+"code": "SG",
+"dialingcode": "65",
+"country_name_cn": "新加坡",
+"numbercode": "702",
+"country_name": "SINGAPORE"
+},
+{
+"code": "新喀里多尼亞",
+"dialingcode": "687",
+"country_name_cn": "新喀里多尼亚",
+"numbercode": "540",
+"country_name": "NEW CALEDONIA"
+},
+{
+"code": "新西蘭",
+"dialingcode": "64",
+"country_name_cn": "新西兰",
+"numbercode": "554",
+"country_name": "NEW ZEALAND"
+},
+{
+"code": "HU",
+"dialingcode": "36",
+"country_name_cn": "匈牙利",
+"numbercode": "348",
+"country_name": "HUNGARY"
+},
+{
+"code": "敘利亞",
+"dialingcode": "963",
+"alias_en": "Syria",
+"country_name_cn": "叙利亚",
+"numbercode": "760",
+"country_name": "SYRIAN ARAB REPUBLIC"
+}
+],
+"k": [
+{
+"code": "喀麥隆",
+"dialingcode": "237",
+"country_name_cn": "喀麦隆",
+"numbercode": "120",
+"country_name": "CAMEROON"
+},
+{
+"code": "卡塔爾",
+"dialingcode": "974",
+"country_name_cn": "卡塔尔",
+"numbercode": "634",
+"country_name": "QATAR"
+},
+{
+"code": "_曼群島",
+"dialingcode": "1345",
+"country_name_cn": "开曼群岛",
+"numbercode": "136",
+"country_name": "CAYMAN ISLANDS"
+},
+{
+"code": "科科斯群島",
+"dialingcode": "61",
+"country_name_cn": "科科斯群岛（基灵群岛）",
+"numbercode": "166",
+"country_name": "COCOS (KEELING) ISLANDS"
+},
+{
+"code": "科摩羅",
+"dialingcode": "269",
+"alias_en": "The Comoros",
+"country_name_cn": "科摩罗",
+"numbercode": "174",
+"country_name": "COMOROS"
+},
+{
+"code": "象牙海岸",
+"dialingcode": "225",
+"country_name_cn": "科特迪瓦",
+"numbercode": "384",
+"country_name": "CÔTE D'IVOIRE"
+},
+{
+"code": "KW",
+"dialingcode": "965",
+"country_name_cn": "科威特",
+"numbercode": "414",
+"country_name": "KUWAIT"
+},
+{
+"code": "克羅地亞",
+"dialingcode": "385",
+"country_name_cn": "克罗地亚",
+"numbercode": "191",
+"country_name": "CROATIA"
+},
+{
+"code": "肯尼亞",
+"dialingcode": "254",
+"country_name_cn": "肯尼亚",
+"numbercode": "404",
+"country_name": "KENYA"
+},
+{
+"code": "庫克群島",
+"dialingcode": "682",
+"country_name_cn": "库克群岛",
+"numbercode": "184",
+"country_name": "COOK ISLANDS"
+}
+],
+"y": [
+{
+"code": "牙買加",
+"dialingcode": "1876",
+"country_name_cn": "牙买加",
+"numbercode": "388",
+"country_name": "JAMAICA"
+},
+{
+"code": "亞美尼亞",
+"dialingcode": "374",
+"country_name_cn": "亚美尼亚",
+"numbercode": "51",
+"country_name": "ARMENIA"
+},
+{
+"code": "也門",
+"dialingcode": "967",
+"country_name_cn": "也门",
+"numbercode": "887",
+"country_name": "YEMEN"
+},
+{
+"code": "IQ",
+"dialingcode": "964",
+"country_name_cn": "伊拉克",
+"numbercode": "368",
+"country_name": "IRAQ"
+},
+{
+"code": "IR",
+"dialingcode": "98",
+"alias_en": "Iran",
+"country_name_cn": "伊朗",
+"numbercode": "364",
+"country_name": "IRAN, ISLAMIC REPUBLIC OF"
+},
+{
+"code": "IL",
+"dialingcode": "972",
+"country_name_cn": "以色列",
+"numbercode": "376",
+"country_name": "ISRAEL"
+},
+{
+"code": "義大利",
+"dialingcode": "39",
+"country_name_cn": "意大利",
+"numbercode": "380",
+"country_name": "ITALY"
+},
+{
+"code": "IN",
+"dialingcode": "91",
+"country_name_cn": "印度",
+"numbercode": "356",
+"country_name": "INDIA"
+},
+{
+"code": "印尼",
+"dialingcode": "62",
+"country_name_cn": "印度尼西亚",
+"numbercode": "360",
+"country_name": "INDONESIA"
+},
+{
+"code": "英國",
+"dialingcode": "44",
+"alias_en": "Great Britain (United Kingdom; England)",
+"country_name_cn": "英国",
+"numbercode": "826",
+"country_name": "UNITED KINGDOM"
+},
+{
+"code": "約旦",
+"dialingcode": "962",
+"country_name_cn": "约旦",
+"numbercode": "400",
+"country_name": "JORDAN"
+},
+{
+"code": "VN",
+"dialingcode": "84",
+"alias_en": "Vietnam",
+"country_name_cn": "越南",
+"numbercode": "704",
+"country_name": "VIET NAM"
+}
+],
+"l": [
+{
+"code": "拉脫維亞",
+"dialingcode": "371",
+"country_name_cn": "拉脱维亚",
+"numbercode": "428",
+"country_name": "LATVIA"
+},
+{
+"code": "萊索托",
+"dialingcode": "266",
+"country_name_cn": "莱索托",
+"numbercode": "426",
+"country_name": "LESOTHO"
+},
+{
+"code": "老撾",
+"dialingcode": "856",
+"alias_en": "Laos",
+"country_name_cn": "老挝",
+"numbercode": "418",
+"country_name": "LAO PEOPLE'S DEMOCRATIC REPUBLIC"
+},
+{
+"code": "LB",
+"dialingcode": "961",
+"country_name_cn": "黎巴嫩",
+"numbercode": "422",
+"country_name": "LEBANON"
+},
+{
+"code": "利比里亞",
+"dialingcode": "231",
+"country_name_cn": "利比里亚",
+"numbercode": "430",
+"country_name": "LIBERIA"
+},
+{
+"code": "利比亞",
+"dialingcode": "218",
+"alias_en": "Libya",
+"country_name_cn": "利比亚",
+"numbercode": "434",
+"country_name": "LIBYAN ARAB JAMAHIRIYA"
+},
+{
+"code": "LT",
+"dialingcode": "370",
+"country_name_cn": "立陶宛",
+"numbercode": "440",
+"country_name": "LITHUANIA"
+},
+{
+"code": "列支敦斯登",
+"dialingcode": "423",
+"country_name_cn": "列支敦士登",
+"numbercode": "438",
+"country_name": "LIECHTENSTEIN"
+},
+{
+"code": "留尼汪",
+"dialingcode": "262",
+"alias_en": "Réunion",
+"country_name_cn": "留尼汪岛",
+"numbercode": "638",
+"country_name": "REUNION"
+},
+{
+"code": "盧森堡",
+"dialingcode": "352",
+"country_name_cn": "卢森堡",
+"numbercode": "442",
+"country_name": "LUXEMBOURG"
+},
+{
+"code": "盧旺達",
+"dialingcode": "250",
+"country_name_cn": "卢旺达",
+"numbercode": "646",
+"country_name": "RWANDA"
+},
+{
+"code": "羅馬尼亞",
+"dialingcode": "40",
+"country_name_cn": "罗马尼亚",
+"numbercode": "642",
+"country_name": "ROMANIA"
+}
+],
+"z": [
+{
+"code": "贊比亞",
+"dialingcode": "260",
+"country_name_cn": "赞比亚",
+"numbercode": "894",
+"country_name": "ZAMBIA"
+},
+{
+"code": "查德",
+"dialingcode": "235",
+"country_name_cn": "乍得",
+"numbercode": "148",
+"country_name": "CHAD"
+},
+{
+"code": "直布羅陀",
+"dialingcode": "350",
+"country_name_cn": "直布罗陀",
+"numbercode": "292",
+"country_name": "GIBRALTAR"
+},
+{
+"code": "CL",
+"dialingcode": "56",
+"country_name_cn": "智利",
+"numbercode": "152",
+"country_name": "CHILE"
+},
+{
+"code": "中非",
+"dialingcode": "236",
+"country_name_cn": "中非共和国",
+"numbercode": "140",
+"country_name": "CENTRAL AFRICAN REPUBLIC"
+},
+{
+"code": "大陸",
+"dialingcode": "86",
+"country_name_cn": "中国",
+"numbercode": "156",
+"country_name": "CHINA"
+},
+{
+"code": "澳門",
+"dialingcode": "853",
+"country_name_cn": "中国澳门",
+"numbercode": "446",
+"country_name": "MACAO"
+},
+{
+"code": "台灣",
+"dialingcode": "886",
+"alias_en": "Taiwan",
+"country_name_cn": "中国台湾",
+"numbercode": "158",
+"country_name": "TAIWAN, PROVINCE OF CHINA"
+},
+{
+"code": "香港",
+"dialingcode": "852",
+"country_name_cn": "中国香港",
+"numbercode": "344",
+"country_name": "HONG KONG"
+}
+],
+"m": [
+{
+"code": "馬達加斯加",
+"dialingcode": "261",
+"country_name_cn": "马达加斯加",
+"numbercode": "450",
+"country_name": "MADAGASCAR"
+},
+{
+"code": "馬爾代夫",
+"dialingcode": "960",
+"country_name_cn": "马尔代夫",
+"numbercode": "462",
+"country_name": "MALDIVES"
+},
+{
+"code": "馬爾他",
+"dialingcode": "356",
+"country_name_cn": "马耳他",
+"numbercode": "470",
+"country_name": "MALTA"
+},
+{
+"code": "馬拉維",
+"dialingcode": "265",
+"country_name_cn": "马拉维",
+"numbercode": "454",
+"country_name": "MALAWI"
+},
+{
+"code": "馬來西亞",
+"dialingcode": "60",
+"country_name_cn": "马来西亚",
+"numbercode": "458",
+"country_name": "MALAYSIA"
+},
+{
+"code": "馬里",
+"dialingcode": "223",
+"country_name_cn": "马里",
+"numbercode": "466",
+"country_name": "MALI"
+},
+{
+"code": "馬其頓",
+"dialingcode": "389",
+"alias_en": "Republic of Macedonia (FYROM)",
+"country_name_cn": "马其顿,前南斯拉夫共和国",
+"numbercode": "807",
+"country_name": "MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF"
+},
+{
+"code": "馬紹爾群島",
+"dialingcode": "692",
+"country_name_cn": "马绍尔群岛",
+"numbercode": "584",
+"country_name": "MARSHALL ISLANDS"
+},
+{
+"code": "馬提尼克",
+"dialingcode": "596",
+"country_name_cn": "马提尼克岛",
+"numbercode": "474",
+"country_name": "MARTINIQUE"
+},
+{
+"code": "馬約特",
+"dialingcode": "262",
+"country_name_cn": "马约特岛",
+"numbercode": "175",
+"country_name": "MAYOTTE"
+},
+{
+"code": "模里西斯",
+"dialingcode": "230",
+"country_name_cn": "毛里求斯",
+"numbercode": "480",
+"country_name": "MAURITIUS"
+},
+{
+"code": "毛里塔尼亞",
+"dialingcode": "222",
+"country_name_cn": "毛里塔尼亚",
+"numbercode": "478",
+"country_name": "MAURITANIA"
+},
+{
+"code": "美國",
+"dialingcode": "1",
+"alias_en": "United States of America (USA)",
+"country_name_cn": "美国",
+"numbercode": "840",
+"country_name": "UNITED STATES"
+},
+{
+"code": "美屬薩摩亞",
+"dialingcode": "684",
+"country_name_cn": "美属萨摩亚",
+"numbercode": "16",
+"country_name": "AMERICAN SAMOA"
+},
+{
+"code": "蒙古國",
+"dialingcode": "976",
+"country_name_cn": "蒙古",
+"numbercode": "496",
+"country_name": "MONGOLIA"
+},
+{
+"code": "蒙塞拉特島",
+"dialingcode": "1664",
+"country_name_cn": "蒙特塞拉特",
+"numbercode": "500",
+"country_name": "MONTSERRAT"
+},
+{
+"code": "孟加拉",
+"dialingcode": "880",
+"country_name_cn": "孟加拉国",
+"numbercode": "50",
+"country_name": "BANGLADESH"
+},
+{
+"code": "密克羅尼西亞",
+"dialingcode": "691",
+"alias_en": "Federated States of Micronesia",
+"country_name_cn": "密克罗尼西亚",
+"numbercode": "583",
+"country_name": "MICRONESIA, FEDERATED STATES OF"
+},
+{
+"code": "秘魯",
+"dialingcode": "51",
+"country_name_cn": "秘鲁",
+"numbercode": "604",
+"country_name": "PERU"
+},
+{
+"code": "緬甸",
+"dialingcode": "95",
+"alias_en": "Myanmar (Burma)",
+"country_name_cn": "缅甸",
+"numbercode": "104",
+"country_name": "MYANMAR"
+},
+{
+"code": "摩爾多瓦",
+"dialingcode": "373",
+"alias_en": "Moldova",
+"country_name_cn": "摩尔多瓦",
+"numbercode": "498",
+"country_name": "MOLDOVA, REPUBLIC OF"
+},
+{
+"code": "MA",
+"dialingcode": "212",
+"country_name_cn": "摩洛哥",
+"numbercode": "504",
+"country_name": "MOROCCO"
+},
+{
+"code": "摩納哥",
+"dialingcode": "377",
+"country_name_cn": "摩纳哥",
+"numbercode": "492",
+"country_name": "MONACO"
+},
+{
+"code": "莫三比克",
+"dialingcode": "258",
+"country_name_cn": "莫桑比克",
+"numbercode": "508",
+"country_name": "MOZAMBIQUE"
+},
+{
+"code": "MX",
+"dialingcode": "52",
+"country_name_cn": "墨西哥",
+"numbercode": "484",
+"country_name": "MEXICO"
+}
+],
+"n": [
+{
+"code": "納米比亞",
+"dialingcode": "264",
+"country_name_cn": "纳米比亚",
+"numbercode": "516",
+"country_name": "NAMIBIA"
+},
+{
+"code": "ZA",
+"dialingcode": "27",
+"country_name_cn": "南非",
+"numbercode": "710",
+"country_name": "SOUTH AFRICA"
+},
+{
+"code": "南極洲",
+"dialingcode": "672",
+"country_name_cn": "南极洲",
+"numbercode": "10",
+"country_name": "ANTARCTICA"
+},
+{
+"code": "瑙魯",
+"dialingcode": "674",
+"country_name_cn": "瑙鲁",
+"numbercode": "520",
+"country_name": "NAURU"
+},
+{
+"code": "尼泊爾",
+"dialingcode": "977",
+"country_name_cn": "尼泊尔",
+"numbercode": "524",
+"country_name": "NEPAL"
+},
+{
+"code": "NI",
+"dialingcode": "505",
+"country_name_cn": "尼加拉瓜",
+"numbercode": "558",
+"country_name": "NICARAGUA"
+},
+{
+"code": "尼日爾",
+"dialingcode": "227",
+"country_name_cn": "尼日尔",
+"numbercode": "562",
+"country_name": "NIGER"
+},
+{
+"code": "尼日利亞",
+"dialingcode": "234",
+"country_name_cn": "尼日利亚",
+"numbercode": "566",
+"country_name": "NIGERIA"
+},
+{
+"code": "紐埃",
+"dialingcode": "683",
+"country_name_cn": "纽埃",
+"numbercode": "570",
+"country_name": "NIUE"
+},
+{
+"code": "NO",
+"dialingcode": "47",
+"country_name_cn": "挪威",
+"numbercode": "578",
+"country_name": "NORWAY"
+}
+],
+"a": [
+{
+"code": "阿爾巴尼亞",
+"dialingcode": "355",
+"country_name_cn": "阿尔巴尼亚",
+"numbercode": "8",
+"country_name": "ALBANIA"
+},
+{
+"code": "阿爾及利亞",
+"dialingcode": "213",
+"country_name_cn": "阿尔及利亚",
+"numbercode": "12",
+"country_name": "ALGERIA"
+},
+{
+"code": "AF",
+"dialingcode": "93",
+"country_name_cn": "阿富汗",
+"numbercode": "4",
+"country_name": "AFGHANISTAN"
+},
+{
+"code": "AR",
+"dialingcode": "54",
+"country_name_cn": "阿根廷",
+"numbercode": "32",
+"country_name": "ARGENTINA"
+},
+{
+"code": "阿聯酋",
+"dialingcode": "971",
+"country_name_cn": "阿拉伯联合酋长国",
+"numbercode": "784",
+"country_name": "UNITED ARAB EMIRATES"
+},
+{
+"code": "阿魯巴",
+"dialingcode": "297",
+"country_name_cn": "阿鲁巴",
+"numbercode": "533",
+"country_name": "ARUBA"
+},
+{
+"code": "OM",
+"dialingcode": "968",
+"country_name_cn": "阿曼",
+"numbercode": "512",
+"country_name": "OMAN"
+},
+{
+"code": "亞塞拜然",
+"dialingcode": "994",
+"country_name_cn": "阿塞拜疆",
+"numbercode": "31",
+"country_name": "AZERBAIJAN"
+},
+{
+"code": "EG",
+"dialingcode": "20",
+"country_name_cn": "埃及",
+"numbercode": "818",
+"country_name": "EGYPT"
+},
+{
+"code": "埃塞俄比亞",
+"dialingcode": "251",
+"country_name_cn": "埃塞俄比亚",
+"numbercode": "231",
+"country_name": "ETHIOPIA"
+},
+{
+"code": "愛爾蘭",
+"dialingcode": "353",
+"country_name_cn": "爱尔兰",
+"numbercode": "372",
+"country_name": "IRELAND"
+},
+{
+"code": "愛沙尼亞",
+"dialingcode": "372",
+"country_name_cn": "爱沙尼亚",
+"numbercode": "233",
+"country_name": "ESTONIA"
+},
+{
+"code": "安道爾",
+"dialingcode": "376",
+"country_name_cn": "安道尔",
+"numbercode": "20",
+"country_name": "ANDORRA"
+},
+{
+"code": "AO",
+"dialingcode": "244",
+"country_name_cn": "安哥拉",
+"numbercode": "24",
+"country_name": "ANGOLA"
+},
+{
+"code": "安圭拉島",
+"dialingcode": "1264",
+"country_name_cn": "安圭拉岛",
+"numbercode": "660",
+"country_name": "ANGUILLA"
+},
+{
+"code": "安提瓜和巴布達",
+"dialingcode": "1268",
+"alias_en": "Antigua (and) Barbuda",
+"country_name_cn": "安提瓜和巴布达",
+"numbercode": "28",
+"country_name": "ANTIGUA AND BARBUDA"
+},
+{
+"code": "澳洲",
+"dialingcode": "61",
+"country_name_cn": "澳大利亚",
+"numbercode": "36",
+"country_name": "AUSTRALIA"
+},
+{
+"code": "奧地利",
+"dialingcode": "43",
+"country_name_cn": "奥地利",
+"numbercode": "40",
+"country_name": "AUSTRIA"
+}
+],
+"b": [
+{
+"code": "巴貝多",
+"dialingcode": "1246",
+"country_name_cn": "巴巴多斯",
+"numbercode": "52",
+"country_name": "BARBADOS"
+},
+{
+"code": "巴布亞新幾內亞",
+"dialingcode": "675",
+"country_name_cn": "巴布亚新几内亚",
+"numbercode": "598",
+"country_name": "PAPUA NEW GUINEA"
+},
+{
+"code": "巴哈馬",
+"dialingcode": "1242",
+"alias_en": "The Bahamas",
+"country_name_cn": "巴哈马",
+"numbercode": "44",
+"country_name": "BAHAMAS"
+},
+{
+"code": "PK",
+"dialingcode": "92",
+"country_name_cn": "巴基斯坦",
+"numbercode": "586",
+"country_name": "PAKISTAN"
+},
+{
+"code": "PY",
+"dialingcode": "595",
+"country_name_cn": "巴拉圭",
+"numbercode": "600",
+"country_name": "PARAGUAY"
+},
+{
+"code": "BH",
+"dialingcode": "973",
+"country_name_cn": "巴林",
+"numbercode": "48",
+"country_name": "BAHRAIN"
+},
+{
+"code": "巴拿馬",
+"dialingcode": "507",
+"country_name_cn": "巴拿马",
+"numbercode": "591",
+"country_name": "PANAMA"
+},
+{
+"code": "BR",
+"dialingcode": "55",
+"country_name_cn": "巴西",
+"numbercode": "76",
+"country_name": "BRAZIL"
+},
+{
+"code": "白俄羅斯",
+"dialingcode": "375",
+"country_name_cn": "白俄罗斯",
+"numbercode": "112",
+"country_name": "BELARUS"
+},
+{
+"code": "百慕達",
+"dialingcode": "1441",
+"country_name_cn": "百慕大群岛",
+"numbercode": "60",
+"country_name": "BERMUDA"
+},
+{
+"code": "保加利亞",
+"dialingcode": "359",
+"country_name_cn": "保加利亚",
+"numbercode": "100",
+"country_name": "BULGARIA"
+},
+{
+"code": "北馬里亞納群島",
+"dialingcode": "1670",
+"country_name_cn": "北马里亚纳群岛",
+"numbercode": "580",
+"country_name": "NORTHERN MARIANA ISLANDS"
+},
+{
+"code": "貝寧",
+"dialingcode": "229",
+"country_name_cn": "贝宁",
+"numbercode": "204",
+"country_name": "BENIN"
+},
+{
+"code": "比利時",
+"dialingcode": "32",
+"country_name_cn": "比利时",
+"numbercode": "56",
+"country_name": "BELGIUM"
+},
+{
+"code": "冰島",
+"dialingcode": "354",
+"country_name_cn": "冰岛",
+"numbercode": "352",
+"country_name": "ICELAND"
+},
+{
+"code": "PR",
+"dialingcode": "1787",
+"country_name_cn": "波多黎各",
+"numbercode": "630",
+"country_name": "PUERTO RICO"
+},
+{
+"code": "波蘭",
+"dialingcode": "48",
+"country_name_cn": "波兰",
+"numbercode": "616",
+"country_name": "POLAND"
+},
+{
+"code": "玻利維亞",
+"dialingcode": "591",
+"alias_en": "Bolivia",
+"country_name_cn": "玻利维亚",
+"numbercode": "68",
+"country_name": "BOLIVIA, PLURINATIONAL STATE OF"
+},
+{
+"code": "波黑",
+"dialingcode": "387",
+"alias_en": "Bosnia (and) Herzegovina",
+"country_name_cn": "波斯尼亚和黑塞哥维那",
+"numbercode": "70",
+"country_name": "BOSNIA AND HERZEGOVINA"
+},
+{
+"code": "博茨瓦納",
+"dialingcode": "267",
+"country_name_cn": "博茨瓦纳",
+"numbercode": "72",
+"country_name": "BOTSWANA"
+},
+{
+"code": "伯利茲",
+"dialingcode": "501",
+"country_name_cn": "伯利兹",
+"numbercode": "84",
+"country_name": "BELIZE"
+},
+{
+"code": "BT",
+"dialingcode": "975",
+"country_name_cn": "不丹",
+"numbercode": "64",
+"country_name": "BHUTAN"
+},
+{
+"code": "布基納法索",
+"dialingcode": "226",
+"alias_en": "Burkina",
+"country_name_cn": "布基纳法索",
+"numbercode": "854",
+"country_name": "BURKINA FASO"
+},
+{
+"code": "蒲隆地",
+"dialingcode": "257",
+"country_name_cn": "布隆迪",
+"numbercode": "108",
+"country_name": "BURUNDI"
+}
+]
+}

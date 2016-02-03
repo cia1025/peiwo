@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+    >
+
+    <ImageView
+        android:id="@+id/iv_bg_new_voice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom|center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="30dp"
+        >
+
+
+        <ImageView
+            android:id="@+id/btn_start_wildcat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_start_new_voice"/>
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:textColor="#00b8d0"
+            android:textSize="12sp"
+            android:text="星座匹配"
+            android:gravity="top|center_horizontal"
+            android:visibility="visible"
+            android:id="@+id/btn_match_constellation"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            />
+    </LinearLayout>
+
+
+</FrameLayout>

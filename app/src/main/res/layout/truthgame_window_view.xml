@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/small_window_layout"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:id="@+id/cat_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/iv_cat_disappear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@anim/disappear_anim"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/iv_cat_appear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@anim/appear_anim"
+            android:visibility="gone"/>
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/iv_truthcat2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/cat_move"
+        android:visibility="gone"/>
+
+</FrameLayout>

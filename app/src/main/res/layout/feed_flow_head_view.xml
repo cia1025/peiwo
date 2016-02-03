@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/iv_uface_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_first_release"
+        android:orientation="vertical"
+        android:paddingBottom="25dp">
+
+        <ImageView
+            android:id="@+id/iv_uface"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="20dp"/>
+
+        <Button
+            android:visibility="invisible"
+            android:id="@+id/btn_pub_feed_flow"
+            android:layout_width="140dp"
+            android:layout_height="38dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bg_blue_action"
+            android:gravity="center"
+            android:text="立即发布"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"/>
+    </RelativeLayout>
+
+
+
+</LinearLayout>

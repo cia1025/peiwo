@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/friends_empey_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+    >
+
+    <ImageView
+        android:id="@+id/iv_icon_friends_blank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/icon_friends_blank"/>
+
+
+</RelativeLayout>

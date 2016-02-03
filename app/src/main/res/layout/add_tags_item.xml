@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+    >
+
+    <TextView
+        android:id="@+id/tags_item_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="霸王别姬"
+        android:textColor="#4d4d4d"
+        android:layout_marginLeft="18dp"
+        android:textSize="12sp"/>
+
+    <ImageView
+        android:id="@+id/tags_item_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="18dp"
+        android:src="@drawable/green_dot_n"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/c_de2"/>
+
+</RelativeLayout>

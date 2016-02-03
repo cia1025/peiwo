@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="105dp"
+                android:id="@+id/ll_tag_enter2">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/c_de2"
+        android:layout_alignParentTop="true"
+        />
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="25dp"
+        android:id="@+id/tv_tag_id2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#4d4d4d"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/tv_tag_uid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_tag_id2"
+        android:layout_marginTop="5dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#8e8e8e"
+        android:textSize="12sp"/>
+
+    <Button
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btn_tag_enter2"
+        android:layout_width="72dp"
+        android:layout_height="16dp"
+        android:layout_below="@id/tv_tag_uid"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/bg_blue_action"
+        android:textColor="#FFFFFF"
+        android:text="进去看看"
+        android:textSize="10sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/c_de2"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>

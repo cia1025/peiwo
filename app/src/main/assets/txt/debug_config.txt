@@ -1,0 +1,6 @@
+{
+    "build_version_hash": "",
+    "build_version": "4",
+    "build_version_manual": "4",
+    "debug_available": "0"
+}

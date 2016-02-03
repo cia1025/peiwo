@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <include layout="@layout/title_bar"/>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civ_avatar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:clickable="true"
+        android:onClick="click"
+        />
+
+    <TextView
+        android:clickable="true"
+        android:onClick="click"
+        android:id="@+id/tv_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:text="科技法快完结废物积分快完结附近附近我"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:layout_marginTop="20dp"
+        />
+
+
+    <TextView
+        android:clickable="true"
+        android:onClick="click"
+        android:id="@+id/tv_note_lable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#8e8e8e"
+        android:textSize="10sp"
+        android:layout_marginTop="6dp"
+        android:text="点击修改备注"
+        />
+
+    <RelativeLayout
+        android:id="@+id/layout_create_group"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="32dp"
+        android:onClick="click">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/c_de2"
+            android:layout_alignParentTop="true"
+            />
+
+        <TextView
+            android:id="@+id/tv_create_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_group"
+            android:layout_marginLeft="18dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/c_black"
+            android:textSize="13sp"
+            android:layout_alignParentLeft="true"
+            />
+        <TextView
+            android:id="@+id/tv_create_group_rules"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textSize="11sp"
+            android:gravity="center_vertical"
+            android:drawableRight="@drawable/arrow_right"
+            android:text="@string/create_group_rules"
+            android:textColor="@color/text_dim_color"
+            android:drawablePadding="12dp"
+            android:paddingRight="18dp"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/layout_answer_free"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/c_de2"
+            android:layout_alignParentTop="true"
+            />
+
+        <TextView
+            android:id="@+id/tv_answer_free"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置对方拨打免费"
+            android:layout_marginLeft="18dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/c_black"
+            android:textSize="13sp"
+            android:layout_alignParentLeft="true"
+            />
+
+        <android.support.v7.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="18dp"
+            android:id="@+id/v_switch_answer_free"
+            />
+
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/c_de2"
+        />
+
+
+    <TextView
+        android:paddingLeft="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:textColor="@color/c_black"
+        android:textSize="13sp"
+        android:gravity="center_vertical"
+        android:text="删除聊天记录"
+        android:clickable="true"
+        android:onClick="click"
+        android:id="@+id/v_delete_message"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/c_de2"
+        />
+
+    <TextView
+        android:paddingLeft="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:textColor="@color/c_black"
+        android:textSize="13sp"
+        android:gravity="center_vertical"
+        android:text="拉黑"
+        android:clickable="true"
+        android:onClick="click"
+        android:id="@+id/v_lahei"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/c_de2"
+        />
+
+    <TextView
+        android:paddingLeft="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:textColor="@color/c_black"
+        android:textSize="13sp"
+        android:gravity="center_vertical"
+        android:text="举报"
+        android:clickable="true"
+        android:onClick="click"
+        android:id="@+id/v_report"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/c_de2"
+        />
+
+
+    <Button
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:textColor="@color/c_white"
+        android:textSize="13sp"
+        android:text="删除好友"
+        android:clickable="true"
+        android:onClick="click"
+        android:id="@+id/v_remove_friend"
+        android:background="#00b8d0"
+        android:layout_marginTop="19dp"
+        />
+
+
+</LinearLayout>

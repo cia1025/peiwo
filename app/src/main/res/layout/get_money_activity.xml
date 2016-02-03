@@ -1,0 +1,96 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              style="@style/fillall"
+              android:orientation="vertical"
+              tools:context=".GetMoneyActivity"
+              android:background="@drawable/d_gray"
+    >
+
+    <include layout="@layout/title_bar"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/c_de2"
+        />
+    <RelativeLayout
+        android:id="@+id/my_income"
+        style="@style/setting_bar"
+        >
+
+        <TextView
+            style="@style/filly"
+            android:gravity="center_vertical"
+            android:textSize="13sp"
+            android:text="钱包余额"/>
+
+        <TextView
+            android:id="@+id/income_money"
+            style="@style/wrap"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/text_color_gray"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/c_de2"
+        />
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/account"
+        style="@style/setting_bar"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:id="@+id/account_label"
+            style="@style/filly"
+            android:gravity="center_vertical"
+            android:text="支付宝账户"/>
+
+        <EditText
+            android:id="@+id/account_name"
+            style="@style/filly"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/account_label"
+
+            android:hint="@string/input_alipay_account"
+            android:textSize="14dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rl_get_money"
+        style="@style/setting_bar"
+        android:layout_marginTop="30dp">
+        <TextView
+            style="@style/filly"
+            android:gravity="center_vertical"
+            android:text="选择提取金额"/>
+
+        <TextView
+            android:id="@+id/get_money_num"
+            style="@style/wrap"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawablePadding="@dimen/text_drawable_padding"
+            android:drawableRight="@drawable/arrow_right"
+            android:text="0元"
+            android:textColor="@color/btn_bg_blue_color_normal"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@id/done"
+        android:layout_width="290dp"
+        android:layout_height="34dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn_bg_blue"
+        android:text="提现"
+        android:textSize="13sp"
+        android:textColor="@color/white"/>
+
+</LinearLayout>

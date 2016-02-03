@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/groupchat_padding_self"
+    >
+
+    <TextView
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#8e8e8e"
+        android:layout_marginTop="12dp"
+        android:paddingBottom="12dp"
+        android:textSize="10sp"/>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_time"
+        app:layout_marginLeftPercent="20%"
+        >
+
+        <ImageView
+            android:id="@+id/v_resend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_remind"
+            android:layout_toLeftOf="@+id/tv_content"
+            android:layout_marginRight="6dp"
+            />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="6dp"
+            android:layout_toLeftOf="@+id/tv_content"
+            />
+
+
+        <me.peiwo.peiwo.widget.PWTextViewCompat
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="6dp"
+            android:background="@drawable/bubble_right_bg"
+            android:lineSpacingExtra="2dp"
+            android:lineSpacingMultiplier="1.0"
+            android:id="@+id/tv_content"
+            android:textColorLink="#ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:autoLink="web|phone"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/sp_chat_text_size"/>
+
+
+    </RelativeLayout>
+
+</android.support.percent.PercentRelativeLayout>

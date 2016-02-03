@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:paddingTop="8dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+    >
+
+    <ImageView
+        android:id="@+id/iv_uface"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp"
+        android:scaleType="fitXY"/>
+
+    <RelativeLayout
+        android:layout_marginLeft="6dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="4dp"
+        android:layout_toRightOf="@+id/iv_uface"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <TextView
+            android:id="@+id/tv_uname"
+            android:ems="10"
+            android:singleLine="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:id="@+id/tv_block_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:text="11-01"
+            android:layout_alignParentBottom="true"
+            android:textColor="#8e8e8e"
+            />
+    </RelativeLayout>
+
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="70dp"
+        android:layout_marginStart="88dp"
+        android:layout_height="0.3dp"
+        android:background="@color/c_de"
+        android:layout_marginRight="4dp"
+        android:layout_marginEnd="4dp"
+        />
+
+</RelativeLayout>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@id/title_bar"
+                style="@style/fillx"
+                android:layout_height="@dimen/title_bar_height"
+                android:background="@color/c_white">
+
+    <LinearLayout
+        android:id="@+id/view_left"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:clickable="true"
+            android:onClick="left_click"
+            android:id="@+id/btn_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/ic_nav_back"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical"
+            android:visibility="visible"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/v_line_left"
+        android:layout_width="0.3dp"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/view_left"
+        android:background="@color/c_de2"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_toRightOf="@+id/v_line_left"
+        android:layout_marginLeft="10dp"
+        android:singleLine="true"
+        android:textColor="#4d4d4d"
+        android:layout_centerInParent="true"
+        android:textSize="@dimen/sp_title_txt_size"/>
+
+    <TextView
+        android:id="@+id/btn_right"
+        style="@style/choice_please_blue"
+        android:gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:paddingRight="18dp"
+        android:paddingLeft="18dp"
+        android:text="@string/done"
+        android:clickable="true"
+        android:onClick="right_click"
+        android:layout_centerVertical="true"
+        android:textColor="#00b8d0"
+        android:textSize="13sp"
+        android:visibility="gone"/>
+    <ImageView
+        android:id="@+id/iv_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:layout_alignParentRight="true"
+        android:paddingRight="18dp"
+        android:paddingLeft="18dp"
+        android:clickable="true"
+        android:onClick="right_click"
+        android:visibility="gone"/>
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/c_de2"/>
+
+</RelativeLayout>

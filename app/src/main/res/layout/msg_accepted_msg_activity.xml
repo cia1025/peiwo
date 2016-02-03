@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@id/title_bar"
+        style="@style/fillx"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/c_white">
+
+        <LinearLayout
+            android:id="@+id/view_left"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:clickable="true"
+            android:onClick="click"
+            >
+
+            <TextView
+                android:id="@+id/btn_left"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawablePadding="2dp"
+                android:textSize="12sp"
+                android:drawableLeft="@drawable/ic_nav_back"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical"
+                android:visibility="visible"/>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/v_line_left"
+            android:layout_width="0.3dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/view_left"
+            android:background="@color/c_de2"/>
+
+        <TextView
+            android:id="@+id/title_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_toRightOf="@+id/v_line_left"
+            android:layout_marginLeft="10dp"
+            android:singleLine="true"
+            android:textColor="#4d4d4d"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/sp_title_txt_size"/>
+
+        <!--<ImageView
+            android:clickable="true"
+            android:onClick="click"
+            android:id="@+id/iv_im_action"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_msg_im_action"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:visibility="gone"
+            />-->
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:clickable="true"
+            android:onClick="click"
+            android:id="@+id/iv_im_avatar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            />
+
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/c_de2"/>
+
+    </RelativeLayout>
+    <!--******************************-->
+
+
+    <ListView
+        android:id="@+id/lv_msgaccepted"
+        style="@style/ListViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:cacheColorHint="@color/transparent"
+        android:fadingEdge="none"
+        android:footerDividersEnabled="false"
+        android:listSelector="#00000000"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"
+        />
+
+    <!-- 文本输入 -->
+
+
+    <LinearLayout
+        android:id="@+id/send_message_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:background="@color/c_white"
+        >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/c_de"
+            />
+
+        <me.peiwo.peiwo.widget.EmotionEditText
+            android:id="@+id/et_msg"
+            android:paddingLeft="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="45dp"
+            android:background="@null"
+            android:maxLines="5"
+            android:textSize="12sp"
+            android:textColor="#000000"
+            android:textColorHint="#8e8e8e"
+            android:hint="输入内容......"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="18dp">
+
+                <ImageView
+                    android:id="@+id/call_phone_button"
+                    android:clickable="true"
+                    android:onClick="click"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_msg_call"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/iv_msgtxt_selector"
+                    android:clickable="true"
+                    android:onClick="click"
+                    android:id="@+id/view_input_txt"
+                    android:layout_marginLeft="20dp"
+                    />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/iv_express_selector"
+                    android:id="@+id/iv_expression"
+                    android:layout_marginLeft="20dp"
+                    android:clickable="true"
+                    android:onClick="click"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/iv_imgquickswitch_selector"
+                    android:id="@+id/msg_send_img_btn"
+                    android:layout_marginLeft="20dp"
+                    android:clickable="true"
+                    android:onClick="click"
+                    />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_send_text_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_centerVertical="true"
+                android:textSize="14sp"
+                android:textColor="#00b8d0"
+                android:text="发送"
+                android:clickable="true"
+                android:onClick="click"
+                android:layout_alignParentRight="true"
+                android:background="@null"
+                />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!-- 打电话 -->
+
+
+    <me.peiwo.peiwo.widget.ChatBottomView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/view_bottom_panel"
+        android:visibility="gone"
+        >
+
+
+        <me.peiwo.peiwo.widget.ExpressionPanelView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:id="@+id/face_lay"
+            />
+
+        <me.peiwo.peiwo.widget.ImageQuickSwitchView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/image_quick_switch"
+            android:visibility="gone"
+            />
+    </me.peiwo.peiwo.widget.ChatBottomView>
+
+
+</LinearLayout>

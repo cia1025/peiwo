@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <include layout="@layout/title_bar"/>
+
+    <me.peiwo.peiwo.widget.ClearEditText
+        android:layout_margin="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="100dp"
+        android:id="@+id/et_text"
+        android:inputType="textPersonName"
+        android:imeOptions="actionNone"
+        />
+
+
+    <TextView
+        android:layout_marginLeft="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="你从事什么职业"
+        android:textColor="@color/c_gray"
+        android:textSize="16sp"
+        android:id="@+id/tv_text_alert"
+        />
+
+</LinearLayout>

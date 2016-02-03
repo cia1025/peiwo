@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:chh="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="#f7f7f7"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_record"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="请先录制10s的声音"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="160dp"
+        android:textSize="24sp"
+        />
+
+    <Button
+        android:id="@+id/btn_start_record"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/btn_record_selector"
+        android:layout_width="wrap_content"/>
+
+    <me.peiwo.peiwo.widget.RoundProgressBar
+        android:id="@+id/pb_record"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/recording"
+        android:visibility="gone"
+        chh:roundWidth="8dp"
+        chh:roundColor="#f0f0f0"
+        chh:roundProgressColor="#48a9fd"
+        chh:max="100"
+        />
+
+</RelativeLayout>

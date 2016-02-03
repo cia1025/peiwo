@@ -1,0 +1,103 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              style="@style/fillall"
+              android:orientation="vertical"
+              tools:context=".MakeMoneyActivity"
+              android:background="@drawable/d_gray"
+    >
+
+    <include layout="@layout/title_bar"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/c_de2"
+        />
+
+    <RelativeLayout
+        style="@style/setting_bar"
+        >
+
+        <TextView
+            style="@style/filly"
+            android:drawableLeft="@drawable/ic_my_account"
+            android:drawablePadding="@dimen/text_drawable_padding"
+            android:gravity="center_vertical"
+            android:textSize="16sp"
+            android:text="账户余额"/>
+
+        <TextView
+            android:id="@+id/balance"
+            style="@style/wrap"
+            android:textSize="14sp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/text_color_gray"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/c_de2"
+        />
+
+    <LinearLayout
+        android:id="@+id/lin_charge"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/c_de2"
+            />
+
+        <TextView
+            android:id="@+id/charge"
+            style="@style/setting_bar_ic_text"
+            android:background="@drawable/bg_line_selector"
+            android:textSize="16sp"
+            android:drawableLeft="@drawable/ic_make_money"
+            android:text="充值"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/c_de2"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lin_get_money"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/c_de2"
+            />
+
+        <TextView
+            android:id="@+id/get_money"
+            style="@style/setting_bar_ic_text"
+            android:background="@drawable/bg_line_selector"
+            android:textSize="16sp"
+            android:drawableLeft="@drawable/ic_make_money"
+            android:text="收入提现"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/c_de2"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>

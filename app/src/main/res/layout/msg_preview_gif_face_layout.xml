@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/v_pre_gif_view"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:background="@drawable/gif_face_preview_bg"
+              android:padding="30dp">
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/iv_preview_face_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

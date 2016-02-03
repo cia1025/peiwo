@@ -1,0 +1,155 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/lazy_recorder_bg"
+        />
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        >
+
+
+        <me.peiwo.peiwo.widget.LazyVoiceLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/lazy_voice_layout"
+            app:layout_widthPercent="90%"
+            app:layout_heightPercent="20%"
+            app:layout_marginTopPercent="36%"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bg_blue_small_radius"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/lazy_voice_layout"
+            android:layout_marginTop="2dp"
+            android:layout_alignLeft="@+id/lazy_voice_layout"
+            android:textSize="11sp"
+            android:gravity="center_vertical"
+            android:textColor="#d2d2d2"
+            android:text="*录音样例由陪我用户提供，投稿邮箱：Peiwohao@raybo.com"
+            android:autoLink="email"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/relativeLayout"
+            android:layout_marginBottom="45dp">
+
+            <ImageView
+                android:id="@+id/iv_mic_btn"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_lazy_speak"
+                android:onClick="click"/>
+
+            <RelativeLayout
+                android:id="@+id/layout_rerecorder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/iv_mic_btn"
+                android:layout_toStartOf="@id/iv_mic_btn"
+                android:layout_centerVertical="true"
+                android:visibility="invisible"
+                android:layout_marginRight="56dp">
+                <ImageView
+                    android:id="@+id/iv_rerecorder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_recorded"
+                    android:layout_centerVertical="true"
+                    android:onClick="click"/>
+                <ImageView
+                    android:id="@+id/guide_rerecorder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/guide_rerecording"
+                    android:layout_below="@id/iv_rerecorder"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_replay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/iv_mic_btn"
+                android:layout_toEndOf="@id/iv_mic_btn"
+                android:visibility="invisible"
+                android:layout_marginLeft="56dp">
+                <ImageView
+                    android:id="@+id/iv_play_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_play"
+                    android:layout_centerVertical="true"
+                    android:onClick="click"/>
+                <ImageView
+                    android:id="@+id/guide_audition"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/guide_audition"
+                    android:layout_marginTop="25dp"
+                    android:layout_below="@id/iv_play_btn"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_guide_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="36dp"
+            android:src="@drawable/guide_tap_to_speak"
+            android:layout_above="@+id/relativeLayout"
+            android:layout_centerHorizontal="true"/>
+
+        <Chronometer
+            android:id="@+id/chronometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/iv_guide_state"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/valid_clickable_color"
+            android:text="00:00"
+            android:layout_marginBottom="7dp"/>
+
+
+
+
+
+    </android.support.percent.PercentRelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:layout_gravity="top"
+        android:background="#7d000000"
+        android:id="@+id/v_back"
+        android:clickable="true"
+        android:onClick="click"
+        >
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:src="@drawable/ic_nav_back"
+            />
+    </LinearLayout>
+</merge>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <include layout="@layout/title_bar"/>
+
+    <me.peiwo.peiwo.widget.PWPullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pullToRefreshListView"
+        style="@style/ListViewStyle"
+        android:divider="@color/c_de"
+        android:dividerHeight="0.3dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ptr:ptrMode="both"/>
+</LinearLayout>

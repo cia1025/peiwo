@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/layout_top"
+        layout="@layout/title_bar" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="20dp"
+        android:background="#DFDFE0" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/icon_tag" >
+        </ImageView>
+
+        <EditText
+            android:id="@+id/edit_tag"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_marginLeft="12dp"
+            android:background="@color/transparent"
+            android:hint="创建新标签"
+            android:textColorHint="#CBD0D6" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#DFDFE0" />
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_bg_blue"
+        android:clickable="true"
+        android:onClick="click"
+        android:text="确定"
+        android:textColor="@color/c_white" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="说明:"
+            android:textSize="12sp"
+            android:layout_marginRight="5dp"
+            android:textColor="#C7C5C1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="@string/feed_flow_create_topic_notice"
+            android:textSize="12sp"
+            android:textColor="#C7C5C1" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_tag_enter"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:background="#0195FF"
+    android:clickable="true" >
+
+    <TextView
+        android:id="@+id/tv_tag_id1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:text="“最好玩的游戏是什么”"
+        android:textColor="#FFFFFF"
+        android:textSize="23sp" />
+
+    <TextView
+        android:id="@+id/tv_tag_uid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_tag_id1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="标签由陪我号: 900361用户创建"
+        android:textColor="#CBE3FF"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/btn_tag_enter"
+        android:layout_width="130dp"
+        android:layout_height="35dp"
+        android:layout_below="@id/tv_tag_uid"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_blue_action"
+        android:text="进去看看"
+        android:textColor="#0195FF"
+        android:textSize="15sp" />
+
+    <RelativeLayout
+        android:id="@+id/layout_count"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/topic_tag_bg"
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" >
+
+        <ImageView
+            android:id="@+id/tv_tag_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/icon_browse" />
+
+        <TextView
+            android:id="@+id/tv_tag_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_tag_image"
+            android:paddingLeft="4dp"
+            android:text="30201次浏览"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

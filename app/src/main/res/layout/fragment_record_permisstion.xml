@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:background="#f7f7f7"
+                android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_tips"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="调试前请先确认陪我的录音权限是否开启"
+            android:textSize="16sp"
+            android:drawableLeft="@drawable/hook"
+            android:drawablePadding="6dp"
+            android:layout_centerInParent="true"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_alignParentBottom="true"
+            android:background="#dedede"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_start_method"
+        android:layout_below="@+id/rl_tips"
+        android:layout_width="match_parent"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:layout_height="80dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_start_method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="权限开启办法："
+                android:textSize="16sp"
+                />
+
+            <TextView
+                android:layout_below="@+id/tv_start_method"
+                android:layout_alignLeft="@+id/tv_start_method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="@string/text_start_permission"
+                android:textColor="#b6b6b6"
+                />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_alignParentBottom="true"
+            android:background="#dedede"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@+id/rl_start_method"
+        android:layout_width="match_parent"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:layout_height="160dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="示例："
+                android:textSize="16sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="@string/text_start_permission_example1"
+                android:textColor="#b6b6b6"
+                />
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="@string/text_start_permission_example2"
+                android:textColor="#b6b6b6"
+                />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:layout_alignParentBottom="true"
+            android:background="#dedede"/>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_start_debug"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp"
+        android:layout_centerHorizontal="true"
+        android:text="权限已开启，进行通话调试"
+        android:background="@drawable/btn_permissions_selector"
+        android:textColor="@color/tab_color_white"
+        android:layout_width="wrap_content"/>
+
+</RelativeLayout>

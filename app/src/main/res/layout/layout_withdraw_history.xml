@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:padding="5dp">
+
+    <TextView
+        android:id="@+id/tv_withdraw_money"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:singleLine="false"
+        android:ems="18"/>
+
+    <TextView
+        android:id="@+id/tv_withdraw_time"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:ems="16"
+        android:textColor="@color/c_gray"/>
+
+
+    <TextView
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:layout_alignParentRight="true"
+        android:id="@+id/tv_withdraw_state"
+        android:singleLine="true"/>
+
+
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/c_gray"
+        android:id="@+id/tv_withdraw_reason"
+        android:singleLine="true"/>
+</RelativeLayout>
