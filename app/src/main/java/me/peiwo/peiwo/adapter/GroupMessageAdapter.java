@@ -11,30 +11,40 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.download.ImageDownloader;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.activity.ImagePagerActivity;
 import me.peiwo.peiwo.activity.UserInfoActivity;
 import me.peiwo.peiwo.constans.GroupConstant;
 import me.peiwo.peiwo.model.ImageModel;
-import me.peiwo.peiwo.model.groupchat.*;
+import me.peiwo.peiwo.model.groupchat.GroupMessageBaseModel;
+import me.peiwo.peiwo.model.groupchat.GroupMessageDecorationModel;
+import me.peiwo.peiwo.model.groupchat.GroupMessageGIFModel;
+import me.peiwo.peiwo.model.groupchat.GroupMessageImageModel;
+import me.peiwo.peiwo.model.groupchat.GroupMessageRedBagModel;
+import me.peiwo.peiwo.model.groupchat.GroupMessageRedBagTipModel;
+import me.peiwo.peiwo.model.groupchat.GroupMessageRepuRedBagModel;
+import me.peiwo.peiwo.model.groupchat.GroupMessageRepuRedBagTipModel;
+import me.peiwo.peiwo.model.groupchat.GroupMessageTextModel;
 import me.peiwo.peiwo.util.PWUtils;
 import me.peiwo.peiwo.util.TimeUtil;
 import me.peiwo.peiwo.util.group.ChatImageWrapper;
 import me.peiwo.peiwo.util.group.ExpressionData;
 import me.peiwo.peiwo.widget.PWTextViewCompat;
 import pl.droidsonroids.gif.GifImageView;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by fuhaidong on 15/12/9.
@@ -93,22 +103,22 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case GroupConstant.ViewType.TYPE_GIF_OTHER:
                 return new GroupGIFViewHolderOther(inflater.inflate(R.layout.layout_groupchat_gif_other, parent, false));
 
-            case GroupConstant.ViewType.TYPE_RADBAG_SELF:
-                return new GroupRadBagViewHolderSelf(inflater.inflate(R.layout.layout_groupchat_radbag_self, parent, false));
+            case GroupConstant.ViewType.TYPE_REDBAG_SELF:
+                return new GroupREDBAGViewHolderSelf(inflater.inflate(R.layout.layout_groupchat_redbag_self, parent, false));
 
-            case GroupConstant.ViewType.TYPE_RADBAG_OTHER:
-                return new GroupRadBagViewHolderOther(inflater.inflate(R.layout.layout_groupchat_radbag_other, parent, false));
+            case GroupConstant.ViewType.TYPE_REDBAG_OTHER:
+                return new GroupREDBAGViewHolderOther(inflater.inflate(R.layout.layout_groupchat_redbag_other, parent, false));
 
-            case GroupConstant.ViewType.TYPE_REPUTATION_RADBAG_SELF:
-                return new GroupReputationRadBagViewHolderSelf(inflater.inflate(R.layout.layout_groupchat_repuradbag_self, parent, false));
+            case GroupConstant.ViewType.TYPE_REPUTATION_REDBAG_SELF:
+                return new GroupReputationREDBAGViewHolderSelf(inflater.inflate(R.layout.layout_groupchat_repuredbag_self, parent, false));
 
-            case GroupConstant.ViewType.TYPE_REPUTATION_RADBAG_OTHER:
-                return new GroupReputationRadBagViewHolderOther(inflater.inflate(R.layout.layout_groupchat_repuradbag_other, parent, false));
+            case GroupConstant.ViewType.TYPE_REPUTATION_REDBAG_OTHER:
+                return new GroupReputationREDBAGViewHolderOther(inflater.inflate(R.layout.layout_groupchat_repuredbag_other, parent, false));
 
             case GroupConstant.ViewType.TYPE_REDBAG_TIP:
-                return new GroupRadBagTipViewHolder(inflater.inflate(R.layout.layout_groupchat_redbag_tip, parent, false));
+                return new GroupREDBAGTipViewHolder(inflater.inflate(R.layout.layout_groupchat_redbag_tip, parent, false));
             case GroupConstant.ViewType.TYPE_REPUREDBAG_TIP:
-                return new GroupRepuRadBagTipViewHolder(inflater.inflate(R.layout.layout_groupchat_repu_redbag_tip, parent, false));
+                return new GroupRepuREDBAGTipViewHolder(inflater.inflate(R.layout.layout_groupchat_repu_redbag_tip, parent, false));
             case GroupConstant.ViewType.TYPE_DECORATION:
                 return new GroupDecorationViewHolder(inflater.inflate(R.layout.layout_groupchat_decoration, parent, false));
             //local extra
@@ -146,30 +156,30 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             GroupGIFViewHolderOther holderOther = (GroupGIFViewHolderOther) holder;
             GroupMessageGIFModel gifModel = (GroupMessageGIFModel) model;
             fetchDataGIFOther(holderOther, gifModel, position);
-        } else if (holder instanceof GroupRadBagViewHolderSelf) {
-            GroupRadBagViewHolderSelf holderSelf = (GroupRadBagViewHolderSelf) holder;
+        } else if (holder instanceof GroupREDBAGViewHolderSelf) {
+            GroupREDBAGViewHolderSelf holderSelf = (GroupREDBAGViewHolderSelf) holder;
             GroupMessageRedBagModel redBagModel = (GroupMessageRedBagModel) model;
             fetchDataRedBagSelf(holderSelf, redBagModel, position);
-        } else if (holder instanceof GroupRadBagViewHolderOther) {
-            GroupRadBagViewHolderOther holderOther = (GroupRadBagViewHolderOther) holder;
+        } else if (holder instanceof GroupREDBAGViewHolderOther) {
+            GroupREDBAGViewHolderOther holderOther = (GroupREDBAGViewHolderOther) holder;
             GroupMessageRedBagModel redBagModel = (GroupMessageRedBagModel) model;
             fetchDataRedBagOther(holderOther, redBagModel, position);
-        } else if (holder instanceof GroupReputationRadBagViewHolderSelf) {
-            GroupReputationRadBagViewHolderSelf holderSelf = (GroupReputationRadBagViewHolderSelf) holder;
+        } else if (holder instanceof GroupReputationREDBAGViewHolderSelf) {
+            GroupReputationREDBAGViewHolderSelf holderSelf = (GroupReputationREDBAGViewHolderSelf) holder;
             GroupMessageRepuRedBagModel repuRedBagModel = (GroupMessageRepuRedBagModel) model;
             fetchDataRepuRedBagSelf(holderSelf, repuRedBagModel, position);
-        } else if (holder instanceof GroupReputationRadBagViewHolderOther) {
-            GroupReputationRadBagViewHolderOther holderOther = (GroupReputationRadBagViewHolderOther) holder;
+        } else if (holder instanceof GroupReputationREDBAGViewHolderOther) {
+            GroupReputationREDBAGViewHolderOther holderOther = (GroupReputationREDBAGViewHolderOther) holder;
             GroupMessageRepuRedBagModel repuRedBagModel = (GroupMessageRepuRedBagModel) model;
             fetchDataRepuRedBagOther(holderOther, repuRedBagModel, position);
-        } else if (holder instanceof GroupRepuRadBagTipViewHolder) {
-            GroupRepuRadBagTipViewHolder repuRadBagTipViewHolder = (GroupRepuRadBagTipViewHolder) holder;
+        } else if (holder instanceof GroupRepuREDBAGTipViewHolder) {
+            GroupRepuREDBAGTipViewHolder repuREDBAGTipViewHolder = (GroupRepuREDBAGTipViewHolder) holder;
             GroupMessageRepuRedBagTipModel repuRedBagTipModel = (GroupMessageRepuRedBagTipModel) model;
-            fetchDataRepuRedBagTip(repuRadBagTipViewHolder, repuRedBagTipModel, position);
-        } else if (holder instanceof GroupRadBagTipViewHolder) {
-            GroupRadBagTipViewHolder radBagTipViewHolder = (GroupRadBagTipViewHolder) holder;
+            fetchDataRepuRedBagTip(repuREDBAGTipViewHolder, repuRedBagTipModel, position);
+        } else if (holder instanceof GroupREDBAGTipViewHolder) {
+            GroupREDBAGTipViewHolder REDBAGTipViewHolder = (GroupREDBAGTipViewHolder) holder;
             GroupMessageRedBagTipModel redBagTipModel = (GroupMessageRedBagTipModel) model;
-            fetchDataRedBagTip(radBagTipViewHolder, redBagTipModel, position);
+            fetchDataRedBagTip(REDBAGTipViewHolder, redBagTipModel, position);
         } else if (holder instanceof GroupDecorationViewHolder) {
             GroupDecorationViewHolder decorationViewHolder = (GroupDecorationViewHolder) holder;
             GroupMessageDecorationModel decorationModel = (GroupMessageDecorationModel) model;
@@ -211,17 +221,17 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 } else {
                     return GroupConstant.ViewType.TYPE_GIF_OTHER;
                 }
-            case GroupConstant.MessageType.TYPE_RADBAG:
+            case GroupConstant.MessageType.TYPE_REDBAG:
                 if (model.direction == GroupConstant.Direction.SELF) {
-                    return GroupConstant.ViewType.TYPE_RADBAG_SELF;
+                    return GroupConstant.ViewType.TYPE_REDBAG_SELF;
                 } else {
-                    return GroupConstant.ViewType.TYPE_RADBAG_OTHER;
+                    return GroupConstant.ViewType.TYPE_REDBAG_OTHER;
                 }
-            case GroupConstant.MessageType.TYPE_REPUTATION_RADBAG:
+            case GroupConstant.MessageType.TYPE_REPUTATION_REDBAG:
                 if (model.direction == GroupConstant.Direction.SELF) {
-                    return GroupConstant.ViewType.TYPE_REPUTATION_RADBAG_SELF;
+                    return GroupConstant.ViewType.TYPE_REPUTATION_REDBAG_SELF;
                 } else {
-                    return GroupConstant.ViewType.TYPE_REPUTATION_RADBAG_OTHER;
+                    return GroupConstant.ViewType.TYPE_REPUTATION_REDBAG_OTHER;
                 }
             case GroupConstant.MessageType.TYPE_REDBAG_TIP:
                 return GroupConstant.ViewType.TYPE_REDBAG_TIP;
@@ -313,7 +323,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         handleMessageLongClick(holderOther.giv_gif, gifModel, location);
     }
 
-    private void fetchDataRedBagSelf(GroupRadBagViewHolderSelf holderSelf, GroupMessageRedBagModel redBagModel, int location) {
+    private void fetchDataRedBagSelf(GroupREDBAGViewHolderSelf holderSelf, GroupMessageRedBagModel redBagModel, int location) {
         setTimeUnit(holderSelf.tv_time, redBagModel, location);
         setIndiStatus(redBagModel, holderSelf.v_resend, holderSelf.progressBar, location);
         imageLoader.displayImage(redBagModel.packet.icon_url, holderSelf.iv_redbag_icon);
@@ -326,7 +336,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         handleMessageLongClick(holderSelf.iv_redbag_icon, redBagModel, location);
     }
 
-    private void fetchDataRedBagOther(GroupRadBagViewHolderOther holderOther, GroupMessageRedBagModel redBagModel, int location) {
+    private void fetchDataRedBagOther(GroupREDBAGViewHolderOther holderOther, GroupMessageRedBagModel redBagModel, int location) {
         imageLoader.displayImage(redBagModel.user.avatar_thumbnail, holderOther.iv_avatar);
         imageLoader.displayImage(redBagModel.packet.icon_url, holderOther.iv_redbag_icon);
         holderOther.tv_redbag_msg.setText(redBagModel.packet.msg);
@@ -346,7 +356,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         handleMessageLongClick(holderOther.iv_redbag_icon, redBagModel, location);
     }
 
-    private void fetchDataRepuRedBagSelf(GroupReputationRadBagViewHolderSelf holderSelf, GroupMessageRepuRedBagModel repuRedBagModel, int location) {
+    private void fetchDataRepuRedBagSelf(GroupReputationREDBAGViewHolderSelf holderSelf, GroupMessageRepuRedBagModel repuRedBagModel, int location) {
         setTimeUnit(holderSelf.tv_time, repuRedBagModel, location);
         setIndiStatus(repuRedBagModel, holderSelf.v_resend, holderSelf.progressBar, location);
         imageLoader.displayImage(repuRedBagModel.packet.icon_url, holderSelf.iv_redbag_icon);
@@ -359,7 +369,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         handleMessageLongClick(holderSelf.iv_redbag_icon, repuRedBagModel, location);
     }
 
-    private void fetchDataRepuRedBagOther(GroupReputationRadBagViewHolderOther holderOther, GroupMessageRepuRedBagModel repuRedBagModel, int location) {
+    private void fetchDataRepuRedBagOther(GroupReputationREDBAGViewHolderOther holderOther, GroupMessageRepuRedBagModel repuRedBagModel, int location) {
         imageLoader.displayImage(repuRedBagModel.user.avatar_thumbnail, holderOther.iv_avatar);
         imageLoader.displayImage(repuRedBagModel.packet.icon_url, holderOther.iv_redbag_icon);
         holderOther.tv_redbag_msg.setText(repuRedBagModel.packet.msg);
@@ -379,14 +389,14 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         handleMessageLongClick(holderOther.iv_redbag_icon, repuRedBagModel, location);
     }
 
-    private void fetchDataRedBagTip(GroupRadBagTipViewHolder radBagTipViewHolder, GroupMessageRedBagTipModel redBagTipModel, int location) {
-        setTimeUnit(radBagTipViewHolder.tv_time, redBagTipModel, location);
-        radBagTipViewHolder.tv_decoration.setText(redBagTipModel.text.content);
+    private void fetchDataRedBagTip(GroupREDBAGTipViewHolder REDBAGTipViewHolder, GroupMessageRedBagTipModel redBagTipModel, int location) {
+        setTimeUnit(REDBAGTipViewHolder.tv_time, redBagTipModel, location);
+        REDBAGTipViewHolder.tv_decoration.setText(redBagTipModel.text.content);
     }
 
-    private void fetchDataRepuRedBagTip(GroupRepuRadBagTipViewHolder repuRadBagTipViewHolder, GroupMessageRepuRedBagTipModel repuRedBagTipModel, int location) {
-        setTimeUnit(repuRadBagTipViewHolder.tv_time, repuRedBagTipModel, location);
-        repuRadBagTipViewHolder.tv_decoration.setText(repuRedBagTipModel.text.content);
+    private void fetchDataRepuRedBagTip(GroupRepuREDBAGTipViewHolder repuREDBAGTipViewHolder, GroupMessageRepuRedBagTipModel repuRedBagTipModel, int location) {
+        setTimeUnit(repuREDBAGTipViewHolder.tv_time, repuRedBagTipModel, location);
+        repuREDBAGTipViewHolder.tv_decoration.setText(repuRedBagTipModel.text.content);
     }
 
     private void fetchDataDecoration(GroupDecorationViewHolder decorationViewHolder, GroupMessageDecorationModel decorationModel, int location) {
@@ -470,17 +480,31 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             GroupMessageBaseModel baseModel = getItemObject(i);
             if (baseModel.dialog_type == GroupConstant.MessageType.TYPE_IMAGE) {
                 GroupMessageImageModel imageModel = (GroupMessageImageModel) baseModel;
-                models.add(new ImageModel(imageModel.image.image_url));
+                String tempUrl;
+                if (!imageModel.image.image_url.startsWith("http")) {
+                    tempUrl = ImageDownloader.Scheme.FILE.wrap(imageModel.image.image_url);
+                } else {
+                    tempUrl = imageModel.image.image_url;
+                }
+                models.add(new ImageModel(tempUrl));
             }
         }
+
         int position = 0;
-        String curr_image_url = currImageModel.image.image_url;
+        String tempUrl;
+        if (!currImageModel.image.image_url.startsWith("http")) {
+            tempUrl = ImageDownloader.Scheme.FILE.wrap(currImageModel.image.image_url);
+        } else {
+            tempUrl = currImageModel.image.image_url;
+        }
         for (int i = 0, z = models.size(); i < z; i++) {
-            if (curr_image_url.equals(models.get(i).image_url)) {
+            if (tempUrl.equals(models.get(i).image_url)) {
                 position = i;
                 break;
             }
         }
+
+
         Intent intent = new Intent(context, ImagePagerActivity.class);
         intent.putParcelableArrayListExtra(ImagePagerActivity.KEY_URL_LIST, models);
         intent.putExtra(ImagePagerActivity.KEY_POS, position);
@@ -688,7 +712,7 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    static class GroupRadBagViewHolderSelf extends RecyclerView.ViewHolder {
+    static class GroupREDBAGViewHolderSelf extends RecyclerView.ViewHolder {
         @Bind(R.id.tv_time)
         TextView tv_time;
         @Bind(R.id.iv_redbag_icon)
@@ -700,13 +724,13 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @Bind(R.id.progressBar)
         ProgressBar progressBar;
 
-        public GroupRadBagViewHolderSelf(View itemView) {
+        public GroupREDBAGViewHolderSelf(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
 
-    static class GroupRadBagViewHolderOther extends RecyclerView.ViewHolder {
+    static class GroupREDBAGViewHolderOther extends RecyclerView.ViewHolder {
         @Bind(R.id.iv_avatar)
         ImageView iv_avatar;
         @Bind(R.id.tv_identity)
@@ -720,13 +744,13 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @Bind(R.id.tv_redbag_msg)
         TextView tv_redbag_msg;
 
-        public GroupRadBagViewHolderOther(View itemView) {
+        public GroupREDBAGViewHolderOther(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
 
-    static class GroupReputationRadBagViewHolderSelf extends RecyclerView.ViewHolder {
+    static class GroupReputationREDBAGViewHolderSelf extends RecyclerView.ViewHolder {
         @Bind(R.id.tv_time)
         TextView tv_time;
         @Bind(R.id.iv_redbag_icon)
@@ -738,13 +762,13 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @Bind(R.id.progressBar)
         ProgressBar progressBar;
 
-        public GroupReputationRadBagViewHolderSelf(View itemView) {
+        public GroupReputationREDBAGViewHolderSelf(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
 
-    static class GroupReputationRadBagViewHolderOther extends RecyclerView.ViewHolder {
+    static class GroupReputationREDBAGViewHolderOther extends RecyclerView.ViewHolder {
         @Bind(R.id.iv_avatar)
         ImageView iv_avatar;
         @Bind(R.id.tv_identity)
@@ -758,31 +782,31 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @Bind(R.id.tv_redbag_msg)
         TextView tv_redbag_msg;
 
-        public GroupReputationRadBagViewHolderOther(View itemView) {
+        public GroupReputationREDBAGViewHolderOther(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
 
-    static class GroupRadBagTipViewHolder extends RecyclerView.ViewHolder {
+    static class GroupREDBAGTipViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.tv_decoration)
         TextView tv_decoration;
         @Bind(R.id.tv_time)
         TextView tv_time;
 
-        public GroupRadBagTipViewHolder(View itemView) {
+        public GroupREDBAGTipViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
 
-    static class GroupRepuRadBagTipViewHolder extends RecyclerView.ViewHolder {
+    static class GroupRepuREDBAGTipViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.tv_decoration)
         TextView tv_decoration;
         @Bind(R.id.tv_time)
         TextView tv_time;
 
-        public GroupRepuRadBagTipViewHolder(View itemView) {
+        public GroupRepuREDBAGTipViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

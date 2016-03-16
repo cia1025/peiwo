@@ -1,12 +1,11 @@
 package me.peiwo.peiwo.model;
 
-import java.io.File;
-
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import org.json.JSONObject;
 
-import android.net.Uri;
+import java.io.File;
 
 /**
  * Created by Dong Fuhai on 2014-07-21 16:12.
@@ -47,8 +46,9 @@ public class ImageModel extends PPBaseModel implements Parcelable {
         thumbnail_url = e.thumbnail_url;
         name = e.name;
     }
+
     public ImageModel() {
-	}
+    }
 
     @Override
     public int describeContents() {

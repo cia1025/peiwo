@@ -1,11 +1,12 @@
 package me.peiwo.peiwo.service;
 
 import android.media.MediaRecorder;
+import android.view.View;
 import me.peiwo.peiwo.util.CustomLog;
 
 import java.io.IOException;
 
-public class RecorderWorker {
+public class RecorderWorker{
     private MediaRecorder mMediaRecorder;
     private int max_duration;
 

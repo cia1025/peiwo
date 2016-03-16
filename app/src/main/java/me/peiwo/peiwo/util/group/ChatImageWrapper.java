@@ -10,6 +10,7 @@ import android.util.Log;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import me.peiwo.peiwo.BuildConfig;
 import me.peiwo.peiwo.model.ImageItem;
+import me.peiwo.peiwo.util.CustomLog;
 import me.peiwo.peiwo.util.FileManager;
 import me.peiwo.peiwo.util.Md5Util;
 import rx.Observable;
@@ -144,7 +145,7 @@ public final class ChatImageWrapper {
             options.inInputShareable = true;
             options.inTempStorage = new byte[16 * 1024];
             //load the bitmap from its path
-            if (bmp != null && !bmp.isRecycled()) {
+            if (bmp != null &&!bmp.isRecycled()) {
                 bmp.recycle();
             }
             bmp = BitmapFactory.decodeFile(local_path, options);

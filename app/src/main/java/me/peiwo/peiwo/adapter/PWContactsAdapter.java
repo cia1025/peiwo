@@ -8,8 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.List;
+import java.util.Locale;
+
 import me.peiwo.peiwo.DfineAction;
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.activity.PWPreCallingActivity;
@@ -23,9 +28,6 @@ import me.peiwo.peiwo.util.PWUtils;
 import me.peiwo.peiwo.util.TimeUtil;
 import me.peiwo.peiwo.util.UmengStatisticsAgent;
 import me.peiwo.peiwo.util.UserManager;
-
-import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by fuhaidong on 14-8-27.
@@ -82,8 +84,12 @@ public class PWContactsAdapter extends PPBaseAdapter<PWContactsModel> {
         }
 
         holder.tv_uname.setText(UserManager.getRealName(Integer.valueOf(model.uid), model.name, context));
-
-        holder.tv_des.setText(model.slogan);
+        if (UserManager.getRealName(Integer.valueOf(model.uid), model.name, context).contains("系统消息") && model.slogan.contains("有人@我：")) {
+            holder.tv_des.setText(model.slogan.substring(model.slogan.indexOf("有人@我：") + 5));
+        } else {
+            holder.tv_des.setText(model.slogan);
+        }
+//        holder.tv_des.setText(model.slogan);
         holder.tv_gender_constellation.setText(TimeUtil.getConstellation(model.birthday));
         //充当显示登录时间
         holder.tv_signtime.setText(TimeUtil.getSignInTime(model.signin_time));

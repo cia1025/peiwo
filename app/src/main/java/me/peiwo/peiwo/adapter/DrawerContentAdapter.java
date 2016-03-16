@@ -7,16 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.callback.RecyclerViewItemClickListener;
 import me.peiwo.peiwo.model.DrawerContentModel;
 import me.peiwo.peiwo.util.PWUtils;
 import me.peiwo.peiwo.widget.DrawerContentView;
-
-import java.util.List;
 
 /**
  * Created by fuhaidong on 15/10/19.
@@ -81,10 +83,21 @@ public class DrawerContentAdapter extends RecyclerView.Adapter<RecyclerView.View
             setCompoundDrawable(contentHolder.tv_drawercontent_text, position);
             contentHolder.tv_drawercontent_text.setText(model.drawer_lable);
             if (position == DrawerContentView.ITEM_INDEX_UPDATE_VOICE_VAR) {
-                contentHolder.tv_extra.setText(model.voice_var);
+//                contentHolder.tv_extra.setText(model.voice_var);
+//                contentHolder.tv_extra.setCompoundDrawables(null, null, null, null);
+            } else if (position == DrawerContentView.ITEM_INDEX_UPDATE_LAZYGUY) {
+                contentHolder.tv_extra.setText(null);
+                if (!model.isHasVoice()) {
+                    contentHolder.tv_extra.setText(null);
+                    contentHolder.tv_extra.setCompoundDrawables(PWUtils.getCompoundDrawable(R.drawable.green_dot_n, context), null, null, null);
+                } else {
+                    contentHolder.tv_extra.setText(null);
+                    contentHolder.tv_extra.setCompoundDrawables(null, null, null, null);
+                }
             } else {
                 contentHolder.tv_extra.setText(null);
             }
+
             contentHolder.itemView.setOnClickListener(v -> {
                 if (DrawerContentAdapter.this.onDrawerItemClickListener != null) {
                     DrawerContentAdapter.this.onDrawerItemClickListener.onRecyclerViewItemClick(v, position);
@@ -98,21 +111,27 @@ public class DrawerContentAdapter extends RecyclerView.Adapter<RecyclerView.View
         switch (position) {
             case DrawerContentView.ITEM_INDEX_UPDATE_MYWALLET:
                 resId = R.drawable.ic_drawer_want_money;
+//                resId = R.drawable.icon_drawer_make_money;
                 break;
             case DrawerContentView.ITEM_INDEX_UPDATE_WILDLOGS:
                 resId = R.drawable.ic_drawer_wildcat;
+//                resId = R.drawable.icon_new_voice_record;
                 break;
             case DrawerContentView.ITEM_INDEX_UPDATE_VOICE_VAR:
                 resId = R.drawable.ic_drawer_voice_var;
+//                resId = R.drawable.icon_person_population;
                 break;
             case DrawerContentView.ITEM_INDEX_UPDATE_LAZYGUY:
                 resId = R.drawable.ic_drawer_lazy_recoder;
+//                resId = R.drawable.icon_wild_sayhi;
                 break;
             case DrawerContentView.ITEM_INDEX_UPDATE_NEWGUIDE:
                 resId = R.drawable.ic_drawer_peiwo_xuetang;
+//                resId = R.drawable.icon_instruction_manual;
                 break;
             case DrawerContentView.ITEM_INDEX_UPDATE_SETTING:
                 resId = R.drawable.ic_drawer_setting;
+//                resId = R.drawable.icon_settings;
                 break;
         }
         if (resId != 0) {
@@ -176,5 +195,11 @@ public class DrawerContentAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public interface OnUpdateProfileListener {
         void onUpdateProfile();
+    }
+
+    public void setmList(List<DrawerContentModel> list) {
+        this.mList = list;
+        //this.notifyDataSetChanged();
+        this.notifyItemChanged(DrawerContentView.ITEM_INDEX_UPDATE_LAZYGUY);
     }
 }

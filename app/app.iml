@@ -85,9 +85,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/rs" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/build/.DS_Store" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/M360Debug" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/M360Release" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/M360Staging" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/assets" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/baiduDebug" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/baiduRelease" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/baiduStaging" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes-proguard" />
@@ -104,15 +108,32 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/de.hdodenhof/circleimageview/2.0.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/io.reactivex/rxandroid/1.0.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/pl.droidsonroids.gif/android-gif-drawable/1.1.7/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/googleRelease" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/googleStaging" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/huaweiRelease" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/huaweiStaging" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/meizuRelease" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/meizuStaging" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/multi-dex" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/myappRelease" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/myappStaging" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/otherRelease" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/otherStaging" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/proguard-rules" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/taobaoRelease" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/taobaoStaging" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/wdjRelease" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/wdjStaging" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/webRelease" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/webStaging" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/xiaomiRelease" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/xiaomiStaging" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/retrolambda" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />

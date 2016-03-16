@@ -70,5 +70,6 @@
     <drawable name="d_pw_main">#00b8d0</drawable>
     <color name="c_pw_main_alpha">#7f00b8d0</color>
     <color name="c_control_normal">#4d4d4d</color>
+    <color name="light_blue_bg">#ecfafc</color>
 
 </resources>

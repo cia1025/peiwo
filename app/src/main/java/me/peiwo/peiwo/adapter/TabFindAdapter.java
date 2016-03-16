@@ -122,7 +122,7 @@ public class TabFindAdapter extends GroupJoinBaseAdapter<Object> {
             holder.iv_add_friend.setVisibility(View.GONE);
             holder.iv_add_friend.setOnClickListener(null);
 
-            if (model.price > 0 && model.voice != null) {
+            if (/*model.price > 0 && */model.voice != null) {
                 holder.iv_play_voice.setVisibility(View.VISIBLE);
                 setVoiceStatus(holder.iv_play_voice, model.voice.play_status);
                 holder.iv_play_voice.setOnClickListener(v -> actionPlay(position));

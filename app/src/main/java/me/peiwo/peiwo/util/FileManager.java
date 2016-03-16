@@ -1,14 +1,15 @@
 package me.peiwo.peiwo.util;
 
 import android.os.Environment;
-import rx.Observable;
-import rx.Subscriber;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+
+import rx.Observable;
+import rx.Subscriber;
 
 public final class FileManager {
 

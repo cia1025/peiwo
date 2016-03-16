@@ -5,18 +5,36 @@
               android:layout_height="52dp"
               android:gravity="center_vertical"
               android:onClick="click"
-              android:orientation="vertical"
-    >
-
-
-    <TextView
-        android:id="@+id/tv_pcode"
-        android:layout_width="wrap_content"
+              android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="+86(中国)"
-        android:textColor="#4d4d4d"
-        android:textSize="12sp"/>
+        >
+
+        <TextView
+            android:id="@+id/tv_pcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+86 中国 "
+            android:textColor="#4d4d4d"
+            android:layout_centerHorizontal="true"
+            android:textSize="13sp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_pcode"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_phone_code_index"/>
+       <!-- <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/arrow_right"
+            android:layout_marginRight="15dp"/>-->
+    </RelativeLayout>
 
 
 </LinearLayout>

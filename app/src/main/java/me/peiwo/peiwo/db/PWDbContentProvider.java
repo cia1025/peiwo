@@ -11,7 +11,9 @@ import me.peiwo.peiwo.DfineAction;
 import me.peiwo.peiwo.activity.MsgAcceptedMsgActivity;
 import me.peiwo.peiwo.activity.SayHelloActivity;
 import me.peiwo.peiwo.constans.PWDBConfig;
+import me.peiwo.peiwo.im.MessageModel;
 import me.peiwo.peiwo.im.MessageUtil;
+import me.peiwo.peiwo.util.CustomLog;
 import org.apache.http.util.TextUtils;
 import org.json.JSONObject;
 
@@ -223,6 +225,7 @@ public class PWDbContentProvider extends ContentProvider {
                     String update_time = value.getAsString(PWDBConfig.DialogsTable.UPDATE_TIME);
                     String details = value.getAsString(PWDBConfig.DialogsTable.DETAILS);
                     String content = value.getAsString(PWDBConfig.DialogsTable.CONTENT);
+                    CustomLog.d("updateMessageFromDialog content is : "+content);
                     int type = value.getAsInteger(PWDBConfig.DialogsTable.TYPE);
                     String uid = value.getAsString(PWDBConfig.DialogsTable.UID);
                     int dialogType = value.getAsInteger(PWDBConfig.DialogsTable.DIALOG_TYPE);
@@ -230,13 +233,17 @@ public class PWDbContentProvider extends ContentProvider {
                     if (!TextUtils.isEmpty(details) && details.length() > 2) {
                         try {
                             JSONObject detailObject = new JSONObject(details);
-                            content = detailObject.optString("msg");
+                            if(!android.text.TextUtils.isEmpty(detailObject.optString("msg")))
+                                content = detailObject.optString("msg");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
-                    if (dialogType == 11) {
+                    if (dialogType == MessageModel.DIALOG_TYPE_IMAGE_MESSAGE) {
                         content = "[图片]";
+                    }
+                    if (dialogType == MessageModel.DIALOG_TYPE_IM_PACKET) {
+                        content = "@"+uid+" 发来了一个红包";
                     }
                     String selection = PWDBConfig.MessagesTable.UID + " = ?";
                     String[] selectionArgs = new String[]{String.valueOf(uid)};

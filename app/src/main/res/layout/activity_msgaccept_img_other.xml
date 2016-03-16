@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:paddingTop="10dp"
-              android:paddingBottom="10dp"
-              android:paddingLeft="4dp"
-              android:paddingRight="10dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
 
     <TextView
         android:id="@+id/tv_time"
@@ -18,7 +18,7 @@
         android:paddingRight="4dp"
         android:paddingTop="2dp"
         android:textColor="@color/white"
-        android:textSize="12sp"/>
+        android:textSize="12sp" />
 
     <RelativeLayout
         android:id="@+id/iv_layout"
@@ -27,30 +27,41 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="6dp">
 
-        <ImageView
+        <!-- <ImageView
+             android:id="@+id/iv_uface"
+             android:visibility="gone"
+             android:layout_width="40dp"
+             android:layout_height="40dp"
+             android:layout_alignParentLeft="true"
+             android:layout_alignParentTop="true"/>-->
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_uface"
-            android:visibility="gone"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="6dp"
+            android:src="@drawable/icon_play_blue" />
+        <!--
+         android:layout_alignParentLeft="true"
+        -->
 
         <LinearLayout
             android:id="@+id/ll_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/bubble_left_bg"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/iv_uface"
+            android:background="@drawable/bubble_left_bg"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/iv_img_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
                 android:layout_gravity="center_vertical"
-                />
+                android:scaleType="centerCrop" />
         </LinearLayout>
     </RelativeLayout>
 

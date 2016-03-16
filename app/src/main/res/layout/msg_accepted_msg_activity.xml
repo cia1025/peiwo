@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:orientation="vertical">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@id/title_bar"
@@ -14,21 +14,20 @@
             android:id="@+id/view_left"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:clickable="true"
             android:onClick="click"
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/btn_left"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:drawablePadding="2dp"
-                android:textSize="12sp"
-                android:drawableLeft="@drawable/ic_nav_back"
                 android:layout_gravity="center_horizontal"
+                android:drawableLeft="@drawable/ic_nav_back"
+                android:drawablePadding="2dp"
                 android:gravity="center_vertical"
-                android:visibility="visible"/>
+                android:textSize="12sp"
+                android:visibility="visible" />
         </LinearLayout>
 
         <View
@@ -36,19 +35,19 @@
             android:layout_width="0.3dp"
             android:layout_height="match_parent"
             android:layout_toRightOf="@+id/view_left"
-            android:background="@color/c_de2"/>
+            android:background="@color/c_de2" />
 
         <TextView
             android:id="@+id/title_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:layout_toRightOf="@+id/v_line_left"
+            android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/v_line_left"
+            android:ems="10"
             android:singleLine="true"
             android:textColor="#4d4d4d"
-            android:layout_centerInParent="true"
-            android:textSize="@dimen/sp_title_txt_size"/>
+            android:textSize="@dimen/sp_title_txt_size" />
 
         <!--<ImageView
             android:clickable="true"
@@ -63,22 +62,31 @@
             android:visibility="gone"
             />-->
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:clickable="true"
-            android:onClick="click"
+       <!-- <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_im_avatar"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
             android:layout_centerVertical="true"
-            />
+            android:layout_marginRight="10dp"
+            android:clickable="true"
+            android:onClick="click" />-->
+        <ImageView
+            android:id="@+id/iv_im_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:clickable="true"
+            android:src="@drawable/icon_single_avater"
+            android:onClick="click" />
 
         <View
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="0.3dp"
-            android:background="@color/c_de2"/>
+            android:layout_alignParentBottom="true"
+            android:background="@color/c_de2" />
 
     </RelativeLayout>
     <!--******************************-->
@@ -95,137 +103,149 @@
         android:footerDividersEnabled="false"
         android:listSelector="#00000000"
         android:stackFromBottom="true"
-        android:transcriptMode="alwaysScroll"
-        />
+        android:transcriptMode="alwaysScroll" />
 
     <!-- 文本输入 -->
 
-
-    <LinearLayout
-        android:id="@+id/send_message_layout"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="vertical"
-        android:visibility="visible"
-        android:background="@color/c_white"
-        >
+        android:layout_gravity="bottom">
 
-        <View
+        <TextView
+            android:id="@+id/message_feedback"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/c_de"
-            />
+            android:layout_height="44dp"
+            android:background="#00b8d0"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="意见反馈"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:visibility="gone" />
 
-        <me.peiwo.peiwo.widget.EmotionEditText
-            android:id="@+id/et_msg"
-            android:paddingLeft="18dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="45dp"
-            android:background="@null"
-            android:maxLines="5"
-            android:textSize="12sp"
-            android:textColor="#000000"
-            android:textColorHint="#8e8e8e"
-            android:hint="输入内容......"
-            />
-
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/send_message_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            >
+            android:layout_gravity="bottom"
+            android:background="@color/c_white"
+            android:orientation="vertical"
+            android:visibility="visible">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/c_de" />
+
+            <me.peiwo.peiwo.widget.EmotionEditText
+                android:id="@+id/et_msg"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="18dp">
-
-                <ImageView
-                    android:id="@+id/call_phone_button"
-                    android:clickable="true"
-                    android:onClick="click"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_msg_call"
-                    />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/iv_msgtxt_selector"
-                    android:clickable="true"
-                    android:onClick="click"
-                    android:id="@+id/view_input_txt"
-                    android:layout_marginLeft="20dp"
-                    />
-
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/iv_express_selector"
-                    android:id="@+id/iv_expression"
-                    android:layout_marginLeft="20dp"
-                    android:clickable="true"
-                    android:onClick="click"
-                    />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/iv_imgquickswitch_selector"
-                    android:id="@+id/msg_send_img_btn"
-                    android:layout_marginLeft="20dp"
-                    android:clickable="true"
-                    android:onClick="click"
-                    />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btn_send_text_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_centerVertical="true"
-                android:textSize="14sp"
-                android:textColor="#00b8d0"
-                android:text="发送"
-                android:clickable="true"
-                android:onClick="click"
-                android:layout_alignParentRight="true"
                 android:background="@null"
-                />
-        </RelativeLayout>
+                android:hint="输入内容......"
+                android:maxLines="5"
+                android:minHeight="45dp"
+                android:paddingLeft="18dp"
+                android:textColor="#000000"
+                android:textColorHint="#8e8e8e"
+                android:textSize="12sp" />
 
-    </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="18dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/call_phone_button"
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
+                        android:clickable="true"
+                        android:onClick="click"
+                        android:src="@drawable/ic_msg_call" />
+
+                    <ImageView
+                        android:id="@+id/view_input_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:clickable="true"
+                        android:onClick="click"
+                        android:src="@drawable/iv_msgtxt_selector" />
+
+
+                    <ImageView
+                        android:id="@+id/iv_expression"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="13dp"
+                        android:clickable="true"
+                        android:onClick="click"
+                        android:src="@drawable/iv_express_selector" />
+
+                    <ImageView
+                        android:id="@+id/msg_send_img_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="17dp"
+                        android:clickable="true"
+                        android:onClick="click"
+                        android:src="@drawable/iv_imgquickswitch_selector" />
+                    <ImageView
+                        android:clickable="true"
+                        android:onClick="click"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_chatredbag_selector"
+                        android:id="@+id/v_redbag_start"
+                        android:layout_marginLeft="17dp"/>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_send_text_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:clickable="true"
+                    android:onClick="click"
+                    android:text="发送"
+                    android:textColor="#00b8d0"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
 
     <!-- 打电话 -->
 
 
     <me.peiwo.peiwo.widget.ChatBottomView
+        android:id="@+id/view_bottom_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/view_bottom_panel"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
 
         <me.peiwo.peiwo.widget.ExpressionPanelView
+            android:id="@+id/face_lay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            android:id="@+id/face_lay"
-            />
+            android:visibility="gone" />
 
         <me.peiwo.peiwo.widget.ImageQuickSwitchView
+            android:id="@+id/image_quick_switch"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/image_quick_switch"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
     </me.peiwo.peiwo.widget.ChatBottomView>
 
 

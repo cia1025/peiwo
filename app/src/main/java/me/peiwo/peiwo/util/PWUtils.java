@@ -210,6 +210,7 @@ public class PWUtils {
     public static int getStatusBarHeight(Context context) {
         int statusBarHeight = 0;
         try {
+            context.getClass().newInstance();
             Class<?> c = Class.forName("com.android.internal.R$dimen");
             Object o = c.newInstance();
             Field field = c.getField("status_bar_height");

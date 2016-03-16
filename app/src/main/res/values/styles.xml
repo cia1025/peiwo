@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -174,7 +174,7 @@
         <item name="android:headerDividersEnabled">false</item>
     </style>
 
-    <style name="base_dialog_theme" parent="Theme.AppCompat.Dialog"/>
+    <style name="base_dialog_theme" parent="Theme.AppCompat.Dialog" />
 
     <style name="AnimDialogLoading" parent="base_dialog_theme">
         <item name="android:windowFrame">@null</item>
@@ -242,7 +242,9 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@android:color/white</item>
         <!--<item name="android:editTextBackground">@drawable/bg_blue_line_selector</item>-->
-        <item name="android:textCursorDrawable" tools:ignore="NewApi">@drawable/text_cursor_drawable</item>
+        <item name="android:textCursorDrawable" tools:ignore="NewApi">
+            @drawable/text_cursor_drawable
+        </item>
         <item name="colorControlNormal">@color/c_control_normal</item>
         <item name="colorControlActivated">@color/c_pw_main</item>
         <!--未打开的默认颜色-->
@@ -309,9 +311,8 @@
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

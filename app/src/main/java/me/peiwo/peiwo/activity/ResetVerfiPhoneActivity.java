@@ -1,23 +1,5 @@
 package me.peiwo.peiwo.activity;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import me.peiwo.peiwo.R;
-import me.peiwo.peiwo.net.ApiRequestWrapper;
-import me.peiwo.peiwo.net.AsynHttpClient;
-import me.peiwo.peiwo.net.MsgStructure;
-import me.peiwo.peiwo.util.Md5Util;
-import me.peiwo.peiwo.util.PWUtils;
-import me.peiwo.peiwo.util.TitleUtil;
-import me.peiwo.peiwo.util.UserManager;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,6 +13,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import me.peiwo.peiwo.R;
+import me.peiwo.peiwo.net.ApiRequestWrapper;
+import me.peiwo.peiwo.net.AsynHttpClient;
+import me.peiwo.peiwo.net.MsgStructure;
+import me.peiwo.peiwo.util.Md5Util;
+import me.peiwo.peiwo.util.PWUtils;
+import me.peiwo.peiwo.util.TitleUtil;
+import me.peiwo.peiwo.util.UserManager;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by fuhaidong on 14-9-30.
@@ -62,7 +62,7 @@ public class ResetVerfiPhoneActivity extends BaseActivity {
         et_verifcode = (EditText) findViewById(R.id.et_verifcode);
         et_verifcode.setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)});
         tv_phone_no = (TextView) findViewById(R.id.tv_phone_no);
-        String source = String.format(Locale.getDefault(), "验证码已发送至  +%s  %s", PWUtils.getPhoneCode(mPhoneNo), PWUtils.getRealPhone(mPhoneNo));
+        String source = String.format(Locale.getDefault(), "验证码已发送至  %s  %s", PWUtils.getPhoneCode(mPhoneNo), PWUtils.getRealPhone(mPhoneNo));
         SpannableString spannableString = new SpannableString(source);
         spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), source.lastIndexOf(" "), source.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv_phone_no.setText(spannableString);
@@ -121,7 +121,11 @@ public class ResetVerfiPhoneActivity extends BaseActivity {
 
             @Override
             public void onError(int error, Object ret) {
-                mHandler.sendEmptyMessage(WHAT_DATA_RECEIVE_ERROR_VERFI);
+//                mHandler.sendEmptyMessage(WHAT_DATA_RECEIVE_ERROR_VERFI);
+                Observable.just(null).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+                    dismissAnimLoading();
+                    showErrorToast(ret, getString(R.string.verification_incorrect));
+                });
             }
         });
     }

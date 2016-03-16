@@ -18,6 +18,8 @@ public class DrawerContentModel {
 
     public String uid;
     public String session_data;
+    //just for lazy voice
+    private boolean hasVoice = true;
 
     public DrawerContentModel(String uname, String avatar_thumbnail, String pwnum, int view_type) {
         this.view_type = view_type;
@@ -31,5 +33,14 @@ public class DrawerContentModel {
         this.drawer_lable = drawer_lable;
         this.badge_num = badge_num;
         this.view_type = view_type;
+    }
+
+    public boolean isHasVoice() {
+        return hasVoice;
+    }
+
+    public void setHasVoice(boolean hasVoice) {
+        if ("懒人招呼".equals(this.drawer_lable))
+            this.hasVoice = hasVoice;
     }
 }

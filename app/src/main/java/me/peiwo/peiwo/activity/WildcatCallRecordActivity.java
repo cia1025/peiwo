@@ -305,6 +305,7 @@ public class WildcatCallRecordActivity extends BaseActivity implements
                     ArrayList<NameValuePair> paramList = new ArrayList<>();
                     paramList.add(new BasicNameValuePair(AsynHttpClient.KEY_TUID, String.valueOf(remote_uid)));
                     paramList.add(new BasicNameValuePair(AsynHttpClient.KEY_REASON, String.valueOf(which == 4 ? 0 : which + 1)));
+                    paramList.add(new BasicNameValuePair(AsynHttpClient.KEY_REPORT_WILDCAT, "1"));
                     ApiRequestWrapper.openAPIGET(getApplicationContext(), paramList, AsynHttpClient.API_REPORT_DOBLOCK, new MsgStructure() {
                         @Override
                         public void onReceive(JSONObject data) {

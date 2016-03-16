@@ -126,9 +126,9 @@ public class SettingActivity extends BaseActivity implements
 //            	startActivity(guidIntent);
 //            	break;
             case R.id.black_list:
-                startActivity(new Intent(SettingActivity.this,
-                        BlockListActivity.class));
-                UmengStatisticsAgent.onEvent(this, UMEventIDS.UMESETSBLACK);
+//                startActivity(new Intent(SettingActivity.this,
+//                        BlockListActivity.class));
+//                UmengStatisticsAgent.onEvent(this, UMEventIDS.UMESETSBLACK);
                 break;
             case R.id.cache_clean:
                 File cacheDir = FileManager.getTempFilePath();
@@ -195,13 +195,10 @@ public class SettingActivity extends BaseActivity implements
             new AlertDialog.Builder(this)
                     .setMessage(String.format(Locale.getDefault(), "您已绑定手机号%s,现在可通过手机号和陪我号登录陪我了！", PWUtils.getRealPhone(phone)))
                     .setNegativeButton("取消", null)
-                    .setPositiveButton("修改绑定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(SettingActivity.this, ResetPhoneActivity.class);
-                            intent.putExtra(ResetPhoneActivity.KEY_PHONENO, phone);
-                            startActivityForResult(intent, REQUEST_CODE_RESET);
-                        }
+                    .setPositiveButton("修改绑定", (dialog, which) -> {
+                        Intent intent = new Intent(SettingActivity.this, ResetPhoneActivity.class);
+                        intent.putExtra(ResetPhoneActivity.KEY_PHONENO, phone);
+                        startActivityForResult(intent, REQUEST_CODE_RESET);
                     })
                     .create().show();
         } else {

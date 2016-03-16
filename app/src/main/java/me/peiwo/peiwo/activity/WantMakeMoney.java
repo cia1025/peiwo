@@ -219,7 +219,7 @@ public class WantMakeMoney extends BaseActivity {
 
 
     private void init() {
-        setTitle("我要发财");
+        setTitle("陪我特权");
         setMoneyBG();
         TextView btn_getmoney = (TextView) findViewById(R.id.btn_getmoney);
 //        if (mUser.gender == AsynHttpClient.GENDER_MASK_FEMALE) {

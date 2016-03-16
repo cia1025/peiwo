@@ -126,14 +126,14 @@ public class LazyVoiceLayout extends RelativeLayout implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if(mContext instanceof LazyGuyActivity){
+        if (mContext instanceof LazyGuyActivity) {
             ((LazyGuyActivity) mContext).stopPlaying();
         }
         switch (mState) {
             case IDLE:
 //                if (mMediaPlayer != null && (mMediaPlayer.getDuration() / 1000) > 0) {
 //                    CustomLog.d("2media player duration is : " + (mMediaPlayer.getDuration() / 1000));
-                    updateState(State.PLAYING, true);
+                updateState(State.PLAYING, true);
 //                } else {
 //                    boolean netAvailable = PWUtils.isNetWorkAvailable(mContext);
 //                    if (netAvailable) {
@@ -288,7 +288,7 @@ public class LazyVoiceLayout extends RelativeLayout implements View.OnClickListe
         playerService.setOnPrepareCompletedListener(() -> {
             CustomLog.d("playLocalVoice ready to play");
         });
-        if(!TextUtils.isEmpty(mFilePath)){
+        if (!TextUtils.isEmpty(mFilePath)) {
             playerService.playCommand(mFilePath, false);
         }
     }
@@ -433,7 +433,7 @@ public class LazyVoiceLayout extends RelativeLayout implements View.OnClickListe
 
     public void pauseMediaPlayer() {
         CustomLog.d("pause media player");
-        if(PlayerService.getInstance().isPlaying())
+        if (PlayerService.getInstance().isPlaying())
             updateState(State.PAUSE, false);
     }
 }

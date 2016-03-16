@@ -1,10 +1,7 @@
 package me.peiwo.peiwo.activity;
 
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -21,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
-import com.tencent.mm.sdk.modelmsg.SendAuth;
+import butterknife.OnClick;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import me.peiwo.peiwo.PeiwoApp;
@@ -29,18 +26,14 @@ import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.constans.Constans;
 import me.peiwo.peiwo.constans.PWActionConfig;
 import me.peiwo.peiwo.eventbus.EventBus;
-import me.peiwo.peiwo.model.PWUserModel;
-import me.peiwo.peiwo.net.ApiRequestWrapper;
 import me.peiwo.peiwo.net.AsynHttpClient;
-import me.peiwo.peiwo.net.MsgStructure;
 import me.peiwo.peiwo.net.TcpProxy;
 import me.peiwo.peiwo.util.*;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class WelcomeActivity extends BaseActivity implements
         OnPageChangeListener {
@@ -54,9 +47,9 @@ public class WelcomeActivity extends BaseActivity implements
     private ToggleButton mConvertEnvBtn;
 
     private IWXAPI mWXApi;
-    private BroadcastReceiver wxReceiver;
+    //    private BroadcastReceiver wxReceiver;
     private MyHandler mHandler;
-    private boolean stopResponseWXReceive = false;
+    //    private boolean stopResponseWXReceive = false;
     private static final int[] G_IMAGES = {R.drawable.guide_page_1, R.drawable.guide_page_2, R.drawable.guide_page_3, R.drawable.guide_page_4};
     private static final String[] MUSIC_PATH = {"guide_music/guide_music_1.mp3", "guide_music/guide_music_2.mp3", "guide_music/guide_music_3.mp3", "guide_music/guide_music_4.mp3"};
     HourGlassAgent hourGlassAgent = HourGlassAgent.getInstance();
@@ -83,8 +76,8 @@ public class WelcomeActivity extends BaseActivity implements
         mWXApi = WXAPIFactory.createWXAPI(this, Constans.WX_APP_ID, true);
         mWXApi.registerApp(Constans.WX_APP_ID);
 
-        wxReceiver = new WXReceiver();
-        registerReceiver(wxReceiver, new IntentFilter(PWActionConfig.ACTION_WXSHARE_SUCCESS));
+//        wxReceiver = new WXReceiver();
+//        registerReceiver(wxReceiver, new IntentFilter(PWActionConfig.ACTION_WXSHARE_SUCCESS));
         mHandler = new MyHandler(this);
         initDots();
         ViewPager mPager = (ViewPager) findViewById(R.id.viewpager);
@@ -192,7 +185,7 @@ public class WelcomeActivity extends BaseActivity implements
 
     @Override
     public void onResume() {
-        stopResponseWXReceive = false;
+//        stopResponseWXReceive = false;
         super.onResume();
         //EventBus.getDefault().unregister(this);
     }
@@ -203,15 +196,15 @@ public class WelcomeActivity extends BaseActivity implements
         //EventBus.getDefault().register(this);
     }
 
-    class WXReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (stopResponseWXReceive) return;
-            String wxcode = intent.getStringExtra("wxcode");
-            signInWX(wxcode);
-        }
-    }
+//    class WXReceiver extends BroadcastReceiver {
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            if (stopResponseWXReceive) return;
+//            String wxcode = intent.getStringExtra("wxcode");
+//            signInWX(wxcode);
+//        }
+//    }
 
 
     static class MyHandler extends Handler {
@@ -258,7 +251,7 @@ public class WelcomeActivity extends BaseActivity implements
     }
 
 
-    private void signInWX(String wxcode) {
+    /*private void signInWX(String wxcode) {
         showAnimLoading("", false, false, false);
         ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("social_type", "4"));
@@ -282,37 +275,56 @@ public class WelcomeActivity extends BaseActivity implements
                 mHandler.sendMessage(msg);
             }
         });
+    }*/
+
+    @OnClick(R.id.iv_register)
+    void goRegister() {
+        if (hourGlassAgent.getStatistics() && hourGlassAgent.getK35() == 0) {
+            hourGlassAgent.setK35(1);
+            PeiwoApp app = (PeiwoApp) getApplicationContext();
+            app.postK("k35");
+        }
+        startActivity(new Intent(this, RegisterActivity.class));
+    }
+
+    @OnClick(R.id.iv_login)
+    void goLogIn() {
+        if (hourGlassAgent.getStatistics() && hourGlassAgent.getK17() == 0) {
+            hourGlassAgent.setK17(1);
+            PeiwoApp app = (PeiwoApp) getApplicationContext();
+            app.postK("k17");
+        }
+        startActivity(new Intent(this, PhoneLoginActivity.class));
     }
 
     public void click(View v) {
         if (PWUtils.isMultiClick())
             return;
         switch (v.getId()) {
-            case R.id.iv_register:
-                // 注册
+//            case R.id.iv_register:
+            // 注册
 //			startActivityForResult(new Intent(this, RegisterActivity.class),
 //					REQUEST_CODE_REGISTER);
-                //微信注册
-                if (!mWXApi.isWXAppInstalled()) {
-                    showToast(this, getString(R.string.wechat_not_installed));
-                    return;
-                }
-                SendAuth.Req wxReq = new SendAuth.Req();
-                wxReq.scope = "snsapi_userinfo";
-                wxReq.state = PWUtils.getDeviceId(this);
-                mWXApi.sendReq(wxReq);
-                if (hourGlassAgent.getStatistics() && hourGlassAgent.getK7() == 0) {
-                    hourGlassAgent.setK7(1);
-                    PeiwoApp app = (PeiwoApp) getApplicationContext();
-                    app.postK("k7");
-                }
-                break;
-
-            case R.id.iv_login:
-                // 登录
-                stopResponseWXReceive = true;
-                startActivity(new Intent(this, PhoneLoginActivity.class));
-                break;
+            //微信注册
+//                if (!mWXApi.isWXAppInstalled()) {
+//                    showToast(this, getString(R.string.wechat_not_installed));
+//                    return;
+//                }
+//                SendAuth.Req wxReq = new SendAuth.Req();
+//                wxReq.scope = "snsapi_userinfo";
+//                wxReq.state = PWUtils.getDeviceId(this);
+//                mWXApi.sendReq(wxReq);
+//                if (mHourGlassAgent.getStatistics() && mHourGlassAgent.getK7() == 0) {
+//                    mHourGlassAgent.setK7(1);
+//                    PeiwoApp app = (PeiwoApp) getApplicationContext();
+//                    app.postK("k7");
+//                }
+//                break;
+//            case R.id.tv_login:
+//                // 登录
+//                stopResponseWXReceive = true;
+//                startActivity(new Intent(this, PhoneLoginActivity.class));
+//                break;
             case R.id.convert_enviroment_btn:
                 PeiwoApp app = PeiwoApp.getApplication();
                 String toastStr = "";
@@ -341,10 +353,10 @@ public class WelcomeActivity extends BaseActivity implements
         if (mWXApi != null) {
             mWXApi.unregisterApp();
         }
-        if (wxReceiver != null) {
-            unregisterReceiver(wxReceiver);
-            wxReceiver = null;
-        }
+//        if (wxReceiver != null) {
+//            unregisterReceiver(wxReceiver);
+//            wxReceiver = null;
+//        }
         super.onDestroy();
     }
 

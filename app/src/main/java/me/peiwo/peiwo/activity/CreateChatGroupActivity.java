@@ -10,13 +10,27 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.*;
-import butterknife.Bind;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import com.alibaba.fastjson.JSON;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.qiniu.android.http.ResponseInfo;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
@@ -29,7 +43,12 @@ import me.peiwo.peiwo.constans.PWDBConfig;
 import me.peiwo.peiwo.db.BriteDBHelperHolder;
 import me.peiwo.peiwo.db.MsgDBCenterService;
 import me.peiwo.peiwo.eventbus.EventBus;
-import me.peiwo.peiwo.model.*;
+import me.peiwo.peiwo.model.GroupMemberModel;
+import me.peiwo.peiwo.model.GroupMessageModel;
+import me.peiwo.peiwo.model.ImageModel;
+import me.peiwo.peiwo.model.PWContactsModel;
+import me.peiwo.peiwo.model.PWUserModel;
+import me.peiwo.peiwo.model.TabfindGroupModel;
 import me.peiwo.peiwo.model.groupchat.GroupMessageDecorationModel;
 import me.peiwo.peiwo.net.ApiRequestWrapper;
 import me.peiwo.peiwo.net.AsynHttpClient;
@@ -40,17 +59,10 @@ import me.peiwo.peiwo.util.ImageUtil;
 import me.peiwo.peiwo.util.PinYin;
 import me.peiwo.peiwo.util.UserManager;
 import me.peiwo.peiwo.util.group.RongMessageParse;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by gaoxiang on 2015/12/8.
@@ -516,13 +528,20 @@ public class CreateChatGroupActivity extends BaseActivity implements TextWatcher
 
     private void uploadImgByCameraCrop(String imagePath) {
         CustomLog.d("createGroup, image path is : " + imagePath);
-        if (imagePath == null) {
+        if (TextUtils.isEmpty(imagePath)) {
             showToast(this, "获取图片出错");
         } else {
             String imageKey = PWUploader.getInstance().getKey(pwUserModel.uid);
             ImageModel imgModel = new ImageModel(imagePath, imageKey);
             uploadImgBySCS(imgModel);
         }
+//        if (imagePath == null) {
+//            showToast(this, "获取图片出错");
+//        } else {
+//            String imageKey = PWUploader.getInstance().getKey(pwUserModel.uid);
+//            ImageModel imgModel = new ImageModel(imagePath, imageKey);
+//            uploadImgBySCS(imgModel);
+//        }
     }
 
     private void uploadImgBySCS(final ImageModel imgModel) {

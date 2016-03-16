@@ -8,13 +8,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import me.peiwo.peiwo.R;
-import me.peiwo.peiwo.model.ImageModel;
-import me.peiwo.peiwo.util.PWUtils;
 
 import java.util.List;
+
+import me.peiwo.peiwo.R;
+import me.peiwo.peiwo.model.ImageModel;
+import me.peiwo.peiwo.model.ImageModelKeeper;
+import me.peiwo.peiwo.util.PWUtils;
 
 public class FeedFlowGridView extends LinearLayout implements View.OnClickListener {
 
@@ -28,6 +31,7 @@ public class FeedFlowGridView extends LinearLayout implements View.OnClickListen
             .showImageForEmptyUri(R.color.feed_flow_picture_background)
             .showImageOnFail(R.color.feed_flow_picture_background).considerExifParams(true)
             .cacheInMemory(true).cacheOnDisk(true).build();
+    private ImageModelKeeper imageModelKeeper;
 
     public FeedFlowGridView(Context context) {
         super(context);
@@ -43,6 +47,7 @@ public class FeedFlowGridView extends LinearLayout implements View.OnClickListen
         setOrientation(VERTICAL);
         spacePX = PWUtils.getPXbyDP(getContext(), spaceDP);//21
         paddingHorizontalPX = PWUtils.getPXbyDP(getContext(), paddingHorizontalDP); // 42
+        imageModelKeeper = ImageModelKeeper.getInstance();
     }
 
     private void createUserFaces(List<ImageModel> mList, int imageW) {
@@ -167,6 +172,7 @@ public class FeedFlowGridView extends LinearLayout implements View.OnClickListen
 
         ImageView iv = new ImageView(getContext());
         iv.setScaleType(scaleType);
+//        iv.setAdjustViewBounds(true);
         LayoutParams params = new LayoutParams(imageW, imageH);
         params.setMargins(0, 0, 0, 0);
         iv.setLayoutParams(params);
@@ -174,17 +180,28 @@ public class FeedFlowGridView extends LinearLayout implements View.OnClickListen
         iv.setTag(0);
 
         ImageModel model = mList.get(0);
-        if (!TextUtils.isEmpty(model.thumbnail_url)) {
-            ImageLoader.getInstance().displayImage(model.thumbnail_url, iv, OPTIONS);
-        } else {
+        if (imageModelKeeper.getUrlList().contains(model.image_url)) {
             ImageLoader.getInstance().displayImage(model.image_url, iv, OPTIONS);
+        } else {
+            if (!TextUtils.isEmpty(model.thumbnail_url)) {
+                ImageLoader.getInstance().displayImage(model.thumbnail_url, iv, OPTIONS);
+            } else {
+                ImageLoader.getInstance().displayImage(model.image_url, iv, OPTIONS);
+            }
         }
+//        if (!TextUtils.isEmpty(model.thumbnail_url)) {
+//            ImageLoader.getInstance().displayImage(model.thumbnail_url, iv, OPTIONS);
+//        } else {
+//            ImageLoader.getInstance().displayImage(model.image_url, iv, OPTIONS);
+//        }
         addView(iv);
     }
 
     private View createImageChild(int i, int size, ImageModel model) {
+
         ImageView iv = new ImageView(getContext());
         iv.setScaleType(ScaleType.CENTER_CROP);
+//        iv.setAdjustViewBounds(true);
         LayoutParams params = new LayoutParams(size, size);
         if (i % 3 == 0) {
             params.setMargins(0, 0, 0, 0);
@@ -194,11 +211,20 @@ public class FeedFlowGridView extends LinearLayout implements View.OnClickListen
         iv.setLayoutParams(params);
         iv.setTag(i);
         iv.setOnClickListener(this);
-        if (!TextUtils.isEmpty(model.thumbnail_url)) {
-            ImageLoader.getInstance().displayImage(model.thumbnail_url, iv, OPTIONS);
-        } else {
+        if (imageModelKeeper.getUrlList().contains(model.image_url)) {
             ImageLoader.getInstance().displayImage(model.image_url, iv, OPTIONS);
+        } else {
+            if (!TextUtils.isEmpty(model.thumbnail_url)) {
+                ImageLoader.getInstance().displayImage(model.thumbnail_url, iv, OPTIONS);
+            } else {
+                ImageLoader.getInstance().displayImage(model.image_url, iv, OPTIONS);
+            }
         }
+//        if (!TextUtils.isEmpty(model.thumbnail_url)) {
+//            ImageLoader.getInstance().displayImage(model.thumbnail_url, iv, OPTIONS);
+//        } else {
+//            ImageLoader.getInstance().displayImage(model.image_url, iv, OPTIONS);
+//        }
         return iv;
     }
 

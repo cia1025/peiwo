@@ -6,18 +6,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.List;
+
 import me.peiwo.peiwo.DfineAction;
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.activity.TabMsgFragment;
 import me.peiwo.peiwo.db.MsgDBCenterService;
 import me.peiwo.peiwo.model.TabMsgModel;
-import me.peiwo.peiwo.util.CustomLog;
 import me.peiwo.peiwo.util.TimeUtil;
 import me.peiwo.peiwo.util.UserManager;
-
-import java.util.List;
 
 public class TabMsgAdapter extends PPBaseAdapter<TabMsgModel> {
 
@@ -117,8 +118,8 @@ public class TabMsgAdapter extends PPBaseAdapter<TabMsgModel> {
 
         if (model.unread_count > 0) {
             holder.tv_badge.setVisibility(View.VISIBLE);
-            if (model.unread_count > 99) {
-                holder.tv_badge.setText("99+");
+            if (model.unread_count > 999) {
+                holder.tv_badge.setText("999+");
             } else {
                 holder.tv_badge.setText(String.valueOf(model.unread_count));
             }

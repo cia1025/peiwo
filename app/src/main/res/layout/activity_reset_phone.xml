@@ -15,7 +15,7 @@
         android:textColor="#4d4d4d"
         android:textSize="14sp"/>
 
-    <me.peiwo.peiwo.widget.ClearEditText
+    <EditText
         android:id="@+id/et_pwd"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -23,6 +23,7 @@
         android:layout_marginRight="2dp"
         android:layout_marginTop="10dp"
         android:hint="请输入当前登录密码"
+        android:maxLength="20"
         android:inputType="textPassword"
         android:textColorHint="@color/et_hint_color"
         android:textSize="13sp"/>
@@ -38,7 +39,7 @@
 
     <include layout="@layout/layout_phonecode_item"/>
 
-    <me.peiwo.peiwo.widget.ClearEditText
+    <EditText
         android:id="@+id/et_phoneno"
         android:layout_width="match_parent"
         android:layout_height="50dp"

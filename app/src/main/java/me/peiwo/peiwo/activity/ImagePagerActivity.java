@@ -31,14 +31,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.utils.DiskCacheUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.callback.DownloadCallback;
 import me.peiwo.peiwo.model.ImageModel;
+import me.peiwo.peiwo.model.ImageModelKeeper;
 import me.peiwo.peiwo.net.PWDownloader;
 import me.peiwo.peiwo.util.CustomLog;
 import me.peiwo.peiwo.util.FileManager;
@@ -50,10 +57,6 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 public class ImagePagerActivity extends BaseActivity {
 
@@ -70,13 +73,14 @@ public class ImagePagerActivity extends BaseActivity {
     private DisplayImageOptions options = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.ic_default_avatar)
             .cacheInMemory(false).cacheOnDisk(true).considerExifParams(true).bitmapConfig(Bitmap.Config.RGB_565)
             .build();
+    private ImageModelKeeper imageModelKeeper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_image_pager);
         mSubscriptions = new CompositeSubscription();
-
+        imageModelKeeper = ImageModelKeeper.getInstance();
         Intent intent = getIntent();
         //Bundle bundle = getIntent().getExtras();
 
@@ -91,6 +95,10 @@ public class ImagePagerActivity extends BaseActivity {
         iv_save_img = findViewById(R.id.iv_save_img);
         tvTitle = (TextView) findViewById(R.id.title);
         tvTitle.setText(String.format("%d/%d", pagerPosition + 1, urlList.size()));
+        String currentUrl = urlList.get(pagerPosition).image_url;
+        if (!imageModelKeeper.getUrlList().contains(currentUrl)) {
+            imageModelKeeper.getUrlList().add(currentUrl);
+        }
 
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(new ImagePagerAdapter(urlList));
@@ -99,6 +107,10 @@ public class ImagePagerActivity extends BaseActivity {
             @Override
             public void onPageSelected(int index) {
                 tvTitle.setText(String.format("%d/%d", index + 1, urlList.size()));
+                String tempUrl = urlList.get(index).image_url;
+                if (!imageModelKeeper.getUrlList().contains(tempUrl)) {
+                    imageModelKeeper.getUrlList().add(tempUrl);
+                }
             }
 
             @Override
@@ -241,7 +253,8 @@ public class ImagePagerActivity extends BaseActivity {
                 PWDownloader.getInstance().add(path, dst, new DownloadCallback() {
                     @Override
                     public void onComplete(String path) {
-                        Toast.makeText(ImagePagerActivity.this, "图片已保存在" + path, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(ImagePagerActivity.this, "图片已保存在" + path, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ImagePagerActivity.this, "成功保存到相册", Toast.LENGTH_SHORT).show();
                         sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
                     }
 
@@ -264,6 +277,13 @@ public class ImagePagerActivity extends BaseActivity {
             Toast.makeText(ImagePagerActivity.this, "图片已存在" + dst.getAbsolutePath(), Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if (src.getAbsolutePath().contains("file:/")) {
+            int startIndex = src.getAbsolutePath().indexOf("/storage");
+            String filepath = src.getAbsolutePath().substring(startIndex);
+            src = new File(filepath);
+        }
+
         Observable<Boolean> observable = FileManager.copyFile(src, dst);
         Subscription subscription = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Boolean>() {
             @Override
@@ -281,7 +301,8 @@ public class ImagePagerActivity extends BaseActivity {
                 if (aBoolean) {
                     String rst_path = dst.getAbsolutePath();
                     sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + rst_path)));
-                    Toast.makeText(ImagePagerActivity.this, "图片已保存在" + rst_path, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ImagePagerActivity.this, "图片已保存在" + rst_path, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ImagePagerActivity.this, "成功保存到相册", Toast.LENGTH_SHORT).show();
                 }
             }
         });

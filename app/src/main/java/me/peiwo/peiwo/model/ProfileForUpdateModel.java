@@ -74,7 +74,8 @@ public class ProfileForUpdateModel extends PPBaseModel {
     public String game_tags;
     
     
-    public List<ImageModel> images = new ArrayList<ImageModel>();
+//    public List<ImageModel> images = new ArrayList<ImageModel>();
+    public ArrayList<ImageModel> images = new ArrayList<ImageModel>();
     //public List<ImagesModel> imagesForDisplay = new ArrayList<ProfileForUpdateModel.ImagesModel>();
 
     public ProfileForUpdateModel(PWUserModel user) {
@@ -115,6 +116,5 @@ public class ProfileForUpdateModel extends PPBaseModel {
         	return sb.substring(0, index);
         }
         return "";
-        
     }
 }

@@ -1,14 +1,14 @@
 [
 	{
 	"name": "srv_http",
-	"host": "testapi.raybo.com",
-	"port": "2443",
-	"use_local": "true",
-	"type": "https"
+    "host": "http04.qd.peiwo.cn",
+    "port": "80",
+    "use_local": "true",
+    "type": "http"
 	},
 	{
 	"name": "srv_tcp",
-	"host": "testtcp.raybo.com",
+	"host": "chonglian.hub.qd.peiwo.cn",
 	"port": "8900",
 	"use_local": "true",
 	"type": "tcp"

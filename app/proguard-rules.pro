@@ -284,6 +284,8 @@ public static final int *;
 -keep public class pl.droidsonroids.gif.GifIOException{<init>(int);}
 -keep class pl.droidsonroids.gif.GifInfoHandle{<init>(long,int,int,int);}
 
+-dontwarn io.agora.rtc.**
+-keep class io.agora.rtc.**{*;}
 
 -dontwarn java.nio.file.Files
 -dontwarn java.nio.file.Path

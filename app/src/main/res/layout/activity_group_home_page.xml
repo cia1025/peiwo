@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/title_bar"/>
+        <include layout="@layout/title_bar" />
 
         <ScrollView
             android:id="@+id/group_page_scrollView"
@@ -23,50 +23,49 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:paddingTop="20dp"
-                    android:gravity="center_horizontal">
+                    android:paddingTop="20dp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/civ_group_avatar"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
+                        android:onClick="click"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/icon_camera"
-                        android:onClick="click"/>
+                        android:src="@drawable/icon_camera" />
 
                     <EditText
                         android:id="@+id/et_group_name"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
                         android:layout_marginBottom="4dp"
-                        android:maxLength="30"
-                        android:background="@null"
-                        android:singleLine="true"
+                        android:layout_marginTop="6dp"
                         android:autoText="false"
+                        android:background="@null"
                         android:gravity="center"
-                        android:textSize="14sp"
+                        android:maxLength="30"
+                        android:singleLine="true"
+                        android:text="@string/group_name"
                         android:textColor="@color/text_normal_color"
-                        android:text="@string/group_name"/>
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tv_remark_tips"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textSize="11sp"
                         android:layout_marginBottom="14dp"
+                        android:gravity="center"
+                        android:text="@string/click_to_modify_remark"
                         android:textColor="@color/text_dim_color"
-                        android:text="@string/click_to_modify_remark"/>
+                        android:textSize="11sp" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/c_de2"
                     android:layout_alignParentTop="true"
-                    />
+                    android:background="@color/c_de2" />
 
                 <RelativeLayout
                     android:id="@+id/layout_group_announcement"
@@ -78,42 +77,41 @@
                         android:id="@+id/left_tv"
                         android:layout_width="35dp"
                         android:layout_height="18dp"
-                        android:textColor="@color/white"
-                        android:text="@string/group_announcement"
-                        android:background="@color/blue_text_color"
-                        android:textSize="11sp"
-                        android:gravity="center"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="18dp"/>
+                        android:layout_marginLeft="18dp"
+                        android:background="@color/blue_text_color"
+                        android:gravity="center"
+                        android:text="@string/group_announcement"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
 
                     <TextView
                         android:id="@+id/tv_group_announcement"
-                        android:layout_toRightOf="@id/left_tv"
-                        android:gravity="center_vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="13sp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/left_tv"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
                         android:maxLength="30"
                         android:singleLine="true"
-                        android:ellipsize="end"
-                        android:layout_marginLeft="10dp"
-                        android:textColor="@color/text_normal_color"/>
+                        android:textColor="@color/text_normal_color"
+                        android:textSize="13sp" />
 
                     <ImageView
                         android:id="@+id/arrow_group_announcement"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/arrow_right"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="16dp"/>
+                        android:layout_marginRight="16dp"
+                        android:src="@drawable/arrow_right" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:background="@color/c_de2"
                         android:layout_alignParentBottom="true"
-                        />
+                        android:background="@color/c_de2" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -125,27 +123,27 @@
                         android:id="@+id/tv_involve_friend"
                         android:layout_width="match_parent"
                         android:layout_height="44dp"
+                        android:clickable="true"
                         android:drawableLeft="@drawable/icon_add"
-                        android:paddingLeft="28dp"
                         android:drawablePadding="20dp"
-                        android:text="@string/invlolve_group_member"
                         android:gravity="center_vertical"
-                        android:textColor="@color/text_normal_color"
                         android:onClick="click"
-                        android:textSize="13sp"
-                        android:clickable="true"/>
+                        android:paddingLeft="28dp"
+                        android:text="@string/invlolve_group_member"
+                        android:textColor="@color/text_normal_color"
+                        android:textSize="13sp" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:background="@color/c_de2"
-                        android:layout_alignParentBottom="true"/>
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/c_de2" />
                 </RelativeLayout>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_friends_list"
                     android:layout_width="match_parent"
-                    android:layout_height="132dp"/>
+                    android:layout_height="132dp" />
 
                 <RelativeLayout
                     android:id="@+id/layout_show_more"
@@ -157,128 +155,127 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:background="@color/c_de2"
-                        android:layout_alignParentTop="true"/>
+                        android:layout_alignParentTop="true"
+                        android:background="@color/c_de2" />
 
                     <TextView
                         android:id="@+id/tv_show_all_members"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:paddingLeft="18dp"
-                        android:textSize="13sp"
                         android:gravity="center_vertical"
+                        android:paddingLeft="18dp"
+                        android:text="@string/show_all_group_members"
                         android:textColor="@color/text_normal_color"
-                        android:text="@string/show_all_group_members"/>
+                        android:textSize="13sp" />
                 </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/c_de2"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_alignParentTop="true"
+                    android:background="@color/c_de2" />
 
                 <RelativeLayout
                     android:id="@+id/layout_group_feed"
                     android:layout_width="match_parent"
                     android:layout_height="84dp"
-                    android:padding="12dp"
                     android:gravity="center_vertical"
-                    android:onClick="click">
+                    android:onClick="click"
+                    android:padding="12dp">
 
                     <TextView
                         android:id="@+id/tv_group_feed_text"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="@string/group_feed_flow"
-                        android:textSize="13sp"
+                        android:layout_alignParentLeft="true"
                         android:layout_marginLeft="6dp"
                         android:layout_marginRight="14dp"
                         android:gravity="center_vertical"
+                        android:text="@string/group_feed_flow"
                         android:textColor="@color/text_normal_color"
-                        android:layout_alignParentLeft="true"/>
+                        android:textSize="13sp" />
 
                     <ImageView
                         android:id="@+id/iv_group_feed_flow"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/bg_font"
+                        android:layout_toRightOf="@+id/tv_group_feed_text"
                         android:scaleType="centerCrop"
-                        android:layout_toRightOf="@+id/tv_group_feed_text"/>
+                        android:src="@drawable/bg_font" />
 
                     <TextView
                         android:id="@+id/tv_group_feed_content"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text=""
-                        android:textSize="11sp"
-                        android:maxLines="4"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="28dp"
+                        android:layout_toRightOf="@id/iv_group_feed_flow"
                         android:ellipsize="end"
                         android:gravity="center_vertical"
-                        android:layout_marginRight="28dp"
-                        android:layout_marginLeft="10dp"
+                        android:maxLines="4"
+                        android:text=""
                         android:textColor="@color/text_normal_color"
-                        android:layout_toRightOf="@id/iv_group_feed_flow"/>
+                        android:textSize="11sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:src="@drawable/arrow_right"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="4dp"/>
+                        android:layout_marginRight="4dp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/arrow_right" />
                 </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/c_de2"
                     android:layout_alignParentTop="true"
-                    />
+                    android:background="@color/c_de2" />
 
                 <RelativeLayout
+                    android:id="@+id/layout_group_repu"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
-                    android:gravity="center_vertical"
-                    android:id="@+id/layout_group_repu"
                     android:clickable="true"
+                    android:gravity="center_vertical"
                     android:onClick="click">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_alignParentLeft="true"
                         android:layout_marginLeft="18dp"
-                        android:textSize="13sp"
+                        android:gravity="center_vertical"
+                        android:text="@string/group_reputation_value"
                         android:textColor="@color/text_normal_color"
-                        android:text="@string/group_reputation_value"/>
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/tv_repu_value"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="28dp"
                         android:layout_toLeftOf="@+id/arrow_repu_value"
-                        android:textSize="13sp"
-                        android:textColor="@color/text_normal_color"/>
+                        android:gravity="center_vertical"
+                        android:textColor="@color/text_normal_color"
+                        android:textSize="13sp" />
 
                     <ImageView
                         android:id="@+id/arrow_repu_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/arrow_right"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="18dp"/>
+                        android:layout_marginRight="18dp"
+                        android:src="@drawable/arrow_right" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:background="@color/c_de2"
-                        android:layout_alignParentBottom="true"/>
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/c_de2" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -291,72 +288,71 @@
                         android:id="@+id/tv_reputation_tips"
                         android:layout_width="match_parent"
                         android:layout_height="41dp"
-                        android:textSize="11sp"
-                        android:textColor="@color/text_dim_color"
                         android:paddingLeft="18dp"
-                        android:text="@string/group_reputation_announcement"/>
+                        android:text="@string/group_reputation_announcement"
+                        android:textColor="@color/text_dim_color"
+                        android:textSize="11sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/layout_group_redbag"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
-                    android:gravity="center_vertical"
                     android:clickable="true"
+                    android:gravity="center_vertical"
                     android:onClick="click">
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:background="@color/c_de2"
                         android:layout_alignParentTop="true"
-                        />
+                        android:background="@color/c_de2" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="18dp"
                         android:gravity="center_vertical"
-                        android:textColor="@color/text_normal_color"
                         android:text="@string/current_profit"
-                        android:textSize="13sp"
-                        android:layout_marginLeft="18dp"/>
+                        android:textColor="@color/text_normal_color"
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/tv_group_balance"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
-                        android:textColor="@color/text_normal_color"
-                        android:gravity="center_vertical"
-                        android:textSize="13sp"
+                        android:layout_marginRight="28dp"
                         android:layout_toLeftOf="@+id/arrow_group_balance"
-                        android:layout_marginRight="28dp"/>
+                        android:gravity="center_vertical"
+                        android:textColor="@color/text_normal_color"
+                        android:textSize="13sp" />
 
                     <ImageView
                         android:id="@+id/arrow_group_balance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/arrow_right"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="18dp"/>
+                        android:layout_marginRight="18dp"
+                        android:src="@drawable/arrow_right" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:background="@color/c_de2"
-                        android:layout_alignParentBottom="true"/>
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/c_de2" />
                 </RelativeLayout>
 
                 <TextView
                     android:id="@+id/tv_group_balance_tips"
                     android:layout_width="match_parent"
                     android:layout_height="41dp"
-                    android:textSize="11sp"
-                    android:textColor="@color/text_dim_color"
                     android:paddingLeft="18dp"
-                    android:text="@string/group_profit_announcement"/>
+                    android:text="@string/group_profit_announcement"
+                    android:textColor="@color/text_dim_color"
+                    android:textSize="11sp" />
 
                 <RelativeLayout
                     android:id="@+id/v_group_nickname_start"
@@ -368,38 +364,38 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:background="@color/c_de2"
-                        android:layout_alignParentTop="true"/>
+                        android:layout_alignParentTop="true"
+                        android:background="@color/c_de2" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:paddingLeft="18dp"
-                        android:textSize="13sp"
+                        android:text="@string/my_group_nickname"
                         android:textColor="@color/text_normal_color"
-                        android:text="@string/my_group_nickname"/>
+                        android:textSize="13sp" />
 
                     <EditText
                         android:id="@+id/et_my_nickname"
                         android:layout_width="260dp"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical|right"
                         android:layout_alignParentRight="true"
-                        android:maxLength="30"
-                        android:singleLine="true"
-                        android:background="@null"
-                        android:paddingRight="18dp"
                         android:layout_marginLeft="18dp"
-                        android:textSize="13sp"
-                        android:textColor="@color/text_normal_color"/>
+                        android:background="@null"
+                        android:gravity="center_vertical|right"
+                        android:maxLength="30"
+                        android:paddingRight="18dp"
+                        android:singleLine="true"
+                        android:textColor="@color/text_normal_color"
+                        android:textSize="13sp" />
                 </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/c_de2"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_alignParentTop="true"
+                    android:background="@color/c_de2" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -411,24 +407,24 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:paddingLeft="18dp"
-                        android:textSize="13sp"
+                        android:text="@string/show_member_name"
                         android:textColor="@color/text_normal_color"
-                        android:text="@string/show_member_name"/>
+                        android:textSize="13sp" />
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/switch_show_nickname"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="15dp"/>
+                        android:layout_marginRight="15dp"
+                        android:gravity="center_vertical" />
                 </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/c_de2"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_alignParentTop="true"
+                    android:background="@color/c_de2" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -440,31 +436,31 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:paddingLeft="18dp"
-                        android:textSize="13sp"
+                        android:text="@string/message_no_alert"
                         android:textColor="@color/text_normal_color"
-                        android:text="@string/message_no_alert"/>
+                        android:textSize="13sp" />
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/switch_nodisturb"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_alignParentRight="true"
-                        android:paddingRight="15dp"/>
+                        android:gravity="center_vertical"
+                        android:paddingRight="15dp" />
                 </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/c_de2"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_alignParentTop="true"
+                    android:background="@color/c_de2" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
+                    android:layout_alignParentTop="true"
                     android:layout_marginTop="20dp"
-                    android:background="@color/c_de2"
-                    android:layout_alignParentTop="true"/>
+                    android:background="@color/c_de2" />
 
                 <RelativeLayout
                     android:id="@+id/layout_recrution"
@@ -477,33 +473,41 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:paddingLeft="18dp"
-                        android:textSize="13sp"
+                        android:text="@string/group_recruition"
                         android:textColor="@color/text_normal_color"
-                        android:text="@string/group_recruition"/>
+                        android:textSize="13sp" />
 
-                    <android.support.v7.widget.SwitchCompat
+                    <!--  <android.support.v7.widget.SwitchCompat
+                          android:id="@+id/switch_recruition"
+                          android:layout_width="wrap_content"
+                          android:layout_height="match_parent"
+                          android:layout_alignParentRight="true"
+                          android:layout_marginRight="15dp"
+                          android:gravity="center_vertical" />-->
+
+                    <me.peiwo.peiwo.widget.ControllableSwitchCompat
                         android:id="@+id/switch_recruition"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="15dp"/>
+                        android:layout_marginRight="15dp"
+                        android:gravity="center_vertical" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:background="@color/c_de2"
-                        android:layout_alignParentBottom="true"/>
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/c_de2" />
                 </RelativeLayout>
 
                 <TextView
                     android:id="@+id/tv_group_recruition_tips"
                     android:layout_width="match_parent"
                     android:layout_height="38dp"
-                    android:textSize="11sp"
-                    android:textColor="@color/text_dim_color"
                     android:paddingLeft="18dp"
-                    android:text="@string/group_recruition_announcement"/>
+                    android:text="@string/group_recruition_announcement"
+                    android:textColor="@color/text_dim_color"
+                    android:textSize="11sp" />
 
                 <LinearLayout
                     android:id="@+id/layout_recrution_about"
@@ -514,109 +518,109 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:background="@color/c_de2"
-                        android:layout_alignParentTop="true"/>
+                        android:layout_alignParentTop="true"
+                        android:background="@color/c_de2" />
 
                     <RelativeLayout
                         android:id="@+id/layout_set_price"
                         android:layout_width="match_parent"
                         android:layout_height="44dp"
                         android:gravity="center_vertical"
-                        android:paddingLeft="18dp"
-                        android:onClick="click">
+                        android:onClick="click"
+                        android:paddingLeft="18dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
-                            android:textColor="@color/text_normal_color"
-                            android:text="@string/newbie_ticket_price"/>
+                            android:text="@string/newbie_ticket_price"
+                            android:textColor="@color/text_normal_color" />
 
                         <TextView
                             android:id="@+id/tv_ticket_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:textColor="@color/text_normal_color"
-                            android:text="@string/free"
-                            android:textSize="13sp"
-                            android:drawableRight="@drawable/arrow_right"
                             android:drawablePadding="2dp"
-                            android:paddingRight="18dp"/>
+                            android:drawableRight="@drawable/arrow_right"
+                            android:paddingRight="18dp"
+                            android:text="@string/free"
+                            android:textColor="@color/text_normal_color"
+                            android:textSize="13sp" />
                     </RelativeLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:background="@color/c_de2"
-                        android:layout_alignParentTop="true"/>
+                        android:layout_alignParentTop="true"
+                        android:background="@color/c_de2" />
 
                     <TextView
                         android:id="@+id/tv_group_ticket_announcement"
                         android:layout_width="match_parent"
                         android:layout_height="72dp"
-                        android:textSize="11sp"
-                        android:textColor="@color/text_dim_color"
                         android:paddingLeft="18dp"
                         android:paddingRight="18dp"
-                        android:text="@string/newbie_ticket_announcement"/>
+                        android:text="@string/newbie_ticket_announcement"
+                        android:textColor="@color/text_dim_color"
+                        android:textSize="11sp" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.3dp"
-                    android:background="@color/c_de2"/>
+                    android:background="@color/c_de2" />
 
                 <TextView
                     android:id="@+id/tv_clear_history_msg"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
-                    android:textSize="13sp"
-                    android:textColor="@color/text_normal_color"
-                    android:paddingLeft="18dp"
-                    android:gravity="center_vertical"
                     android:clickable="true"
+                    android:gravity="center_vertical"
                     android:onClick="click"
-                    android:text="@string/clear_chat_history"/>
+                    android:paddingLeft="18dp"
+                    android:text="@string/clear_chat_history"
+                    android:textColor="@color/text_normal_color"
+                    android:textSize="13sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/c_de2"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_alignParentTop="true"
+                    android:background="@color/c_de2" />
 
                 <TextView
                     android:id="@+id/tv_group_report"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
-                    android:textSize="13sp"
-                    android:textColor="@color/text_normal_color"
-                    android:paddingLeft="18dp"
+                    android:clickable="true"
                     android:gravity="center_vertical"
                     android:onClick="click"
-                    android:clickable="true"
-                    android:text="@string/text_report"/>
+                    android:paddingLeft="18dp"
+                    android:text="@string/text_report"
+                    android:textColor="@color/text_normal_color"
+                    android:textSize="13sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/c_de2"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_alignParentTop="true"
+                    android:background="@color/c_de2" />
 
                 <TextView
                     android:id="@+id/tv_quit_group"
                     android:layout_width="290dp"
                     android:layout_height="34dp"
-                    android:layout_marginTop="26dp"
-                    android:layout_marginBottom="26dp"
-                    android:background="@color/blue_text_color"
-                    android:textColor="@color/white"
-                    android:gravity="center"
                     android:layout_gravity="center_horizontal"
-                    android:textSize="13sp"
-                    android:text="@string/delete_and_quit"
+                    android:layout_marginBottom="26dp"
+                    android:layout_marginTop="26dp"
+                    android:background="@color/blue_text_color"
+                    android:clickable="true"
+                    android:gravity="center"
                     android:onClick="click"
-                    android:clickable="true"/>
+                    android:text="@string/delete_and_quit"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
@@ -625,12 +629,12 @@
         android:id="@+id/ll_set_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_alignParentBottom="true"
-        android:visibility="invisible"
         android:background="@color/c_white"
         android:clickable="true"
-        android:onClick="click">
+        android:onClick="click"
+        android:orientation="vertical"
+        android:visibility="invisible">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -638,38 +642,37 @@
             android:background="#929292">
 
             <TextView
-                android:layout_marginLeft="4dp"
+                android:id="@+id/tv_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textColor="@color/c_white"
                 android:layout_alignParentLeft="true"
-                android:text="取消"
-                android:onClick="click"
+                android:layout_marginLeft="4dp"
+                android:clickable="true"
                 android:gravity="center_vertical"
+                android:onClick="click"
                 android:padding="4dp"
-                android:textSize="13sp"
-                android:id="@+id/tv_cancel"
-                android:clickable="true"/>
+                android:text="取消"
+                android:textColor="@color/c_white"
+                android:textSize="13sp" />
 
             <TextView
-                android:layout_marginRight="4dp"
-                android:clickable="true"
-                android:onClick="click"
                 android:id="@+id/tv_ok"
-                android:textSize="13sp"
-                android:gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textColor="@color/c_white"
                 android:layout_alignParentRight="true"
-                android:text="确定"
+                android:layout_marginRight="4dp"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:onClick="click"
                 android:padding="4dp"
-                />
+                android:text="确定"
+                android:textColor="@color/c_white"
+                android:textSize="13sp" />
         </RelativeLayout>
 
         <net.simonvt.numberpicker.NumberPicker
             android:id="@+id/np_set_ticket_price"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
-</RelativeLayout>
+</merge>

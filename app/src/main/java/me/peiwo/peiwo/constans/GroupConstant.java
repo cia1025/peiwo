@@ -16,8 +16,8 @@ public final class GroupConstant {
         public static final int TYPE_TEXT = 0;
         public static final int TYPE_IMAGE = 1;
         public static final int TYPE_GIF = 2;
-        public static final int TYPE_RADBAG = 3;
-        public static final int TYPE_REPUTATION_RADBAG = 4;
+        public static final int TYPE_REDBAG = 3;
+        public static final int TYPE_REPUTATION_REDBAG = 4;
         public static final int TYPE_REDBAG_TIP = 5;
         public static final int TYPE_DECORATION = 6;
         public static final int TYPE_REPUREDBAG_TIP = 7;
@@ -32,15 +32,15 @@ public final class GroupConstant {
         public static final int TYPE_TEXT_SELF = 0;
         public static final int TYPE_IMAGE_SELF = 1;
         public static final int TYPE_GIF_SELF = 2;
-        public static final int TYPE_RADBAG_SELF = 3;
-        public static final int TYPE_REPUTATION_RADBAG_SELF = 4;
+        public static final int TYPE_REDBAG_SELF = 3;
+        public static final int TYPE_REPUTATION_REDBAG_SELF = 4;
 
         //other
         public static final int TYPE_TEXT_OTHER = 5;
         public static final int TYPE_IMAGE_OTHER = 6;
         public static final int TYPE_GIF_OTHER = 7;
-        public static final int TYPE_RADBAG_OTHER = 8;
-        public static final int TYPE_REPUTATION_RADBAG_OTHER = 9;
+        public static final int TYPE_REDBAG_OTHER = 8;
+        public static final int TYPE_REPUTATION_REDBAG_OTHER = 9;
         //gloable
         public static final int TYPE_REDBAG_TIP = 10;
         public static final int TYPE_DECORATION = 11;

@@ -52,8 +52,7 @@
         <!-- Caution! Do not change this app key. It is only for demo usage. -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="536de5af56240b67f5003769">
-        </meta-data>
+            android:value="536de5af56240b67f5003769"/>
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}"> <!-- channel -->
@@ -128,13 +127,11 @@
 
         <service
             android:name="com.umeng.common.net.DownloadingService"
-            android:process=":DownloadingService">
-        </service>
+            android:process=":DownloadingService"/>
 
         <activity
             android:name="com.umeng.update.UpdateDialogActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity
             android:name="com.umeng.fb.ConversationActivity"
             android:theme="@style/PeiwoBaseTheme"/>
@@ -144,6 +141,7 @@
 
         <service android:name=".service.CoreService"/>
         <service android:name=".service.SynchronizedService"/>
+        <service android:name=".service.CountDownService"/>
 
         <activity
             android:name=".activity.SplashActivity"
@@ -162,56 +160,48 @@
             android:screenOrientation="portrait"
             android:theme="@style/PeiwoBaseTheme"
             android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
         <activity
             android:name=".activity.WelcomeActivity"
             android:configChanges="orientation|keyboardHidden"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
-            android:theme="@style/PeiwoBaseTheme">
-        </activity>
+            android:theme="@style/PeiwoBaseTheme"/>
         <activity
             android:name=".activity.RecommendUserFilterActivity"
             android:configChanges="orientation|keyboardHidden"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
-            android:theme="@style/MyNumerPickerTheme">
-        </activity>
+            android:theme="@style/MyNumerPickerTheme"/>
         <activity
             android:name=".activity.SoundRecordActivity"
             android:configChanges="orientation|keyboardHidden"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/PeiwoBaseTheme">
-        </activity>
+            android:theme="@style/PeiwoBaseTheme"/>
         <activity
             android:name=".activity.UserDetailSettingActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/PeiwoBaseTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
         <activity
             android:name=".activity.MyAccountActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/PeiwoBaseTheme">
-        </activity>
+            android:theme="@style/PeiwoBaseTheme"/>
         <activity
             android:name=".activity.SettingActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/PeiwoBaseTheme">
-        </activity>
+            android:theme="@style/PeiwoBaseTheme"/>
         <activity
             android:name=".activity.UserInfoActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/PeiwoBaseTheme"
             android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
         <activity
             android:name=".activity.LazyGuyActivity"
             android:screenOrientation="portrait"
@@ -220,14 +210,12 @@
             android:name=".activity.MsgCallLogActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/PeiwoBaseTheme">
-        </activity>
+            android:theme="@style/PeiwoBaseTheme"/>
         <activity
             android:name=".activity.SayHelloActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/PeiwoBaseTheme">
-        </activity>
+            android:theme="@style/PeiwoBaseTheme"/>
         <activity
             android:name=".activity.MsgAcceptedMsgActivity"
             android:alwaysRetainTaskState="true"
@@ -235,39 +223,33 @@
             android:screenOrientation="portrait"
             android:theme="@style/PeiwoBaseTheme"
             android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="stateHidden|adjustResize">
-        </activity>
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name=".activity.AboutUsActivity"
-            android:theme="@style/PeiwoBaseTheme">
-        </activity>
+            android:theme="@style/PeiwoBaseTheme"/>
         <activity
             android:name=".activity.ImagePagerActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/PeiwoBaseTheme">
-        </activity>
+            android:theme="@style/PeiwoBaseTheme"/>
         <activity
             android:name=".activity.InformationPubActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/PeiwoBaseTheme">
-        </activity>
+            android:theme="@style/PeiwoBaseTheme"/>
         <activity
             android:name=".information.picture.ImageZoomActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/PeiwoBaseTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity
             android:name=".activity.RealCallActivity"
             android:configChanges="orientation|keyboardHidden|keyboard"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:theme="@style/call_theme">
-        </activity>
+            android:theme="@style/call_theme"/>
 
         <!--
              <activity
@@ -311,18 +293,15 @@
         <activity
             android:name=".activity.GetMoneyActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/PeiwoBaseTheme">
-        </activity>
+            android:theme="@style/PeiwoBaseTheme"/>
         <activity
             android:name=".activity.ChargeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/PeiwoBaseTheme">
-        </activity>
+            android:theme="@style/PeiwoBaseTheme"/>
         <activity
             android:name=".activity.MsgSettingActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MyNumerPickerTheme">
-        </activity>
+            android:theme="@style/MyNumerPickerTheme"/>
         <!-- 新版修改用户资料页面 -->
         <activity
             android:name=".activity.UpdateProfileActivity"
@@ -332,8 +311,8 @@
         <activity
             android:name=".activity.AddTagsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/PeiwoBaseTheme">
-        </activity>
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name=".activity.NetworkOfflineHelpActivity"
             android:screenOrientation="portrait"
@@ -361,7 +340,7 @@
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:theme="@android:style/Theme.NoDisplay" />
+            android:theme="@android:style/Theme.NoDisplay"/>
         <activity
             android:name=".activity.WantMakeMoney"
             android:screenOrientation="portrait"
@@ -370,8 +349,7 @@
         <!-- 【必须】 (2.30及以上版新增)展示通知的activity -->
         <activity
             android:name="com.tencent.android.tpush.XGPushActivity"
-            android:theme="@android:style/Theme.Translucent">
-        </activity>
+            android:theme="@android:style/Theme.Translucent"/>
         <activity
             android:name=".activity.UpdateUnameActivity"
             android:screenOrientation="portrait"
@@ -381,7 +359,7 @@
             android:name=".activity.UpdateSlognActivity"
             android:screenOrientation="portrait"
             android:theme="@style/PeiwoBaseTheme"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"/>
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name=".activity.UpdateProfessionActivity"
             android:screenOrientation="portrait"
@@ -410,6 +388,16 @@
         </activity>
         <activity
             android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"/>
+        <activity
+            android:name=".activity.VerifiCodeNotReceiveActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PeiwoBaseTheme"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustPan"/>
+        <activity
+            android:name=".activity.LogOnProblemActivity"
             android:screenOrientation="portrait"
             android:theme="@style/PeiwoBaseTheme"
             android:windowSoftInputMode="stateAlwaysVisible|adjustPan"/>
@@ -488,8 +476,7 @@
         <activity
             android:name=".activity.RedBagActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/PeiwoBaseTheme">
-        </activity>
+            android:theme="@style/PeiwoBaseTheme"/>
         <activity
             android:name=".activity.ResultActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -509,34 +496,28 @@
             android:name=".activity.PWPraiseActivity"
             android:screenOrientation="portrait"
             android:theme="@style/PeiwoBaseTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
         <activity
             android:name=".activity.FeedFlowActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/PeiwoBaseTheme">
-        </activity>
+            android:theme="@style/PeiwoBaseTheme"/>
         <activity
             android:name=".activity.CreatTopicActivity"
             android:screenOrientation="portrait"
             android:theme="@style/PeiwoBaseTheme"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
-        </activity>
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
         <activity
             android:name=".activity.ConstellationChooseActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/theme_noactionbar">
-        </activity>
+            android:theme="@style/theme_noactionbar"/>
         <activity
             android:name=".activity.TrendNoticeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/PeiwoBaseTheme">
-        </activity>
+            android:theme="@style/PeiwoBaseTheme"/>
         <activity
             android:name=".activity.WildcatCallRecordActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/PeiwoBaseTheme">
-        </activity>
+            android:theme="@style/PeiwoBaseTheme"/>
         <activity
             android:name=".activity.WildcatShareAlertActivity"
             android:screenOrientation="portrait"
@@ -560,8 +541,7 @@
         <activity
             android:name=".activity.FullScreenImgActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/PeiwoBaseTheme">
-        </activity>
+            android:theme="@style/PeiwoBaseTheme"/>
         <activity
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
@@ -688,8 +668,7 @@
             android:enabled="true"
             android:process=":remote">
             <intent-filter>
-                <action android:name="com.baidu.location.service_v2.2">
-                </action>
+                <action android:name="com.baidu.location.service_v2.2"/>
             </intent-filter>
         </service>
 
@@ -700,99 +679,126 @@
 
         <provider
             android:name=".db.PWDbContentProvider"
-            android:authorities="me.peiwo.message">
-        </provider>
+            android:authorities="me.peiwo.message"/>
 
         <activity
             android:name=".activity.MsgAcceptActionActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
         <activity
             android:name=".activity.CreateChatGroupActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
-        </activity>
-
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
         <activity
             android:name=".activity.GroupAddMembersActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.GroupMembersNewbiesActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.GroupHomePageActvity"
             android:screenOrientation="portrait"
             android:theme="@style/MyNumerPickerTheme"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
         <activity
             android:name=".activity.GroupExhibitionActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.WildcatGuideActivity"
             android:label="@string/title_activity_wildcat_guide"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.GroupChatActivity"
             android:label="@string/title_activity_group_chat"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activity.GroupListMoreActivity"
             android:label="@string/title_activity_group_list_more"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activity.MyGroupsActivity"
             android:label="@string/title_activity_my_groups"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activity.AlbumCompatActivity"
             android:label="@string/title_activity_album_compat"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"/>
         <activity
-            android:name=".activity.ChatRedbagActivity"
+            android:name=".activity.GroupChatRedbagActivity"
             android:label="@string/title_activity_chat_redbag"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
-        </activity>
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+        <activity
+            android:name=".activity.IMChatRedbagActivity"
+            android:label="@string/title_activity_chat_redbag"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
         <activity
             android:name=".activity.GroupchatMorePacketActivity"
             android:label="@string/title_activity_groupchat_more_packet"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activity.ChatRepuRedbagActivity"
             android:label="@string/title_activity_chat_repu_redbag"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"/>
         <activity
-            android:name=".activity.VerifiCodeNotReceiveActivity"
+            android:name=".activity.FillVerificationCodeActivity"
             android:label="@string/title_activity_verifi_code_not_receive"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".activity.Bind3rdPartyAccountActivity"
+            android:label="@string/title_activity_verifi_code_not_receive"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activity.UpdateGroupNoticeActivity"
             android:label="@string/title_activity_update_group_notice"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
+        <activity
+
+            android:name=".activity.MsgShowAlbumActvity"
+            android:label="@string/title_activity_msg_show_album"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".activity.MsgAlbumFullScreenActivity"
+            android:label="@string/title_activity_msg_album_full_screen"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".activity.ServerDownActivity"
+            android:label="@string/title_activity_server_down"
+            android:screenOrientation="portrait"
+            android:noHistory="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".activity.AgoraCallOutActivity"
+            android:label="@string/title_activity_call_out"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name=".activity.AgoraCallInActivity"
+            android:label="@string/title_activity_agora_call_in"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
+        <activity
+            android:name=".activity.AgoraWildCallActivity"
+            android:label="@string/title_activity_agora_wild_call"
+            android:screenOrientation="portrait"
+            android:theme="@style/call_theme"/>
     </application>
 
 </manifest>

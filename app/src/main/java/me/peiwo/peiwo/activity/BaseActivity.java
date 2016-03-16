@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.DrawableRes;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +17,8 @@ import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.constans.PWActionConfig;
 import me.peiwo.peiwo.util.UmengStatisticsAgent;
 import org.json.JSONObject;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 
 import java.lang.ref.WeakReference;
 
@@ -175,6 +178,13 @@ public class BaseActivity extends BaseFragmentActivity {
         }
     }
 
+    protected void showErrorToast(Object ret, String defaultTips) {
+        if (ret instanceof JSONObject) {
+            if (!TextUtils.isEmpty(((JSONObject) ret).optString("msg")))
+                defaultTips = ((JSONObject) ret).optString("msg");
+        }
+        showToast(this, defaultTips);
+    }
 
     protected void handle_message(int message_id, JSONObject obj) {
 

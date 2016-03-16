@@ -8,6 +8,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import butterknife.Bind;
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.adapter.AlbumFolderFragment;
@@ -20,12 +27,6 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class AlbumCompatActivity extends BaseActivity {
     public static final String K_ALBUM_RST = "album";
@@ -222,7 +223,8 @@ public class AlbumCompatActivity extends BaseActivity {
 
     public void pickInCamera() {
         mImageKey = String.valueOf(System.currentTimeMillis());
-        ImageUtil.startImgPickerCamera(this, ImageUtil.PICK_FROM_CAMERA, ImageUtil.getPathForCameraCrop(mImageKey));
+        if (!TextUtils.isEmpty(mImageKey))
+            ImageUtil.startImgPickerCamera(this, ImageUtil.PICK_FROM_CAMERA, ImageUtil.getPathForCameraCrop(mImageKey));
     }
 
     @Override

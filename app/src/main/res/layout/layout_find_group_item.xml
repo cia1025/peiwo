@@ -18,7 +18,7 @@
         android:id="@+id/rl_left"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/iv_add_friend"
+        android:layout_toLeftOf="@+id/v_add_group_action"
         android:layout_toRightOf="@+id/iv_group_avatar"
         android:layout_centerVertical="true"
         android:layout_marginLeft="12dp">
@@ -71,7 +71,7 @@
         android:src="@drawable/ic_join_group"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="28dp"
+        android:layout_marginRight="18dp"
         />
 
 

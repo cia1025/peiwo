@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.adapter.ImageQuickSwitchAdapter;
 import me.peiwo.peiwo.util.group.ChatImageWrapper;
@@ -124,6 +125,10 @@ public class ImageQuickSwitchView extends FrameLayout {
         mAdapter.notifyDataSetChanged();
         mAdapter.resetImageCount();
         unSubscribed();
+    }
+
+    public void clearSelectedUrls() {
+        mAdapter.clearSelectedData();
     }
 
     //返回String path，让quickview关闭

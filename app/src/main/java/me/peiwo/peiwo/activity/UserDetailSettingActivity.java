@@ -2,8 +2,10 @@ package me.peiwo.peiwo.activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,12 +14,28 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.qiniu.android.http.ResponseInfo;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.callback.UploadCallback;
@@ -29,15 +47,16 @@ import me.peiwo.peiwo.net.ApiRequestWrapper;
 import me.peiwo.peiwo.net.AsynHttpClient;
 import me.peiwo.peiwo.net.MsgStructure;
 import me.peiwo.peiwo.net.PWUploader;
-import me.peiwo.peiwo.util.*;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Locale;
+import me.peiwo.peiwo.util.CustomLog;
+import me.peiwo.peiwo.util.HourGlassAgent;
+import me.peiwo.peiwo.util.ImageUtil;
+import me.peiwo.peiwo.util.PWUtils;
+import me.peiwo.peiwo.util.SharedPreferencesUtil;
+import me.peiwo.peiwo.util.UmengStatisticsAgent;
+import me.peiwo.peiwo.util.UserManager;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class UserDetailSettingActivity extends BaseActivity {
     private static final int REQUEST_CODE_BYCAMERA_CROP = 2000;
@@ -51,18 +70,24 @@ public class UserDetailSettingActivity extends BaseActivity {
 
     // private LocalUser.PeiwoUser mPeiwoUser;
     private ImageView iv_setface;
-    private EditText et_uname;
+    @Bind(R.id.et_uname)
+    EditText et_uname;
+    @Bind(R.id.rb_male_setting)
+    AppCompatRadioButton rb_male_setting;
+    @Bind(R.id.rb_fmale_setting)
+    AppCompatRadioButton rb_fmale_setting;
+    @Bind(R.id.iv_add_cross)
+    ImageView iv_add_cross;
     // private TextView tv_gender_switch;
-    private TextView tv_birthday_switch;
+//    private TextView tv_birthday_switch;
     private ProfileForUpdateModel mProfile;
     private UploadHandler mHandler;
     //private TextView tv_man;
     //private TextView tv_female;
-    private AppCompatRadioButton rb_male_setting;
-    private AppCompatRadioButton rb_fmale_setting;
     private boolean bindPhone;
     private Button btn_save;
-    private String thumb_avatar;
+    private ArrayList<String> mServerPkgList = new ArrayList<>();
+    private StringBuilder mAdvancePkgStr = new StringBuilder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +95,7 @@ public class UserDetailSettingActivity extends BaseActivity {
         setContentView(R.layout.user_detail_setting_activity);
         mProfile = new ProfileForUpdateModel();
         mProfile.uid = UserManager.getUid(this);
+        mProfile.images.addAll(UserManager.getPWUser(this).images);
         mHandler = new UploadHandler(this);
         init();
         UmengStatisticsAgent.onEvent(this, UMEventIDS.UMECOMPLETEPROFILE);
@@ -78,24 +104,29 @@ public class UserDetailSettingActivity extends BaseActivity {
     }
 
     private void init() {
-        TitleUtil.setTitleBar(this, "完善资料", null, null);
+        setTitle(getString(R.string.fill_profile));
         iv_setface = (ImageView) findViewById(R.id.iv_setface);
         PWUserModel local = UserManager.getPWUser(this);
-        thumb_avatar = local.avatar_thumbnail;
+        String thumb_avatar = local.avatar_thumbnail;
         if (!TextUtils.isEmpty(thumb_avatar)) {
-            CustomLog.d("UserDetailSettingActivity avatar is : "+thumb_avatar);
-            ImageLoader.getInstance().displayImage(thumb_avatar, iv_setface);
+            ImageLoader.getInstance().displayImage(thumb_avatar, iv_setface, ImageUtil.getRoundedOptions());
             mProfile.avatar_thumbnail = thumb_avatar;
         }
-        et_uname = (EditText) findViewById(R.id.et_uname);
         et_uname.setFilters(new InputFilter[]{new InputFilter.LengthFilter(16)});
         et_uname.setText(local.name);
+        et_uname.clearFocus();
         mProfile.name = local.name;
 
+        et_uname.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                if (mProfile.name.equals(et_uname.getText().toString())) {
+                    et_uname.setText("");
+                }
+            }
+        });
+
         // tv_gender_switch = (TextView) findViewById(R.id.tv_gender_switch);
-        tv_birthday_switch = (TextView) findViewById(R.id.tv_birthday_switch);
-        rb_male_setting = (AppCompatRadioButton) findViewById(R.id.rb_male_setting);
-        rb_fmale_setting = (AppCompatRadioButton) findViewById(R.id.rb_fmale_setting);
+//        tv_birthday_switch = (TextView) findViewById(R.id.tv_birthday_switch);
         if (local.gender == 1) {
             rb_male_setting.setChecked(true);
             mProfile.gender = AsynHttpClient.GENDER_MASK_MALE;
@@ -114,16 +145,16 @@ public class UserDetailSettingActivity extends BaseActivity {
         }
         // fillWithDefaultData();
         bindPhone = getIntent().getBooleanExtra("nophone", false);
-        if (bindPhone) {
-            TextView tv_clause = (TextView) findViewById(R.id.tv_clause);
-            tv_clause.setVisibility(View.VISIBLE);
-            tv_clause.setText(PWUtils.getClauselinks(this, "点击下一步按钮，即表示同意《陪我用户协议》", 13));
-            tv_clause.setMovementMethod(LinkMovementMethod.getInstance());
-        }
+//        if (bindPhone) {
+//            tv_clause.setVisibility(View.VISIBLE);
+//            tv_clause.setText(PWUtils.getClauselinks(this, "点击完成按钮，即表示同意《陪我用户协议》", 13));
+//            tv_clause.setMovementMethod(LinkMovementMethod.getInstance());
+//        }
 
         et_uname.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -133,6 +164,86 @@ public class UserDetailSettingActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 checkSubmitButton();
+            }
+        });
+        rb_fmale_setting.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            checkSubmitButton();
+        });
+        rb_male_setting.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            checkSubmitButton();
+        });
+        getPackageFromServer();
+        checkSubmitButton();
+    }
+
+    private void getPackageFromServer() {
+        showAnimLoading();
+        ApiRequestWrapper.openAPIGET(this, new ArrayList<NameValuePair>(), AsynHttpClient.API_ACCOUNT_GET_PACKAGE, new MsgStructure() {
+            @Override
+            public void onReceive(JSONObject data) {
+            }
+
+            @Override
+            public boolean onInterceptRawData(String rawStr) {
+                CustomLog.d("getPackageFromServer. rawStr is : " + rawStr);
+                Observable.just(rawStr).observeOn(AndroidSchedulers.mainThread()).subscribe(UserDetailSettingActivity.this::findAdvancePkg);
+                JSONObject object = null;
+                try {
+                    object = new JSONObject(rawStr);
+                    JSONArray array = object.optJSONArray("data");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return super.onInterceptRawData(rawStr);
+            }
+
+            @Override
+            public void onError(int error, Object ret) {
+            }
+        });
+
+
+    }
+
+    private void findAdvancePkg(String str) {
+        try {
+            dismissAnimLoading();
+            JSONObject object = new JSONObject(str);
+            JSONArray array = object.optJSONArray("data");
+            for (int i = 0; i < array.length(); i++) {
+                if (array.get(i) instanceof String) {
+                    mServerPkgList.add((String) array.get(i));
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ArrayList<String> advancePkgList = new ArrayList<>();
+        List<PackageInfo> packages = getPackageManager().getInstalledPackages(0);
+        for (PackageInfo packInfo : packages) {
+            if (mServerPkgList.contains(packInfo.packageName)) {
+                advancePkgList.add(packInfo.packageName);
+                CustomLog.d("findAdvancePkg. advance packInfo is : " + packInfo.packageName);
+            }
+        }
+
+        Observable.from(advancePkgList).subscribe(new Subscriber<String>() {
+            @Override
+            public void onCompleted() {
+                if (mAdvancePkgStr.length() > 0) {
+                    mAdvancePkgStr.deleteCharAt(mAdvancePkgStr.length() - 1);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(String s) {
+                mAdvancePkgStr.append(s).append(",");
             }
         });
     }
@@ -159,32 +270,52 @@ public class UserDetailSettingActivity extends BaseActivity {
     // }
     // }
 
+    Rect nameRect = new Rect();
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                et_uname.getGlobalVisibleRect(nameRect);
+                if (!nameRect.contains((int) ev.getRawX(), (int) ev.getRawY())) {
+                    et_uname.clearFocus();
+                    PWUtils.hideSoftKeyBoard(this);
+                    if (TextUtils.isEmpty(et_uname.getText())) {
+                        et_uname.setText(mProfile.name);
+                    }
+                }
+                break;
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
     public void click(View v) {
         int id = v.getId();
         switch (id) {
             // case R.id.ll_gender_switch:
             // switchGender();
             // break;
-            case R.id.ll_birthday_switch:
-                switchBirthday();
-                break;
+//            case R.id.ll_birthday_switch:
+//                switchBirthday();
+//                break;
             case R.id.fl_uface:
                 switchuserFace();
                 break;
             case R.id.btn_save:
                 if (dataAvailable()) {
                     HourGlassAgent hourGlassAgent = HourGlassAgent.getInstance();
-                    if (hourGlassAgent.getStatistics() && hourGlassAgent.getK10() == 0) {
-                        hourGlassAgent.setK10(1);
+                    if (hourGlassAgent.getStatistics() && hourGlassAgent.getK50() == 0) {
+                        hourGlassAgent.setK50(1);
                         PeiwoApp app = (PeiwoApp) getApplicationContext();
-                        app.postK("k10");
+                        app.postK("k50");
                     }
+                    doUploadUserInfo();
                     if (bindPhone) {
                         Intent intent = new Intent(UserDetailSettingActivity.this, BindPhoneActivity.class);
                         startActivityForResult(intent, REQUEST_CODE_HASINIT);
                         break;
                     }
-                    doUploadUserInfo();
+//                    doUploadUserInfo();
                 }
                 //
 
@@ -204,7 +335,7 @@ public class UserDetailSettingActivity extends BaseActivity {
 
     private boolean dataAvailable() {
         mProfile.name = et_uname.getText().toString();
-        if (TextUtils.isEmpty(thumb_avatar)) {
+        if (TextUtils.isEmpty(mProfile.avatar_thumbnail)) {
             if (mProfile.images == null || mProfile.images.size() == 0) {
                 showToast(this, "请选择头像");
                 return false;
@@ -227,58 +358,65 @@ public class UserDetailSettingActivity extends BaseActivity {
             showToast(this, "请选择性别");
             return false;
         }
-        if (TextUtils.isEmpty(mProfile.birthday)) {
-            showToast(this, "请选择生日");
-            return false;
-        }
+//        if (TextUtils.isEmpty(mProfile.birthday)) {
+//            showToast(this, "请选择生日");
+//            return false;
+//        }
         return true;
     }
 
     private void doUploadUserInfo() {
         showAnimLoading("", false, false, false);
+        Intent it = getIntent();
+        int social_type = it.getIntExtra("social_type", 0);
+        String social_uid = it.getStringExtra("social_uid");
+        String token = it.getStringExtra("token");
         mProfile.gender = rb_male_setting.isChecked() ? AsynHttpClient.GENDER_MASK_MALE : AsynHttpClient.GENDER_MASK_FEMALE;
-        ApiRequestWrapper.uploadUserInfoWithInit(this, mProfile, new MsgStructure() {
+        ArrayList<NameValuePair> param = new ArrayList<>();
+        param.add(new BasicNameValuePair("uid", String.valueOf(mProfile.uid)));
+        param.add(new BasicNameValuePair("name", mProfile.name));
+        param.add(new BasicNameValuePair("images", mProfile.images.get(0).name));
+//        param.add(new BasicNameValuePair("images", UserManager.getPWUser(this).images.get(0).name));
+        param.add(new BasicNameValuePair("gender", String.valueOf(mProfile.gender)));
+        param.add(new BasicNameValuePair("device_type", Build.MODEL + "," + Build.VERSION.SDK_INT + "," + Build.MANUFACTURER + "," + Build.VERSION.RELEASE + "," + Build.ID));
+        param.add(new BasicNameValuePair("social_type", String.valueOf(social_type)));
+        param.add(new BasicNameValuePair("access_token", token));
+        param.add(new BasicNameValuePair("social_uid", social_uid));
+        param.add(new BasicNameValuePair("packages", mAdvancePkgStr.toString()));
+        ApiRequestWrapper.openAPIPOST(this, param, AsynHttpClient.API_ACCOUNT_SET_USERINFO, new MsgStructure() {
             @Override
             public void onReceive(JSONObject data) {
-                UserManager.saveUser(UserDetailSettingActivity.this, new PWUserModel(data));
-                mHandler.sendEmptyMessage(WHAT_DATA_RECEIVE);
+                CustomLog.d("doUploadUserInfo. data is : " + data);
+                Observable.just(data).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+                    dismissAnimLoading();
+                    UserManager.saveUser(UserDetailSettingActivity.this, new PWUserModel(data));
+                    showToast(UserDetailSettingActivity.this, getString(R.string.register_done));
+                    setResult(RESULT_OK);
+                    finish();
+                });
             }
 
             @Override
             public void onError(int error, Object ret) {
-                mHandler.sendEmptyMessage(WHAT_DATA_RECEIVE_ERROR);
+                CustomLog.d("doUploadUserInfo. error is : " + ret);
+                Observable.just(error).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+                    dismissAnimLoading();
+                    String tips = "failed " + error;
+                    if (ret instanceof JSONObject) {
+                        tips = ((JSONObject) ret).optString("msg");
+                    }
+                    showToast(UserDetailSettingActivity.this, tips);
+                });
             }
         });
+
     }
 
     private String mImageKey;
 
     private void switchuserFace() {
-
-        new AlertDialog.Builder(this)
-                .setTitle("添加头像")
-                .setItems(new String[]{"拍照", "相册", "取消"},
-                        (dialog, which) -> {
-                            switch (which) {
-                                case 0:
-                                    mImageKey = PWUploader.getInstance().getKey(mProfile.uid);
-                                    ImageUtil.startImgPickerCamera(
-                                            UserDetailSettingActivity.this,
-                                            ImageUtil.PICK_FROM_CAMERA,
-                                            ImageUtil
-                                                    .getPathForCameraCrop(mImageKey));
-                                    break;
-
-                                case 1:
-                                    mImageKey = PWUploader.getInstance().getKey(mProfile.uid);
-                                    // Util.startImgPickerGallery(
-                                    // UserDetailSettingActivity.this,
-                                    // Util.PICK_FROM_GALLERY,
-                                    // getPathForUpload(mImageKey));
-                                    choiceImageByAlbum(mImageKey);
-                                    break;
-                            }
-                        }).create().show();
+        mImageKey = PWUploader.getInstance().getKey(mProfile.uid);
+        choiceImageByAlbum(mImageKey);
     }
 
     private void choiceImageByAlbum(String mImageKey) {
@@ -289,7 +427,7 @@ public class UserDetailSettingActivity extends BaseActivity {
         startActivityForResult(intent, REQUEST_CODE_START_ALBUM);
     }
 
-    private void switchBirthday() {
+    /*private void switchBirthday() {
         int year, month, day;
         // final Calendar c = Calendar.getInstance();
         year = 1990;
@@ -322,13 +460,13 @@ public class UserDetailSettingActivity extends BaseActivity {
 
                 }, year, month, day);
         pickerDialog.show();
-    }
+    }*/
 
     private void checkSubmitButton() {
-        CustomLog.d("checkSubmitButton profile image size is : "+mProfile.images.size());
-        if(!TextUtils.isEmpty(tv_birthday_switch.getText())
-                && !TextUtils.isEmpty(et_uname.getText())
-                && (mProfile != null && mProfile.images.size() > 0 || !TextUtils.isEmpty(mProfile.avatar_thumbnail))) {
+        if (/*!TextUtils.isEmpty(tv_birthday_switch.getText())
+                && */!TextUtils.isEmpty(et_uname.getText())
+                && (mProfile != null && mProfile.images.size() > 0 || !TextUtils.isEmpty(mProfile.avatar_thumbnail))
+                && (rb_male_setting.isChecked() || rb_fmale_setting.isChecked())) {
             btn_save.setClickable(true);
             btn_save.setBackgroundColor(getResources().getColor(R.color.valid_clickable_color));
         } else {
@@ -379,22 +517,24 @@ public class UserDetailSettingActivity extends BaseActivity {
                     break;
                 case ImageUtil.PICK_FROM_GALLERY:
                     File thumb = ImageUtil.getPathForUpload(mImageKey);
-                    if (thumb != null && thumb.exists()) {
+                    if (thumb.exists()) {
                         ImageModel imgModel = new ImageModel(
                                 thumb.getAbsolutePath(), mImageKey);
                         uploadImgBySCS(imgModel);
                     } else {
                         showToast(this, "获取图片出错");
                     }
+                    iv_add_cross.setVisibility(View.GONE);
                     break;
                 case REQUEST_CODE_BYCAMERA_CROP:
                     uploadImgByCameraCrop(data);
                     break;
                 case REQUEST_CODE_START_ALBUM:
                     // 通过自定义的相册程序选择的照片
-                    //uploadImgByCameraCrop(data);
+                    uploadImgByCameraCrop(data);
                     ArrayList<String> items = data.getStringArrayListExtra(AlbumCompatActivity.K_ALBUM_RST);
                     startCropWithOrientation(items.get(0));
+                    iv_add_cross.setVisibility(View.GONE);
                     break;
                 case REQUEST_CODE_HASINIT:
                     doUploadUserInfo();
@@ -445,17 +585,17 @@ public class UserDetailSettingActivity extends BaseActivity {
             }
             int what = msg.what;
             switch (what) {
-                case WHAT_DATA_RECEIVE:
-                    theActivity.dismissAnimLoading();
-                    theActivity.showToast(theActivity, "注册成功");
-                    theActivity.setResult(RESULT_OK);
-                    theActivity.finish();
-                    break;
-
-                case WHAT_DATA_RECEIVE_ERROR:
-                    theActivity.dismissAnimLoading();
-                    theActivity.showToast(theActivity, "上传信息失败");
-                    break;
+//                case WHAT_DATA_RECEIVE:
+//                    UserManager.updateState(theActivity, UserManager.STATE_INITED);
+//                    theActivity.dismissAnimLoading();
+//                    theActivity.showToast(theActivity, "注册成功");
+//                    theActivity.setResult(RESULT_OK);
+//                    theActivity.finish();
+//                    break;
+//                case WHAT_DATA_RECEIVE_ERROR:
+//                    theActivity.dismissAnimLoading();
+//                    theActivity.showToast(theActivity, "上传信息失败");
+//                    break;
                 case WHAT_UPLOAD_IMG_SUCCESS:
                     theActivity.dismissAnimLoading();
                     theActivity.showToast(theActivity, "上传照片成功");
@@ -467,21 +607,18 @@ public class UserDetailSettingActivity extends BaseActivity {
                     }
                     ImageLoader.getInstance().displayImage(
                             theActivity.mProfile.images.get(0).thumbnail_url,
-                            theActivity.iv_setface);
+                            theActivity.iv_setface, ImageUtil.getRoundedOptions());
                     theActivity.checkSubmitButton();
                     break;
                 case WHAT_UPLOAD_IMG_ERROR:
                     theActivity.dismissAnimLoading();
                     theActivity.showToast(theActivity, "上传照片失败");
                     break;
+                default:
+                    break;
             }
             super.handleMessage(msg);
         }
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
     }
 
     @Override
@@ -560,5 +697,19 @@ public class UserDetailSettingActivity extends BaseActivity {
                 PWUploader.getInstance().getKey(mProfile.uid));
     }
 
+    @Override
+    public void left_click(View v) {
+        onBackPressed();
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        PeiwoApp app = (PeiwoApp) getApplicationContext();
+        HourGlassAgent hourGlassAgent = HourGlassAgent.getInstance();
+        if (hourGlassAgent.getStatistics() && hourGlassAgent.getK51() == 0) {
+            hourGlassAgent.setK51(1);
+            app.postK("k51");
+        }
+    }
 }

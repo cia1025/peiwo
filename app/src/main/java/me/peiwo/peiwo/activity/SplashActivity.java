@@ -1,12 +1,9 @@
 package me.peiwo.peiwo.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,19 +13,26 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.R;
-import me.peiwo.peiwo.constans.PWActionConfig;
 import me.peiwo.peiwo.util.HourGlassAgent;
 import me.peiwo.peiwo.util.SharedPreferencesUtil;
 import me.peiwo.peiwo.util.UserManager;
+import rx.Observable;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.subscriptions.CompositeSubscription;
+
+import java.util.concurrent.TimeUnit;
 
 public class SplashActivity extends Activity {
 
     private static final int max_delay = 1000;
+    private CompositeSubscription mCompositeSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        mCompositeSubscription = new CompositeSubscription();
         HourGlassAgent hourGlassAgent = HourGlassAgent.getInstance();
         if (hourGlassAgent.getStatistics() && hourGlassAgent.getK2() == 0) {
             hourGlassAgent.setK2(1);
@@ -40,19 +44,20 @@ public class SplashActivity extends Activity {
 
 
     private void init() {
-        if (getIntent() != null
-                && PWActionConfig.ACTION_SERVER_DOWNTIME.equals(getIntent()
-                .getAction())) {
-            getServerState();
+        //Intent intent = getIntent();
+        PeiwoApp app = (PeiwoApp) getApplicationContext();
+        if (app.isServerDown()) {
+            //String data = intent.getStringExtra("data");
+            //getServerState(data);
+            finish();
             return;
         }
-        PeiwoApp app = (PeiwoApp) getApplicationContext();
         app.cleanImages();
         setUpStartUpScreen();
     }
 
     private void delayPop() {
-        new Handler().postDelayed(() -> {
+        Subscription subscription = Observable.timer(max_delay, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             if (!UserManager.isLogin(SplashActivity.this)) {
                 PeiwoApp app = (PeiwoApp) getApplicationContext();
                 if (app.getStartWelcome()) {
@@ -62,7 +67,6 @@ public class SplashActivity extends Activity {
                 Intent intent = new Intent(SplashActivity.this, WelcomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-
             } else {
                 SharedPreferencesUtil.putBooleanExtra(SplashActivity.this, "old_user_" + UserManager.getUid(SplashActivity.this), false);
                 Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
@@ -73,7 +77,8 @@ public class SplashActivity extends Activity {
             PeiwoApp app = (PeiwoApp) getApplicationContext();
             app.loadStartUpScreenImg();
             finish();
-        }, max_delay);
+        });
+        mCompositeSubscription.add(subscription);
     }
 
     private void setUpStartUpScreen() {
@@ -111,8 +116,22 @@ public class SplashActivity extends Activity {
         });
     }
 
-    private void getServerState() {
-        alertServerDownTime();
+//    private void getServerState(String data) {
+//        if (!TextUtils.isEmpty(data)) {
+//            if (BuildConfig.DEBUG) Log.i("server", "server data == " + data);
+//            try {
+////                {
+////                    current_time: 1457497665.151139,
+////                            code: -1,
+////                        data: {content:"陪我系统正在升级，预计升级1小时。", hotline:"400-686-9520", extra:"或私信官方微博：陪我APP获取陪我最新动态。"}
+////                }
+//                JSONObject object = new JSONObject(data);
+//                //show ui
+//                alertServerDownTime();
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
 /*		ApiRequestWrapper.getServerState(this, new MsgStructure() {
             @Override
 			public void onReceive(JSONObject data) {
@@ -138,32 +157,38 @@ public class SplashActivity extends Activity {
 
 			}
 		});*/
-    }
+//    }
 
-    private void alertServerDownTime() {
-        final ImageView iv = new ImageView(this);
-        iv.setImageResource(R.drawable.server_down);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                new AlertDialog.Builder(SplashActivity.this)
-                        .setView(iv)
-                        .setOnCancelListener(
-                                new DialogInterface.OnCancelListener() {
-                                    @Override
-                                    public void onCancel(DialogInterface arg0) {
-                                        finish();
-                                    }
-                                })
-                        .setPositiveButton("确定",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                        finish();
-                                    }
-                                }).create().show();
-            }
-        });
+//    private void alertServerDownTime() {
+//        final ImageView iv = new ImageView(this);
+//        iv.setImageResource(R.drawable.server_down);
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                new AlertDialog.Builder(SplashActivity.this)
+//                        .setView(iv)
+//                        .setOnCancelListener(
+//                                new DialogInterface.OnCancelListener() {
+//                                    @Override
+//                                    public void onCancel(DialogInterface arg0) {
+//                                        finish();
+//                                    }
+//                                })
+//                        .setPositiveButton("确定",
+//                                new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog,
+//                                                        int which) {
+//                                        finish();
+//                                    }
+//                                }).create().show();
+//            }
+//        });
+//    }
+
+    @Override
+    public void finish() {
+        if (mCompositeSubscription != null) mCompositeSubscription.unsubscribe();
+        super.finish();
     }
 }

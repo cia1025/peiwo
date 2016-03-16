@@ -14,11 +14,13 @@ public interface Constans {
     String SP_KEY_OPENTOKEN = "opentoken"; // 存第三方的token
     String SP_KEY_SOCIALTYPE = "socialtype"; // 存第三方的登录类型
     String SP_KEY_LOGINTYPE = "logintype";
+    String SP_KEY_PCODE = "phone_code";
 
     String SP_KEY_CPU_INFO_ARM = "cpu_arm"; // cpu info
     String SP_KEY_WILD_GUIDE = "wild_guide";
     String SP_KEY_ALIPAY_ACCOUNT = "ali_account";
     String SP_KEY_ALIPAY_ACCOUNT_NAME = "ali_account_name";
+    String SP_KEY_UID = "uid";
 
     //public static final String SP_KEY_UPDATE_FORCED = "forced";
     String SP_KEY_SERVER_APPVER = "appversioncode";
@@ -72,6 +74,7 @@ public interface Constans {
     int ACTION_FLAG_WILDCAT = 2; // 通知栏传递参数到mainactivity
     String ACTION_CLOSE_USERINFO = "me.peiwo.peiwo.ACTION_CLOSE_USERINFO"; // 关闭userinfo
 
+    String ACTION_SEND_IMG_PERMISSION = "me.peiwo.peiwo.ACTION_SEND_IMG_PERMISSION";//通话40秒后开启发送图片权限
 //	// 限时聊举报理由
 //	public static final int REPORT_REASON_DEFAULT = 0; // 其他
 //	public static final int REPORT_REASON_PRON = 1; // 色情狂
@@ -101,6 +104,8 @@ public interface Constans {
     int PW_MESSAGE_FROM_FEED = 0x03;
     int PW_MESSAGE_FROM_WILDCAT_LOG = 0x04;
 
+
+    String AGORA_VENDOR_KEY = "6dd92d6dee704a6fa278a7314f37a22b";
 
     // 市场渠道
     // M360

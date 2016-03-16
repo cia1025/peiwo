@@ -27,28 +27,17 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.*;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+
 import com.nostra13.universalimageloader.core.ImageLoader;
-import me.peiwo.peiwo.DfineAction;
-import me.peiwo.peiwo.PeiwoApp;
-import me.peiwo.peiwo.R;
-import me.peiwo.peiwo.constans.Constans;
-import me.peiwo.peiwo.constans.PWActionConfig;
-import me.peiwo.peiwo.db.MsgDBCenterService;
-import me.peiwo.peiwo.eventbus.EventBus;
-import me.peiwo.peiwo.eventbus.event.CallStateEvent;
-import me.peiwo.peiwo.eventbus.event.WildCatCallingEvent;
-import me.peiwo.peiwo.eventbus.event.WildCatMatchStateEvent;
-import me.peiwo.peiwo.eventbus.event.WildCatMessageEvent;
-import me.peiwo.peiwo.net.*;
-import me.peiwo.peiwo.service.CoreService;
-import me.peiwo.peiwo.service.CoreService.WildCatState;
-import me.peiwo.peiwo.util.*;
-import me.peiwo.peiwo.widget.CallScrollView;
-import me.peiwo.peiwo.widget.FlowLayout;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -60,6 +49,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import me.peiwo.peiwo.DfineAction;
+import me.peiwo.peiwo.PeiwoApp;
+import me.peiwo.peiwo.R;
+import me.peiwo.peiwo.constans.Constans;
+import me.peiwo.peiwo.constans.PWActionConfig;
+import me.peiwo.peiwo.db.MsgDBCenterService;
+import me.peiwo.peiwo.eventbus.EventBus;
+import me.peiwo.peiwo.eventbus.event.CallStateEvent;
+import me.peiwo.peiwo.eventbus.event.WildCatCallingEvent;
+import me.peiwo.peiwo.eventbus.event.WildCatMatchStateEvent;
+import me.peiwo.peiwo.eventbus.event.WildCatMessageEvent;
+import me.peiwo.peiwo.net.ApiRequestWrapper;
+import me.peiwo.peiwo.net.AsynHttpClient;
+import me.peiwo.peiwo.net.MsgStructure;
+import me.peiwo.peiwo.net.NetUtil;
+import me.peiwo.peiwo.net.TcpProxy;
+import me.peiwo.peiwo.service.CoreService;
+import me.peiwo.peiwo.service.CoreService.WildCatState;
+import me.peiwo.peiwo.util.CustomLog;
+import me.peiwo.peiwo.util.HourGlassAgent;
+import me.peiwo.peiwo.util.ImageUtil;
+import me.peiwo.peiwo.util.LinphoneManager;
+import me.peiwo.peiwo.util.PWUtils;
+import me.peiwo.peiwo.util.SharedPreferencesUtil;
+import me.peiwo.peiwo.util.UserManager;
+import me.peiwo.peiwo.widget.CallScrollView;
+import me.peiwo.peiwo.widget.FlowLayout;
 
 /**
  * Created by fuhaidong on 14-9-4. 随机通话界面
@@ -479,7 +496,6 @@ public class WildCatCallActivity extends BaseCallActivity implements
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                     CustomLog.d("STOP_CALL. stop match is : " + stopMatch);
                     if (PeiwoApp.getApplication().getNetType() == NetUtil.NO_NETWORK) {
                         theActivity.isactionforme = true;
@@ -517,6 +533,13 @@ public class WildCatCallActivity extends BaseCallActivity implements
                     theActivity.countTime();
                     theActivity.needAlertShareDialog = true;
                     EventBus.getDefault().post(new WildCatCallingEvent(true));
+                    HourGlassAgent hourGlass = HourGlassAgent.getInstance();
+                    if (hourGlass.getStatistics() && hourGlass.getK27() == 0) {
+                        hourGlass.setK27(1);
+                        PeiwoApp app = PeiwoApp.getApplication();
+                        app.postK("k27");
+                    }
+                    hourGlass.setStatistics(false);
                     break;
                 case CoreService.WILDCAT_BE_FORBIDDEN_:
                     // 匹配过程中点击断开随机匹配的
@@ -967,8 +990,15 @@ public class WildCatCallActivity extends BaseCallActivity implements
             case R.id.view_finishit:
                 isactionforme = true;
                 endCallActivity(DfineAction.WILDCAT_STOP_CALL_EXIT);
+                if (hourGlassAgent.getStatistics() && hourGlassAgent.getK28() == 0) {
+                    hourGlassAgent.setK28(1);
+                    PeiwoApp app = (PeiwoApp)getApplicationContext();
+                    app.postK("k28");
+                }
+
                 break;
             case R.id.iv_refreshcat:
+                wildcat_tags_layout.removeAllViews();
                 substitutionUser(DfineAction.WILDCAT_STOP_CALL_NORMAL);
                 break;
             case R.id.iv_reputation:
@@ -989,13 +1019,8 @@ public class WildCatCallActivity extends BaseCallActivity implements
             case R.id.iv_close:
                 isactionforme = true;
                 endCallActivity(DfineAction.WILDCAT_STOP_CALL_EXIT);
-
-                if (hourGlassAgent.getStatistics() && hourGlassAgent.getK28() == 0) {
-                    hourGlassAgent.setK28(1);
-                    PeiwoApp app = (PeiwoApp) getApplicationContext();
-                    app.postK("k28");
-                }
-
+                HourGlassAgent hourGlass = HourGlassAgent.getInstance();
+                hourGlass.setStatistics(false);
                 break;
             case R.id.iv_report:
 
@@ -1303,14 +1328,6 @@ public class WildCatCallActivity extends BaseCallActivity implements
         currentState = 10000;
 //        PWUtils.uploadRecordFiles(this);
         EventBus.getDefault().post(new WildCatCallingEvent(false));
-
-
-        if (hourGlassAgent.getStatistics() && hourGlassAgent.getK27() == 0) {
-            hourGlassAgent.setK27(1);
-            PeiwoApp app = (PeiwoApp) getApplicationContext();
-            app.postKV("k27", String.valueOf(match_count));
-        }
-
         super.finish();
     }
 

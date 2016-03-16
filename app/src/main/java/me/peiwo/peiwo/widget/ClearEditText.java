@@ -1,6 +1,7 @@
 package me.peiwo.peiwo.widget;
 
 import me.peiwo.peiwo.R;
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
@@ -93,7 +94,8 @@ public class ClearEditText extends EditText implements
     public void onFocusChange(View v, boolean hasFocus) {
         this.hasFoucs = hasFocus;
         if (hasFocus) {
-            setClearIconVisible(getText().length() > 0);
+//            setClearIconVisible(getText().length() > 0);
+            setHint("");
         } else {
             setClearIconVisible(false);
         }
@@ -119,7 +121,7 @@ public class ClearEditText extends EditText implements
     public void onTextChanged(CharSequence s, int start, int count,
                               int after) {
         if (hasFoucs) {
-            setClearIconVisible(s.length() > 0);
+//            setClearIconVisible(s.length() > 0);
         }
     }
 

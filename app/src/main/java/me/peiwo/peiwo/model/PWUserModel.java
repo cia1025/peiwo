@@ -19,8 +19,8 @@ import java.util.List;
 public class PWUserModel extends PPBaseModel implements Parcelable {
 
     public int uid;
-
     public String birthday;
+
     public String avatar_thumbnail;
     public String profession;
     public int state;
@@ -40,18 +40,18 @@ public class PWUserModel extends PPBaseModel implements Parcelable {
     public String images_str;
     public int impermission;
     public boolean paid;
-
     public int flags;
+
     public int relation;
     public ArrayList<String> dynamicList;
     public String dynamicContent;
-
     public double complement;
 
     public int focusesNumber;
-    public int fansNumber;
 
+    public int fansNumber;
     public String tags;
+
     public String food_tags;
     public String music_tags;
     public String movie_tags;
@@ -62,8 +62,8 @@ public class PWUserModel extends PPBaseModel implements Parcelable {
     public int reward_price;
     public boolean has_lazy_voice;
     public boolean isCharge;
-
     public String score;
+    public String xingzuo;
 
     public String remark; // 备注
 
@@ -81,7 +81,7 @@ public class PWUserModel extends PPBaseModel implements Parcelable {
             setImages(o);
             gender = getJsonInt(o, "gender");
             birthday = getJsonValue(o, "birthday");
-
+            xingzuo = getJsonValue(o, "xingzuo");
             province = getJsonValue(o, "province");
             city = getJsonValue(o, "city");
             slogan = getJsonValue(o, "slogan");

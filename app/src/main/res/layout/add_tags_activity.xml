@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:fl="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="#FAFAFA"
@@ -6,6 +7,35 @@
 
     <include layout="@layout/title_bar"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:textColor="#4d4d4d"
+            android:paddingTop="4dp"
+            android:layout_marginLeft="18dp"
+            android:textSize="12sp"
+            android:text="标签:"/>
+        <me.peiwo.peiwo.widget.FlowLayout
+            android:id="@+id/tags_list_selected_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            fl:horizontalSpacing="4dip"
+            fl:orientation="horizontal"
+            fl:verticalSpacing="4dp">
+
+        </me.peiwo.peiwo.widget.FlowLayout>
+
+    </LinearLayout>
 
     <ListView
         style="@style/ListViewStyle"

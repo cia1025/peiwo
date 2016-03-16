@@ -54,6 +54,7 @@
         android:layout_marginRight="2dp"
         android:layout_marginTop="15dp"
         android:hint="请输入不少于6位的密码"
+        android:maxLength="20"
         android:inputType="textPassword"
         android:textColorHint="@color/et_hint_color"
         android:textSize="16sp" />

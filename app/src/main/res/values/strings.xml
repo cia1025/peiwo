@@ -47,7 +47,7 @@
     <string name="msg_calllog">"通话记录"</string>
     <string name="msg_sys_msg">"系统消息"</string>
     <string name="calllog_type_miss">"未接"</string>
-    <string name="no_permission_send_img">与好友通过电话开启发送图片权限</string>
+    <string name="no_permission_send_img">通话满40秒，再开启发送图片权限</string>
     <string name="empty">"空空如也…"</string>
     <string name="setting_success">"设置成功"</string>
     <string name="confirm_del">"确认删除"</string>
@@ -86,11 +86,12 @@
     <string name="text_start_permission_example1">小米手机“设置=>全部设置=>应用=>陪我=>权限管理=>录音”开启录音权限即可！</string>
     <string name="text_start_permission_example2">三星S3 “设定=>更多=>应用程序许可=>陪我=>录制音频”开启录音权限即可！</string>
     <string name="text_request_call_tips">共建社交文明，谩骂、色情及骚扰请随手举报一经查实立即封设备。小卫士已处理10000次举报，共封禁7865个手机设备。</string>
-    <string name="welcome_back_str">欢迎来到陪我，如果在使用过程中有任何问题，请在主界面右滑到侧边栏－>点击新手引导查看。如果还有疑问或者建议，请点击侧边栏“设置”－>意见反馈，告知客服人员。</string>
+    <string name="welcome_back_str">欢迎来到陪我，如果在使用过程有任何问题，请在主界面右划到侧边栏－>点击［使用说明］查看。如果还有疑问或者建议，请点击下方的［意见反馈］，告知客服人员。</string>
 
     <!-- common string -->
     <string name="ignore_all_message">忽略全部</string>
-    <string name="log_on">登陆</string>
+    <string name="register">注册</string>
+    <string name="log_on">登录</string>
     <string name="find_password">找回密码</string>
     <string name="search">搜索</string>
     <string name="account">账号</string>
@@ -107,6 +108,8 @@
     <string name="record">录制</string>
     <string name="go_on">继续</string>
     <string name="pay">支付</string>
+    <string name="skip">跳过</string>
+    <string name="register_done">注册完成</string>
     <string name="delete_and_quit">删除并退出</string>
     <string name="join_this_group">加入讨论</string>
     <string name="is_calling">正在呼叫...</string>
@@ -123,7 +126,7 @@
     <string name="release_to_send">松手发送</string>
     <string name="release_to_cancel">松手取消</string>
     <string name="release_to_hold">松手保持</string>
-    <string name="tap_is_too_short">按住时间太短</string>
+    <string name="tap_is_too_short">录音时间过短或在手机“设置”中查看是否开启录音权限</string>
     <string name="recording">正在录音</string>
     <string name="text_report">举报</string>
     <string name="text_accept">接受</string>
@@ -151,6 +154,8 @@
     <string name="pay_failed">支付失败</string>
     <string name="save_failed">保存失败</string>
     <string name="load_failed">加载失败</string>
+    <string name="input_your_phone_number">请输入手机号</string>
+    <string name="input_password">请设置密码(不少于6位)</string>
     <string name="voices_need_you_confirm">新的声音:%s个待鉴定的语音申请</string>
     <string name="new_voice_message">新的声音(%s)</string>
     <string name="apply_to_be_friend">录制语音申请</string>
@@ -215,6 +220,8 @@
     <string name="income_this_month">本月已提现成功</string>
     <string name="alipay_account">当前账号</string>
     <string name="click_to_modify_remark">点击修改群组名</string>
+    <string name="qq">QQ</string>
+    <string name="weibo">微博</string>
     <string name="wechat">微信</string>
     <string name="wechat_pay">微信支付</string>
     <string name="wechat_pay_announcement">*微信充值将收取2%手续费</string>
@@ -231,17 +238,21 @@
     <string name="input_charged_money">请输入充值金额</string>
     <string name="charged_money_limited_by_0">充值金额不能为0</string>
     <string name="charged_money_limited_by_1000">充值金额上限为1000元</string>
-    <string name="withdraw_1000_yuan_for_free">*本月收益超过1000元，提现加收%1手续费。</string>
+    <string name="withdraw_1000_yuan_for_free">*本月收益超过1000元，提现加收1%手续费。</string>
     <string name="alipay_account_name_is_for_certification">*姓名要与支付宝姓名相符哦，不然小陪无法给你转账呢。</string>
     <string name="withdraw_money_for_how_much">陪我提现%s元，1000元以内没有手续费。</string>
     <string name="input_text_length_over_limit">输入文字长度已超出上限</string>
 
     <!-- 通话时网络提示语 -->
-    <string name="calling_incoming_wifi">"您当前为WiFi网络,接听完全免费"</string>
+    <string name="calling_incoming_wifi">当前为Wi-Fi网络，接听完全免费</string>
+    <string name="calling_outgoing_wifi">当前为Wi-Fi网络，呼叫完全免费</string>
+    <string name="calling_incoming_mobile_network">当前为移动数据网络，接通将使用少量流量</string>
+    <string name="calling_outgoing_mobile_network">当前为移动数据网络，接通将使用少量流量</string>
     <string name="calling_incoming_2g">"2G网络不稳定,将影响通话质量"</string>
     <string name="calling_incoming_3g">"您当前为非WiFi网络,将使用少量手机流量"</string>
     <string name="calling_other_net_bad">"对方当前网络连接不稳定"</string>
     <string name="calling_me_net_bad">"当前网络连接不稳定"</string>
+
     <!-- 创建话题提示语 -->
     <string name="feed_flow_create_topic_notice">"1.编辑创建属于您的标签；\n\n2.编辑符合标签的内容并发布；\n\n3.即可在您的个人动态查看；\n\n小陪会每日视监各位的标签，有趣的一定会被征用哒！您的陪我号将同期出现在「发现」首页。：）"</string>
 
@@ -272,11 +283,55 @@
     <string name="title_activity_album_compat">AlbumCompatActivity</string>
 
     <string name="rc_notification_ticker_text">@string/app_name</string>
-    <string name="title_activity_chat_redbag">ChatRedbagActivity</string>
+    <string name="title_activity_chat_redbag">GroupChatRedbagActivity</string>
     <string name="title_activity_groupchat_more_packet">GroupchatMorePacketActivity</string>
     <string name="title_activity_chat_repu_redbag">ChatRepuRedbagActivity</string>
     <string name="title_activity_verifi_code_not_receive">VerifiCodeNotReceiveActivity</string>
+    <string name="title_activity_msg_show_album">MsgShowAlbumActivity</string>
     <string name="stop_zhaoxin">该群未开放，被群成员邀请方可入群</string>
     <string name="title_activity_update_group_notice">UpdateGroupNoticeActivity</string>
+    <string name="can_not_reach_verification_code">收不到验证码</string>
+    <string name="can_not_reach_verification_code_question">收不到验证码?</string>
+    <string name="just_can_not_reach_verification_code">就是收不到!</string>
+    <string name="contact_us">联系我们</string>
+    <string name="set_up_account_pwd">设置账号密码( 1/4 )</string>
+    <string name="get_verification_code">获取验证码( 2/4 )</string>
+    <string name="input_6_verification_code">请输入6位验证码</string>
+    <string name="next_step">下一步</string>
+    <string name="wait_for_verification_code">请等待收取验证码</string>
+    <string name="verification_incorrect">验证码不正确</string>
+    <string name="bind_3rd_party_account_announcement">绑定第三方账号,迅速完善你的资料,享受便捷登录体验</string>
+    <string name="bind_3rd_party_account">绑定第三方( 3/4 )</string>
+    <string name="fill_profile">完善资料( 4/4 )</string>
+    <string name="try_to_get_voice_verification_code">尝试语音验证码?</string>
+    <string name="get_voice_verification_code">获取语音验证码</string>
+    <string name="phone_number_has_registered">手机号已注册</string>
+    <string name="verification_code_unreach">验证码获取失败</string>
+    <string name="log_on_meet_problem">登录遇到问题</string>
+    <string name="log_on_meet_problem_question">登录遇到问题?</string>
+    <string name="forget_password">忘记密码</string>
+    <string name="reset_password">重置密码</string>
+    <string name="can_not_log_on">就是登不上!</string>
+    <string name="user_info_access_deny">获取信息失败</string>
+    <string name="password_length_limit">密码不能大于20位</string>
+    <string name="logon_failed">登录失败</string>
+    <string name="fetch_captcha">重新获取</string>
+    <string name="password_set_failed">密码设置失败</string>
+    <string name="redbag">[红包]</string>
+    <string name="picture">[图片]</string>
+    <string name="title_activity_msg_album_full_screen">MsgAlbumFullScreenActivity</string>
+    <string name="redbag_invalid">红包领取失败</string>
+    <string name="user_whom_calling_you">\@%s 希望与你通话</string>
+    <string name="you_are_calling_with_whom">你正在与\@%s 通话</string>
+    <string name="calling_in_background">后台打电话</string>
+
+    <string name="notify_counts">[%d条]</string>
+    <string name="title_activity_server_down">ServerDownActivity</string>
+    <string name="voice_captcha_had_been_sent">语音验证码已发出，请保持手机畅通</string>
+
+    <string name="title_activity_call_out">CallOutActivity</string>
+    <string name="title_activity_agora_call_in">AgoraCallInActivity</string>
+    <string name="title_activity_agora_wild_call">AgoraWildCallActivity</string>
+
 
 </resources>

@@ -13,10 +13,23 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.adapter.FeedFlowAdapter;
@@ -32,19 +45,13 @@ import me.peiwo.peiwo.net.ApiRequestWrapper;
 import me.peiwo.peiwo.net.AsynHttpClient;
 import me.peiwo.peiwo.net.MsgStructure;
 import me.peiwo.peiwo.net.TcpProxy;
-import me.peiwo.peiwo.util.*;
+import me.peiwo.peiwo.util.CustomLog;
+import me.peiwo.peiwo.util.PWUtils;
+import me.peiwo.peiwo.util.SharedPreferencesUtil;
+import me.peiwo.peiwo.util.UmengStatisticsAgent;
+import me.peiwo.peiwo.util.UserManager;
 import me.peiwo.peiwo.widget.CircleBitmapDisplayer;
 import me.peiwo.peiwo.widget.PWPullToRefreshListView;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class FeedFlowActivity extends BaseActivity implements OnClickListener,
         OnRefreshListener2<ListView>, PullToRefreshBase.OnLastItemVisibleListener {
@@ -878,6 +885,9 @@ public class FeedFlowActivity extends BaseActivity implements OnClickListener,
     @Override
     public void onResume() {
         likerHandleMap.putAll(cacheLikerHandleMap);
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
         super.onResume();
     }
 

@@ -24,6 +24,8 @@ import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.activity.FeedFlowActivity;
 import me.peiwo.peiwo.activity.ImagePagerActivity;
 import me.peiwo.peiwo.activity.UserInfoActivity;
+import me.peiwo.peiwo.eventbus.EventBus;
+import me.peiwo.peiwo.eventbus.event.ImageModelIndexEvent;
 import me.peiwo.peiwo.model.FeedFlowModel;
 import me.peiwo.peiwo.util.ImageUtil;
 import me.peiwo.peiwo.util.TimeUtil;

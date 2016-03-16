@@ -127,9 +127,13 @@ public class RecorderDialogFragment extends DialogFragment implements View.OnTou
         }
         mVoiceFilePath = voiceFolder + "/" + mVoiceFileName + ".amr";
         CustomLog.d("mVoicePath is : " + mVoiceFilePath);
-        mRecorder = new RecorderWorker();
-        mRecorder.setMaxDuration(RECORDER_TIME_AT_MOST * 1000);
-        mRecorder.start(mVoiceFilePath);
+        try {
+            mRecorder = new RecorderWorker();
+            mRecorder.setMaxDuration(RECORDER_TIME_AT_MOST * 1000);
+            mRecorder.start(mVoiceFilePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setState(State state) {

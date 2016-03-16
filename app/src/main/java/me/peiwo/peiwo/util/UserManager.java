@@ -69,7 +69,6 @@ public class UserManager {
             db.execSQL(String.format(Locale.getDefault(), sql, PWDBConfig.TB_NAME_USER), objects);
             SharedPreferencesUtil.putIntExtra(context, KEY_UID, model.uid);
             SharedPreferencesUtil.putStringExtra(context, KEY_SESSION_DATA, model.session_data);
-            CustomLog.d("UserManager, saveUser. session data is : " + model.session_data);
             SharedPreferencesUtil.putIntExtra(context, KEY_GENDER, model.gender);
         } catch (Exception e) {
             b = false;
@@ -280,7 +279,7 @@ public class UserManager {
     public static int getUserState(Context context) {
         SQLiteDatabase db = null;
         Cursor c = null;
-        int state = 0;
+        int state = -1;
         try {
             db = PWDBHelper.getInstance(context).getReadableDatabase(PWDBConfig.DB_NAME_USER);
             String sql = "select state from %s";
@@ -515,6 +514,22 @@ public class UserManager {
         }
     }
 
+    public static void updateState(Context context, int state) {
+        SQLiteDatabase db = null;
+        try {
+            db = PWDBHelper.getInstance(context).getWritableDatabase(PWDBConfig.DB_NAME_USER);
+            String sql = "update %s set state = ?";
+            Object[] objects = new Object[]{state};
+            db.execSQL(String.format(Locale.getDefault(), sql, PWDBConfig.TB_NAME_USER), objects);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (db != null) {
+                db.close();
+            }
+        }
+    }
+
     /**
      * 此方法只能用来存储openid token socialtype，不能用来进行其他操作，尤其是重新赋值会清空已经保存的值产生错误
      *
@@ -533,6 +548,17 @@ public class UserManager {
         editor.putString(Constans.SP_KEY_OPENID, openid);
         editor.putString(Constans.SP_KEY_OPENTOKEN, opentoken);
         editor.putInt(Constans.SP_KEY_SOCIALTYPE, socialType);
+        editor.commit();
+    }
+
+    public static void saveOpenResultInPreference(Context context, String openid, String opentoken, int socialType, String session_data) {
+        SharedPreferences preferences = context.getSharedPreferences(
+                Constans.SP_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(Constans.SP_KEY_OPENID, openid);
+        editor.putString(Constans.SP_KEY_OPENTOKEN, opentoken);
+        editor.putInt(Constans.SP_KEY_SOCIALTYPE, socialType);
+        editor.putString(UserManager.KEY_SESSION_DATA, session_data);
         editor.commit();
     }
 

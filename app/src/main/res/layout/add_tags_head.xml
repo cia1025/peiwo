@@ -3,10 +3,14 @@
               android:layout_height="wrap_content"
               android:background="@color/white"
               android:orientation="vertical">
-
+    <!--android:focusable="true"
+           android:focusableInTouchMode="true"-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:id="@+id/add_new_tags_container"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:paddingLeft="5dp">
 
         <ImageButton
@@ -14,6 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:clickable="false"
             android:layout_marginLeft="18dp"
             android:background="@color/transparent"
             android:src="@drawable/icon_tag_add"/>
@@ -28,9 +33,9 @@
             android:layout_gravity="center_horizontal"
             android:background="#00b8d0"
             android:onClick="click"
-            android:text="创建"
+            android:text="添加"
             android:textColor="#ffffff"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <EditText
             android:id="@+id/add_new_tags_edit"
@@ -42,7 +47,8 @@
             android:textColorHint="#8e8e8e"
             android:layout_toLeftOf="@id/add_new_tags_button"
             android:layout_toRightOf="@id/add_new_tags_icon"
-            android:background="@drawable/transparent"/>
+            android:background="@drawable/transparent"
+            />
     </RelativeLayout>
 
     <View

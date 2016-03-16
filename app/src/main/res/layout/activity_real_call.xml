@@ -42,12 +42,11 @@
                 android:ellipsize="middle"
                 android:layout_marginTop="8dp"
                 android:textColor="@color/c_white"
-                android:text="#"
-                />
+                android:text="#"/>
             <!--正在呼叫跟倒计时是一个控件-->
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/click_area_layout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
                 android:gravity="center_vertical"
@@ -59,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/is_speaking"
-                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
                     android:textColor="@color/blue_text_color"
                     android:textSize="17sp"/>
 
@@ -68,10 +67,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon_hide_duration"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="24dp"
-                    android:visibility="gone"/>
-            </LinearLayout>
+                    android:layout_marginLeft="60dp"
+                    android:layout_gravity="center_vertical"
+                    android:visibility="invisible"/>
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/tv_charge_free_guide"
@@ -79,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textSize="12sp"
-                android:text="@string/calling_incoming_wifi"
+                android:text="123123"
                 android:textColor="@color/text_dim_color"
                 android:layout_marginLeft="60dp"/>
 

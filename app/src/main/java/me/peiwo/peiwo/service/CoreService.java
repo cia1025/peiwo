@@ -8,13 +8,19 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.*;
 import android.text.TextUtils;
+import android.util.Log;
+import com.alibaba.fastjson.JSON;
+import me.peiwo.peiwo.BuildConfig;
 import me.peiwo.peiwo.DfineAction;
 import me.peiwo.peiwo.PeiwoApp;
+import me.peiwo.peiwo.RxBus;
+import me.peiwo.peiwo.activity.AgoraCallInActivity;
 import me.peiwo.peiwo.activity.RealCallActivity;
 import me.peiwo.peiwo.constans.Constans;
 import me.peiwo.peiwo.eventbus.EventBus;
 import me.peiwo.peiwo.eventbus.event.*;
 import me.peiwo.peiwo.im.MessageUtil;
+import me.peiwo.peiwo.model.agora.*;
 import me.peiwo.peiwo.net.*;
 import me.peiwo.peiwo.net.tcp.CoreServiceBinder;
 import me.peiwo.peiwo.net.tcp.TcpConnection;
@@ -224,6 +230,7 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
         return START_REDELIVER_INTENT;
     }
 
+
     @Override
     public void onDestroy() {
         PeiwoApp.getApplication().removeNetworkCallBack(this);
@@ -245,7 +252,7 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
             if (!TextUtils.isEmpty(tcp_servers)) {
                 try {
                     JSONArray array = new JSONArray(tcp_servers);
-                    if (array != null && array.length() > 0) {
+                    if (array.length() > 0) {
                         for (int i = 0; i < array.length(); i++) {
                             String hostserver = array.getString(i);
                             if (hostserver.indexOf(":") > 0) {
@@ -343,9 +350,14 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
             event.nTCPState = isLoginStauts();
             event.nCallState = callState;
             event.nWebRTCState = m_nWebRTCState;
+            sendRTCWildCallEvent(event);
             EventBus.getDefault().post(event);
         } else {
         }
+    }
+
+    private void sendRTCWildCallEvent(CallStateEvent event) {
+        RxBus.provider().send(new RTCWildCallStateEvent(event.type, event.nTCPState, event.nWebRTCState, event.heart_lost_count, event.remote_user_state));
     }
 
     public void onTabMsgTitleChanged() {
@@ -369,6 +381,7 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
         event.type = 1;
         event.heart_lost_count = heart_lost_count;
         event.remote_user_state = remote_user_state;
+        sendRTCWildCallEvent(event);
         EventBus.getDefault().post(event);
     }
 
@@ -404,7 +417,7 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
                 JSONObject o = new JSONObject(push_str);
                 // 在应用之内始终能接打电话
                 boolean nopush = o.getBoolean("nopush");
-                boolean isforeground = isOnForeground();
+                boolean isforeground = true;//isOnForeground();
                 if (nopush && !isforeground) {
                     nodisturbAnswer();
                     return;
@@ -1159,11 +1172,15 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
     public void handleReceiveMsg(final JSONObject jsonCMD) {
         if (jsonCMD == null)
             return;
+        if (BuildConfig.DEBUG)
+            Log.i("agora", "receice data == " + jsonCMD.toString());
         int msg_type = jsonCMD.optInt("msg_type", -1);
         startWaitHeartBeatTimeOut();
-
+        JSONObject extraData = jsonCMD.optJSONObject("data");
+        int channel = extraData != null ? extraData.optInt("channel", 0) : jsonCMD.optInt("channel", 0);
+        AgoraCallEvent callEvent = null;
         if (msg_type != DfineAction.MSG_Heartbeat) {
-            CustomLog.i("handleReceiveMsg, jsonCMD is : " + jsonCMD);
+            //CustomLog.i("handleReceiveMsg, jsonCMD is : " + jsonCMD);
         }
         switch (msg_type) {
             case DfineAction.Response_MSG_SignIn: {
@@ -1206,7 +1223,7 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
                     CustomLog.i(DfineAction.TCP_TAG, "MSG_SignInResponse, code != 0:  " + code);
                     disconnect();
                     //TCP不必要调用这个方法
-                    PeiwoApp.getApplication().restartApp(AsynHttpClient.ERR_USER_AUTH);
+                    PeiwoApp.getApplication().restartApp(AsynHttpClient.ERR_USER_AUTH, null);
                 }
             }
             break;
@@ -1218,6 +1235,8 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
             }
             break;
             case DfineAction.Response_MSG_Call: {
+                if (channel == DfineAction.CALL_CHANNEL_AGORA)
+                    callEvent = JSON.parseObject(jsonCMD.toString(), AgoraCallResponseEvent.class);
                 CustomLog.i(DfineAction.TCP_TAG, "handleReceiveMsg MSG Call Response");
                 if (DfineAction.CURRENT_CALL_STATUS == DfineAction.CURRENT_CALL_REAL) {
                     int code = jsonCMD.optInt("code", -1);
@@ -1238,6 +1257,14 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
                 CustomLog.i(DfineAction.WEBRTC_TAG, "MSG_IncomingCall ：" + jsonCMD.toString());
                 if (isCalling) {
                     TcpProxy.getInstance().rejectCall("");
+                    return;
+                }
+                if (channel == DfineAction.CALL_CHANNEL_AGORA) {
+                    m_nRoleState = ROLE_FIRSTLISTENER;
+                    callState = RealCallState.INCOMING;
+                    webRTCConnectionState = "";
+                    callEvent = JSON.parseObject(jsonCMD.toString(), AgoraCalledMessageEvent.class);
+                    inAgoraCallinActivity((AgoraCalledMessageEvent) callEvent);
                     return;
                 }
                 int tuid = 0;
@@ -1320,8 +1347,12 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        onCallReadyForWildcat(code, msg, data, userData);
-                        CreateP2PCallPC(data);
+                        if (channel == DfineAction.CALL_CHANNEL_AGORA) {
+                            callEvent = JSON.parseObject(jsonCMD.toString(), AgoraWildCallReadyEvent.class);
+                        } else {
+                            onCallReadyForWildcat(code, msg, data, userData);
+                            CreateP2PCallPC(data);
+                        }
                     }
                 }
             }
@@ -1336,6 +1367,8 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
             }
             break;
             case DfineAction.MSG_HANGUP_BY_SVR:
+                if (channel == DfineAction.CALL_CHANNEL_AGORA)
+                    callEvent = new AgoraHungUpByServEvent();
             case DfineAction.MSG_STOPCALL_RESPONSE: {
                 stopWebRtcReconnectAlarm();
                 m_jsonWebRTCInfo = null;
@@ -1343,6 +1376,9 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
                     HangUpByRemoteForReal(jsonCMD.toString());
                 } else if (DfineAction.CURRENT_CALL_STATUS == DfineAction.CURRENT_CALL_WILDCAT) {
                     HangUpByRemoteForWildcat(jsonCMD);
+                }
+                if (channel == DfineAction.CALL_CHANNEL_AGORA) {
+                    callEvent = JSON.parseObject(jsonCMD.toString(), AgoraStopCallResponseEvent.class);
                 }
             }
             break;
@@ -1359,6 +1395,7 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
             break;
             case DfineAction.MSG_WILDCAT_MATCHING_RESPONSE: {
                 wildcatState = WildCatState.MATCHING;
+                callEvent = JSON.parseObject(jsonCMD.toString(), AgoraWildCallResponseEvent.class);
             }
             break;
             case DfineAction.MSG_WILDCAT_EXIT_MATCHING_RESPONSE: {
@@ -1411,28 +1448,25 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
             break;
             case DfineAction.MSG_ReceiveMessage: {
                 CustomLog.i("socket receive MSG_ReceiveMessage");
-                PeiwoApp.getApplication().mExecutorService.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONArray responseArray = new JSONArray();
-                            JSONArray array = jsonCMD.getJSONArray("data");
-                            if (array != null && array.length() > 0) {
-                                for (int i = 0; i < array.length(); i++) {
-                                    JSONObject messageObject = array.getJSONObject(i);
-                                    JSONArray d_array = messageObject.getJSONArray("dialogs");
-                                    for (int j = 0; j < d_array.length(); j++) {
-                                        responseArray.put(d_array.getJSONObject(j).getInt("dialog_id"));
-                                    }
+                PeiwoApp.getApplication().mExecutorService.execute(() -> {
+                    try {
+                        JSONArray responseArray = new JSONArray();
+                        JSONArray array = jsonCMD.getJSONArray("data");
+                        if (array != null && array.length() > 0) {
+                            for (int i = 0; i < array.length(); i++) {
+                                JSONObject messageObject = array.getJSONObject(i);
+                                JSONArray d_array = messageObject.getJSONArray("dialogs");
+                                for (int j = 0; j < d_array.length(); j++) {
+                                    responseArray.put(d_array.getJSONObject(j).getInt("dialog_id"));
                                 }
-                                receiveMessageResponse(responseArray);
-                                CustomLog.i(DfineAction.TCP_TAG, "[msg_type]:[" + jsonCMD.getInt("msg_type") + "]." + "receiveJsonCMD" + jsonCMD.toString());
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            receiveMessageResponse(responseArray);
+                            CustomLog.i(DfineAction.TCP_TAG, "[msg_type]:[" + jsonCMD.getInt("msg_type") + "]." + "receiveJsonCMD" + jsonCMD.toString());
                         }
-                        MessageUtil.receivesMessage(mContext, jsonCMD);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
+                    MessageUtil.receivesMessage(mContext, jsonCMD);
                 });
             }
             break;
@@ -1514,7 +1548,20 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
             default:
                 break;
         }
+        if (callEvent != null)
+            RxBus.provider().send(callEvent);
     }
+
+
+    private void inAgoraCallinActivity(AgoraCalledMessageEvent calledMessageEvent) {
+        if (calledMessageEvent.data.channel == DfineAction.CALL_CHANNEL_AGORA) {
+            Intent intent = new Intent(this, AgoraCallInActivity.class);
+            intent.putExtra(AgoraCallInActivity.K_CALLED_EVENT, calledMessageEvent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+    }
+
 
     private void setWebRTCState(int state) {
         m_nWebRTCState = state;
@@ -1535,6 +1582,7 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
                 //webrtc连接超时，如果此期间心跳正常，只断开电话，如果心跳也不正常，断开连接
                 CallStateEvent event = new CallStateEvent();
                 event.type = 2;
+                sendRTCWildCallEvent(event);
                 EventBus.getDefault().post(event);
 
                 //2、如果Tcp连接正常，则不做任何处理，不正常重连tcp
@@ -1697,7 +1745,7 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
     }
 
 
-    protected Object WebRTCSync = new Object();
+    protected final Object WebRTCSync = new Object();
     protected JSONObject m_jsonWebRTCInfo = null;
 
     protected void CreateP2PCallPC(JSONObject dataRC) {

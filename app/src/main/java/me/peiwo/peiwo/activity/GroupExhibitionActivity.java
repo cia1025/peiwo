@@ -29,6 +29,7 @@ import me.peiwo.peiwo.net.ApiRequestWrapper;
 import me.peiwo.peiwo.net.AsynHttpClient;
 import me.peiwo.peiwo.net.MsgStructure;
 import me.peiwo.peiwo.util.CustomLog;
+import me.peiwo.peiwo.util.PWUtils;
 import me.peiwo.peiwo.util.SharedPreferencesUtil;
 import me.peiwo.peiwo.util.UserManager;
 import org.apache.http.NameValuePair;
@@ -508,6 +509,11 @@ public class GroupExhibitionActivity extends BaseActivity {
     }
 
     public void click(View v) {
+        boolean netAvailable = PWUtils.isNetWorkAvailable(this);
+        if (!netAvailable) {
+            showToast(this, getResources().getString(R.string.umeng_common_network_break_alert));
+            return;
+        }
         switch (v.getId()) {
             case R.id.layout_show_more:
                 Intent it = new Intent(this, GroupMembersNewbiesActivity.class);

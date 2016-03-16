@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,9 +12,13 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import butterknife.Bind;
 import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
@@ -38,23 +41,30 @@ import me.peiwo.peiwo.net.AsynHttpClient;
 import me.peiwo.peiwo.net.MsgStructure;
 import me.peiwo.peiwo.net.TcpProxy;
 import me.peiwo.peiwo.util.*;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by fuhaidong on 14-9-25.
  */
 public class PhoneLoginActivity extends BaseActivity {
+    public static final int SOCIAL_TYPE_PHONE = 3;
     private static final int REQUEST_CODE_HASINIT = 5000;
     private static final int REQUEST_CODE_FORGETPWD = 5001;
     private static final int REQUEST_CODE_COUNTRY_CODE = 6000;
+    private static final int REQUEST_CODE_USERINIT = 1000;
+    private static final int REQUEST_CODE_BIND_PHONE = 4000;
+    private static final int SOCIAL_TYPE_WEIBO = 1;
+    private static final int SOCIAL_TYPE_QQ = 2;
+    private static final int SOCIAL_TYPE_WECHAT = 4;
+    @Bind(R.id.btn_submit)
+    Button btn_submit;
+    HourGlassAgent hourGlassAgent = HourGlassAgent.getInstance();
     private EditText et_num;
     private EditText et_pwd;
     private MyHandler mHandler;
@@ -66,15 +76,9 @@ public class PhoneLoginActivity extends BaseActivity {
     private SsoHandler mSsoHandler;
     private Tencent mTencent;
     private boolean islogin = false;
-    private static final int REQUEST_CODE_USERINIT = 1000;
-    private static final int REQUEST_CODE_BIND_PHONE = 4000;
-    private static final int SOCIAL_TYPE_WEIBO = 1;
-    private static final int SOCIAL_TYPE_QQ = 2;
-    public static final int SOCIAL_TYPE_PHONE = 3;
     private String openid2, opentoken2;
-
     private IWXAPI mWXApi;
-    private BroadcastReceiver wxReceiver;
+    private WXReceiver wxReceiver;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,40 +97,47 @@ public class PhoneLoginActivity extends BaseActivity {
         mNotifyMgr.cancel(Constans.NOTIFY_ID_IM_MESSAGE);
 
         HourGlassAgent hourGlassAgent = HourGlassAgent.getInstance();
-//        if (hourGlassAgent.getStatistics() && hourGlassAgent.getK6() == 0) {
-//            hourGlassAgent.setK6(1);
+//        if (mHourGlassAgent.getStatistics() && mHourGlassAgent.getK6() == 0) {
+//            mHourGlassAgent.setK6(1);
 //            PeiwoApp app = (PeiwoApp) getApplicationContext();
 //            app.postK("k6");
 //        }
 
         submitClick(hourGlassAgent);
+        Observable<TextViewAfterTextChangeEvent> et_phone_observable = RxTextView.afterTextChangeEvents(et_num);
+        Observable<TextViewAfterTextChangeEvent> et_pwd_observable = RxTextView.afterTextChangeEvents(et_pwd);
+        Observable.combineLatest(et_phone_observable, et_pwd_observable, (textViewAfterTextChangeEvent, textViewAfterTextChangeEvent2) -> check()).subscribe(aBoolean -> {
+            if (aBoolean) {
+                btn_submit.setClickable(true);
+                btn_submit.setBackgroundColor(getResources().getColor(R.color.valid_clickable_color));
+            } else {
+                btn_submit.setClickable(false);
+                btn_submit.setBackgroundColor(getResources().getColor(R.color.invalid_clickable_color));
+            }
+        });
     }
 
     private void submitClick(HourGlassAgent hourGlassAgent) {
         RxView.clicks(findViewById(R.id.btn_submit)).throttleFirst(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aVoid -> {
-            if (check()) {
-                String p_no = et_num.getText().toString();
-                if (!"86".equals(mPhoneCode)) {
-                    //海外手机号登录
-                    p_no = PWUtils.getFormatPhoneNo(mPhoneCode, et_num.getText().toString());
-                }
-                doPhoneLogin(p_no, et_pwd.getText()
-                        .toString(), false);
-                //
-                if (hourGlassAgent.getStatistics() && hourGlassAgent.getK17() == 0) {
-                    hourGlassAgent.setK17(hourGlassAgent.getK17() + 1);
-                    PeiwoApp app = (PeiwoApp) getApplicationContext();
-                    app.postK("k17");
-                }
+            boolean netAvailable = PWUtils.isNetWorkAvailable(this);
+            if (!netAvailable) {
+                showToast(this, getResources().getString(R.string.umeng_common_network_break_alert));
+                return;
             }
-//                else {
-//                    if (hourGlassAgent.getStatistics()) {
-//                        hourGlassAgent.setK17(hourGlassAgent.getK17() + 1);
-//                    }
-//                }
+            String p_no = et_num.getText().toString();
+            if (!"86".equals(mPhoneCode)) {
+                //海外手机号登录
+                p_no = PWUtils.getFormatPhoneNo(mPhoneCode, et_num.getText().toString());
+            }
+            doPhoneLogin(p_no, et_pwd.getText()
+                    .toString(), false);
+            if (hourGlassAgent.getStatistics() && hourGlassAgent.getK18() == 0) {
+                hourGlassAgent.setK18(1);
+                PeiwoApp app = (PeiwoApp) getApplicationContext();
+                app.postK("k18");
+            }
         });
     }
-
 
     @Override
     protected void onDestroy() {
@@ -138,51 +149,34 @@ public class PhoneLoginActivity extends BaseActivity {
         super.onDestroy();
     }
 
-    class WXReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            HourGlassAgent hourGlassAgent = HourGlassAgent.getInstance();
-            PeiwoApp app = (PeiwoApp) getApplicationContext();
-            String wxcode = intent.getStringExtra("wxcode");
-            if (!TextUtils.isEmpty(wxcode)) {
-                signInWX(wxcode);
-                //
-                if (hourGlassAgent.getStatistics() && hourGlassAgent.getK8() == 0) {
-                    hourGlassAgent.setK8(1);
-                    app.postK("k8");
-                }
-            } else {
-                if (hourGlassAgent.getStatistics() && hourGlassAgent.getK9() == 0) {
-                    hourGlassAgent.setK9(1);
-                    app.postK("k9");
-                }
-            }
-        }
-    }
-
     private void signInWX(String wxcode) {
-        showAnimLoading("", false, false, false);
-        ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("social_type", "4"));
-        params.add(new BasicNameValuePair("access_token", wxcode));
-        ApiRequestWrapper.openAPIGET(this, params, AsynHttpClient.API_ACCOUNT_SIGNIN, new MsgStructure() {
+        showAnimLoading();
+        ApiRequestWrapper.signin(this, String.valueOf(SOCIAL_TYPE_WECHAT), "", wxcode, new MsgStructure() {
             @Override
             public void onReceive(JSONObject data) {
-                PWUserModel modle = new PWUserModel(data);
-                if (UserManager.saveUser(PhoneLoginActivity.this, modle)) {
-                    mHandler.sendEmptyMessage(WHAT_DATA_RECEIVE);
-                } else {
-                    mHandler.sendEmptyMessage(WHAT_DATA_RECEIVE_ERROR);
-                }
+                Observable.just(data).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+                    dismissAnimLoading();
+                    PWUserModel modle = new PWUserModel(data);
+                    UserManager.saveUser(PhoneLoginActivity.this, modle);
+                    PeiwoApp app = (PeiwoApp) getApplicationContext();
+                    if (hourGlassAgent.getStatistics() && hourGlassAgent.getK30() == 0) {
+                        hourGlassAgent.setK30(1);
+                        app.postK("k30");
+                    }
+                    doHandleLogin();
+                });
             }
 
             @Override
             public void onError(int error, Object ret) {
-                Message msg = mHandler.obtainMessage();
-                msg.what = WHAT_DATA_RECEIVE_ERROR;
-                msg.arg1 = error;
-                mHandler.sendMessage(msg);
+                Observable.just(error).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+                    dismissAnimLoading();
+                    String tips = "failed " + error;
+                    if (ret instanceof JSONObject) {
+                        tips = ((JSONObject) ret).optString("msg");
+                    }
+                    showToast(PhoneLoginActivity.this, tips);
+                });
             }
         });
     }
@@ -191,22 +185,21 @@ public class PhoneLoginActivity extends BaseActivity {
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
                         | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        //PWUtils.hideSoftKeyBoard(this);
+        //PWUtils.hideSoftKeyBoard(this)
         setTitleBar();
-        String openid = SharedPreferencesUtil.getStringExtra(this,
-                Constans.SP_KEY_OPENID, "");
-        String opentoken = SharedPreferencesUtil.getStringExtra(this,
-                Constans.SP_KEY_OPENTOKEN, "");
-        int socialType = SharedPreferencesUtil.getIntExtra(this,
-                Constans.SP_KEY_SOCIALTYPE, -1);
-        if (!TextUtils.isEmpty(openid) && !TextUtils.isEmpty(opentoken)
-                && socialType != -1) {
-
-            if (UserManager.getUserState(PhoneLoginActivity.this) != UserManager.STATE_UNINITED) {
-
-                onOauthLoginSuccess(socialType, openid, opentoken);
-            }
-        }
+//        String openid = SharedPreferencesUtil.getStringExtra(this,
+//                Constans.SP_KEY_OPENID, "");
+//        String opentoken = SharedPreferencesUtil.getStringExtra(this,
+//                Constans.SP_KEY_OPENTOKEN, "");
+//        int socialType = SharedPreferencesUtil.getIntExtra(this,
+//                Constans.SP_KEY_SOCIALTYPE, -1);
+//        if (!TextUtils.isEmpty(openid) && !TextUtils.isEmpty(opentoken)
+//                && socialType != -1) {
+//
+//            if (UserManager.getUserState(PhoneLoginActivity.this) != UserManager.STATE_UNINITED) {
+//                onAuthLoginSuccess(socialType, openid, opentoken);
+//            }
+//        }
 
         mHandler = new MyHandler(this);
         //ll_phone_no = (LinearLayout) findViewById(R.id.ll_phone_no);
@@ -232,29 +225,28 @@ public class PhoneLoginActivity extends BaseActivity {
     }
 
     private void setTitleBar() {
-        Resources res = getResources();
-        TitleUtil.setTitleBar(this, res.getString(R.string.log_on), v -> {
+        TitleUtil.setTitleBar(this, getString(R.string.log_on), v -> {
             if (hourGlassAgent.getStatistics() && hourGlassAgent.getK19() == 0) {
                 hourGlassAgent.setK19(1);
                 PeiwoApp app = (PeiwoApp) getApplicationContext();
                 app.postK("k19");
             }
             finish();
-        }, res.getString(R.string.find_password), v -> {
-            startActivityForResult(new Intent(this, FillPhonenoActivity.class),
-                    REQUEST_CODE_FORGETPWD);
-            if (hourGlassAgent.getStatistics() && hourGlassAgent.getK23() == 0) {
-                hourGlassAgent.setK23(1);
+        }, getString(R.string.log_on_meet_problem_question), v -> {
+//            startActivityForResult(new Intent(this, FillPhonenoActivity.class),
+//                    REQUEST_CODE_FORGETPWD);
+            startActivityForResult(new Intent(this, LogOnProblemActivity.class), REQUEST_CODE_FORGETPWD);
+            if (hourGlassAgent.getStatistics() && hourGlassAgent.getK33() == 0) {
+                hourGlassAgent.setK33(1);
                 PeiwoApp app = (PeiwoApp) getApplicationContext();
-                app.postK("k23");
+                app.postK("k33");
             }
         });
     }
 
-    HourGlassAgent hourGlassAgent = HourGlassAgent.getInstance();
-
     public void click(View v) {
         int id = v.getId();
+        boolean netAvailable = PWUtils.isNetWorkAvailable(this);
         switch (id) {
 //            case R.id.btn_submit:
 //
@@ -263,8 +255,8 @@ public class PhoneLoginActivity extends BaseActivity {
 //                // 忘记密码
 //                startActivityForResult(new Intent(this, FillPhonenoActivity.class),
 //                        REQUEST_CODE_FORGETPWD);
-//                if (hourGlassAgent.getStatistics() && hourGlassAgent.getK23() == 0) {
-//                    hourGlassAgent.setK23(1);
+//                if (mHourGlassAgent.getStatistics() && mHourGlassAgent.getK23() == 0) {
+//                    mHourGlassAgent.setK23(1);
 //                    PeiwoApp app = (PeiwoApp) getApplicationContext();
 //                    app.postK("k23");
 //                }
@@ -273,6 +265,10 @@ public class PhoneLoginActivity extends BaseActivity {
                 startActivityForResult(new Intent(this, CountriesPhoneCodeActivity.class), REQUEST_CODE_COUNTRY_CODE);
                 break;
             case R.id.tv_qq_login:
+                if (!netAvailable) {
+                    showToast(this, getResources().getString(R.string.umeng_common_network_break_alert));
+                    return;
+                }
 //			Intent qqIntent = new Intent(Constans.SP_KEY_LOGINTYPE);
 //			qqIntent.putExtra("logintype", "qq");
 //			sendBroadcast(qqIntent);
@@ -284,6 +280,10 @@ public class PhoneLoginActivity extends BaseActivity {
                 doQQLogin();
                 break;
             case R.id.tv_weibo_login:
+                if (!netAvailable) {
+                    showToast(this, getResources().getString(R.string.umeng_common_network_break_alert));
+                    return;
+                }
 //			Intent weiboIntent = new Intent(Constans.SP_KEY_LOGINTYPE);
 //			weiboIntent.putExtra("logintype", "weibo");
 //			sendBroadcast(weiboIntent);
@@ -296,6 +296,10 @@ public class PhoneLoginActivity extends BaseActivity {
                 break;
             case R.id.tv_weichat_login:
                 //微信注册
+                if (!netAvailable) {
+                    showToast(this, getResources().getString(R.string.umeng_common_network_break_alert));
+                    return;
+                }
                 if (!mWXApi.isWXAppInstalled()) {
                     showToast(this, getString(R.string.wechat_not_installed));
                     return;
@@ -321,58 +325,62 @@ public class PhoneLoginActivity extends BaseActivity {
         mSsoHandler.authorize(new AuthListener());
     }
 
-    class AuthListener implements WeiboAuthListener {
+    private void onAuthLoginSuccess(int social_type, String social_uid, String access_token) {
+//        showAnimLoading();
+//        ApiRequestWrapper.signin(PhoneLoginActivity.this, String.valueOf(social_type), String.valueOf(social_uid), access_token, new MsgStructure() {
+//            @Override
+//            public void onReceive(JSONObject data) {
+//                PWUserModel modle = new PWUserModel(data);
+//                if (UserManager.saveUser(PhoneLoginActivity.this, modle)) {
+//                    mHandler.sendEmptyMessage(WHAT_DATA_RECEIVE);
+//                } else {
+//                    mHandler.sendEmptyMessage(WHAT_DATA_RECEIVE_ERROR);
+//                    mTencent.logout(PhoneLoginActivity.this);
+//                }
+//            }
+//;
+//            @Override
+//            public void onError(int error, Object ret) {
+//                Message msg = mHandler.obtainMessage();
+//                msg.what = WHAT_DATA_RECEIVE_ERROR;
+//                msg.arg1 = error;
+//                mHandler.sendMessage(msg);
+//            }
+//        });
 
-        @Override
-        public void onComplete(Bundle bundle) {
-            Oauth2AccessToken mAccessToken = Oauth2AccessToken.parseAccessToken(bundle);
-            if (mAccessToken.isSessionValid()) {
-                UserManager.saveOpenResultInPreference(PhoneLoginActivity.this, mAccessToken.getUid(), mAccessToken.getToken(), SOCIAL_TYPE_WEIBO);
-                //saveOpenResultInPreference(mAccessToken.getUid(), mAccessToken.getToken(), SOCIAL_TYPE_WEIBO);
-                onOauthLoginSuccess(SOCIAL_TYPE_WEIBO, mAccessToken.getUid(), mAccessToken.getToken());
-            } else {
-            }
-        }
-
-        @Override
-        public void onWeiboException(final WeiboException e) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    showToast(PhoneLoginActivity.this, e.getMessage());
-                }
-            });
-        }
-
-        @Override
-        public void onCancel() {
-
-        }
-    }
-
-    private void onOauthLoginSuccess(int socialType, String uid, String token) {
-        showAnimLoading("", false, false, false);
-        ApiRequestWrapper.signin(PhoneLoginActivity.this, String.valueOf(socialType), String.valueOf(uid), token, new MsgStructure() {
+        showAnimLoading();
+        ApiRequestWrapper.signin(this, String.valueOf(social_type), social_uid, access_token, new MsgStructure() {
             @Override
             public void onReceive(JSONObject data) {
-                PWUserModel modle = new PWUserModel(data);
-                if (UserManager.saveUser(PhoneLoginActivity.this, modle)) {
-                    mHandler.sendEmptyMessage(WHAT_DATA_RECEIVE);
-                } else {
-                    mHandler.sendEmptyMessage(WHAT_DATA_RECEIVE_ERROR);
-                    mTencent.logout(PhoneLoginActivity.this);
-                }
+                Observable.just(data).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+                    dismissAnimLoading();
+                    PWUserModel modle = new PWUserModel(data);
+                    UserManager.saveUser(PhoneLoginActivity.this, modle);
+                    PeiwoApp app = PeiwoApp.getApplication();
+                    if (social_type == SOCIAL_TYPE_WEIBO) {
+                        if (hourGlassAgent.getStatistics() && hourGlassAgent.getK32() == 0) {
+                            hourGlassAgent.setK32(1);
+                            app.postK("k32");
+                        }
+                    } else if (social_type == SOCIAL_TYPE_QQ) {
+                        if (hourGlassAgent.getStatistics() && hourGlassAgent.getK31() == 0) {
+                            hourGlassAgent.setK31(1);
+                            app.postK("k31");
+                        }
+                    }
+                    doHandleLogin();
+                });
             }
 
             @Override
             public void onError(int error, Object ret) {
-                Message msg = mHandler.obtainMessage();
-                msg.what = WHAT_DATA_RECEIVE_ERROR;
-                msg.arg1 = error;
-                mHandler.sendMessage(msg);
+                Observable.just(error).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+                    dismissAnimLoading();
+                    showErrorToast(ret, getString(R.string.logon_failed));
+
+                });
             }
         });
-
     }
 
     @Override
@@ -384,7 +392,11 @@ public class PhoneLoginActivity extends BaseActivity {
                     break;
                 case REQUEST_CODE_FORGETPWD:
                     String phoneno = data.getStringExtra(Constans.SP_KEY_OPENID);
+                    String pcode = data.getStringExtra(Constans.SP_KEY_PCODE);
                     String pwd = data.getStringExtra(Constans.SP_KEY_OPENTOKEN);
+                    if (!"86".equals(pcode)) {
+                        phoneno = PWUtils.getFormatPhoneNo(pcode, phoneno);
+                    }
                     if (!TextUtils.isEmpty(phoneno) && !TextUtils.isEmpty(pwd)) {
                         doPhoneLogin(phoneno, pwd, true);
                     }
@@ -413,61 +425,16 @@ public class PhoneLoginActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-
     private boolean check() {
-        if (TextUtils.isEmpty(et_num.getText())
-                || TextUtils.isEmpty(et_pwd.getText())) {
-            showToast(this, "请填写手机号和密码");
+        String phone = et_num.getText().toString();
+        if (TextUtils.isEmpty(phone) || phone.length() < 3 || phone.length() > 20) {
+            return false;
+        }
+        String pwd = et_pwd.getText().toString();
+        if (TextUtils.isEmpty(pwd) || pwd.length() < 6) {
             return false;
         }
         return true;
-    }
-
-    static class MyHandler extends Handler {
-        WeakReference<PhoneLoginActivity> activity_ref;
-
-        public MyHandler(PhoneLoginActivity activity) {
-            activity_ref = new WeakReference<PhoneLoginActivity>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            PhoneLoginActivity theActivity = activity_ref.get();
-            if (theActivity == null || theActivity.isFinishing())
-                return;
-            int what = msg.what;
-            switch (what) {
-                case WHAT_DATA_RECEIVE:
-                    //theActivity.dismissAnimLoading();
-                    theActivity.doHandleLogin();
-                    break;
-                case WHAT_DATA_RECEIVE_ERROR:
-                    theActivity.dismissAnimLoading();
-                    int errorCode = msg.arg1;
-                    String tipString = "连接失败,请稍后重试(" + errorCode + ")";
-                    if (errorCode != AsynHttpClient.ERROR_MSG_NETWORK_NOT_AVAILABLE) {
-                        theActivity.mTencent.logout(theActivity);
-                    }
-                    switch (errorCode) {
-                        case AsynHttpClient.PW_RESPONSE_DATA_NOT_AVAILABLE:
-                            tipString = "此账号已被封禁";
-                            break;
-                        case AsynHttpClient.ERROR_MSG_NETWORK_NOT_AVAILABLE:
-                            tipString = "网络连接失败";
-                            break;
-                        case AsynHttpClient.DATA_NOT_EXISTS:
-                            tipString = "账号密码错误";
-                            break;
-                        case AsynHttpClient.PW_RESPONSE_OPERATE_ERROR:
-                            tipString = "账号不存在";
-                            break;
-                    }
-                    theActivity.showToast(theActivity, tipString);
-                    break;
-            }
-            super.handleMessage(msg);
-        }
-
     }
 
     private void saveRegistInfo() {
@@ -491,7 +458,7 @@ public class PhoneLoginActivity extends BaseActivity {
         if (UserManager.getUserState(this) == UserManager.STATE_UNINITED) {
             //未完善用户信息
             dismissAnimLoading();
-            Intent intent = new Intent(this, UserDetailSettingActivity.class);
+            Intent intent = new Intent(this, Bind3rdPartyAccountActivity.class);
             if (TextUtils.isEmpty(phone)) {
                 //未绑定手机
                 intent.putExtra("nophone", true);
@@ -503,6 +470,7 @@ public class PhoneLoginActivity extends BaseActivity {
             islogin = true;
             EventBus.getDefault().post(new Intent(PWActionConfig.ACTION_LOGIN_IN));
             startActivity(new Intent(this, MainActivity.class));
+            findViewById(R.id.btn_submit).setClickable(false);
             finish();
         }
     }
@@ -525,7 +493,7 @@ public class PhoneLoginActivity extends BaseActivity {
                     opentoken2 = access_token;
                     UserManager.saveOpenResultInPreference(PhoneLoginActivity.this, openid, access_token, SOCIAL_TYPE_QQ);
                     //saveOpenResultInPreference(openid, access_token, SOCIAL_TYPE_QQ);
-                    onOauthLoginSuccess(SOCIAL_TYPE_QQ, openid, access_token);
+                    onAuthLoginSuccess(SOCIAL_TYPE_QQ, openid, access_token);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -569,33 +537,141 @@ public class PhoneLoginActivity extends BaseActivity {
 
     private void doPhoneLogin(String phonenum, String pwd,
                               final boolean isresetpwd) {
-
-        showAnimLoading("", false, false, false);
+        if (phonenum.contains("+")) {
+            phonenum = phonenum.substring(1, phonenum.length());
+        }
+        showAnimLoading();
         ApiRequestWrapper.signin(this,
-                String.valueOf(WelcomeActivity.SOCIAL_TYPE_PHONE), phonenum,
+                String.valueOf(SOCIAL_TYPE_PHONE), phonenum,
                 pwd, new MsgStructure() {
                     @Override
                     public void onReceive(JSONObject data) {
                         // Trace.i("login data == " + data.toString());
-                        PWUserModel modle = new PWUserModel(data);
-                        if (UserManager.saveUser(PhoneLoginActivity.this, modle)) {
-                            if (!isresetpwd)
-                                saveRegistInfo();
-                            mHandler.sendEmptyMessage(WHAT_DATA_RECEIVE);
-                        } else {
-                            mHandler.sendEmptyMessage(WHAT_DATA_RECEIVE_ERROR);
-                        }
+                        Observable.just(data).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+                            PWUserModel modle = new PWUserModel(data);
+                            if (UserManager.saveUser(PhoneLoginActivity.this, modle)) {
+                                if (!isresetpwd) {
+                                    saveRegistInfo();
+                                }
+                                doHandleLogin();
+                            } else {
+                                mHandler.sendEmptyMessage(WHAT_DATA_RECEIVE_ERROR);
+                            }
+                            dismissAnimLoading();
+                        });
+
                     }
 
                     @Override
                     public void onError(int error, Object ret) {
-                        Message msg = mHandler.obtainMessage();
-                        msg.what = WHAT_DATA_RECEIVE_ERROR;
-                        msg.arg1 = error;
-                        msg.obj = ret;
-                        mHandler.sendMessage(msg);
+                        Observable.just(error).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+                            dismissAnimLoading();
+                            showErrorToast(ret, getString(R.string.logon_failed));
+                        });
                     }
                 });
+    }
+
+    static class MyHandler extends Handler {
+        WeakReference<PhoneLoginActivity> activity_ref;
+
+        public MyHandler(PhoneLoginActivity activity) {
+            activity_ref = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            PhoneLoginActivity theActivity = activity_ref.get();
+            if (theActivity == null || theActivity.isFinishing())
+                return;
+            int what = msg.what;
+            switch (what) {
+                case WHAT_DATA_RECEIVE:
+                    //theActivity.dismissAnimLoading();
+                    theActivity.doHandleLogin();
+                    break;
+                case WHAT_DATA_RECEIVE_ERROR:
+                    theActivity.dismissAnimLoading();
+                    int errorCode = msg.arg1;
+                    String tipString = "连接失败,请稍后重试(" + errorCode + ")";
+                    if (errorCode != AsynHttpClient.ERROR_MSG_NETWORK_NOT_AVAILABLE) {
+                        theActivity.mTencent.logout(theActivity);
+                    }
+                    switch (errorCode) {
+                        case AsynHttpClient.PW_RESPONSE_DATA_NOT_AVAILABLE:
+                            tipString = "此账号已被封禁";
+                            break;
+                        case AsynHttpClient.ERROR_MSG_NETWORK_NOT_AVAILABLE:
+                            tipString = "网络连接失败";
+                            break;
+                        case AsynHttpClient.DATA_NOT_EXISTS:
+                            tipString = "账号密码错误";
+                            break;
+                        case AsynHttpClient.PW_RESPONSE_OPERATE_ERROR:
+                            tipString = "账号不存在";
+                            break;
+                    }
+                    theActivity.showToast(theActivity, tipString);
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+
+    }
+
+    class WXReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (btn_submit == null || btn_submit.getVisibility() != View.VISIBLE) {
+                return;
+            }
+            HourGlassAgent hourGlassAgent = HourGlassAgent.getInstance();
+            PeiwoApp app = (PeiwoApp) getApplicationContext();
+            String wxcode = intent.getStringExtra("wxcode");
+            if (!TextUtils.isEmpty(wxcode)) {
+                signInWX(wxcode);
+                //
+                if (hourGlassAgent.getStatistics() && hourGlassAgent.getK8() == 0) {
+                    hourGlassAgent.setK8(1);
+                    app.postK("k8");
+                }
+            } else {
+                if (hourGlassAgent.getStatistics() && hourGlassAgent.getK9() == 0) {
+                    hourGlassAgent.setK9(1);
+                    app.postK("k9");
+                }
+            }
+        }
+    }
+
+    class AuthListener implements WeiboAuthListener {
+
+        @Override
+        public void onComplete(Bundle bundle) {
+            Oauth2AccessToken mAccessToken = Oauth2AccessToken.parseAccessToken(bundle);
+            if (mAccessToken.isSessionValid()) {
+                UserManager.saveOpenResultInPreference(PhoneLoginActivity.this, mAccessToken.getUid(), mAccessToken.getToken(), SOCIAL_TYPE_WEIBO);
+                //saveOpenResultInPreference(mAccessToken.getUid(), mAccessToken.getToken(), SOCIAL_TYPE_WEIBO);
+                onAuthLoginSuccess(SOCIAL_TYPE_WEIBO, mAccessToken.getUid(), mAccessToken.getToken());
+            } else {
+            }
+        }
+
+        @Override
+        public void onWeiboException(final WeiboException e) {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    showToast(PhoneLoginActivity.this, e.getMessage());
+                }
+            });
+        }
+
+        @Override
+        public void onCancel() {
+
+        }
     }
 
 }

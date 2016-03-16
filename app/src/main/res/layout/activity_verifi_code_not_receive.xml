@@ -6,15 +6,19 @@
 
     <include layout="@layout/title_bar"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:gravity="center"
+        android:text="@string/can_not_reach_verification_code"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/title_bar_height"
-        >
+        android:layout_marginTop="@dimen/title_bar_height">
 
-
-        <TextView
+        <!--<TextView
             android:layout_marginTop="56dp"
             android:layout_marginLeft="10dp"
             android:layout_width="match_parent"
@@ -23,7 +27,7 @@
             android:textSize="14sp"
             android:text="收不到验证码请尝试以下方法："
             />
-
+//方形边长5, marginleft=50
         <TextView
             android:layout_marginLeft="10dp"
             android:layout_marginTop="12dp"
@@ -36,7 +40,6 @@
             android:text="1、请确认取号位置是否选择正确，默认为“+86{中国}”地区\n2、请确认您的验证手机号是否填写正确，并保证手机畅通\n3、点击“获取验证码”后，若没有收到验证信息，60秒后可以再次发送"
             />
 
-
         <TextView
             android:layout_marginTop="20dp"
             android:layout_marginLeft="10dp"
@@ -45,66 +48,128 @@
             android:textColor="#00b8d0"
             android:textSize="14sp"
             android:text="若尝试以上方法仍然不能验证，请联系我们的客服人员，我们会帮您完成注册"
-            />
-
+            />-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="12dp"
-            >
+            android:layout_marginTop="25dp">
+
+            <TextView
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/blue_text_color"
+                android:layout_marginLeft="22dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="#4d4d4d"
-                android:text="客服电话："
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="#00b8d0"
-                android:text="400-6869-520"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="6dp"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="#4d4d4d"
-                android:text="客服QQ号："
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="#00b8d0"
-                android:text="2737792899"
-                />
+                android:textSize="15sp"
+                android:layout_marginLeft="8dp"
+                android:gravity="center"
+                android:textColor="@color/text_normal_color"
+                android:text="@string/try_to_get_voice_verification_code"/>
         </LinearLayout>
 
         <TextView
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="6dp"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_get_voice_captcha"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="#4d4d4d"
-            android:text="账号申诉邮箱：shensu@raybo.com"
-            />
+            android:textSize="14sp"
+            android:layout_marginTop="18dp"
+            android:layout_marginLeft="49dp"
+            android:textColor="@color/blue_text_color"
+            android:text="@string/get_voice_verification_code"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="33dp">
+
+            <TextView
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/blue_text_color"
+                android:layout_marginLeft="22dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:textSize="15sp"
+                android:textColor="@color/text_normal_color"
+                android:text="@string/contact_us"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="18dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#4d4d4d"
+                android:text="客服电话："/>
+
+            <TextView
+                android:id="@+id/tv_call_kefu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#00b8d0"
+                android:text="400-6869-520"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="18dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#4d4d4d"
+                android:text="客服QQ号："/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#00b8d0"
+                android:text="2737792899"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="18dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#4d4d4d"
+                android:text="账号申诉邮箱："/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#00b8d0"
+                android:text="shensu@raybo.com"
+                />
+        </LinearLayout>
     </LinearLayout>
 </merge>

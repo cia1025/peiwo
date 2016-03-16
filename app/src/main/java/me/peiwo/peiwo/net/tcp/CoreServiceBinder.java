@@ -2,6 +2,7 @@ package me.peiwo.peiwo.net.tcp;
 
 import android.content.Context;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -58,6 +59,7 @@ public class CoreServiceBinder extends Binder {
             json.put("msg_type", DfineAction.MSG_SignIn);
             json.put("uid", mUid);
             json.put("sign", sign);
+            json.put("device_type", Build.MODEL + "," + Build.VERSION.SDK_INT);
             json.put("version", DfineAction.TCP_VERSION);
             json.put("app_version", PWUtils.getVersionCode(mContext));
             // 渠道号
@@ -93,6 +95,7 @@ public class CoreServiceBinder extends Binder {
         }
         return false;
     }
+
 
     public void JHFkk_Broadcast() {
 /*		if (m_threadTCP != null && m_threadTCP.isSocketConnect())
@@ -356,6 +359,10 @@ public class CoreServiceBinder extends Binder {
                     JSONObject imageJson = detailsJson.optJSONObject("im_image");
                     imageJson.put("local_path", "");
                     jo.put("im_image", imageJson);
+                } else if (model.dialog_type == MessageModel.DIALOG_TYPE_IM_PACKET) {
+                    JSONObject detailsJson = new JSONObject(model.details);
+                    JSONObject packetJson = detailsJson.optJSONObject("im_packet");
+                    jo.put("im_packet", packetJson);
                 }
                 json.put("extra", jo);
 

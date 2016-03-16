@@ -10,11 +10,13 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+
 import me.peiwo.peiwo.DfineAction;
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.db.PWConfig;
 import me.peiwo.peiwo.util.CustomLog;
 import me.peiwo.peiwo.util.SharedPreferencesUtil;
+
 import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -91,7 +93,6 @@ public class AsynHttpClient {
 
     public static final String API_PRAISE_LIST = "v1.0/feed/pub/likers";
     public static final String API_RELATION = "v1.0/userinfo/relation";
-
     public static final String API_FREECALL = "v1.0/usersetting/freecall";
     public static final String API_RONG_CLOUD_TOKEN = "v1.0/group_chat/user/token";
     public static final String API_GROUPS_RECRUIT = "v1.0/group_chat/groups/recruit";
@@ -157,7 +158,8 @@ public class AsynHttpClient {
     public static final int GENDER_MASK_MALE = 1;
     public static final int GENDER_MASK_FEMALE = 2;
     public static final int GENDER_MASK_ALL = 3;
-
+    public static final String API_PERSONAL_PACKET_SEND = "v1.0/person_packet/send";
+    public static final String API_PERSONAL_PACKET_GRAB = "v1.0/person_packet/receive";
 
     public static final String KEY_NAME = "name";
     public static final String KEY_DESC = "desc";
@@ -178,11 +180,16 @@ public class AsynHttpClient {
     public static final String KEY_MSG_TYPE = "msg_type";
     public static final String KEY_CONTENT = "content";
 
-    public static final String API_ACCOUNT_SIGNIN = "account/signin";
+    public static final String API_ACCOUNT_SIGNIN = "v1.0/account/signin";
+    public static final String API_ACCOUNT_BIND_SOCIAL = "v1.0/account/bindsocial";
     public static final String API_ACCOUNT_SIGNOUT = "account/signout";
     public static final String API_ACCOUNT_CAPTCHA = "account/captcha"; //提交手机号
+    public static final String API_GET_CAPTCHA = "v1.0/account/captcha";
+    public static final String API_GET_VOICE_CAPTCHA = "v1.0/account/voice_captcha";
     //account/forgetpassword 参数为phone，captcha，新的password
     public static final String API_ACCOUNT_FORGETPWD = "account/forgetpassword";
+    public static final String API_ACCOUNT_SET_USERINFO = "v1.0/account/setuserinfo";
+
     //account/resetpassword 参数为old旧密码，new新密码
     public static final String API_ACCOUNT_RESETPASSWORD = "account/resetpassword";
 
@@ -191,19 +198,19 @@ public class AsynHttpClient {
 
     //account/bindphone 参数为phone，captcha，password
     public static final String API_ACCOUNT_BINDPHONE = "account/bindphone";
-
     //account/resetphone 参数为phone, captcha
     public static final String API_ACCOUNT_RESETPHONE = "account/resetphone";
 
-    public static final String API_ACCOUNT_SIGNUP = "account/signup";
+    public static final String API_ACCOUNT_SIGNUP = "v1.0/account/signup";
 
     public static final String API_USERINFO_PUSHBIND = "v1.0/userinfo/pushbind"; //上传token
 
     public static final String API_USERIMAGE_UPLOAD = "userimage/upload";
     public static final String API_USERINFO_GETINFO = "v2.0/userinfo/getinfo";
     public static final String API_USERINFO_GETFINANCE = "userinfo/getfinance";
-    public static final String API_ACCOUNT_AUTOSIGNIN = "account/autosignin";
+    public static final String API_ACCOUNT_AUTOSIGNIN = "v1.0/account/autosignin";
     public static final String API_USERINFO_UPDATE = "userinfo/update";
+    public static final String API_ACCOUNT_GET_PACKAGE = "v1.0/account/packages";
     public static final String API_GET_USERINFO_COMPLEMENT = "v1.0/userinfo/testcomplement";
 
     public static final String API_USERINFO_PERMISSION = "v2.0/userinfo/permission";// 参数为tuid，就是对方的uid
@@ -301,7 +308,7 @@ public class AsynHttpClient {
     public static final String API_GROUPCHAT_PACKET_ICONS = "v1.0/setting/packet_icons";
     public static final String API_GETUPLOADCONFIG = "v1.0/hourglass/getuploadconfig";
     public static final String API_HOURGLASS_UPLOADDATA = "v1.0/hourglass/uploaddata";
-
+    public static final String API_CALL_CHANNEL = "v1.0/userinfo/channel";
 
     public static final String API_PRISE_COUNT = "v1.0/feed/pub/like/count";
     public static final String ENCODEING = "UTF-8";
@@ -421,9 +428,7 @@ public class AsynHttpClient {
                 resp = sHttpclient.execute(httpGet);
 
             }
-        } catch (ClientProtocolException e) {
-            CustomLog.e(DfineAction.HTTP_TAG, "request error = " + e.toString());
-        } catch (UnsupportedEncodingException e) {
+        } catch (ClientProtocolException | UnsupportedEncodingException e) {
             CustomLog.e(DfineAction.HTTP_TAG, "request error = " + e.toString());
         } catch (ConnectionPoolTimeoutException e) {
             CustomLog.e(DfineAction.HTTP_TAG, "request error = " + e.toString());
@@ -510,11 +515,7 @@ public class AsynHttpClient {
                     SharedPreferencesUtil.putLongExtra(PeiwoApp.getApplication(), KEY_CC_CURRENT_TIME, server_time * 1000);
                 }
             }
-        } catch (ParseException e) {
-            CustomLog.e(DfineAction.HTTP_TAG, "request error2 = " + e.toString());
-        } catch (JSONException e) {
-            CustomLog.e(DfineAction.HTTP_TAG, "request error2 = " + e.toString());
-        } catch (IOException e) {
+        } catch (ParseException | JSONException | IOException e) {
             CustomLog.e(DfineAction.HTTP_TAG, "request error2 = " + e.toString());
         }
 
@@ -522,8 +523,10 @@ public class AsynHttpClient {
             msg.onReceive(respJson);
             CustomLog.d("handleConnection3 response is : " + respJson);
         } else {
-            if (errorNum == ERR_USER_AUTH && mmGlobalErr != null) {
+            if ((errorNum < 0 || errorNum == ERR_USER_AUTH) && mmGlobalErr != null) {
                 mmGlobalErr.onError(errorNum, respJson);
+                msg.errorMessage = resString;
+                msg.onError(errorNum, respJson);
             } else {
                 msg.errorMessage = resString;
                 msg.onError(errorNum, respJson);

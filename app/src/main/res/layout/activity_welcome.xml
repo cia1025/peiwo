@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:id="@+id/ll"
@@ -22,7 +21,7 @@
             android:layout_gravity="center_vertical"
             android:clickable="true"
             android:padding="5dip"
-            android:src="@drawable/dot"/>
+            android:src="@drawable/dot" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -30,7 +29,7 @@
             android:layout_gravity="center_vertical"
             android:clickable="true"
             android:padding="5dip"
-            android:src="@drawable/dot"/>
+            android:src="@drawable/dot" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -38,7 +37,7 @@
             android:layout_gravity="center_vertical"
             android:clickable="true"
             android:padding="5dip"
-            android:src="@drawable/dot"/>
+            android:src="@drawable/dot" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -46,38 +45,38 @@
             android:layout_gravity="center_vertical"
             android:clickable="true"
             android:padding="5dip"
-            android:src="@drawable/dot"/>
+            android:src="@drawable/dot" />
     </LinearLayout>
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:id="@+id/v_signup_action"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="30dp"
-        android:id="@+id/v_signup_action"
-        android:visibility="invisible"
-        >
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+
+        <ImageView
+            android:id="@+id/iv_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:onClick="click"
+            android:src="@drawable/btn_register_extra" />
 
         <ImageView
             android:id="@+id/iv_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/btn_signin_extra"
-            android:onClick="click"
-            android:clickable="true"
-            />
-
-        <ImageView
-            android:id="@+id/iv_register"
             android:layout_marginLeft="14dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/btn_wechat_signup_extra"
-            android:onClick="click"
+            android:layout_weight="1"
             android:clickable="true"
-            />
+            android:onClick="click"
+            android:src="@drawable/btn_signin_extra" />
     </LinearLayout>
 
     <ToggleButton
@@ -86,8 +85,8 @@
         android:layout_height="50dp"
         android:layout_gravity="top|right"
         android:checked="false"
-        android:textOn="@string/online_enviroment"
+        android:onClick="click"
         android:textOff="@string/offline_enviroment"
-        android:visibility="gone"
-        android:onClick="click"/>
+        android:textOn="@string/online_enviroment"
+        android:visibility="gone" />
 </merge>

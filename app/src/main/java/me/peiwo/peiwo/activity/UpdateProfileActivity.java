@@ -17,7 +17,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.qiniu.android.http.ResponseInfo;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Locale;
+
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.callback.UploadCallback;
 import me.peiwo.peiwo.constans.PWActionConfig;
@@ -30,18 +41,17 @@ import me.peiwo.peiwo.net.ApiRequestWrapper;
 import me.peiwo.peiwo.net.AsynHttpClient;
 import me.peiwo.peiwo.net.MsgStructure;
 import me.peiwo.peiwo.net.PWUploader;
-import me.peiwo.peiwo.util.*;
+import me.peiwo.peiwo.util.CustomLog;
+import me.peiwo.peiwo.util.ImageUtil;
+import me.peiwo.peiwo.util.LocationUtil;
 import me.peiwo.peiwo.util.LocationUtil.GetLocationCallback;
+import me.peiwo.peiwo.util.PWUtils;
+import me.peiwo.peiwo.util.TimeUtil;
+import me.peiwo.peiwo.util.TitleUtil;
+import me.peiwo.peiwo.util.UmengStatisticsAgent;
+import me.peiwo.peiwo.util.UserManager;
 import me.peiwo.peiwo.widget.FlowLayout;
 import me.peiwo.peiwo.widget.ProfileFaceGridView;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * 新的更新用户资料页面
@@ -288,7 +298,12 @@ public class UpdateProfileActivity extends BaseActivity implements
             TextView tagItem = (TextView) inflater.inflate(R.layout.tag_gray_item, null);
             tagItem.setBackgroundResource(bgId);
             tagItem.setTextColor(textColor);
-            tagItem.setText("# " + aTagArr);
+//            tagItem.setText("# " + aTagArr);
+            if (tags_container.getId() == R.id.userinfo_main_tag_container) {
+                tagItem.setText("# " + aTagArr);
+            } else {
+                tagItem.setText("  " + aTagArr);
+            }
             tags_container.addView(tagItem);
         }
         defaultText.setVisibility(View.GONE);
@@ -304,17 +319,24 @@ public class UpdateProfileActivity extends BaseActivity implements
         imageNum = mProfile.images.size();
     }
 
+    //delete the right btn
     private void setTitleBar(String title) {
+//        TitleUtil.setTitleBar(this, title, v -> {
+//            finish();
+//        }, "保存", v -> {
+//            if (shouldShowDilag()) {
+//                showUpdateProfileDialog();
+//            } else {
+//                doUpdateProfile();
+//            }
+//        });
         TitleUtil.setTitleBar(this, title, v -> {
             finish();
-        }, "保存", v -> {
-            if (shouldShowDilag()) {
-                showUpdateProfileDialog();
-            } else {
-                doUpdateProfile();
-            }
+        }, v -> {
+            //do nothing
         });
     }
+
 
     private void requestGetComplement() {
         ApiRequestWrapper.getProfileComplement(this, mProfile, new MsgStructure() {
@@ -637,7 +659,6 @@ public class UpdateProfileActivity extends BaseActivity implements
         startActivityForResult(intent, REQUEST_CODE_MODIFY_PROFESSION);
     }
 
-
     private void updateEmotion() {
         final String[] items = new String[]{"保密", "单身", "恋爱中", "已婚", "同性"};
         new AlertDialog.Builder(this).setTitle("情感状态")
@@ -713,10 +734,20 @@ public class UpdateProfileActivity extends BaseActivity implements
     }
 
     private void alertFinish() {
-        new AlertDialog.Builder(this).setTitle("是否放弃修改")
+//        new AlertDialog.Builder(this).setTitle("是否放弃修改")
+//                .setNegativeButton("放弃", (dialog, which) -> {
+//                    UpdateProfileActivity.super.finish();
+//                }).setPositiveButton("继续编辑", null).create().show();
+        new AlertDialog.Builder(this).setTitle("是否保存本次编辑")
                 .setNegativeButton("放弃", (dialog, which) -> {
                     UpdateProfileActivity.super.finish();
-                }).setPositiveButton("继续编辑", null).create().show();
+                }).setPositiveButton("保存", (dialog, which) -> {
+            if (shouldShowDilag()) {
+                showUpdateProfileDialog();
+            } else {
+                doUpdateProfile();
+            }
+        }).create().show();
     }
 
     @Override
@@ -755,9 +786,11 @@ public class UpdateProfileActivity extends BaseActivity implements
                                 dgv_images.reload(mProfile.images);
                                 requestGetComplement();
                                 imageNum = mProfile.images.size();
+                                needAlert = true;
                                 break;
                             case 1:
                                 replacePhotoBylocal(index);
+                                needAlert = true;
                                 break;
                             case 2:
                                 replacePhotoByGallery(index);
@@ -787,7 +820,49 @@ public class UpdateProfileActivity extends BaseActivity implements
                         }
                     }).create().show();
         }
+//
+//        String[] items;
+//        if (mProfile.images.size() > 1) {
+//            items = new String[]{"查看", "删除图片", "取消"};
+//            new AlertDialog.Builder(this).setTitle("长按并拖动可改变图片位置")
+//                    .setItems(items, (dialog, which) -> {
+//                        switch (which) {
+//                            case 0:
+//                                checkImg(index);
+//                                break;
+//                            case 1:
+//                                mProfile.images.remove(index);
+//                                dgv_images.reload(mProfile.images);
+//                                requestGetComplement();
+//                                imageNum = mProfile.images.size();
+//                                needAlert=true;
+//                                break;
+//                            default:
+//                                break;
+//                        }
+//                    }).create().show();
+//        } else {
+//            items = new String[]{"查看", "取消"};
+//            new AlertDialog.Builder(this).setTitle("长按并拖动可改变图片位置")
+//                    .setItems(items, (dialog, which) -> {
+//                        switch (which) {
+//                            case 0:
+//                                checkImg(0);
+//                                break;
+//                            default:
+//                                break;
+//                        }
+//
+//                    }).create().show();
+//        }
 
+    }
+
+    private void checkImg(int index) {
+        Intent intent = new Intent(UpdateProfileActivity.this, ImagePagerActivity.class);
+        intent.putParcelableArrayListExtra(ImagePagerActivity.KEY_URL_LIST, mProfile.images);
+        intent.putExtra(ImagePagerActivity.KEY_POS, index);
+        UpdateProfileActivity.this.startActivity(intent);
     }
 
     private void replacePhotoByCamera(int index) {
@@ -817,7 +892,7 @@ public class UpdateProfileActivity extends BaseActivity implements
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        CustomLog.d("onActivityResult. req code is : "+requestCode+", result code is : "+resultCode);
+        CustomLog.d("onActivityResult. req code is : " + requestCode + ", result code is : " + resultCode);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUESTCODE_MAIN_TAGS: {
@@ -841,7 +916,7 @@ public class UpdateProfileActivity extends BaseActivity implements
                 case REQUESTCODE_FOOD_TAGS: {
                     boolean needRequest = false;
                     String tags = data.getStringExtra(AddTagsActivity.KEY_TAGS);
-                    CustomLog.d("REQUESTCODE_MUSIC_TAGS food tag is : "+tags);
+                    CustomLog.d("REQUESTCODE_MUSIC_TAGS food tag is : " + tags);
                     if (tags == null) {
                         tags = "";
                     }
@@ -861,7 +936,7 @@ public class UpdateProfileActivity extends BaseActivity implements
                 case REQUESTCODE_MUSIC_TAGS: {
                     boolean needRequest = false;
                     String tags = data.getStringExtra(AddTagsActivity.KEY_TAGS);
-                    CustomLog.d("REQUESTCODE_MUSIC_TAGS music tag is : "+tags);
+                    CustomLog.d("REQUESTCODE_MUSIC_TAGS music tag is : " + tags);
                     if (tags == null) {
                         tags = "";
                     }
@@ -1088,7 +1163,7 @@ public class UpdateProfileActivity extends BaseActivity implements
 //        startActivityForResult(intent, REQUEST_CODE_BYCAMERA_CROP);
 //    }
 
-    private String mImageKey;
+    private String mImageKey = "";
 
     private void uploadImgBySCS(final ImageModel imgModel) {
         showAnimLoading("", false, false, false);
@@ -1136,31 +1211,33 @@ public class UpdateProfileActivity extends BaseActivity implements
     }
 
     private void addPhoto() {
-        new AlertDialog.Builder(this)
-                .setTitle("添加照片")
-                .setItems(new String[]{"拍照", "相册", "取消"},
-                        (dialog, which) -> {
-                            switch (which) {
-                                case 0:
-                                    mImageKey = PWUploader.getInstance().getKey(mProfile.uid);
-                                    ImageUtil
-                                            .startImgPickerCamera(
-                                                    UpdateProfileActivity.this,
-                                                    ImageUtil.PICK_FROM_CAMERA,
-                                                    ImageUtil.getPathForCameraCrop(mImageKey));
-                                    break;
-                                case 1:
-                                    mImageKey = PWUploader.getInstance().getKey(mProfile.uid);
-                                    // Util.startImgPickerGallery(
-                                    // UpdateProfileActivity.this,
-                                    // Util.PICK_FROM_GALLERY,
-                                    // getPathForUpload(mImageKey));
-                                    choiceImageByAlbum(mImageKey);
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }).create().show();
+//        new AlertDialog.Builder(this)
+//                .setTitle("添加照片")
+//                .setItems(new String[]{"拍照", "相册", "取消"},
+//                        (dialog, which) -> {
+//                            switch (which) {
+//                                case 0:
+//                                    mImageKey = PWUploader.getInstance().getKey(mProfile.uid);
+//                                    ImageUtil
+//                                            .startImgPickerCamera(
+//                                                    UpdateProfileActivity.this,
+//                                                    ImageUtil.PICK_FROM_CAMERA,
+//                                                    ImageUtil.getPathForCameraCrop(mImageKey));
+//                                    break;
+//                                case 1:
+//                                    mImageKey = PWUploader.getInstance().getKey(mProfile.uid);
+//                                    // Util.startImgPickerGallery(
+//                                    // UpdateProfileActivity.this,
+//                                    // Util.PICK_FROM_GALLERY,
+//                                    // getPathForUpload(mImageKey));
+//                                    choiceImageByAlbum(mImageKey);
+//                                    break;
+//                                default:
+//                                    break;
+//                            }
+//                        }).create().show();
+        mImageKey = PWUploader.getInstance().getKey(mProfile.uid);
+        choiceImageByAlbum(mImageKey);
     }
 
     private void choiceImageByAlbum(String mImageKey) {

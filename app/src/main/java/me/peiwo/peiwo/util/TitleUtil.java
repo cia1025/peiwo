@@ -41,8 +41,13 @@ public class TitleUtil {
         TextView btnRight = (TextView) a.findViewById(R.id.btn_right);
         btnRight.setVisibility(right != null ? View.VISIBLE : View.GONE);
         btnRight.setOnClickListener(right);
-        if (!TextUtils.isEmpty(rightText))
+//        if (!TextUtils.isEmpty(rightText))
+//            btnRight.setText(rightText);
+        if(!TextUtils.isEmpty(rightText)){
             btnRight.setText(rightText);
+        }else{
+            btnRight.setText("");
+        }
     }
 
     public static void setTitleBar(Activity a, String title, View.OnClickListener left,

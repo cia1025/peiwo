@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import me.peiwo.peiwo.adapter.MsgAcceptAdapter;
 import me.peiwo.peiwo.constans.PWDBConfig;
 import me.peiwo.peiwo.im.MessageModel;
+import me.peiwo.peiwo.model.groupchat.PacketIconModel;
 import me.peiwo.peiwo.util.CustomLog;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +41,7 @@ public class MsgAcceptModel extends PPBaseModel {
     public String icon_name;
     public String feed_id;
     public VoiceModel voice;
+    public PacketIconModel packetIconModel;
 
     public MsgAcceptModel() {
 
@@ -68,6 +70,8 @@ public class MsgAcceptModel extends PPBaseModel {
                 view_type = MsgAcceptAdapter.VIEW_TYPE_ATTENTION_PROMPT;
             } else if (dialog_type == MessageModel.DIALOG_TYPE_IMAGE_MESSAGE) {
                 view_type = MsgAcceptAdapter.VIEW_TYPE_ME_IMG;
+            } else if (dialog_type == MessageModel.DIALOG_TYPE_IM_PACKET) {
+                view_type = MsgAcceptAdapter.VIEW_TYPE_ME_PACKET;
             } else if (!TextUtils.isEmpty(content) && content.startsWith("{")
                     && content.endsWith("}")) {
                 view_type = MsgAcceptAdapter.VIEW_TYPE_ME_GIF;
@@ -96,6 +100,8 @@ public class MsgAcceptModel extends PPBaseModel {
                 view_type = MsgAcceptAdapter.VIEW_TYPE_OTHER_IMG;
             } else if (dialog_type == MessageModel.DIALOG_TYPE_VOICE_MESSAGE) {
                 view_type = MsgAcceptAdapter.VIEW_TYPE_OTHER_VOICE;
+            } else if (dialog_type == MessageModel.DIALOG_TYPE_IM_PACKET) {
+                view_type = MsgAcceptAdapter.VIEW_TYPE_OTHER_PACKET;
             } else if (!TextUtils.isEmpty(content) && content.startsWith("{")
                     && content.endsWith("}")) {
                 view_type = MsgAcceptAdapter.VIEW_TYPE_OTHER_GIF;
@@ -113,6 +119,8 @@ public class MsgAcceptModel extends PPBaseModel {
                                 String content, boolean isme) {
         if (details == null)
             return "";
+        if (dialog_type == MessageModel.DIALOG_TYPE_TIP)
+            return content;
         CustomLog.d("resetContent, details is : " + details);
         try {
             if (!TextUtils.isEmpty(details) && details.length() > 2
@@ -140,6 +148,13 @@ public class MsgAcceptModel extends PPBaseModel {
                     image_url = getJsonValue(im_image, "image_url");
                 }
 
+                if(o.has("im_packet")) {
+                    JSONObject im_packet = new JSONObject(getJsonValue(o, "im_packet"));
+                    packetIconModel = new PacketIconModel();
+                    packetIconModel.id = getJsonValue(im_packet, "packet_id");
+                    packetIconModel.send_icon = getJsonValue(im_packet, "icon_url");
+                    packetIconModel.msg = getJsonValue(im_packet, "msg");
+                }
             }
 
             if (dialog_type == MessageModel.DIALOG_TYPE_CALL_HISTORY && !TextUtils.isEmpty(content) && content.contains("]")) {

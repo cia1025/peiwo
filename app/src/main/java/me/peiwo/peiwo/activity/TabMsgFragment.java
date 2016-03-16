@@ -482,6 +482,7 @@ public class TabMsgFragment extends PPBaseFragment implements
             }
             sendMsgIdToServer(Integer.valueOf(model.uid));
         }
+        model.unread_count = 0;
     }
 
     private void sendMsgIdToServer(int uid) {
@@ -588,7 +589,7 @@ public class TabMsgFragment extends PPBaseFragment implements
                 public void onCallPreparedError(int error, Object ret) {
 
                 }
-            }, true);
+            });
         }
     }
 

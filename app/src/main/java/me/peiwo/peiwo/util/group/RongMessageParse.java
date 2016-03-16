@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSON;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
 import me.peiwo.peiwo.BuildConfig;
-import me.peiwo.peiwo.activity.ChatRedbagActivity;
+import me.peiwo.peiwo.activity.GroupChatRedbagActivity;
 import me.peiwo.peiwo.constans.GroupConstant;
 import me.peiwo.peiwo.model.*;
 import me.peiwo.peiwo.model.groupchat.*;
@@ -47,10 +47,10 @@ public class RongMessageParse {
                         case GroupConstant.MessageType.TYPE_GIF:
                             baseModel = JSON.parseObject(model.getBody(), GroupMessageGIFModel.class);
                             break;
-                        case GroupConstant.MessageType.TYPE_RADBAG:
+                        case GroupConstant.MessageType.TYPE_REDBAG:
                             baseModel = JSON.parseObject(model.getBody(), GroupMessageRedBagModel.class);
                             break;
-                        case GroupConstant.MessageType.TYPE_REPUTATION_RADBAG:
+                        case GroupConstant.MessageType.TYPE_REPUTATION_REDBAG:
                             baseModel = JSON.parseObject(model.getBody(), GroupMessageRepuRedBagModel.class);
                             break;
                         case GroupConstant.MessageType.TYPE_REDBAG_TIP:
@@ -197,8 +197,8 @@ public class RongMessageParse {
 
     public static String encodeRedBagMessageBody(PacketIconModel packetIconModel, int bag_type, PWUserModel self, TabfindGroupModel groupModel, GroupMemberModel groupMemberModel) {
         try {
-            JSONObject object = prepareBaseObject(self, groupModel, groupMemberModel, bag_type == ChatRedbagActivity.REDBAG_TYPE_PERSONAL ? "发来一个红包" : "发来一个群收益红包");
-            object.put("dialog_type", GroupConstant.MessageType.TYPE_RADBAG);
+            JSONObject object = prepareBaseObject(self, groupModel, groupMemberModel, bag_type == GroupChatRedbagActivity.REDBAG_TYPE_PERSONAL ? "发来一个红包" : "发来一个群收益红包");
+            object.put("dialog_type", GroupConstant.MessageType.TYPE_REDBAG);
             JSONObject packet = new JSONObject();
             //long parse compat iOS NSNumber
             packet.put("packet_id", Long.valueOf(packetIconModel.id));
@@ -215,7 +215,7 @@ public class RongMessageParse {
     public static String encodeRepuRedBagMessageBody(PacketIconModel packetIconModel, PWUserModel self, TabfindGroupModel groupModel, GroupMemberModel groupMemberModel) {
         try {
             JSONObject object = prepareBaseObject(self, groupModel, groupMemberModel, "发来一个声望红包");
-            object.put("dialog_type", GroupConstant.MessageType.TYPE_REPUTATION_RADBAG);
+            object.put("dialog_type", GroupConstant.MessageType.TYPE_REPUTATION_REDBAG);
             JSONObject packet = new JSONObject();
             //long parse compat iOS NSNumber
             packet.put("packet_id", Long.valueOf(packetIconModel.id));
@@ -360,10 +360,10 @@ public class RongMessageParse {
                     case GroupConstant.MessageType.TYPE_GIF:
                         model = JSON.parseObject(body, GroupMessageGIFModel.class);
                         break;
-                    case GroupConstant.MessageType.TYPE_RADBAG:
+                    case GroupConstant.MessageType.TYPE_REDBAG:
                         model = JSON.parseObject(body, GroupMessageRedBagModel.class);
                         break;
-                    case GroupConstant.MessageType.TYPE_REPUTATION_RADBAG:
+                    case GroupConstant.MessageType.TYPE_REPUTATION_REDBAG:
                         model = JSON.parseObject(body, GroupMessageRepuRedBagModel.class);
                         break;
                     case GroupConstant.MessageType.TYPE_REDBAG_TIP:

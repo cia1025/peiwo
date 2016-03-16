@@ -60,7 +60,7 @@
             android:clickable="true"
             android:gravity="center"
             android:onClick="click"
-            android:text="获取验证码"
+            android:text="@string/fetch_captcha"
             android:textSize="12sp"
             android:textColor="#ffffff"
             />

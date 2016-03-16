@@ -23,10 +23,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
+import butterknife.Bind;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import me.peiwo.peiwo.DfineAction;
 import me.peiwo.peiwo.PeiwoApp;
@@ -122,14 +120,67 @@ public class RealCallActivity extends BaseCallActivity implements
     //protected TextView tv_counting;
     //    protected View ll_screen_bg;
     //protected View ll_call_switch;
+    protected static final int YANGSHENGQI_MODE = 0;
+    protected static final int TINGTONG_MODE = 1;
+    private final static int SEND_IMAGE_TIME = 40;
+    protected int currentAudioMode;
+    protected String mFaceShowUrl;
+    //protected ImageView iv_blur;
+    //protected TextView tv_uname;
+    protected boolean noalert = false;
+    protected boolean noring = false;
+    protected AudioManager audioManager = null;
+    //protected SoundPool mSoundPool;
+    //protected int m_CallStop;
+    protected boolean needNotify = true;
+    protected CallScrollView slideView;
+    protected int mGneder = 1; // 根据自己的声音，判断提示音，扯
+    protected PhoneStateListener phoneListener;
+    protected int counttimeH;
+    protected int counttimeM;
+    protected int counttimeS;
+    protected boolean isbreak = false;
+    protected String mIncommingName;
 
+//    protected TextView tv_newprice;
+//    protected TextView tv_net_status;
+    protected long exitTime = 0;
+    boolean isCalling = false;
+    AudioManager.OnAudioFocusChangeListener focusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+            // Trace.i("focusChange == " + focusChange);
+            switch (focusChange) {
+                case AudioManager.AUDIOFOCUS_GAIN:
+                case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
+                case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
+                    // do somthing
+                    // if (getIntent() != null
+                    // && getIntent().getIntExtra("flag", 0) ==
+                    // CoreService.OUTGOING_CALL) {
+                    // playerSound(R.raw.outgoing);
+                    // } else {
+                    // playerSound(R.raw.incomming);
+                    // }
+                    break;
+                case AudioManager.AUDIOFOCUS_REQUEST_FAILED:
+                    break;
+                case AudioManager.AUDIOFOCUS_LOSS:
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                    // do somthing
+                    audioManager.abandonAudioFocus(focusChangeListener);
+                    // releaseMediaPlayer();
+                    break;
+            }
+        }
+    };
     private TextView tv_username;
     private TextView tv_slogan;
     private ImageView iv_duration_option;
-    private TextView tv_network_tips;
-
+    @Bind(R.id.tv_network_tips)
+    TextView tv_network_tips;
     private View tv_voice_mode;
-
     private TextView tv_callstate;
     /**
      * 外放模式下select为true 听筒模式下select为false
@@ -137,197 +188,23 @@ public class RealCallActivity extends BaseCallActivity implements
     //private ImageView iv_mianti_tingtong;
     //private LinearLayout iv_mianti_tingtong_layout;
     private int mTargetUid;
-
     private TextView tv_call_duration;
-
-    protected static final int YANGSHENGQI_MODE = 0;
-    protected static final int TINGTONG_MODE = 1;
-    protected int currentAudioMode;
-
-
-    protected String mFaceShowUrl;
-    //protected ImageView iv_blur;
-    //protected TextView tv_uname;
-    protected boolean noalert = false;
-    protected boolean noring = false;
-
-    protected AudioManager audioManager = null;
-
-    //protected SoundPool mSoundPool;
-    //protected int m_CallStop;
-    protected boolean needNotify = true;
-
-    protected CallScrollView slideView;
-
-//    protected TextView tv_newprice;
-//    protected TextView tv_net_status;
-
-    protected int mGneder = 1; // 根据自己的声音，判断提示音，扯
-
-    protected PhoneStateListener phoneListener;
-
     private NotificationManager mNotifyMgr;
-    private LinearLayout click_area_layout;
-
+    private FrameLayout click_area_layout;
     /**
      * 标识来电或去电    CoreService.OUTGOING_CALL为去电      CoreService.INCOMMING_CALL为来电
      */
     private int mCallFalg = DfineAction.OUTGOING_CALL;
     private MyHandler mHandler = new MyHandler(RealCallActivity.this);
-
     /**
      * 循环拨打定时器
      */
     private Timer mCallTimer = null;
     private StringBuilder mCountingDuration;
     private String call_id;
-
-
-    private static class MyHandler extends Handler {
-        WeakReference<RealCallActivity> activity_ref;
-
-        public MyHandler(RealCallActivity activity) {
-            activity_ref = new WeakReference<RealCallActivity>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            final RealCallActivity theActivity = activity_ref.get();
-            if (theActivity == null || theActivity.isFinishing()) {
-                return;
-            }
-            Resources res = theActivity.getResources();
-            int what = msg.what;
-            switch (what) {
-                case DfineAction.IntentRewardResponseMessage:
-                    //收到打赏的回执
-                    theActivity.handleIntentRewardResponseMessage(theActivity.call_id, theActivity.mTargetUid, theActivity.mGneder, msg.getData());
-                    break;
-                case DfineAction.PayRewardResponseMessage:
-                    theActivity.hanlePayRewardResponseMessage(msg.getData());
-                    break;
-                case DfineAction.RewardedMessage:
-                    theActivity.handleRewardedMessage(theActivity.mTargetUid, theActivity.mFaceShowUrl, UserManager.getRealName(theActivity.mTargetUid, theActivity.mIncommingName, theActivity), "2", msg.getData());
-                    break;
-                case HANDLE_RECONNECTION_TCP_EVENT:
-                    if (TcpProxy.getInstance().isLoginStauts()) {
-                        theActivity.mHandler.removeMessages(HANDLE_TCP_CONNECT_TIMEOUT);
-                        theActivity.tv_call_duration.setText(res.getString(R.string.is_calling));
-                        theActivity.callUser();
-                    } else {
-                        theActivity.mHandler.sendEmptyMessageDelayed(HANDLE_RECONNECTION_TCP_EVENT, 2000);
-                    }
-                    break;
-                case HANDLE_TCP_CONNECT_TIMEOUT:
-                    theActivity.showToast(theActivity, res.getString(R.string.network_not_stable));
-                    theActivity.endCallActivity(1000);
-                    break;
-                case CoreService.HANDLE_REAL_UI_CALL_RESPONSE:
-                    theActivity.doCallResponse(msg);
-                    break;
-                case CoreService.HANDLE_REAL_UI_CALL_READY:
-                    Bundle b = msg.getData();
-                    if (b != null) {
-                        int code = b.getInt("code");
-                        theActivity.call_id = b.getString("call_id");
-                        if (WEBRTC_CODE_REJECT == code) {
-                            theActivity.showToast(theActivity, res.getString(R.string.reject_by_other));
-                            theActivity.endCallActivity(500);
-                            return;
-                        }
-                    }
-                    break;
-                case CoreService.STOP_CALL:
-                    // 挂断
-                    if (!theActivity.isHangupForMe) {
-                        Bundle stop_bundle = msg.getData();
-                        if (stop_bundle.containsKey("data")) {
-                            theActivity.alertUser(stop_bundle.getString("data"));
-                        }
-                        theActivity.hangupCall(false, DfineAction.REAL_STOP_CALL_NORMAL);
-                    }
-                    break;
-                case CoreService.CALL_BEGIN_RESPONSE:
-                    TextView tv_charge_free_guide = (TextView) theActivity.findViewById(R.id.tv_charge_free_guide);
-                    Observable.timer(5, TimeUnit.SECONDS, AndroidSchedulers.mainThread()).map(aLong -> {
-                        tv_charge_free_guide.setVisibility(View.GONE);
-                        return null;
-                    }).subscribe();
-                /*开始30S录音*/
-//            	getRecPermission();
-                    if (theActivity.click_area_layout != null)
-                        theActivity.click_area_layout.setClickable(true);
-                    if (theActivity.mCallFalg == DfineAction.OUTGOING_CALL) {
-//                        theActivity.tv_call_duration.setVisibility(View.GONE);
-                    } else {
-                        theActivity.tv_call_duration.setText("");
-                        theActivity.mHandler.postDelayed(() -> {
-                            theActivity.tv_network_tips.animate().alpha(0.0f).start();
-                        }, 3000);
-                    }
-                    theActivity.iv_duration_option.setVisibility(View.VISIBLE);
-                    theActivity.iv_duration_option.setSelected(false);
-                    theActivity.tv_call_duration.setText(res.getString(R.string.is_speaking));
-                    theActivity.tv_call_duration.setVisibility(View.VISIBLE);
-                    theActivity.findViewById(R.id.ll_answer_call).setVisibility(View.GONE);
-                    theActivity.countTime();
-                    theActivity.findViewById(R.id.view_action_cetener).setVisibility(View.VISIBLE);
-                    ImageView iv_start_userinfo = (ImageView) theActivity.findViewById(R.id.iv_start_userinfo);
-                    ImageLoader.getInstance().displayImage(theActivity.mFaceShowUrl, iv_start_userinfo);
-                    theActivity.findViewById(R.id.iv_push_top).setVisibility(View.VISIBLE);
-                    //iv_mianti_tingtong_layout.setVisibility(View.VISIBLE);
-                    //xxxTcpProxy.getInstance().releaseMediaPlayer();
-                    theActivity.resetPlayer();
-                    int outCallUid = theActivity.getIntent().getIntExtra("tid", 0);
-                    int inCallUid = theActivity.getTuid();
-                    int tUid = inCallUid > 0 ? inCallUid : outCallUid;
-                    SharedPreferencesUtil.putBooleanExtra(theActivity, "called_with" + tUid, true);
-                    theActivity.setAudioModeWithBrand();
-                    break;
-                case CoreService.CALL_STATE_CHANGE: {
-                    CallStateEvent event = (CallStateEvent) msg.obj;
-                    if (event.nTCPState) {
-                        if (event.nCallState == RealCallState.DIAL) {
-                        /*tv_callstate.setText("等待对方应答");*/
-                        } else {
-                            if (theActivity.isCalling) {
-                                if (event.nWebRTCState == CoreService.WEBRTC_STATE_ONLINE) {
-                                    theActivity.tv_callstate.setText("           ");
-                                } else if (event.nWebRTCState == CoreService.WEBRTC_STATE_OFFLINE) {
-                                    theActivity.tv_callstate.setText("当前无网络连接");
-                                } else if (event.nWebRTCState == CoreService.WEBRTC_STATE_LOST) {
-                                    theActivity.tv_callstate.setText("对方当前网络连接不稳定");
-                                } else if (event.nWebRTCState == CoreService.WEBRTC_STATE_CONNECTING) {
-                                    theActivity.tv_callstate.setText("当前网络连接不稳定");
-                                } else if (event.nWebRTCState == CoreService.WEBRTC_STATE_EXCHANGINGSD) {
-                                    theActivity.tv_callstate.setText("网络异常，通话重连中...");
-                                }
-                            }
-                        }
-                    } else {
-                        theActivity.tv_callstate.setText("           ");
-                    }
-                }
-                break;
-                case HANDLE_NET_STATUS_CHANGE: {
-                    CallStateEvent event = (CallStateEvent) msg.obj;
-                    if (event.heart_lost_count > 0) {//自己丢包
-                        //tv_net_status.setText(R.string.calling_me_net_bad);
-                        theActivity.tv_callstate.setText(R.string.calling_me_net_bad);
-                    } else {
-                        if (event.remote_user_state > 0) {
-                            //tv_net_status.setText(R.string.calling_other_net_bad);
-                            theActivity.tv_callstate.setText(R.string.calling_other_net_bad);
-                        } else {
-                            //tv_net_status.setText("");
-                            theActivity.tv_callstate.setText("");
-                        }
-                    }
-                }
-                break;
-            }
-        }
-    }
+    private HeadSetPlugReceiver headSetPlugReceiver;
+    private TelephonyManager manager = null;
+    private boolean isHangupForMe = false;
 
     private void resetPlayer() {
 //        Intent intent = new Intent(this, PlayerService.class);
@@ -345,8 +222,6 @@ public class RealCallActivity extends BaseCallActivity implements
         //经验证是代码中重复设置setAudioMode导致，正常设置是没有问题的
         setAudioMode();
     }
-
-    private HeadSetPlugReceiver headSetPlugReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -390,7 +265,6 @@ public class RealCallActivity extends BaseCallActivity implements
         //doBlurBackground();
     }
 
-
     /**
      * 定时发送通话
      */
@@ -421,6 +295,7 @@ public class RealCallActivity extends BaseCallActivity implements
         //String age = getIntent().getStringExtra("age");
         //v_gender_age.displayGenderWithAge(gender, age);
         mTargetUid = getIntent().getIntExtra("tid", 0);
+
         //tv_uname.setText(UserManager.getRealName(getIntent().getIntExtra("tid", 0), getIntent().getStringExtra("uname"), this));
         //tv_address.setText(getIntent().getStringExtra("address"));
 
@@ -429,7 +304,13 @@ public class RealCallActivity extends BaseCallActivity implements
         //ll_call_over.setVisibility(View.VISIBLE);
 
         tv_username.setText(UserManager.getRealName(mTargetUid, getIntent().getStringExtra("uname"), this));
-        //tv_slogan.setText(getIntent().getStringExtra("slogan"));
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("tags"))) {
+            String tags = getIntent().getStringExtra("tags");
+            String[] split = tags.split(",");
+            tv_slogan.setText("#" + split[0]);
+        } else {
+            tv_slogan.setText("");
+        }
 
         if (TcpProxy.getInstance().isLoginStauts()) {
             // add resend schedule
@@ -438,6 +319,15 @@ public class RealCallActivity extends BaseCallActivity implements
             TcpProxy.getInstance().connectionTcp();
             mHandler.sendEmptyMessageDelayed(HANDLE_RECONNECTION_TCP_EVENT, 5000);// 延迟等待5s
             mHandler.sendEmptyMessageDelayed(HANDLE_TCP_CONNECT_TIMEOUT, 20000);// 延迟等待20s
+        }
+
+        TextView tv_charge_free_guide = (TextView)findViewById(R.id.tv_charge_free_guide);
+        switch (PeiwoApp.getApplication().getNetType()) {
+            case NetUtil.WIFI_NETWORK:
+                tv_charge_free_guide.setText(getString(R.string.calling_outgoing_wifi));
+                break;
+            default:
+                tv_charge_free_guide.setText(getString(R.string.calling_outgoing_mobile_network));
         }
         tv_call_duration.setText(getResources().getString(R.string.is_calling));
         //xxxTcpProxy.getInstance().playMusic(R.raw.call_ring, true);
@@ -513,8 +403,11 @@ public class RealCallActivity extends BaseCallActivity implements
             tv_username.setText(UserManager.getRealName(mTargetUid, mIncommingName, this));
 
             JSONArray tagsArray = user.optJSONArray("tags");
-            if (tagsArray != null && tagsArray.length() > 0)
+            if (tagsArray != null && tagsArray.length() > 0) {
                 tv_slogan.setText("#" + tagsArray.getString(0));
+            } else {
+                tv_slogan.setText("");
+            }
 
 
             StringBuilder sb = new StringBuilder();
@@ -525,19 +418,17 @@ public class RealCallActivity extends BaseCallActivity implements
                 sb.append(city);
             }
             //tv_address.setText(sb.toString());
+            TextView tv_charge_free_guide = (TextView)findViewById(R.id.tv_charge_free_guide);
             switch (PeiwoApp.getApplication().getNetType()) {
                 case NetUtil.WIFI_NETWORK:
-//                    tv_network_tips.setText(getString(R.string.calling_incoming_wifi));
-                    break;
-                case NetUtil.G2_NETWORK:
-                    tv_network_tips.setText(getString(R.string.calling_incoming_2g));
+                    tv_charge_free_guide.setText(getString(R.string.calling_incoming_wifi));
                     break;
                 default:
-                    tv_network_tips.setText(getString(R.string.calling_incoming_3g));
+                    tv_charge_free_guide.setText(getString(R.string.calling_incoming_mobile_network));
             }
-            if (!TextUtils.isEmpty(tv_network_tips.getText())) {
-                tv_network_tips.setBackgroundResource(R.drawable.bg_callslogan);
-            }
+//            if (!TextUtils.isEmpty(tv_network_tips.getText())) {
+//                tv_network_tips.setBackgroundResource(R.drawable.bg_callslogan);
+//            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -556,20 +447,35 @@ public class RealCallActivity extends BaseCallActivity implements
         return false;
     }
 
-    private TelephonyManager manager = null;
-
     private void listenerSystemCallState() {
         manager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         phoneListener = new MyPhoneListener();
         manager.listen(phoneListener, PhoneStateListener.LISTEN_CALL_STATE);
     }
 
+/*	protected void finishDelay(final String errorMsg) {
+        needNotify = false;
+		if (m_HandlerCoreServiceMsg != null) {
+			m_HandlerCoreServiceMsg.postDelayed(new Runnable() {
+                @Override
+				public void run() {
+					if (!TextUtils.isEmpty(errorMsg)) {
+						showToast(RealCallActivity.this, errorMsg);
+					}
+                    System.out.println("finishDelay finish()");
+                    finish();
+                }
+            }, 1000);
+		} else {
+			System.err.println("finishDelay m_HandlerCoreServiceMsg == null");
+		}
+    }*/
+
     protected void cancelListenerSystemCallState() {
         if (manager != null && phoneListener != null) {
             manager.listen(phoneListener, PhoneStateListener.LISTEN_NONE);
         }
     }
-
 
     protected void doCallResponse(Message msg) {
         if (mCallTimer != null) {
@@ -587,8 +493,11 @@ public class RealCallActivity extends BaseCallActivity implements
                 JSONObject jsonUser = o.getJSONObject("user");
 
                 JSONArray tagsArray = jsonUser.optJSONArray("tags");
-                if (tagsArray != null && tagsArray.length() > 0)
+                if (tagsArray != null && tagsArray.length() > 0) {
                     tv_slogan.setText("#" + tagsArray.getString(0));
+                } else {
+                    tv_slogan.setText("");
+                }
                 mIncommingName = jsonUser.optString("name");
 
                 int gender = jsonUser.optInt("gender");
@@ -710,8 +619,6 @@ public class RealCallActivity extends BaseCallActivity implements
         }
     }
 
-    private boolean isHangupForMe = false;
-
     /**
      * 主动挂断电话
      */
@@ -787,31 +694,6 @@ public class RealCallActivity extends BaseCallActivity implements
                 ).create().show();
     }
 
-/*	protected void finishDelay(final String errorMsg) {
-        needNotify = false;
-		if (m_HandlerCoreServiceMsg != null) {
-			m_HandlerCoreServiceMsg.postDelayed(new Runnable() {
-                @Override
-				public void run() {
-					if (!TextUtils.isEmpty(errorMsg)) {
-						showToast(RealCallActivity.this, errorMsg);
-					}
-                    System.out.println("finishDelay finish()");
-                    finish();
-                }
-            }, 1000);
-		} else {
-			System.err.println("finishDelay m_HandlerCoreServiceMsg == null");
-		}
-    }*/
-
-    protected int counttimeH;
-    protected int counttimeM;
-    protected int counttimeS;
-    protected boolean isbreak = false;
-
-    boolean isCalling = false;
-
     protected void countTime() {
         tv_call_duration.setVisibility(View.VISIBLE);
 
@@ -852,12 +734,19 @@ public class RealCallActivity extends BaseCallActivity implements
                         tv_call_duration.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
                         tv_call_duration.setText(mCountingDuration.toString());
                     }
+                    //通话超过40s,双方可以互发图片
+                    if (counttimeM == 0 && counttimeS == SEND_IMAGE_TIME) {
+                        Intent it = new Intent();
+                        it.putExtra("callee", mTargetUid);
+                        it.setAction(Constans.ACTION_SEND_IMG_PERMISSION);
+                        EventBus.getDefault().post(it);
+                        CustomLog.d("countDown. target uid is : " + mTargetUid);
+                    }
+
                 }
             }
         });
     }
-
-    protected String mIncommingName;
 
     protected void init() {
         requestAudioFocus();
@@ -865,7 +754,6 @@ public class RealCallActivity extends BaseCallActivity implements
         tv_username = (TextView) findViewById(R.id.tv_username);
         tv_slogan = (TextView) findViewById(R.id.tv_slogan);
         tv_callstate = (TextView) findViewById(R.id.tv_callstate);
-        tv_network_tips = (TextView) findViewById(R.id.tv_network_tips);
         //tv_uname = (TextView) findViewById(R.id.tv_uname);
         //iv_blur = (ImageView) findViewById(R.id.iv_blur);
         //ll_call_over = findViewById(R.id.ll_call_over);
@@ -874,7 +762,7 @@ public class RealCallActivity extends BaseCallActivity implements
         //ll_call_switch = findViewById(R.id.ll_call_switch);
         tv_call_duration = (TextView) findViewById(R.id.tv_call_duration);
         iv_duration_option = (ImageView) findViewById(R.id.iv_duration_option);
-        click_area_layout = (LinearLayout) findViewById(R.id.click_area_layout);
+        click_area_layout = (FrameLayout) findViewById(R.id.click_area_layout);
         click_area_layout.setClickable(false);
         //tv_calling = (TextView) findViewById(R.id.tv_calling);
         //tv_callstate = (TextView) findViewById(R.id.tv_callstate);
@@ -891,36 +779,6 @@ public class RealCallActivity extends BaseCallActivity implements
         return audioManager.requestAudioFocus(focusChangeListener,
                 AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
     }
-
-    AudioManager.OnAudioFocusChangeListener focusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
-        @Override
-        public void onAudioFocusChange(int focusChange) {
-            // Trace.i("focusChange == " + focusChange);
-            switch (focusChange) {
-                case AudioManager.AUDIOFOCUS_GAIN:
-                case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
-                case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
-                    // do somthing
-                    // if (getIntent() != null
-                    // && getIntent().getIntExtra("flag", 0) ==
-                    // CoreService.OUTGOING_CALL) {
-                    // playerSound(R.raw.outgoing);
-                    // } else {
-                    // playerSound(R.raw.incomming);
-                    // }
-                    break;
-                case AudioManager.AUDIOFOCUS_REQUEST_FAILED:
-                    break;
-                case AudioManager.AUDIOFOCUS_LOSS:
-                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                    // do somthing
-                    audioManager.abandonAudioFocus(focusChangeListener);
-                    // releaseMediaPlayer();
-                    break;
-            }
-        }
-    };
 
 /*	private void countTime30S() {
         recoredSecond = 30;
@@ -1028,14 +886,10 @@ public class RealCallActivity extends BaseCallActivity implements
             iv_duration_option.setImageResource(R.drawable.icon_hide_duration);
             tv_call_duration.setText(getResources().getString(R.string.is_speaking));
             tv_call_duration.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
-            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) tv_call_duration.getLayoutParams();
-            lp.rightMargin = 0;
         } else {
             iv_duration_option.setImageResource(R.drawable.icon_show_duration);
             tv_call_duration.setText(mCountingDuration);
             tv_call_duration.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
-            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) tv_call_duration.getLayoutParams();
-            lp.rightMargin = PWUtils.getPXbyDP(this, 5);
         }
     }
 
@@ -1081,11 +935,11 @@ public class RealCallActivity extends BaseCallActivity implements
         moveTaskToBack(true);
     }
 
-    protected void notifyOnBackgroundCall() {
+    protected void notifyOnBackgroundCall(String text) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
                 this).setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(getString(R.string.app_name))
-                .setTicker("后台打电话").setContentText("后台打电话")
+                .setTicker(text).setContentText(text)
                 .setWhen(System.currentTimeMillis()).setAutoCancel(true)
                 .setOngoing(true);
         Intent resultIntent = new Intent(this, RealCallActivity.class);
@@ -1102,7 +956,15 @@ public class RealCallActivity extends BaseCallActivity implements
         LinphoneManager.getInstance().stopProximitySensorForActivity(this);
         super.onPause();
         if (needNotify) {
-            notifyOnBackgroundCall();
+            String text = "";
+            if (mCallFalg == DfineAction.OUTGOING_CALL) {
+                text = getString(R.string.you_are_calling_with_whom, UserManager.getRealName(mTargetUid, getIntent().getStringExtra("uname"), this));
+            } else if (mCallFalg == DfineAction.INCOMMING_CALL) {
+                text = getString(R.string.user_whom_calling_you, mIncommingName, this);
+            }
+            if (isCalling)
+                text = getString(R.string.calling_in_background);
+            notifyOnBackgroundCall(text);
         }
     }
 
@@ -1145,8 +1007,6 @@ public class RealCallActivity extends BaseCallActivity implements
         }
     }
 
-    protected long exitTime = 0;
-
     @Override
     public boolean onKeyDown(final int keyCode, final KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -1160,6 +1020,23 @@ public class RealCallActivity extends BaseCallActivity implements
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    public void finish() {
+        mHandler.removeCallbacksAndMessages(null);
+        //xxxTcpProxy.getInstance().releaseMediaPlayer();
+        PeiwoApp.getApplication().realCallNotification = false;
+        PeiwoApp.getApplication().realCallNotificationReStart = false;
+        isbreak = true;
+        MessagePushEvent messagePushEvent = new MessagePushEvent();
+        messagePushEvent.setTuid(mTargetUid);
+//        EventBus.getDefault().post(new MessagePushEvent());
+        EventBus.getDefault().post(messagePushEvent);
+        PeiwoApp app = (PeiwoApp) getApplicationContext();
+        app.setCalling(false, PeiwoApp.CALL_TYPE.CALL_NONE);
+        super.finish();
+        overridePendingTransition(0, 0);
+    }
+
 
     // @Override
     // protected void onStop() {
@@ -1170,20 +1047,6 @@ public class RealCallActivity extends BaseCallActivity implements
     // }
     // super.onStop();
     // }
-
-    @Override
-    public void finish() {
-        mHandler.removeCallbacksAndMessages(null);
-        //xxxTcpProxy.getInstance().releaseMediaPlayer();
-        PeiwoApp.getApplication().realCallNotification = false;
-        PeiwoApp.getApplication().realCallNotificationReStart = false;
-        isbreak = true;
-        EventBus.getDefault().post(new MessagePushEvent());
-        PeiwoApp app = (PeiwoApp) getApplicationContext();
-        app.setCalling(false, PeiwoApp.CALL_TYPE.CALL_NONE);
-        super.finish();
-        overridePendingTransition(0, 0);
-    }
 
     private void releasePlayer() {
 //        Intent intent = new Intent(this, PlayerService.class);
@@ -1196,6 +1059,23 @@ public class RealCallActivity extends BaseCallActivity implements
     protected void clearBackgroundNotification() {
         NotificationManager mNotifyMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotifyMgr.cancel(Constans.NOTIFY_ID_CALL_BACKGROUND);
+    }
+
+    @Override
+    protected void onDestroy() {
+        releasePlayer();
+        resetAudioMode();
+        clearBackgroundNotification();
+        DfineAction.CURRENT_CALL_STATUS = DfineAction.CURRENT_CALL_NOT;
+        cancelListenerSystemCallState();
+        EventBus.getDefault().unregister(this);
+        if (headSetPlugReceiver != null)
+            unregisterReceiver(headSetPlugReceiver);
+        PeiwoApp.getApplication().realCallNotification = false;
+        PeiwoApp.getApplication().realCallNotificationReStart = false;
+        mHandler.removeCallbacksAndMessages(null);
+        //releaseSoundPool();
+        super.onDestroy();
     }
 
 
@@ -1228,60 +1108,6 @@ public class RealCallActivity extends BaseCallActivity implements
 //
 //        }
 //    }
-
-    @Override
-    protected void onDestroy() {
-        releasePlayer();
-        resetAudioMode();
-        clearBackgroundNotification();
-        DfineAction.CURRENT_CALL_STATUS = DfineAction.CURRENT_CALL_NOT;
-        cancelListenerSystemCallState();
-        EventBus.getDefault().unregister(this);
-        if (headSetPlugReceiver != null)
-            unregisterReceiver(headSetPlugReceiver);
-        PeiwoApp.getApplication().realCallNotification = false;
-        PeiwoApp.getApplication().realCallNotificationReStart = false;
-        mHandler.removeCallbacksAndMessages(null);
-        //releaseSoundPool();
-        super.onDestroy();
-    }
-
-
-    protected class MyPhoneListener extends PhoneStateListener {
-        @Override
-        public void onCallStateChanged(int state, String incomingNumber) {
-            switch (state) {
-                case TelephonyManager.CALL_STATE_RINGING:
-                    //响铃状态
-                case TelephonyManager.CALL_STATE_OFFHOOK:
-                    //接听状态
-                    if (isFinishing()) return;
-                    hangupCall(true, DfineAction.REAL_STOP_CALL_SYSTEM_PHONE);
-                    break;
-            }
-            super.onCallStateChanged(state, incomingNumber);
-        }
-    }
-
-    private class HeadSetPlugReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.hasExtra("state")) {
-                if (intent.getIntExtra("state", 0) == 0) {
-                    // 耳机拔出
-                    if (tv_voice_mode.isSelected()) {
-                        setVoiceModeNomal();
-                    } else {
-                        setVoiceModeCommunication();
-                    }
-                    return;
-                } else if (intent.getIntExtra("state", 0) == 1) {
-                    // 耳机插入
-                    setVoiceModeCommunication();
-                }
-            }
-        }
-    }
 
     /**
      * 听筒模式
@@ -1358,7 +1184,6 @@ public class RealCallActivity extends BaseCallActivity implements
         }
     }
 
-
     protected boolean needPlayMusic() {
         try {
             String push_str = SharedPreferencesUtil.getStringExtra(this, Constans.SP_KEY_PUSH_STR, "");
@@ -1431,6 +1256,187 @@ public class RealCallActivity extends BaseCallActivity implements
         } else if (event.type == 2) {
             showToast(this, "语音连接超时,已挂断");
             hangupCall(true, DfineAction.REAL_STOP_CALL_WEBRTC_TIMEOUT);
+        }
+    }
+
+    private static class MyHandler extends Handler {
+        WeakReference<RealCallActivity> activity_ref;
+
+        public MyHandler(RealCallActivity activity) {
+            activity_ref = new WeakReference<RealCallActivity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            final RealCallActivity theActivity = activity_ref.get();
+            if (theActivity == null || theActivity.isFinishing()) {
+                return;
+            }
+            Resources res = theActivity.getResources();
+            int what = msg.what;
+            switch (what) {
+                case DfineAction.IntentRewardResponseMessage:
+                    //收到打赏的回执
+                    theActivity.handleIntentRewardResponseMessage(theActivity.call_id, theActivity.mTargetUid, theActivity.mGneder, msg.getData());
+                    break;
+                case DfineAction.PayRewardResponseMessage:
+                    theActivity.hanlePayRewardResponseMessage(msg.getData());
+                    break;
+                case DfineAction.RewardedMessage:
+                    theActivity.handleRewardedMessage(theActivity.mTargetUid, theActivity.mFaceShowUrl, UserManager.getRealName(theActivity.mTargetUid, theActivity.mIncommingName, theActivity), "2", msg.getData());
+                    break;
+                case HANDLE_RECONNECTION_TCP_EVENT:
+                    if (TcpProxy.getInstance().isLoginStauts()) {
+                        theActivity.mHandler.removeMessages(HANDLE_TCP_CONNECT_TIMEOUT);
+                        theActivity.tv_call_duration.setText(res.getString(R.string.is_calling));
+                        theActivity.callUser();
+                    } else {
+                        theActivity.mHandler.sendEmptyMessageDelayed(HANDLE_RECONNECTION_TCP_EVENT, 2000);
+                    }
+                    break;
+                case HANDLE_TCP_CONNECT_TIMEOUT:
+                    theActivity.showToast(theActivity, res.getString(R.string.network_not_stable));
+                    theActivity.endCallActivity(1000);
+                    break;
+                case CoreService.HANDLE_REAL_UI_CALL_RESPONSE:
+                    theActivity.doCallResponse(msg);
+                    break;
+                case CoreService.HANDLE_REAL_UI_CALL_READY:
+                    Bundle b = msg.getData();
+                    if (b != null) {
+                        int code = b.getInt("code");
+                        theActivity.call_id = b.getString("call_id");
+                        if (WEBRTC_CODE_REJECT == code) {
+                            theActivity.showToast(theActivity, res.getString(R.string.reject_by_other));
+                            theActivity.endCallActivity(500);
+                            return;
+                        }
+                    }
+                    break;
+                case CoreService.STOP_CALL:
+                    // 挂断
+                    if (!theActivity.isHangupForMe) {
+                        Bundle stop_bundle = msg.getData();
+                        if (stop_bundle.containsKey("data")) {
+                            theActivity.alertUser(stop_bundle.getString("data"));
+                        }
+                        theActivity.hangupCall(false, DfineAction.REAL_STOP_CALL_NORMAL);
+                    }
+                    break;
+                case CoreService.CALL_BEGIN_RESPONSE:
+                    TextView tv_charge_free_guide = (TextView)theActivity.findViewById(R.id.tv_charge_free_guide);
+                    Observable.timer(5, TimeUnit.SECONDS, AndroidSchedulers.mainThread()).subscribe(o -> {
+                        tv_charge_free_guide.animate().alpha(0.0f).start();
+                    });
+                /*开始30S录音*/
+//            	getRecPermission();
+                    if (theActivity.click_area_layout != null)
+                        theActivity.click_area_layout.setClickable(true);
+                    if (theActivity.mCallFalg == DfineAction.OUTGOING_CALL) {
+//                        theActivity.tv_call_duration.setVisibility(View.GONE);
+                    } else {
+                        theActivity.tv_call_duration.setText("");
+                    }
+//                    Observable.timer(3, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
+//                        theActivity.tv_charge_free_guide.animate().alpha(0.0f).start();
+//                    });
+                    theActivity.iv_duration_option.setVisibility(View.VISIBLE);
+                    theActivity.iv_duration_option.setSelected(false);
+                    theActivity.tv_call_duration.setText(res.getString(R.string.is_speaking));
+                    theActivity.tv_call_duration.setVisibility(View.VISIBLE);
+                    theActivity.findViewById(R.id.ll_answer_call).setVisibility(View.GONE);
+                    theActivity.countTime();
+                    theActivity.findViewById(R.id.view_action_cetener).setVisibility(View.VISIBLE);
+                    ImageView iv_start_userinfo = (ImageView) theActivity.findViewById(R.id.iv_start_userinfo);
+                    ImageLoader.getInstance().displayImage(theActivity.mFaceShowUrl, iv_start_userinfo);
+                    theActivity.findViewById(R.id.iv_push_top).setVisibility(View.VISIBLE);
+                    //iv_mianti_tingtong_layout.setVisibility(View.VISIBLE);
+                    //xxxTcpProxy.getInstance().releaseMediaPlayer();
+                    theActivity.resetPlayer();
+                    int outCallUid = theActivity.getIntent().getIntExtra("tid", 0);
+                    int inCallUid = theActivity.getTuid();
+                    int tUid = inCallUid > 0 ? inCallUid : outCallUid;
+                    SharedPreferencesUtil.putBooleanExtra(theActivity, "called_with" + tUid, true);
+                    theActivity.setAudioModeWithBrand();
+                    break;
+                case CoreService.CALL_STATE_CHANGE: {
+                    CallStateEvent event = (CallStateEvent) msg.obj;
+                    if (event.nTCPState) {
+                        if (event.nCallState == RealCallState.DIAL) {
+                        /*tv_callstate.setText("等待对方应答");*/
+                        } else {
+                            if (theActivity.isCalling) {
+                                if (event.nWebRTCState == CoreService.WEBRTC_STATE_ONLINE) {
+                                    theActivity.tv_callstate.setText("           ");
+                                } else if (event.nWebRTCState == CoreService.WEBRTC_STATE_OFFLINE) {
+                                    theActivity.tv_callstate.setText("当前无网络连接");
+                                } else if (event.nWebRTCState == CoreService.WEBRTC_STATE_LOST) {
+                                    theActivity.tv_callstate.setText("对方当前网络连接不稳定");
+                                } else if (event.nWebRTCState == CoreService.WEBRTC_STATE_CONNECTING) {
+                                    theActivity.tv_callstate.setText("当前网络连接不稳定");
+                                } else if (event.nWebRTCState == CoreService.WEBRTC_STATE_EXCHANGINGSD) {
+                                    theActivity.tv_callstate.setText("网络异常，通话重连中...");
+                                }
+                            }
+                        }
+                    } else {
+                        theActivity.tv_callstate.setText("           ");
+                    }
+                }
+                break;
+                case HANDLE_NET_STATUS_CHANGE: {
+                    CallStateEvent event = (CallStateEvent) msg.obj;
+                    if (event.heart_lost_count > 0) {//自己丢包
+                        //tv_net_status.setText(R.string.calling_me_net_bad);
+                        theActivity.tv_callstate.setText(R.string.calling_me_net_bad);
+                    } else {
+                        if (event.remote_user_state > 0) {
+                            //tv_net_status.setText(R.string.calling_other_net_bad);
+                            theActivity.tv_callstate.setText(R.string.calling_other_net_bad);
+                        } else {
+                            //tv_net_status.setText("");
+                            theActivity.tv_callstate.setText("");
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    protected class MyPhoneListener extends PhoneStateListener {
+        @Override
+        public void onCallStateChanged(int state, String incomingNumber) {
+            switch (state) {
+                case TelephonyManager.CALL_STATE_RINGING:
+                    //响铃状态
+                case TelephonyManager.CALL_STATE_OFFHOOK:
+                    //接听状态
+                    if (isFinishing()) return;
+                    hangupCall(true, DfineAction.REAL_STOP_CALL_SYSTEM_PHONE);
+                    break;
+            }
+            super.onCallStateChanged(state, incomingNumber);
+        }
+    }
+
+    private class HeadSetPlugReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.hasExtra("state")) {
+                if (intent.getIntExtra("state", 0) == 0) {
+                    // 耳机拔出
+                    if (tv_voice_mode.isSelected()) {
+                        setVoiceModeNomal();
+                    } else {
+                        setVoiceModeCommunication();
+                    }
+                    return;
+                } else if (intent.getIntExtra("state", 0) == 1) {
+                    // 耳机插入
+                    setVoiceModeCommunication();
+                }
+            }
         }
     }
 }

@@ -2,7 +2,6 @@ package me.peiwo.peiwo.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -41,6 +40,7 @@ import me.peiwo.peiwo.util.CustomLog;
 import me.peiwo.peiwo.util.ImageUtil;
 import me.peiwo.peiwo.util.PWUtils;
 import me.peiwo.peiwo.util.UserManager;
+import me.peiwo.peiwo.widget.ControllableSwitchCompat;
 import net.simonvt.numberpicker.NumberPicker;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -91,19 +91,8 @@ public class GroupHomePageActvity extends BaseActivity {
     private static final int REQUEST_CODE_GROUP_REPU = 1000;
     private static final int REQUEST_CODE_GROUP_REDBAG = 1001;
     private static String mImageKey;
-
-    private float[] price_range;
-    private String[] price_labels;
     public ArrayList<GroupMemberModel> mMemberList = new ArrayList<>();
     public GroupMembersNewbiesAdapter mAdapter;
-    private String group_id;
-    private TabfindGroupModel mGroupModel;
-    private int mCurTicketPrice;
-    private String group_image_url = "";
-    private Rect rect_et_group_name = new Rect();
-    private String mGroupNotice;
-    private String mNickName;
-
     @Bind(R.id.civ_group_avatar)
     ImageView civ_group_avatar;
     @Bind(R.id.et_group_name)
@@ -172,8 +161,18 @@ public class GroupHomePageActvity extends BaseActivity {
     ImageView arrow_repu_value;
     @Bind(R.id.arrow_group_announcement)
     ImageView arrow_group_announcement;
-//    @Bind(R.id.pen_group_name)
+    private float[] price_range;
+    private String[] price_labels;
+    private String group_id;
+    private TabfindGroupModel mGroupModel;
+    private int mCurTicketPrice;
+    private String group_image_url = "";
+    private Rect rect_et_group_name = new Rect();
+    private String mGroupNotice;
+    private String mNickName;
+    //    @Bind(R.id.pen_group_name)
 //    ImageView pen_group_name;
+    private boolean nodisturb = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,9 +212,19 @@ public class GroupHomePageActvity extends BaseActivity {
 //                    update_time
                     double total_prestige_value = Math.round(object.optDouble("total_prestige_value") * 100) / 100.0;
                     double prestige_value = Math.round(object.optDouble("prestige_value") * 100) / 100.0;
-                    if (total_prestige_value < 0.0) {
-                        switch_recruition.setClickable(false);
+//                    if (total_prestige_value < 0.0) {
+//                        switch_recruition.setClickable(false);
+//                    }
+                    if (total_prestige_value < 100) {
+                        ((ControllableSwitchCompat) switch_recruition).setIsControlled(true);
+                        ((ControllableSwitchCompat) switch_recruition).setToastContent("群声望不足100，无法开启招新");
+                    } else if (prestige_value < 10) {
+                        ((ControllableSwitchCompat) switch_recruition).setIsControlled(true);
+                        ((ControllableSwitchCompat) switch_recruition).setToastContent("当前群声望不足10，无法开启招新");
+                    } else {
+                        ((ControllableSwitchCompat) switch_recruition).setIsControlled(false);
                     }
+
                     if (GroupConstant.MemberType.NEWBIE.equals(mGroupModel.member_type)) {
                         //游客
                         tv_repu_value.setText(String.valueOf(total_prestige_value));
@@ -326,7 +335,6 @@ public class GroupHomePageActvity extends BaseActivity {
     }
 
     private void fetchMembers() {
-        showAnimLoading();
         mMemberList.clear();
         ArrayList<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair(KEY_GROUP_ID, group_id));
@@ -364,7 +372,6 @@ public class GroupHomePageActvity extends BaseActivity {
                     mAdapter.setOnMemberSelectedListener(this::handleOnMemberSelected);
                     mRecyclerview.setAdapter(mAdapter);
                     tv_show_all_members.setText(getString(R.string.show_all_group_members, members.length()));
-                    dismissAnimLoading();
                 });
             }
 
@@ -379,7 +386,6 @@ public class GroupHomePageActvity extends BaseActivity {
                 CustomLog.d("fetchMembers. error is : " + error + ", ret is : " + ret);
                 Observable.just(null).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
                     showToast(GroupHomePageActvity.this, getString(R.string.load_failed));
-                    dismissAnimLoading();
                 });
             }
         });
@@ -389,33 +395,6 @@ public class GroupHomePageActvity extends BaseActivity {
         MyLinearLayoutManager layoutManager = new MyLinearLayoutManager(this, row_num);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerview.setLayoutManager(layoutManager);
-    }
-
-    static class MyLinearLayoutManager extends LinearLayoutManager {
-
-        private int rowCount;
-
-        public MyLinearLayoutManager(Context context, int rowCount) {
-            super(context);
-            this.rowCount = rowCount;
-        }
-
-
-        @Override
-        public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
-            if (rowCount == 0) {
-                setMeasuredDimension(widthSpec, 0);
-                return;
-            }
-            View view = recycler.getViewForPosition(0);
-            if (view != null) {
-                measureChild(view, widthSpec, heightSpec);
-                int measuredHeight = view.getMeasuredHeight();
-                setMeasuredDimension(widthSpec, measuredHeight * rowCount);
-            } else {
-                super.onMeasure(recycler, state, widthSpec, heightSpec);
-            }
-        }
     }
 
     private void fetchFeedFlow() {
@@ -457,9 +436,8 @@ public class GroupHomePageActvity extends BaseActivity {
         });
     }
 
-    private boolean nodisturb = false;
-
     private void fetchMySetting() {
+        showAnimLoading();
         ArrayList<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair(KEY_GROUP_ID, group_id));
         ApiRequestWrapper.openAPIGET(this, params, AsynHttpClient.API_GET_GROUP_MEMBER_EXTRA, new MsgStructure() {
@@ -467,6 +445,7 @@ public class GroupHomePageActvity extends BaseActivity {
             public void onReceive(JSONObject data) {
                 CustomLog.d("fetchMySetting onReceive. data is : " + data);
                 Observable.just(data).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+                    dismissAnimLoading();
                     mNickName = o.optString(KEY_NICK_NAME);
                     int show_nickname = o.optInt(KEY_SHOW_NICK_NAME);
                     //int notify_flag = o.optInt(KEY_NOTIFY_FLAG);
@@ -485,6 +464,9 @@ public class GroupHomePageActvity extends BaseActivity {
             @Override
             public void onError(int error, Object ret) {
                 CustomLog.d("fetchMySetting onError. error is : " + error);
+                Observable.just(null).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+                    dismissAnimLoading();
+                });
             }
         });
     }
@@ -540,6 +522,11 @@ public class GroupHomePageActvity extends BaseActivity {
     }
 
     public void click(View v) {
+        boolean netAvailable = PWUtils.isNetWorkAvailable(this);
+        if (!netAvailable) {
+            showToast(this, getResources().getString(R.string.umeng_common_network_break_alert));
+            return;
+        }
         switch (v.getId()) {
             case R.id.layout_group_announcement:
                 Intent it = new Intent(this, UpdateGroupNoticeActivity.class);
@@ -620,8 +607,8 @@ public class GroupHomePageActvity extends BaseActivity {
                     Snackbar.make(tv_group_announcement, getString(R.string.group_profit_not_enough), Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                Intent redbag_intent = new Intent(this, ChatRedbagActivity.class);
-                redbag_intent.putExtra(ChatRedbagActivity.K_REDBAG_TYPE, ChatRedbagActivity.REDBAG_TYPE_GROUP);
+                Intent redbag_intent = new Intent(this, GroupChatRedbagActivity.class);
+                redbag_intent.putExtra(GroupChatRedbagActivity.K_REDBAG_TYPE, GroupChatRedbagActivity.REDBAG_TYPE_GROUP);
                 redbag_intent.putExtra(GroupChatActivity.K_GROUP_DATA, mGroupModel);
                 startActivityForResult(redbag_intent, REQUEST_CODE_GROUP_REDBAG);
                 break;
@@ -713,7 +700,7 @@ public class GroupHomePageActvity extends BaseActivity {
         if (!mGroupModel.group_name.equals(groupName)) {
             params.add(new BasicNameValuePair(KEY_GROUP_NAME, groupName));
         }
-        CustomLog.d("updateGroupSettings. isRecruiting = "+mGroupModel.is_recruiting+", isChecked : "+switch_recruition.isChecked());
+        CustomLog.d("updateGroupSettings. isRecruiting = " + mGroupModel.is_recruiting + ", isChecked : " + switch_recruition.isChecked());
         if ((mGroupModel.is_recruiting == 1 && !switch_recruition.isChecked())
                 || (mGroupModel.is_recruiting == 0 && switch_recruition.isChecked())) {
             params.add(new BasicNameValuePair(KEY_IS_RECRUITING, switch_recruition.isChecked() ? "1" : "0"));
@@ -932,9 +919,9 @@ public class GroupHomePageActvity extends BaseActivity {
             switch (requestCode) {
                 case REQUEST_CODE_GROUP_REPU:
                     Intent intent = new Intent();
-                    PacketIconModel packetIconModel = data.getParcelableExtra(ChatRedbagActivity.K_SINGLE_PACKET);
+                    PacketIconModel packetIconModel = data.getParcelableExtra(GroupChatRedbagActivity.K_SINGLE_PACKET);
                     if (packetIconModel != null) {
-                        intent.putExtra(ChatRedbagActivity.K_SINGLE_PACKET, packetIconModel);
+                        intent.putExtra(GroupChatRedbagActivity.K_SINGLE_PACKET, packetIconModel);
                         setResult(RESULT_GROUP_REPU_REDBAG, intent);
                         finish();
                     }
@@ -963,10 +950,10 @@ public class GroupHomePageActvity extends BaseActivity {
                     break;
                 case REQUEST_CODE_GROUP_REDBAG:
                     //群红包回调
-                    PacketIconModel callbackPacketIconModel = data.getParcelableExtra(ChatRedbagActivity.K_SINGLE_PACKET);
+                    PacketIconModel callbackPacketIconModel = data.getParcelableExtra(GroupChatRedbagActivity.K_SINGLE_PACKET);
                     if (callbackPacketIconModel != null) {
                         Intent callback_intent = new Intent();
-                        callback_intent.putExtra(ChatRedbagActivity.K_SINGLE_PACKET, callbackPacketIconModel);
+                        callback_intent.putExtra(GroupChatRedbagActivity.K_SINGLE_PACKET, callbackPacketIconModel);
                         setResult(RESULT_GROUP_REDBAG, callback_intent);
                         finish();
                     }
@@ -981,6 +968,33 @@ public class GroupHomePageActvity extends BaseActivity {
             fetchMembers();
             //更新member_number, total_number
             fetchGroupData();
+        }
+    }
+
+    static class MyLinearLayoutManager extends LinearLayoutManager {
+
+        private int rowCount;
+
+        public MyLinearLayoutManager(Context context, int rowCount) {
+            super(context);
+            this.rowCount = rowCount;
+        }
+
+
+        @Override
+        public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
+            if (rowCount == 0) {
+                setMeasuredDimension(widthSpec, 0);
+                return;
+            }
+            View view = recycler.getViewForPosition(0);
+            if (view != null) {
+                measureChild(view, widthSpec, heightSpec);
+                int measuredHeight = view.getMeasuredHeight();
+                setMeasuredDimension(widthSpec, measuredHeight * rowCount);
+            } else {
+                super.onMeasure(recycler, state, widthSpec, heightSpec);
+            }
         }
     }
 }

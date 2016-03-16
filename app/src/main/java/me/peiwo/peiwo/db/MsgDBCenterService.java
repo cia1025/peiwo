@@ -70,6 +70,7 @@ public class MsgDBCenterService {
     private Context mContext;
     public ExecutorService mExecutorService = null;
     private String selfUid;
+    private HashMap<Integer, Integer> mNotifyMap = new HashMap<>();
 
     private MsgDBCenterService() {
         mContext = PeiwoApp.getApplication();
@@ -90,6 +91,7 @@ public class MsgDBCenterService {
 
     private void fetchNoDisturbMappingWithDB() {
         BriteDatabase briteDatabase = BriteDBHelperHolder.getInstance().getBriteDatabase(mContext);
+        if (briteDatabase == null) return;
         String sql = String.format("select * from %s", PWDBConfig.TB_PW_NO_DISTURB);
         QueryObservable queryObservable = briteDatabase.createQuery(PWDBConfig.TB_PW_NO_DISTURB, sql);
         Subscription subscription = queryObservable.subscribe(query -> {
@@ -105,12 +107,13 @@ public class MsgDBCenterService {
         subscription.unsubscribe();
     }
 
-    public void updateNodisturbWithGroup(String group_id, boolean isopen) {
+    public void updateNodisturbWithGroup(String group_id, boolean isOpen) {
         //ContentValues values = new ContentValues();
         //values.put("target_id", group_id);
         //values.put("nodisturb", isopen ? "1" : "0");
 
         BriteDatabase briteDatabase = BriteDBHelperHolder.getInstance().getBriteDatabase(mContext);
+        if (briteDatabase == null) return;
 //        String sql = String.format("select target_id from %s where target_id = ?", PWDBConfig.TB_PW_NO_DISTURB);
 //        QueryObservable queryObservable = briteDatabase.createQuery(PWDBConfig.TB_PW_NO_DISTURB, sql, group_id);
 //        final AtomicBoolean insert = new AtomicBoolean(true);
@@ -128,7 +131,7 @@ public class MsgDBCenterService {
 //            String where = "target_id = ?";
 //            briteDatabase.update(PWDBConfig.TB_PW_NO_DISTURB, values, where, group_id);
 //        }
-        if (isopen) {
+        if (isOpen) {
             String sql = String.format("delete from %s where target_id = ?", PWDBConfig.TB_PW_NO_DISTURB);
             briteDatabase.execute(sql, group_id);
         } else {
@@ -140,6 +143,7 @@ public class MsgDBCenterService {
 
     private void fetchAtUserWithDB() {
         BriteDatabase briteDatabase = BriteDBHelperHolder.getInstance().getBriteDatabase(mContext);
+        if (briteDatabase == null) return;
         String sql = String.format("select * from %s", PWDBConfig.TB_PW_AT_USER);
         QueryObservable queryObservable = briteDatabase.createQuery(PWDBConfig.TB_PW_AT_USER, sql);
         queryObservable.subscribe(query -> {
@@ -174,6 +178,7 @@ public class MsgDBCenterService {
         }
         if (group_id != null && !atUserMapping.containsKey(group_id)) {
             BriteDatabase briteDatabase = BriteDBHelperHolder.getInstance().getBriteDatabase(mContext);
+            if (briteDatabase == null) return;
             ContentValues values = new ContentValues();
             values.put("target_id", group_id);
             values.put("extra", AT_EXTRA);
@@ -199,6 +204,7 @@ public class MsgDBCenterService {
         if (atUserMapping.containsKey(target_id)) {
             atUserMapping.remove(target_id);
             BriteDatabase briteDatabase = BriteDBHelperHolder.getInstance().getBriteDatabase(mContext);
+            if (briteDatabase == null) return;
             briteDatabase.delete(PWDBConfig.TB_PW_AT_USER, "target_id = ?", target_id);
         }
     }
@@ -456,14 +462,19 @@ public class MsgDBCenterService {
                         dialogValues[index].put(PWDBConfig.DialogsTable.DIALOG_TYPE, dialog_type);
                         dialogValues[index].put(PWDBConfig.DialogsTable.DETAILS, details);
                         //MsgAcceptedMsgActivity.Uid != userUid && tuid == userUid
-                        //Integer nodisturb = noDisturbMapping.get(tuid);
-                        //nodisturb = nodisturb == null ? 0 : nodisturb;
+                        Integer nodisturb = noDisturbMapping.get(tuid);
+                        nodisturb = nodisturb == null ? 0 : nodisturb;
                         boolean isnotify = true;
                         if (isgroup) {
-                            if (group_dialog_type == GroupConstant.MessageType.TYPE_RADBAG || group_dialog_type == GroupConstant.MessageType.TYPE_REPUTATION_RADBAG) {
-                                isnotify = true;
+                            if (nodisturb == 0) {
+                                isnotify = false;
                             } else {
-                                isnotify = !String.valueOf(MsgAcceptedMsgActivity.Uid).equals(userUid) && tuid.equals(userUid) && isgroup && noDisturbMapping.containsKey(tuid);
+                                if ((group_dialog_type == GroupConstant.MessageType.TYPE_REDBAG || group_dialog_type == GroupConstant.MessageType.TYPE_REPUTATION_REDBAG)) {
+                                    isnotify = true;
+                                } else {
+//                                    isnotify = !String.valueOf(MsgAcceptedMsgActivity.Uid).equals(userUid) && tuid.equals(userUid) && isgroup && noDisturbMapping.containsKey(tuid);
+                                    isnotify = false;
+                                }
                             }
                         } else {
                             isnotify = !String.valueOf(MsgAcceptedMsgActivity.Uid).equals(userUid) && tuid.equals(userUid);
@@ -478,13 +489,14 @@ public class MsgDBCenterService {
                                 try {
                                     JSONObject detailObject = new JSONObject(details);
                                     CustomLog.d("detailObject is : " + detailObject);
-                                    notifiItem.content = detailObject.optString("msg");
+                                    if (!TextUtils.isEmpty(detailObject.optString("msg")))
+                                        notifiItem.content = detailObject.optString("msg");
                                     notifiItem.content = MessageUtil.resetContent(notifiItem.content, 1);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
-                            if (dialog_type == MessageModel.DIALOG_TYPE_IMAGE_MESSAGE || dialog_type == GroupConstant.MessageType.TYPE_IMAGE) {
+                            if (dialog_type == MessageModel.DIALOG_TYPE_IMAGE_MESSAGE || (isgroup && dialog_type == GroupConstant.MessageType.TYPE_IMAGE)) {
                                 notifiItem.content = "[图片]";
                             }
                             notifiItem.name = name;
@@ -507,7 +519,7 @@ public class MsgDBCenterService {
                         messageValues.put(PWDBConfig.MessagesTable.UID, userUid);
                         messageValues.put(PWDBConfig.MessagesTable.MSG_TYPE, msg_type);
                         messageValues.put(PWDBConfig.MessagesTable.IS_HIDE, 0);
-
+                        messageValues.put(PWDBConfig.MessagesTable.CONTENT, dialogValues[0].getAsString(PWDBConfig.DialogsTable.CONTENT));
 
                         if (msgInside == 1 && msg_type == TabMsgFragment.USER_MESSAGE) {
                             insertSingleMessage();
@@ -546,6 +558,7 @@ public class MsgDBCenterService {
                     }
 
                     mContext.getContentResolver().bulkInsert(PWDBConfig.DialogsTable.CONTENT_URI, dialogValues);
+                    CustomLog.d("insertDialogsWithMessages() content is : " + dialogValues[0].getAsString(PWDBConfig.DialogsTable.CONTENT));
                     if (needNotifi) {//此次消息有需要触发通知时才处理通知队列里的消息触发
                         showIMNotification(msg_type);
                     }
@@ -1256,24 +1269,52 @@ public class MsgDBCenterService {
             }
             int count = stringList.size();
 
+            String latest_uid = msgNotifiList.get(size - 1).uid;
+            int notifyCounts = 1;
+            if (!mNotifyMap.containsKey(latest_uid.hashCode())) {
+                mNotifyMap.put(latest_uid.hashCode(), 1);
+            } else {
+                notifyCounts = mNotifyMap.get(latest_uid.hashCode());
+                mNotifyMap.put(latest_uid.hashCode(), ++notifyCounts);
+            }
+
             String contentText = "";
             String name = "";
+            String name_prefix = "@";
+            if (msg_type == TabMsgFragment.GROUP_MESSAGE) {
+                name_prefix = "";
+            }
             if (msgNotifiList.get(msgNotifiList.size() - 1).uid.equals("1")) {
                 name = "系统消息";
             } else {
-                name = msgNotifiList.get(msgNotifiList.size() - 1).name;
+                name = name_prefix + msgNotifiList.get(msgNotifiList.size() - 1).name;
             }
-            String ticker = name + ":" + msgNotifiList.get(msgNotifiList.size() - 1).content;
-            if (count == 1) {
-                if (size == 1) {
-                    contentText = msgNotifiList.get(msgNotifiList.size() - 1).content;
-                } else {
-                    contentText = "发来" + size + "条消息";
-                }
-            } else {
-                name = "共有" + count + "个联系人";
-                contentText = "发来" + size + "条消息";
+            String content = msgNotifiList.get(msgNotifiList.size() - 1).content;
+            String ticker = name + ":" + content;
+            if (content.contains("@")) {
+                ticker = content;
             }
+            if (msg_type == TabMsgFragment.GROUP_MESSAGE) {
+                ticker = msgNotifiList.get(msgNotifiList.size() - 1).content;
+            }
+            String unread_counts = mContext.getString(R.string.notify_counts, notifyCounts);
+            if (notifyCounts == 1) {
+                unread_counts = "";
+            }
+            contentText = unread_counts + ticker;
+//            if (ticker.contains("@")) {
+//                ticker = msgNotifiList.get(msgNotifiList.size() - 1).content;
+//            }
+//            if (count == 1) {
+//                if (size == 1) {
+//                    contentText = msgNotifiList.get(msgNotifiList.size() - 1).content;
+//                } else {
+//                    contentText = "发来" + size + "条消息";
+//                }
+//            } else {
+//                name = "共有" + count + "个联系人";
+//                contentText = "发来" + size + "条消息";
+//            }
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
                     mContext).setSmallIcon(R.mipmap.ic_launcher)
@@ -1329,13 +1370,15 @@ public class MsgDBCenterService {
             mIMPendingIntent = PendingIntent.getActivity(mContext, 0,
                     intent, Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             mBuilder.setContentIntent(mIMPendingIntent);
-            NotificationManager mNotifyMgr = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotifyMgr.notify(Constans.NOTIFY_ID_IM_MESSAGE, mBuilder.build());
+            NotificationManager notifyMgr = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            notifyMgr.notify(latest_uid.hashCode(), mBuilder.build());
+
         }
     }
 
     public void cancelIMNotification() {
         msgNotifiList.clear();
+        mNotifyMap.clear();
         NotificationManager mNotifyMgr = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotifyMgr.cancel(Constans.NOTIFY_ID_IM_MESSAGE);
     }

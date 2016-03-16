@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/groupchat_padding_other"
+    >
+
+    <TextView
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#8e8e8e"
+        android:layout_marginTop="12dp"
+        android:paddingBottom="12dp"
+        android:textSize="10sp"/>
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_time"
+        app:layout_marginRightPercent="20%"
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/iv_avatar"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="6dp"
+            />
+
+        <LinearLayout
+            android:id="@+id/v_avatar_identity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@+id/iv_avatar"
+            >
+
+
+            <TextView
+                android:textSize="11sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/tv_identity"
+                android:layout_marginLeft="4dp"
+                />
+
+
+            <TextView
+                android:textSize="@dimen/sp_chat_name_textsize"
+                android:textColor="@color/c_control_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_extra_name"
+                android:layout_marginLeft="6dp"
+                android:text=""
+                android:singleLine="true"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_chat_picket_item"
+            android:layout_toRightOf="@+id/iv_avatar"
+            android:layout_below="@+id/v_avatar_identity"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="6dp"
+            >
+
+            <ImageView
+                android:id="@+id/iv_redbag_icon"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_redbag_msg"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:textSize="11sp"
+                android:textColor="#4d4d4d"
+                android:lineSpacingExtra="2dp"
+                android:lineSpacingMultiplier="1.0"
+                />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</android.support.percent.PercentRelativeLayout>

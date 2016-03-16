@@ -32,7 +32,7 @@ public class GroupchatMorePacketActivity extends BaseActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         v_recycler_packets.setLayoutManager(linearLayoutManager);
         Intent data = getIntent();
-        ArrayList<PacketIconModel> models = data.getParcelableArrayListExtra(ChatRedbagActivity.K_MORE_PACKETS);
+        ArrayList<PacketIconModel> models = data.getParcelableArrayListExtra(GroupChatRedbagActivity.K_MORE_PACKETS);
         if (models == null) {
             return;
         }

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical"
-      android:paddingTop="10dp"
-      android:paddingBottom="10dp"
-      android:paddingLeft="10dp"
-      android:paddingRight="4dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingRight="4dp"
+    android:paddingTop="10dp">
 
     <TextView
         android:id="@+id/tv_time"
@@ -18,40 +17,57 @@
         android:paddingRight="4dp"
         android:paddingTop="2dp"
         android:textColor="@color/white"
-        android:textSize="12sp"/>
+        android:textSize="12sp" />
 
-    <RelativeLayout
-        android:id="@+id/voice_player_layout"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_name"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:layout_alignLeft="@+id/tv_name"
-        android:background="@drawable/recorder_bg">
-        <ImageView
-            android:id="@+id/iv_play_btn"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_uface"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="6dp"
+            android:src="@drawable/icon_play_blue" />
+
+        <RelativeLayout
+            android:id="@+id/voice_player_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/play_bg"/>
-        <ImageView
-            android:id="@+id/iv_time_bg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/iv_play_btn"
-            android:src="@drawable/time_bg"/>
-        <Chronometer
-            android:id="@+id/chronometer_voice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="00:10"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/recorder_bg"
             android:gravity="center"
-            android:layout_alignRight="@+id/iv_time_bg"
-            android:layout_marginRight="6dp"
-            android:textSize="10sp"
-            android:textColor="@color/valid_clickable_color"/>
-    </RelativeLayout>
+            android:orientation="vertical"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp">
+
+            <ImageView
+                android:id="@+id/iv_play_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/play_bg" />
+
+            <ImageView
+                android:id="@+id/iv_time_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/iv_play_btn"
+                android:src="@drawable/time_bg" />
+
+            <Chronometer
+                android:id="@+id/chronometer_voice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/iv_time_bg"
+                android:layout_marginRight="6dp"
+                android:gravity="center"
+                android:text="00:10"
+                android:textColor="@color/valid_clickable_color"
+                android:textSize="10sp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
 </LinearLayout>

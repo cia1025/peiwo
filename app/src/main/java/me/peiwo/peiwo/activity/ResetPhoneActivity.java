@@ -73,7 +73,7 @@ public class ResetPhoneActivity extends BaseActivity {
         tv_pcode = (TextView) findViewById(R.id.tv_pcode);
         if (mPhoneNo.indexOf(":") > 0) {
             tv_country.setText(PWUtils.getCountryForPhoneCode(this, mPhoneCode));
-            tv_pcode.setText("(+" + mPhoneCode + ")");
+            tv_pcode.setText("+" + mPhoneCode);
         } else {
             tv_country.setText("中国");
             tv_pcode.setText("+86");
@@ -82,17 +82,11 @@ public class ResetPhoneActivity extends BaseActivity {
     }
 
     private void setTitleBar() {
-        TitleUtil.setTitleBar(this, "更换手机号", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                    }
-                }, "下一步", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (check()) {
-                            doNextStep();
-                        }
+        TitleUtil.setTitleBar(this, "更换手机号", v -> {
+                    finish();
+                }, "下一步", v -> {
+                    if (check()) {
+                        doNextStep();
                     }
                 }
         );
@@ -198,7 +192,7 @@ public class ResetPhoneActivity extends BaseActivity {
                 case REQUEST_CODE_COUNTRY_CODE:
                     tv_country.setText(data.getStringExtra(CountriesPhoneCodeActivity.COUNTRY));
                     mPhoneCode = data.getStringExtra(CountriesPhoneCodeActivity.PHONE_CODE);
-                    tv_pcode.setText("(+" + mPhoneCode + ")");
+                    tv_pcode.setText("(" + mPhoneCode + ")");
                     break;
             }
         }

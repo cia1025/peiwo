@@ -1,6 +1,5 @@
 package me.peiwo.peiwo.activity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.media.AudioManager;
@@ -14,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import butterknife.Bind;
 import com.qiniu.android.http.ResponseInfo;
@@ -36,6 +36,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LazyGuyActivity extends BaseActivity implements View.OnTouchListener, MediaRecorder.OnErrorListener {
     private ImageView mic_btn;
@@ -127,7 +128,7 @@ public class LazyGuyActivity extends BaseActivity implements View.OnTouchListene
                 layout_rerecorder.setVisibility(View.GONE);
                 iv_play_btn.setImageResource(R.drawable.icon_play);
                 guide_audition.setImageResource(R.drawable.last_lazy_voice);
-                if(hasLazyVoice) {
+                if (hasLazyVoice) {
                     layout_replay.setVisibility(View.VISIBLE);
                 } else {
                     layout_replay.setVisibility(View.GONE);
@@ -137,7 +138,7 @@ public class LazyGuyActivity extends BaseActivity implements View.OnTouchListene
                 break;
             case PLAYING:
                 iv_play_btn.setClickable(false);
-                iv_play_btn.setImageResource(R.drawable.icon_pause);
+                iv_play_btn.setImageResource(R.drawable.icon_voic_pause);
                 break;
             case SPEAKING:
                 layout_replay.setVisibility(View.INVISIBLE);
@@ -158,7 +159,8 @@ public class LazyGuyActivity extends BaseActivity implements View.OnTouchListene
                 layout_rerecorder.setVisibility(View.VISIBLE);
                 guide_audition.setImageResource(R.drawable.guide_audition);
                 iv_play_btn.setImageResource(R.drawable.icon_play);
-                mic_btn.setImageResource(R.drawable.icon_complete);
+//                mic_btn.setImageResource(R.drawable.icon_complete);
+                mic_btn.setImageResource(R.drawable.ic_lazy_save);
                 break;
             case PLAY_DONE:
                 iv_play_btn.setClickable(true);
@@ -166,7 +168,8 @@ public class LazyGuyActivity extends BaseActivity implements View.OnTouchListene
                 chronometer.setVisibility(View.GONE);
                 layout_rerecorder.setVisibility(View.VISIBLE);
                 iv_play_btn.setImageResource(R.drawable.icon_play);
-                mic_btn.setImageResource(R.drawable.icon_complete);
+//                mic_btn.setImageResource(R.drawable.icon_complete);
+                mic_btn.setImageResource(R.drawable.ic_lazy_save);
                 break;
             default:
                 break;
@@ -191,7 +194,7 @@ public class LazyGuyActivity extends BaseActivity implements View.OnTouchListene
                 break;
             case R.id.iv_play_btn:
                 if (!isPlaying()) {
-                    if(isIdleState()) {
+                    if (isIdleState()) {
                         playLastLazyVoice();
                     } else {
                         playRecorderVoice();
@@ -249,25 +252,32 @@ public class LazyGuyActivity extends BaseActivity implements View.OnTouchListene
     }
 
     private void showAlertDialog() {
-        Resources res = getResources();
-        boolean needFocus = getIntent().getBooleanExtra(NEED_FOCUS_USER, false);
-        String alert_str = res.getString(R.string.confirm_to_save_lazy_guy_recorder);
-        String confirm_str = res.getString(R.string.save);
-        if (needFocus) {
-            confirm_str = res.getString(R.string.cc);
-            alert_str = res.getString(R.string.cc_lazy_voice_and_focus);
+//        Resources res = getResources();
+//        boolean needFocus = getIntent().getBooleanExtra(NEED_FOCUS_USER, false);
+//        String alert_str = res.getString(R.string.confirm_to_save_lazy_guy_recorder);
+//        String confirm_str = res.getString(R.string.save);
+//        if (needFocus) {
+//            confirm_str = res.getString(R.string.cc);
+//            alert_str = res.getString(R.string.cc_lazy_voice_and_focus);
+//        }
+//        new AlertDialog.Builder(this).setTitle(alert_str)
+//                .setNegativeButton(res.getString(R.string.cancel), null)
+//                .setPositiveButton(confirm_str, (dialog, which) -> {
+//                        boolean netAvailable = PWUtils.isNetWorkAvailable(LazyGuyActivity.this);
+//                        if (netAvailable) {
+//                            doUploadVoiceFile();
+//                        } else {
+//                            showToast(LazyGuyActivity.this, getResources().getString(R.string.umeng_common_network_break_alert));
+//                        }
+//                    }
+//                ).create().show();
+
+        boolean netAvailable = PWUtils.isNetWorkAvailable(LazyGuyActivity.this);
+        if (netAvailable) {
+            doUploadVoiceFile();
+        } else {
+            showToast(LazyGuyActivity.this, getResources().getString(R.string.umeng_common_network_break_alert));
         }
-        new AlertDialog.Builder(this).setTitle(alert_str)
-                .setNegativeButton(res.getString(R.string.cancel), null)
-                .setPositiveButton(confirm_str, (dialog, which) -> {
-                        boolean netAvailable = PWUtils.isNetWorkAvailable(LazyGuyActivity.this);
-                        if (netAvailable) {
-                            doUploadVoiceFile();
-                        } else {
-                            showToast(LazyGuyActivity.this, getResources().getString(R.string.umeng_common_network_break_alert));
-                        }
-                    }
-                ).create().show();
     }
 
     private void startRecorder() {
@@ -290,23 +300,27 @@ public class LazyGuyActivity extends BaseActivity implements View.OnTouchListene
         }
         mVoiceFilePath = voiceFolder + "/" + LAZY_VOICE + mVoiceFileName + ".amr";
         CustomLog.d("mVoicePath is : " + mVoiceFilePath);
-        mRecorder = new RecorderWorker();
-        mRecorder.setMaxDuration(RECORDER_TIME_AT_MOST * 1000);
-        mRecorder.start(mVoiceFilePath);
+        try {
+            mRecorder = new RecorderWorker();
+            mRecorder.setMaxDuration(RECORDER_TIME_AT_MOST * 1000);
+            mRecorder.start(mVoiceFilePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void stopRecorder(boolean mannual) {
         CustomLog.d("stop recorder. time is : " + System.currentTimeMillis());
         if (mannual && mRecorder != null)
             mRecorder.stop();
-        CustomLog.d("getFileDuration. duration is : "+getFileDuration());
-        if(getFileDuration() == 0 && !isIdleState()) {
+        CustomLog.d("getFileDuration. duration is : " + getFileDuration());
+        if (getFileDuration() == 0 && !isIdleState()) {
             updateStatus(State.IDLE);
         }
     }
 
     private void releaseRecorder() {
-        if(mRecorder != null) {
+        if (mRecorder != null) {
             mRecorder.releaseRecorder();
             mRecorder = null;
         }
@@ -320,7 +334,7 @@ public class LazyGuyActivity extends BaseActivity implements View.OnTouchListene
                 mPlayer.start();
             });
             mPlayer.setOnCompletionListener(mp -> {
-                if(layout_rerecorder.getVisibility() == View.GONE) {
+                if (layout_rerecorder.getVisibility() == View.GONE) {
                     updateStatus(State.IDLE);
                 } else {
                     updateStatus(State.PLAY_DONE);
@@ -376,13 +390,13 @@ public class LazyGuyActivity extends BaseActivity implements View.OnTouchListene
 
 
     public void stopPlaying() {
-        if(layout_rerecorder.getVisibility() == View.GONE) {
-            if(isPlaying()) {
+        if (layout_rerecorder.getVisibility() == View.GONE) {
+            if (isPlaying()) {
                 resetPlayer();
                 updateStatus(State.IDLE);
             }
         } else {
-            if(isPlaying()) {
+            if (isPlaying()) {
                 resetPlayer();
                 updateStatus(State.PLAY_DONE);
             }
@@ -427,14 +441,31 @@ public class LazyGuyActivity extends BaseActivity implements View.OnTouchListene
             }
 
         });
+    }
 
+    public <T extends String> void start123(List<T> list1) {
+        T myt = list1.get(1);
+        ArrayList<? extends String> that = null;
+        start123(that);
+    }
 
+    interface MyFace<T extends View> {
+        Void kkk(T sbs);
+    }
+
+    class Test<T extends LinearLayout> implements MyFace {
+        T mylayout;
+
+        @Override
+        public Void kkk(View sbs) {
+            return null;
+        }
     }
 
     private void handleVoice(String key, String voice_url) {
         final File file = new File(mVoiceFilePath);
         int length = getFileDuration();
-        if(file.length() == 0 || length == 0) {
+        if (file.length() == 0 || length == 0) {
             updateStatus(State.IDLE);
         }
         //send focus message through TCP.
@@ -498,8 +529,8 @@ public class LazyGuyActivity extends BaseActivity implements View.OnTouchListene
             e.printStackTrace();
         }
         //四舍五入
-        int duration  = (int) Math.rint(player.getDuration() / 1000.0);
-        if(duration > RECORDER_TIME_AT_MOST || duration == 0) {
+        int duration = (int) Math.rint(player.getDuration() / 1000.0);
+        if (duration > RECORDER_TIME_AT_MOST || duration == 0) {
             showToast(this, getResources().getString(R.string.recorder_file_error));
             return 0;
         }
@@ -553,12 +584,6 @@ public class LazyGuyActivity extends BaseActivity implements View.OnTouchListene
         } catch (Exception e) {
             CustomLog.e("error is : " + e);
         }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
     }
 
     @Override

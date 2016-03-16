@@ -121,7 +121,7 @@ public class ChatRepuRedbagActivity extends BaseActivity {
                     packetIconModel.id = object.optString("packet_id");
                     packetIconModel.send_icon = object.optString("icon_url");
                     Intent intent = new Intent();
-                    intent.putExtra(ChatRedbagActivity.K_SINGLE_PACKET, packetIconModel);
+                    intent.putExtra(GroupChatRedbagActivity.K_SINGLE_PACKET, packetIconModel);
                     setResult(RESULT_OK, intent);
                     finish();
                 });

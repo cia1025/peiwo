@@ -22,16 +22,18 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import butterknife.Bind;
 import com.qiniu.android.http.ResponseInfo;
+import com.umeng.fb.FeedbackAgent;
+import com.umeng.fb.model.UserInfo;
 import me.peiwo.peiwo.DfineAction;
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.adapter.MsgAcceptAdapter;
 import me.peiwo.peiwo.callback.UploadCallback;
+import me.peiwo.peiwo.constans.Constans;
 import me.peiwo.peiwo.constans.PWDBConfig;
 import me.peiwo.peiwo.constans.UMEventIDS;
 import me.peiwo.peiwo.db.MsgDBCenterService;
@@ -41,6 +43,7 @@ import me.peiwo.peiwo.fragment.RecorderDialogFragment;
 import me.peiwo.peiwo.im.MessageModel;
 import me.peiwo.peiwo.im.MessageUtil;
 import me.peiwo.peiwo.model.*;
+import me.peiwo.peiwo.model.groupchat.PacketIconModel;
 import me.peiwo.peiwo.net.*;
 import me.peiwo.peiwo.service.NetworkConnectivityListener.NetworkCallBack;
 import me.peiwo.peiwo.util.*;
@@ -64,10 +67,7 @@ import rx.subscriptions.CompositeSubscription;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @SuppressLint("NewApi")
 public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
@@ -93,6 +93,7 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
     public static final int WHAT_PREVIEW_GIF_FACE_CLOSE = 5003;
     private static final int REQUECT_CODE_IM_ACTION = 9003;
     private static final int REQUEST_GROUP_HOMEPAGE = 9004;
+    private static final int SELECT_MSG_IMG_OK = 9005;
 
     private ImageQuickSwitchView image_quick_switch;
 
@@ -146,10 +147,17 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
 
     private EmotionInputDetector mDetector;
     private ChatBottomView view_bottom_panel;
-
-
+    @Bind(R.id.view_input_txt)
+    View view_input_txt;
+    @Bind(R.id.iv_expression)
+    View iv_expression;
+    @Bind(R.id.msg_send_img_btn)
+    View msg_send_img_btn;
     private CompositeSubscription mSubscriptions;
     private boolean img_permission;
+    private TextView message_feedback;
+    private FeedbackAgent feedbackAgent;
+    private static final int REQUEST_CODE_REDBAG = 0x10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,10 +173,7 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         emotionEditText = (EmotionEditText) findViewById(R.id.et_msg);
         view_bottom_panel = (ChatBottomView) findViewById(R.id.view_bottom_panel);
-        View iv_expression = findViewById(R.id.iv_expression);
-        View view_input_txt = findViewById(R.id.view_input_txt);
         //view_input_txt.setSelected(true);
-        View msg_send_img_btn = findViewById(R.id.msg_send_img_btn);
         view_bottom_panel.bindTxtIndiView(view_input_txt).bindExpressIndiView(iv_expression).bindImageQuickIndiView(msg_send_img_btn);
         if (otherModel.uid != DfineAction.SYSTEM_UID) {
             mDetector = EmotionInputDetector.with(this)
@@ -182,7 +187,8 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
             //mHandler.postDelayed(() -> inputMethodManager.showSoftInput(emotionEditText, 0), 500);
             mDetector.showSoftInputIfNeed();
         }
-
+        feedbackAgent = new FeedbackAgent(this);
+        feedbackAgent.sync();
         //faceSize = PWUtils.getFaceSizeFromScreen(this);
         loaderId = hashCode();
 
@@ -225,6 +231,10 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
         btn_left = (TextView) findViewById(R.id.btn_left);
         setUnReadMessageNum();
         title_view = (TextView) findViewById(R.id.title_view);
+        message_feedback = (TextView) findViewById(R.id.message_feedback);
+        message_feedback.setOnClickListener(v -> {
+            startFeedbackActivity();
+        });
         meModel = UserManager.getPWUser(this);
         Intent intent = getIntent();
         msg_id = intent.getStringExtra("msg_id");
@@ -314,14 +324,17 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
 
         if (otherModel.uid == DfineAction.SYSTEM_UID) {
             send_message_layout.setVisibility(View.GONE);
+            message_feedback.setVisibility(View.VISIBLE);
             //call_phone_layout.setVisibility(View.GONE);
             //hot_layout.setVisibility(View.GONE);
             //rl_sayhello.setVisibility(View.GONE);
         }
 
         image_quick_switch = (ImageQuickSwitchView) findViewById(R.id.image_quick_switch);
-        image_quick_switch.setOnMoreActionClickListener(this::startImageSwitch);
+//        image_quick_switch.setOnMoreActionClickListener(this::startImageSwitch);
+        image_quick_switch.setOnMoreActionClickListener(() -> startShowAlbum());
 
+        onGrabPacket();
         if (otherModel.uid != DfineAction.SYSTEM_UID) {
             lv_msgaccepted.setOnTouchListener((v, event) -> {
                 switch (event.getAction() & MotionEvent.ACTION_MASK) {
@@ -507,9 +520,9 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
             this.title_view.setText("系统消息");
             findViewById(R.id.iv_im_avatar).setVisibility(View.GONE);
         } else {
-            this.title_view.setText("您与" + title_str);
-            ImageView iv_im_avatar = (ImageView) findViewById(R.id.iv_im_avatar);
-            ImageLoader.getInstance().displayImage(avatar, iv_im_avatar);
+            this.title_view.setText(title_str);
+//            ImageView iv_im_avatar = (ImageView) findViewById(R.id.iv_im_avatar);
+//            ImageLoader.getInstance().displayImage(avatar, iv_im_avatar);
         }
 
     }
@@ -566,47 +579,40 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
 //                decideShowMoreLayout(R.id.ib_keyboard_call_phone);
 //                closeFace(3);
 //                break;
+            case R.id.v_redbag_start:
+                mDetector.interceptBackPress();
+                changeViewTextInputMode();
+                enterRedBagPagerVerifi();
+                MsgImageKeeper.getInstance().clear();
+                break;
             case R.id.btn_send_text_btn:
                 //decideShowMoreLayout(R.id.btn_sendmsg);
                 adapter.setAutoScroll(true);
-
                 if (view_bottom_panel.isImageShown()) {
                     //ImageFetcher.getInstance().getSelectedImageList().addAll(image_quick_switch.getSelectedImages());
                     List<String> image_paths = image_quick_switch.getSelectedImages();
-                    mDetector.interceptBackPress();
-                    if (image_paths.size() > 0) {
-                        if (img_permission) {
-                            sendImageMsg(image_paths);
-                        } else {
-                            showAnimLoading();
-                            ArrayList<NameValuePair> params = new ArrayList<>();
-                            params.add(new BasicNameValuePair("tuid", String.valueOf(otherModel.uid)));
-                            ApiRequestWrapper.openAPIGET(this, params, AsynHttpClient.API_USERINFO_PERMISSION, new MsgStructure() {
-                                @Override
-                                public void onReceive(JSONObject data) {
-                                    CustomLog.d("btn_send_text_btn onReceive data is : " + data);
-                                    img_permission = data.optInt("im_image_permission") == 1;
-                                    Observable.just(null).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
-                                        dismissAnimLoading();
-                                        if (img_permission) {
-                                            sendImageMsg(image_paths);
-                                        } else {
-                                            showToast(MsgAcceptedMsgActivity.this, getResources().getString(R.string.no_permission_send_img));
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void onError(int error, Object ret) {
-                                    CustomLog.d("btn_send_text_btn onError. error is : " + error + ", ret is : " + ret);
-                                    img_permission = false;
-                                    Observable.just(null).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
-                                        dismissAnimLoading();
-                                        showToast(MsgAcceptedMsgActivity.this, getResources().getString(R.string.network_not_stable));
-                                    });
-                                }
-                            });
+                    int size = image_paths.size();
+                    for (int i = 0; i < size; i++) {
+                        String imgUrl = image_paths.get(i);
+                        if (MsgImageKeeper.getInstance().getImgList().size() == 0 || !MsgImageKeeper.getInstance().contains(imgUrl)) {
+                            MsgImageKeeper.getInstance().getImgList().add(imgUrl);
                         }
+                    }
+                    List<String> sendImgUrls = new ArrayList<>();
+                    sendImgUrls.addAll(MsgImageKeeper.getInstance().getImgList());
+
+
+                    mDetector.interceptBackPress();
+//                    if (image_paths.size() > 0) {
+                    if (sendImgUrls.size() > 0) {
+                        if (img_permission) {
+//                            sendImageMsg(image_paths);
+                            sendImageMsg(sendImgUrls);
+                        } else {
+//                            checkImagePermission(image_paths);
+                            checkImagePermission(sendImgUrls);
+                        }
+                        MsgImageKeeper.getInstance().clear();
                     }
                     //view_bottom_panel.setVisibility(View.GONE);
                 } else {
@@ -672,6 +678,59 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
                 startActivityForResult(intent, REQUECT_CODE_IM_ACTION);
                 break;
         }
+    }
+
+    private void changeViewTextInputMode() {
+        view_input_txt.setSelected(true);
+        iv_expression.setSelected(false);
+        msg_send_img_btn.setSelected(false);
+    }
+
+    private void enterRedBagPagerVerifi() {
+        Intent redbag_intent = new Intent(this, IMChatRedbagActivity.class);
+        redbag_intent.putExtra("tuid", otherModel.uid);
+        startActivityForResult(redbag_intent, REQUEST_CODE_REDBAG);
+    }
+
+    private void checkImagePermission(final List<String> image_paths) {
+        showAnimLoading();
+        ArrayList<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair("tuid", String.valueOf(otherModel.uid)));
+        ApiRequestWrapper.openAPIGET(this, params, AsynHttpClient.API_USERINFO_PERMISSION, new MsgStructure() {
+            @Override
+            public void onReceive(JSONObject data) {
+                CustomLog.d("btn_send_text_btn onReceive data is : " + data);
+                img_permission = data.optInt("im_image_permission") == 1;
+                Observable.just(null).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+                    dismissAnimLoading();
+                    if (img_permission) {
+                        sendImageMsg(image_paths);
+                    } else {
+                        showToast(MsgAcceptedMsgActivity.this, getResources().getString(R.string.no_permission_send_img));
+                    }
+                });
+            }
+
+            @Override
+            public void onError(int error, Object ret) {
+                CustomLog.d("btn_send_text_btn onError. error is : " + error + ", ret is : " + ret);
+                img_permission = false;
+                Observable.just(null).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+                    dismissAnimLoading();
+                    showToast(MsgAcceptedMsgActivity.this, getResources().getString(R.string.network_not_stable));
+                });
+            }
+        });
+    }
+
+
+    public void startShowAlbum() {
+        //start show album and with the
+        Intent intent = new Intent(this, MsgShowAlbumActvity.class);
+        MsgImageKeeper.getInstance().addAll(image_quick_switch.getSelectedImages());
+        intent.putExtra(MsgShowAlbumActvity.ALBUM_SHOW_MODE, MsgShowAlbumActvity.ALBUM_SHOW_TILED);
+        startActivityForResult(intent, SELECT_MSG_IMG_OK);
+
     }
 
     public void startImageSwitch() {
@@ -772,6 +831,54 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
         mSubscriptions.add(subscription);
     }
 
+    private void sendRedBagMessage(PacketIconModel packetIconModel) {
+        final boolean netAvailable = PWUtils.isNetWorkAvailable(MsgAcceptedMsgActivity.this);
+        final MessageModel model = createPacketMsgModel();
+        final JSONObject im_packetJson = new JSONObject();
+        final JSONObject detailsObject = new JSONObject();
+
+        try {
+            im_packetJson.put("packet_id", Long.valueOf(packetIconModel.id));
+            im_packetJson.put("icon_url", packetIconModel.send_icon);
+            im_packetJson.put("msg", packetIconModel.msg);
+            detailsObject.put("im_packet", im_packetJson);
+            model.details = detailsObject.toString();
+            MessageUtil.updateDialogDetails(model.id, model.details);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //update db
+        if (model.id >= 0 && netAvailable) {
+            boolean isSuccess = TcpProxy.getInstance().sendImTextMessage(otherModel.uid, model, what_message_from);
+            if (!isSuccess) {
+                MessageUtil.updateMessageFaileToDb(MsgAcceptedMsgActivity.this, -1, model.id);
+            } else {
+                insertFeedFlowMessageToDb();
+            }
+        }
+    }
+
+    private void onGrabPacket() {
+        adapter.setOnGrabPacketListener((packet) -> {
+            ArrayList<NameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("packet_id", packet.id));
+            ApiRequestWrapper.openAPIPOST(this, params, AsynHttpClient.API_PERSONAL_PACKET_GRAB, new MsgStructure() {
+
+                @Override
+                public void onReceive(JSONObject data) {
+
+                }
+
+                @Override
+                public void onError(int error, Object ret) {
+                    Observable.just(error).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+                        dismissAnimLoading();
+                        showErrorToast(ret, getString(R.string.redbag_invalid));
+                    });
+                }
+            });
+        });
+    }
 
     private void uploadImgBySCS(final ImageItem imageItem) {
         imageItem.setUid(meModel.uid);
@@ -882,8 +989,36 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
         currentTime %= 1000000000l;
         currentTime += randomCount;
         final MessageModel model = new MessageModel();
-        model.content = "[图片]";
+        model.content = getString(R.string.picture);
         model.dialog_type = MessageModel.DIALOG_TYPE_IMAGE_MESSAGE;
+        model.msg_id = msg_id;
+        if (netAvailable) {
+            model.send_status = MessageModel.SEND_STATUS_SUCCESS;
+        } else {
+            model.send_status = MessageModel.SEND_STATUS_FAIL;
+        }
+        model.uid = otherModel.uid;
+        model.update_time = currentDate;
+        model.dialog_id = -currentTime;
+        model.type = 0;
+        if (feed_dialog != null) {
+            model.feed_id = feed_dialog.feed_id;
+        }
+        model.id = MessageUtil.insertMessage(MsgAcceptedMsgActivity.this, model, otherModel);
+        return model;
+    }
+
+    private MessageModel createPacketMsgModel() {
+        boolean netAvailable = PWUtils.isNetWorkAvailable(MsgAcceptedMsgActivity.this);
+        long currentTime = System.currentTimeMillis() + SharedPreferencesUtil.getLongExtra(PeiwoApp.getApplication(), AsynHttpClient.KEY_CC_CURRENT_TIME, 0);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDate = df.format(new Date(currentTime));
+        long randomCount = (long) (Math.random() * 10000) * 1000000000l;
+        currentTime %= 1000000000l;
+        currentTime += randomCount;
+        final MessageModel model = new MessageModel();
+        model.content = getString(R.string.redbag);
+        model.dialog_type = MessageModel.DIALOG_TYPE_IM_PACKET;
         model.msg_id = msg_id;
         if (netAvailable) {
             model.send_status = MessageModel.SEND_STATUS_SUCCESS;
@@ -1057,8 +1192,13 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
     }
 
     public void resendImg(MsgAcceptModel model) {
+        String local_path;
+        if (TextUtils.isEmpty(model.local_path))
+            return;
+        local_path = model.local_path;
         ImageItem item = new ImageItem();
-        item.sourcePath = model.local_path;
+        item.sourcePath = local_path;
+        //item.sourcePath = model.local_path;
         uploadImgBySCS(item);
     }
 
@@ -1085,6 +1225,7 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
         intent.putExtra("tid", otherModel.uid);
         intent.putExtra("uname", otherModel.name);
         intent.putExtra("slogan", otherModel.slogan);
+        intent.putExtra("tags", otherModel.tags);
         intent.putExtra("flag", DfineAction.OUTGOING_CALL);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         prepareCalling(meModel.uid, otherModel.uid, mPermission, otherModel.getPriceFloat(), intent,
@@ -1133,7 +1274,6 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
         } else {
             super.onBackPressed();
         }
-
     }
 
 //    @Override
@@ -1154,7 +1294,6 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
 //        }
 //        return super.onKeyDown(keyCode, event);
 //    }
-
 
     @Override
     public void onResume() {
@@ -1208,7 +1347,7 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
                     public void onReceive(JSONObject data) {
                         if (data != null && mHandler != null) {
                             otherModel = new PWUserModel(data);
-                            CustomLog.d("getUserInfo. group model avatar is : " + otherModel.avatar_thumbnail);
+                            CustomLog.d("getUserInfo. other model avatar is : " + otherModel.avatar_thumbnail);
                             Message msg = mHandler.obtainMessage();
                             Bundle b = new Bundle();
                             b.putInt("hot_value", data.optInt("hot_value"));
@@ -1267,7 +1406,7 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
         } else if (requestCode == SELECT_IMAGE_COMPLETE) {
             if (resultCode == RESULT_OK) {
                 ArrayList<String> items = data.getStringArrayListExtra(AlbumCompatActivity.K_ALBUM_RST);
-                sendImageMsg(items);
+                checkImagePermission(items);
             }
 //            else if (resultCode == RESULT_OK) {
 //                takePhoto();
@@ -1282,6 +1421,16 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
             } else if (resultCode == RESULT_FIRST_USER) {
                 finish();
             }
+        } else if (requestCode == REQUEST_CODE_REDBAG) {
+            if (resultCode == RESULT_OK) {
+                PacketIconModel packet = data.getParcelableExtra(IMChatRedbagActivity.K_SINGLE_PACKET);
+                sendRedBagMessage(packet);
+            }
+        } else if (requestCode == SELECT_MSG_IMG_OK && resultCode == RESULT_OK) {
+            ArrayList<String> items = data.getStringArrayListExtra(MsgShowAlbumActvity.MSG_IMG_URLS);
+            checkImagePermission(items);
+            MsgImageKeeper.getInstance().clear();
+            image_quick_switch.clearSelectedUrls();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -1664,6 +1813,32 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
     }
 
     public void onEventMainThread(MessagePushEvent event) {
+        Uid = String.valueOf(event.getTuid());
         getUserInfo();
+    }
+
+
+    private void startFeedbackActivity() {
+        UserInfo info = feedbackAgent.getUserInfo();
+        if (info == null)
+            info = new UserInfo();
+        Map<String, String> contact = info.getContact();
+        if (contact == null)
+            contact = new HashMap<>();
+        contact.put("peiwo_id", String.valueOf(UserManager.getPWUser(this).uid));
+
+        info.setContact(contact);
+        feedbackAgent.setUserInfo(info);
+        feedbackAgent.startFeedbackActivity();
+    }
+
+    public void onEventMainThread(Intent it) {
+        if (Constans.ACTION_SEND_IMG_PERMISSION.equals(it.getAction())) {
+            int callee = it.getIntExtra("callee", 0);
+            CustomLog.d("countDown you can send with uid : " + callee);
+            if (callee == otherModel.uid) {
+                img_permission = true;
+            }
+        }
     }
 }

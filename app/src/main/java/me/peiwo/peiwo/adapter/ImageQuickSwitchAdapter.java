@@ -9,10 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.download.ImageDownloader;
+
 import me.peiwo.peiwo.R;
 
 import java.util.ArrayList;
@@ -87,6 +89,12 @@ public class ImageQuickSwitchAdapter extends RecyclerView.Adapter<ImageQuickSwit
             }
         }
         return rst;
+    }
+
+    public void clearSelectedData() {
+        if (selectedData.size() > 0)
+            selectedData.clear();
+        notifyDataSetChanged();
     }
 
     public static class ImageQuickViewHolder extends RecyclerView.ViewHolder {

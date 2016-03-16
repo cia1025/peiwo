@@ -11,6 +11,22 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:src="@drawable/icon_friends_blank"/>
-
+    <ImageView
+        android:layout_marginTop="55dp"
+        android:layout_below="@+id/iv_icon_friends_blank"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_access_wild_chat"/>
+    <!--<TextView
+        android:layout_below="@+id/iv_icon_friends_blank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/blue_text_color"
+        android:text="进入新声(匿名聊)"/>
+-->
 
 </RelativeLayout>

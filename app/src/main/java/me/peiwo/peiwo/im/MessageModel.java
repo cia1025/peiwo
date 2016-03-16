@@ -19,28 +19,33 @@ public class MessageModel {
 	public int send_status = MessageModel.SEND_STATUS_DEFAULT;//0--发送中     1--发送失败    2--发送成功
 	public int type = 0; // 0--发送信息    1--接收消息
 	public String feed_id;
+	public int is_hide = 0;
+
+	/**
+	 * 从2.2版本开始，招呼盒子里边只能放申请消息，所以根据dialog_type判断聊天消息是否放进招呼盒子里边，
+	 * 当dialog_type等于7或12时，放到招呼盒子里边。
+	 */
 	public static final int SEND_STATUS_DEFAULT = 0;
 	public static final int SEND_STATUS_FAIL = 1;
 	public static final int SEND_STATUS_SUCCESS = 2;
 
 	public static final int DIALOG_TYPE_DEFAULT = 0;
-    public static final int DIALOG_TYPE_CALL_HISTORY = 1;
-    public static final int DIALOG_TYPE_IMAGE = 2;
-    public static final int DIALOG_TYPE_WEBPAGE = 3;
-    public static final int DIALOG_TYPE_IM = 4;
-    public static final int DIALOG_TYPE_PACKAGE = 5;
-    public static final int DIALOG_TYPE_TIP = 6;
-    public static final int DIALOG_TYPE_FOCUS = 7;
-    public static final int DIALOG_TYPE_HOTVALUE = 8;
-    public static final int DIALOG_TYPE_ATTENTION = 10;
-    public static final int DIALOG_TYPE_IMAGE_MESSAGE = 11;
-	/**
-	 * 从2.2版本开始，招呼盒子里边只能放申请消息，所以根据dialog_type判断聊天消息是否放进招呼盒子里边，
-	 * 当dialog_type等于7或12时，放到招呼盒子里边。
-	 */
+	public static final int DIALOG_TYPE_CALL_HISTORY = 1;
+	public static final int DIALOG_TYPE_IMAGE = 2;
+	public static final int DIALOG_TYPE_WEBPAGE = 3;
+	public static final int DIALOG_TYPE_IM = 4;
+	public static final int DIALOG_TYPE_PACKAGE = 5;
+	public static final int DIALOG_TYPE_TIP = 6;
+	public static final int DIALOG_TYPE_FOCUS = 7;
+	public static final int DIALOG_TYPE_HOTVALUE = 8;
+	public static final int DIALOG_TYPE_ATTENTION = 10;
+	public static final int DIALOG_TYPE_IMAGE_MESSAGE = 11;
 	public static final int DIALOG_TYPE_VOICE_MESSAGE = 12;
-	public int is_hide = 0;
+	public static final int DIALOG_TYPE_IM_PACKET = 13;
 
+	/**
+	 *  当添加新的dialog_type时,同时添加到dialogTypeSet
+	 */
 	public static HashSet<Integer> dialogTypeSet = new HashSet<Integer>();
 	static {
 		dialogTypeSet.add(DIALOG_TYPE_DEFAULT);
@@ -55,5 +60,6 @@ public class MessageModel {
 		dialogTypeSet.add(DIALOG_TYPE_ATTENTION);
 		dialogTypeSet.add(DIALOG_TYPE_IMAGE_MESSAGE);
 		dialogTypeSet.add(DIALOG_TYPE_VOICE_MESSAGE);
+		dialogTypeSet.add(DIALOG_TYPE_IM_PACKET);
 	}
 }

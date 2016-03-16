@@ -11,6 +11,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent;
+
+import org.json.JSONObject;
+
+import java.lang.ref.WeakReference;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import butterknife.Bind;
 import me.peiwo.peiwo.DfineAction;
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.R;
@@ -20,11 +33,10 @@ import me.peiwo.peiwo.net.MsgStructure;
 import me.peiwo.peiwo.util.HourGlassAgent;
 import me.peiwo.peiwo.util.PWTimer;
 import me.peiwo.peiwo.util.TitleUtil;
-import org.json.JSONObject;
-
-import java.lang.ref.WeakReference;
-import java.util.Locale;
-import java.util.concurrent.atomic.AtomicBoolean;
+import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by fuhaidong on 14-9-24.
@@ -43,6 +55,9 @@ public class FillPhonenoActivity extends BaseActivity {
     private Button btn_getverifcode;
     private EditText et_verifcode;
     private EditText et_phoneno;
+    @Bind(R.id.btn_submit)
+    Button btn_submit;
+    private AtomicBoolean isChecked = new AtomicBoolean(false);
 
     //private EditText et_pwd;
 
@@ -53,6 +68,7 @@ public class FillPhonenoActivity extends BaseActivity {
     public static final String CAPTCHA_TYPE_FORGET_PWD = "2";
     public static final String CAPTCHA_TYPE_BIND_PHONE = "3";
     public static final String CAPTCHA_TYPE_RESET_PHONE = "4";
+    private Subscription mSubscription;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +92,17 @@ public class FillPhonenoActivity extends BaseActivity {
         //et_pwd = (EditText) findViewById(R.id.et_pwd);
         //submitPhoneNo();
         //countTimeForVerifcode();
+        Observable<TextViewAfterTextChangeEvent> et_phone_observable = RxTextView.afterTextChangeEvents(et_phoneno).observeOn(AndroidSchedulers.mainThread());
+        Observable<TextViewAfterTextChangeEvent> et_code_observable = RxTextView.afterTextChangeEvents(et_verifcode).observeOn(AndroidSchedulers.mainThread());
+        Observable.combineLatest(et_phone_observable, et_code_observable, (textViewAfterTextChangeEvent, textViewAfterTextChangeEvent2) -> check()).subscribe(aBoolean -> {
+            if (aBoolean) {
+                btn_submit.setClickable(true);
+                btn_submit.setBackgroundColor(getResources().getColor(R.color.valid_clickable_color));
+            } else {
+                btn_submit.setClickable(false);
+                btn_submit.setBackgroundColor(getResources().getColor(R.color.invalid_clickable_color));
+            }
+        });
     }
 
     private void submitPhoneNo() {
@@ -84,40 +111,44 @@ public class FillPhonenoActivity extends BaseActivity {
             return;
         }
         showAnimLoading("", false, false, false);
-        btn_getverifcode.setEnabled(false);
         btn_getverifcode.setTextColor(Color.parseColor("#ffffff"));
         //boolean forgetPhoneNo = getIntent().getBooleanExtra(KEY_FLAG_FORGET_PHONE, false);
-        ApiRequestWrapper.captcha(this, et_phoneno.getText().toString().trim(), CAPTCHA_TYPE_FORGET_PWD, new MsgStructure() {
+        if (mPhoneCode == null) {
+            mPhoneCode = "86";
+        }
+        StringBuilder phone = new StringBuilder(mPhoneCode);
+        phone.append(":").append(et_phoneno.getText().toString().trim());
+        ApiRequestWrapper.captcha(this, phone.toString(), CAPTCHA_TYPE_FORGET_PWD, new MsgStructure() {
             @Override
             public void onReceive(JSONObject data) {
                 //Trace.i("phone data == " + data.toString());
                 //{"state":-1} 未注册的
                 mHandler.sendMessage(mHandler.obtainMessage(WHAT_DATA_RECEIVE, data));
+                isChecked.set(true);
             }
 
             @Override
             public void onError(int error, Object ret) {
-                mHandler.sendEmptyMessage(WHAT_DATA_RECEIVE_ERROR);
+                Observable.just(error).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+                    dismissAnimLoading();
+                    showErrorToast(ret, getString(R.string.verification_code_unreach));
+
+                });
             }
         });
     }
 
     private void setTitleBar() {
-        TitleUtil.setTitleBar(this, "找回密码", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
+        TitleUtil.setTitleBar(this, "找回密码", v -> {
+            finish();
         }, null);
     }
 
     private boolean check() {
-        if (TextUtils.isEmpty(et_verifcode.getText().toString()) || et_verifcode.getText().toString().length() != 6) {
-            showToast(this, "请输入正确的验证码");
+        if (et_verifcode.getText().toString().length() < 4) {
             return false;
         }
-        if (TextUtils.isEmpty(et_phoneno.getText()) || et_phoneno.getText().toString().length() < 4 || et_phoneno.getText().toString().length() > 20) {
-            showToast(this, "请输入正确的手机号");
+        if (TextUtils.isEmpty(et_phoneno.getText()) || et_phoneno.getText().toString().length() < 7) {
             return false;
         }
 //        if (TextUtils.isEmpty(et_pwd.getText()) || et_pwd.getText().toString().length() < 6) {
@@ -128,6 +159,10 @@ public class FillPhonenoActivity extends BaseActivity {
     }
 
     private void doNextStep() {
+        if (!isChecked.get()) {
+            Toast.makeText(FillPhonenoActivity.this, "请输入正确的验证码", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (check()) {
             Intent intent = new Intent(this, ForgetPwdActivity.class);
             intent.putExtra(KEY_PCODE, mPhoneCode);
@@ -185,7 +220,7 @@ public class FillPhonenoActivity extends BaseActivity {
                             };
                             timer.start();
                             DfineAction.verificationCodeMap.put(theActivity.et_phoneno.getText().toString().trim(), timer);
-                            theActivity.countTimeForVerifcode();
+                            theActivity.countDown();
                         }
                     } else {
                         PWTimer timer = new PWTimer(60 * 1000, 1000) {
@@ -196,11 +231,10 @@ public class FillPhonenoActivity extends BaseActivity {
                         };
                         timer.start();
                         DfineAction.verificationCodeMap.put(theActivity.et_phoneno.getText().toString().trim(), timer);
-                        theActivity.countTimeForVerifcode();
+                        theActivity.countDown();
                     }
                     break;
                 case WHAT_DATA_RECEIVE_ERROR:
-                    theActivity.btn_getverifcode.setEnabled(true);
                     theActivity.btn_getverifcode.setText("获取验证码");
                     theActivity.mpost.set(false);
                     theActivity.dismissAnimLoading();
@@ -268,28 +302,33 @@ public class FillPhonenoActivity extends BaseActivity {
 
     private final AtomicBoolean mpost = new AtomicBoolean(true);
 
-    private void countTimeForVerifcode() {
-        mpost.set(true);
-        int timeCount = 0;
-        if (DfineAction.verificationCodeMap.containsKey(et_phoneno.getText().toString().trim())) {
-            timeCount = 60 - DfineAction.verificationCodeMap.get(et_phoneno.getText().toString().trim()).count;
-        } else {
-            timeCount = 60;
-        }
-        final int count = timeCount;
-        mHandler.post(new Runnable() {
-            int tCount = count;
+    private void countDown() {
+        btn_getverifcode.setEnabled(false);
+        btn_getverifcode.setTextColor(Color.parseColor("#ffffff"));
+        final long countTime = 30;
+        mSubscription = Observable.interval(1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Long>() {
 
             @Override
-            public void run() {
-                btn_getverifcode.setEnabled(false);
-                btn_getverifcode.setTextColor(Color.parseColor("#ffffff"));
-                btn_getverifcode.setText(String.format(Locale.getDefault(), "重新获取(%d%s)", --tCount, "s")); //"重新获取(" + --timeCount + ")"
-                if (tCount > 0 && mpost.get()) {
-                    mHandler.postDelayed(this, 1000);
+            public void onCompleted() {
+                if (!isUnsubscribed()) {
+                    unsubscribe();
+                }
+                btn_getverifcode.setEnabled(true);
+                btn_getverifcode.setText(getString(R.string.fetch_captcha));
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Long aLong) {
+                long count = countTime - aLong;
+                if (count > 0) {
+                    btn_getverifcode.setText(String.format(Locale.getDefault(), "重新获取(%d%s)", count, "s")); //"重新获取(" + --timeCount + ")"
                 } else {
-                    btn_getverifcode.setEnabled(true);
-                    btn_getverifcode.setText("获取验证码");
+                    onCompleted();
                 }
             }
         });
@@ -312,8 +351,10 @@ public class FillPhonenoActivity extends BaseActivity {
                     Intent result = new Intent();
                     String phoneno = data.getStringExtra(Constans.SP_KEY_OPENID);
                     String pwd = data.getStringExtra(Constans.SP_KEY_OPENTOKEN);
+                    String pcode = data.getStringExtra(Constans.SP_KEY_PCODE);
                     result.putExtra(Constans.SP_KEY_OPENID, phoneno);
                     result.putExtra(Constans.SP_KEY_OPENTOKEN, pwd);
+                    result.putExtra(Constans.SP_KEY_PCODE, pcode);
                     result.putExtra(Constans.SP_KEY_SOCIALTYPE, WelcomeActivity.SOCIAL_TYPE_PHONE);
                     setResult(RESULT_OK, result);
                     finish();
@@ -336,13 +377,21 @@ public class FillPhonenoActivity extends BaseActivity {
                 }
                 break;
             case R.id.btn_submit:
-                if (check()) {
-                    doNextStep();
-                }
+//                if (check()) {
+                doNextStep();
+//                }
                 break;
             case R.id.ll_countries:
                 startActivityForResult(new Intent(this, CountriesPhoneCodeActivity.class), REQUEST_CODE_COUNTRY_CODE);
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mSubscription != null && !mSubscription.isUnsubscribed()) {
+            mSubscription.unsubscribe();
+        }
+        super.onDestroy();
     }
 }

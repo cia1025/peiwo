@@ -263,7 +263,7 @@ public class BindPhoneActivity extends BaseActivity {
                     return;
                 }
                 getCaptcha();
-                //HourGlassAgent hourGlassAgent = HourGlassAgent.getInstance();
+                //HourGlassAgent mHourGlassAgent = HourGlassAgent.getInstance();
                 if (hourGlassAgent.getStatistics() && hourGlassAgent.getK12() == 0) {
                     hourGlassAgent.setK12(1);
                     PeiwoApp app = (PeiwoApp) getApplicationContext();

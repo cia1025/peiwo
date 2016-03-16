@@ -10,8 +10,10 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
+
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.activity.MainActivity;
 import me.peiwo.peiwo.constans.PWDBConfig;
@@ -82,6 +84,7 @@ public class NavgationViewController extends FrameLayout implements ViewPager.On
 
     private void setFriendsCount() {
         BriteDatabase briteDatabase = BriteDBHelperHolder.getInstance().getBriteDatabase(getContext());
+        if (briteDatabase == null) return;
         String sql = String.format("select count(*) from %s where contact_state = 0", PWDBConfig.TB_PW_CONTACTS);
         Observable<SqlBrite.Query> observable = briteDatabase.createQuery(PWDBConfig.TB_PW_CONTACTS, sql);
         if (subscription_friend != null) {
@@ -210,8 +213,10 @@ public class NavgationViewController extends FrameLayout implements ViewPager.On
                 tv_nav_title.setTextColor(getResources().getColor(R.color.text_normal_color));
                 tv_nav_title.setCompoundDrawables(null, null, null, null);
                 int unreadCount = MsgDBCenterService.getInstance().getBadge();
-                if (unreadCount > 0) {
+                if (unreadCount > 0 && unreadCount <= 9999) {
                     tv_nav_title.setText("音信(" + unreadCount + ")");
+                } else if (unreadCount > 9999) {
+                    tv_nav_title.setText("音信(9999+)");
                 } else {
                     tv_nav_title.setText("音信");
                 }
@@ -307,7 +312,12 @@ public class NavgationViewController extends FrameLayout implements ViewPager.On
         if (count > 0) {
             iv_badge.setVisibility(VISIBLE);
             if (pager.getCurrentItem() == INDEX_MESSAGE)
-                tv_nav_title.setText("音信(" + count + ")");
+                if (count > 0 && count <= 9999) {
+                    tv_nav_title.setText("音信(" + count + ")");
+                } else if (count > 9999) {
+                    tv_nav_title.setText("音信(9999+)");
+                }
+//                tv_nav_title.setText("音信(" + count + ")");
         } else {
             iv_badge.setVisibility(GONE);
             if (pager.getCurrentItem() == INDEX_MESSAGE)

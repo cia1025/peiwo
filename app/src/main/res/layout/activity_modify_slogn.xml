@@ -3,17 +3,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    <include layout="@layout/title_bar"/>
+              android:layout_height="match_parent"
+              android:focusable="true"
+              android:focusableInTouchMode="true"
+              android:background="#f5f5f5">
+    <include
+        layout="@layout/title_bar"/>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="20dp">
 
     <me.peiwo.peiwo.widget.ClearEditText
         android:layout_margin="12dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxHeight="100dp"
+        android:layout_height="match_parent"
+        android:paddingBottom="20dp"
         android:id="@+id/et_text"
-        android:lines="6"
+        android:hint="添加签名，方便与人沟通"
+        android:background="@null"
         android:gravity="left|top"/>
+
+</ScrollView>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/touch_container"/>
 
     <TextView
         android:layout_marginLeft="12dp"
@@ -23,5 +41,6 @@
         android:textColor="@color/c_gray"
         android:textSize="16sp"
         android:id="@+id/tv_text_alert"
+        android:visibility="gone"
         />
 </LinearLayout>

@@ -122,7 +122,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
-                        android:text="出生日期"
+                        android:text="新生日"
                         android:textColor="#8e8e8e"
                         android:textSize="12sp"/>
 
@@ -188,10 +188,10 @@
 
                     <ImageView
                         android:id="@+id/img_location"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="17dp"
+                        android:layout_height="17dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="18dp"
+                        android:layout_marginRight="14dp"
                         android:layout_centerVertical="true"
                         android:onClick="click"
                         android:src="@drawable/icon_cancel_coordinates"/>
@@ -408,7 +408,8 @@
                         android:layout_marginRight="22dp"
                         fl:horizontalSpacing="8dip"
                         fl:orientation="horizontal"
-                        fl:verticalSpacing="8dp">
+                        fl:verticalSpacing="8dp"
+                        >
                     </me.peiwo.peiwo.widget.FlowLayout>
 
                     <TextView
@@ -418,7 +419,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="76dp"
                         android:layout_alignParentLeft="true"
-                        android:text="# 属于你的真实标签"
+                        android:text="属于你的真实标签"
                         android:textColor="#8e8e8e"
                         android:textSize="12sp"/>
 

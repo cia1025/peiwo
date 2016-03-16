@@ -58,6 +58,7 @@ public class GlobalWebViewActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        webView.destroy();
         if (mWXApi != null) {
             mWXApi.unregisterApp();
         }

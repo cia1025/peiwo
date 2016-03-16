@@ -82,6 +82,7 @@ public class EmotionInputDetector {
 
     public EmotionInputDetector bindToImageButton(View imageButton) {
         imageButton.setOnClickListener(v -> {
+            MsgImageKeeper.getInstance().clear();
             if (mEmotionLayout instanceof ChatBottomView) {
                 ChatBottomView chatBottomView = (ChatBottomView) mEmotionLayout;
                 if (chatBottomView.isShown() && chatBottomView.isEmotionShown()) {
@@ -111,6 +112,7 @@ public class EmotionInputDetector {
 
     public EmotionInputDetector bindToEmotionButton(View emotionButton) {
         emotionButton.setOnClickListener(v -> {
+            MsgImageKeeper.getInstance().clear();
             if (mEmotionLayout instanceof ChatBottomView) {
                 ChatBottomView chatBottomView = (ChatBottomView) mEmotionLayout;
                 if (chatBottomView.isShown() && chatBottomView.isImageShown()) {

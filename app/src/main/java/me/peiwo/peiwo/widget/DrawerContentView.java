@@ -12,10 +12,26 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import me.peiwo.peiwo.R;
-import me.peiwo.peiwo.activity.*;
+import me.peiwo.peiwo.activity.GlobalWebViewActivity;
+import me.peiwo.peiwo.activity.LazyGuyActivity;
+import me.peiwo.peiwo.activity.SettingActivity;
+import me.peiwo.peiwo.activity.UpdateProfileActivity;
+import me.peiwo.peiwo.activity.UserInfoActivity;
+import me.peiwo.peiwo.activity.WantMakeMoney;
+import me.peiwo.peiwo.activity.WildcatCallRecordActivity;
 import me.peiwo.peiwo.adapter.DrawerContentAdapter;
 import me.peiwo.peiwo.constans.Constans;
 import me.peiwo.peiwo.constans.UMEventIDS;
@@ -27,13 +43,6 @@ import me.peiwo.peiwo.net.MsgStructure;
 import me.peiwo.peiwo.util.PWUtils;
 import me.peiwo.peiwo.util.UmengStatisticsAgent;
 import me.peiwo.peiwo.util.UserManager;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by fuhaidong on 15/10/19.
@@ -71,6 +80,7 @@ public class DrawerContentView extends RecyclerView {
                 public void onDrawerOpened(View drawerView) {
                     updateUser();
                     getADInfo();
+                    getLazyVoice();
                     UmengStatisticsAgent.onEvent(getContext(), UMEventIDS.UMEPERSONALDYNAMIC);
                 }
 
@@ -89,6 +99,36 @@ public class DrawerContentView extends RecyclerView {
                 }
             });
         }
+    }
+
+    private void getLazyVoice() {
+        ApiRequestWrapper.openAPIGET(getContext(), new ArrayList<NameValuePair>(), AsynHttpClient.API_USERINFO_LAZY_VOICE, new MsgStructure() {
+            @Override
+            public void onReceive(JSONObject data) {
+                String voice_url = data.optString("voice_url", "");
+                if (!TextUtils.isEmpty(voice_url)) {
+                    if (!mList.isEmpty() && mList.size() > 5) {
+                        DrawerContentModel lazyModel = mList.get(ITEM_INDEX_UPDATE_LAZYGUY);
+                        lazyModel.setHasVoice(true);
+                        if (DrawerContentView.this.getScrollState() == RecyclerView.SCROLL_STATE_IDLE && !DrawerContentView.this.isComputingLayout()) {
+                            adapter.notifyItemChanged(ITEM_INDEX_UPDATE_LAZYGUY);
+                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void onError(int error, Object ret) {
+                if (!mList.isEmpty() && mList.size() > 5) {
+                    DrawerContentModel lazyModel = mList.get(ITEM_INDEX_UPDATE_LAZYGUY);
+                    lazyModel.setHasVoice(false);
+                    if (DrawerContentView.this.getScrollState() == RecyclerView.SCROLL_STATE_IDLE && !DrawerContentView.this.isComputingLayout()) {
+                        adapter.notifyItemChanged(ITEM_INDEX_UPDATE_LAZYGUY);
+                    }
+                }
+            }
+        });
     }
 
     private DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(false).cacheOnDisk(false).build();
@@ -116,7 +156,7 @@ public class DrawerContentView extends RecyclerView {
                     try {
                         if (iv_ad_info.getHeight() == 0) {
                             ViewGroup.LayoutParams layoutParams = iv_ad_info.getLayoutParams();
-                            layoutParams.width = getWidth() - PWUtils.getPXbyDP(getContext(), 20);
+                            layoutParams.width = getWidth()/* - PWUtils.getPXbyDP(getContext(), 20)*/;
                             layoutParams.height = layoutParams.width / 4;
                             iv_ad_info.setLayoutParams(layoutParams);
                         }
@@ -143,9 +183,11 @@ public class DrawerContentView extends RecyclerView {
 
     private void updateUser() {
         PWUserModel pwUser = UserManager.getPWUser(getContext());
-        DrawerContentModel model = mList.get(ITEM_INDEX_UPDATE_VOICE_VAR);
-        model.voice_var = String.format("%.2f", Float.valueOf(pwUser.score));
-        adapter.notifyItemChanged(ITEM_INDEX_UPDATE_VOICE_VAR);
+        if (!TextUtils.isEmpty(pwUser.score)) {
+            DrawerContentModel model = mList.get(ITEM_INDEX_UPDATE_VOICE_VAR);
+            model.voice_var = String.format("%.2f", Float.valueOf(pwUser.score));
+            adapter.notifyItemChanged(ITEM_INDEX_UPDATE_VOICE_VAR);
+        }
 
         DrawerContentModel model_header = mList.get(0);
         model_header.avatar_thumbnail = pwUser.avatar_thumbnail;
@@ -239,14 +281,14 @@ public class DrawerContentView extends RecyclerView {
         mList.add(model);
 //        model = new DrawerContentModel(true, "修改资料", 0, VIEW_TYPE_ITEM);
 //        mList.add(model);
-        model = new DrawerContentModel(false, "我要发财", 0, VIEW_TYPE_ITEM);
+        model = new DrawerContentModel(false, "陪我特权", 0, VIEW_TYPE_ITEM);
         mList.add(model);
 //        model = new DrawerContentModel(false, "陪我的圈", 0, VIEW_TYPE_ITEM);
 //        mList.add(model);
         model = new DrawerContentModel(false, "新声记录", 0, VIEW_TYPE_ITEM);
         mList.add(model);
         model = new DrawerContentModel(false, "个人声望", 0, VIEW_TYPE_ITEM);
-        model.voice_var = String.format("%.2f", Float.valueOf(pwUser.score));
+        model.voice_var = String.format("%.2f", Float.valueOf(TextUtils.isEmpty(pwUser.score) ? "0" : pwUser.score));
         mList.add(model);
 //        model = new DrawerContentModel(false, "合拍统计", 0, VIEW_TYPE_ITEM);
 //        mList.add(model);
@@ -254,7 +296,7 @@ public class DrawerContentView extends RecyclerView {
         mList.add(model);
         model = new DrawerContentModel(false, "", 0, VIEW_TYPE_DECORATION);
         mList.add(model);
-        model = new DrawerContentModel(false, "使用手册", 0, VIEW_TYPE_ITEM);
+        model = new DrawerContentModel(false, "使用说明", 0, VIEW_TYPE_ITEM);
         mList.add(model);
         model = new DrawerContentModel(false, "设置", 0, VIEW_TYPE_ITEM);
         mList.add(model);

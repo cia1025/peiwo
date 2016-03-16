@@ -18,10 +18,29 @@ import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
-import android.widget.*;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.lang.ref.WeakReference;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Locale;
+
 import me.peiwo.peiwo.DfineAction;
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.R;
@@ -37,24 +56,24 @@ import me.peiwo.peiwo.eventbus.event.UserInfoEvent;
 import me.peiwo.peiwo.fragment.RecorderDialogFragment;
 import me.peiwo.peiwo.model.PWContactsModel;
 import me.peiwo.peiwo.model.PWUserModel;
-import me.peiwo.peiwo.net.*;
-import me.peiwo.peiwo.util.*;
+import me.peiwo.peiwo.net.ApiRequestWrapper;
+import me.peiwo.peiwo.net.AsynHttpClient;
+import me.peiwo.peiwo.net.MsgStructure;
+import me.peiwo.peiwo.net.NetUtil;
+import me.peiwo.peiwo.net.TcpProxy;
+import me.peiwo.peiwo.util.CustomLog;
+import me.peiwo.peiwo.util.PWUtils;
+import me.peiwo.peiwo.util.SharedPreferencesUtil;
+import me.peiwo.peiwo.util.TimeUtil;
+import me.peiwo.peiwo.util.TitleUtil;
+import me.peiwo.peiwo.util.UmengStatisticsAgent;
+import me.peiwo.peiwo.util.UserManager;
 import me.peiwo.peiwo.widget.FlowLayout;
 import me.peiwo.peiwo.widget.GenderWithAgeView;
 import me.peiwo.peiwo.widget.ProfileFaceGridView;
 import me.peiwo.peiwo.widget.RemarksContactView;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
 import rx.Observable;
 import rx.Subscription;
-
-import java.io.Serializable;
-import java.lang.ref.WeakReference;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Locale;
 
 public class UserInfoActivity
         extends PWPreCallingActivity implements
@@ -248,7 +267,8 @@ public class UserInfoActivity
                 finish();
             }, "编辑", (v) -> {
                 Intent updateIntent = new Intent(this, UpdateProfileActivity.class);
-                updateIntent.putExtra("complement", mModel.complement);
+                if (mModel != null)
+                    updateIntent.putExtra("complement", mModel.complement);
                 startActivity(updateIntent);
                 finish();
                 UmengStatisticsAgent.onEvent(this,
@@ -313,7 +333,7 @@ public class UserInfoActivity
         ApiRequestWrapper.openAPIGET(this, params, AsynHttpClient.API_USERINFO_GETINFO, new MsgStructure() {
             @Override
             public void onReceive(JSONObject data) {
-                CustomLog.d("get user info, onReceive, data is : " + data);
+                CustomLog.d("cc, onReceive, data is : " + data);
                 mModel = new PWUserModel(data);
                 mHandler.sendEmptyMessage(WHAT_DATA_RECEIVE);
                 if (isme()) {
@@ -400,8 +420,8 @@ public class UserInfoActivity
                     break;
                 case WHAT_DATA_FOCUS_SUCCESS:
                     //关注成功b
-                    CustomLog.d("WHAT_DATA_FOCUS_SUCCESS. relation is : "+theActivity.relation);
-                    if(theActivity.relation == 3) {
+                    CustomLog.d("WHAT_DATA_FOCUS_SUCCESS. relation is : " + theActivity.relation);
+                    if (theActivity.relation == 3) {
                         theActivity.showToast(theActivity, theActivity.getString(R.string.accept_success));
                     }
                     theActivity.getUserInfo(theActivity.tUid, true);
@@ -492,8 +512,13 @@ public class UserInfoActivity
 
 
         dgv_images.setOnImgItemClickListener(this);
-        v_gender_age.displayGenderWithAge(mModel.gender, TimeUtil.getAgeByBirthday(mModel.birthday));
-        StringBuilder sb = new StringBuilder(TimeUtil.getConstellation(mModel.birthday));
+        if (isme()) {
+            v_gender_age.displayGenderWithAge(mModel.gender, TimeUtil.getAgeByBirthday(mModel.birthday));
+        } else {
+            v_gender_age.displayGenderWithAge(mModel.gender, "");
+        }
+        //  v_gender_age.displayGenderWithAge(mModel.gender, TimeUtil.getAgeByBirthday(mModel.birthday));
+        StringBuilder sb = new StringBuilder();
         String province = mModel.province;
         String city = mModel.city;
         System.out.println("UserInfoActivity.fillData(), province : " + province + "\t city : " + city);
@@ -502,6 +527,11 @@ public class UserInfoActivity
         }
         if (province != null && province.equals(" ")) {
             province = "";
+        }
+        if (TextUtils.isEmpty(mModel.xingzuo)) {
+            sb.append(TimeUtil.getConstellation(mModel.birthday));
+        } else {
+            sb.append(mModel.xingzuo);
         }
         sb.append(" ").append(province).append(" ").append(city);
         tv_constellation.setText(sb.toString());
@@ -594,7 +624,8 @@ public class UserInfoActivity
                 if (isme()) {
                     if (TextUtils.isEmpty(SharedPreferencesUtil.getStringExtra(UserInfoActivity.this, Constans.SP_KEY_WELCOME_PERCENT_PREFIX + PWUtils.getVersionName(UserInfoActivity.this), ""))) {
                         SharedPreferencesUtil.putStringExtra(UserInfoActivity.this, Constans.SP_KEY_WELCOME_PERCENT_PREFIX + PWUtils.getVersionName(UserInfoActivity.this), "welc_per");
-                        findViewById(R.id.fl_guide_welcome_percent).setVisibility(View.VISIBLE);
+                        //delete guide welcome
+                        //findViewById(R.id.fl_guide_welcome_percent).setVisibility(View.VISIBLE);
                         View ll_guide_welcome_percent = findViewById(R.id.ll_guide_welcome_percent);
                         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) ll_guide_welcome_percent.getLayoutParams();
                         int[] location = new int[2];
@@ -799,7 +830,8 @@ public class UserInfoActivity
             tagItem.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
             tagItem.setBackgroundResource(bgId);
             tagItem.setTextColor(textColor);
-            tagItem.setText("# " + aTagArr);
+//            tagItem.setText("# " + aTagArr);
+            tagItem.setText("  " + aTagArr);
             tags_container.addView(tagItem);
         }
         userinfo_layout.addView(tag_layout, userinfo_layout.getChildCount() - 1);
@@ -1311,6 +1343,7 @@ public class UserInfoActivity
         intent.putExtra("tid", tUid);
         intent.putExtra("uname", mModel.name);
         intent.putExtra("slogan", mModel.slogan);
+        intent.putExtra("tags", mModel.tags);
         intent.putExtra("flag", DfineAction.OUTGOING_CALL);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         prepareCalling(mUid, tUid, mModel.permission, mModel.getPriceFloat(), intent, new OnCallPreparedListener() {
@@ -1346,7 +1379,7 @@ public class UserInfoActivity
     public void onEventMainThread(FocusEvent event) {
         int type = event.type;
         dismissAnimLoading();
-        CustomLog.d("onEventMainThread. relation is : "+relation);
+        CustomLog.d("onEventMainThread. relation is : " + relation);
         if (type == FocusEvent.FOCUS_SUCCESS_EVENT) {
             // 关注成功
             mHandler.sendEmptyMessage(WHAT_DATA_FOCUS_SUCCESS);

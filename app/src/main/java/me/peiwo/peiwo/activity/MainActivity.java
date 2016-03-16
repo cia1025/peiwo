@@ -40,10 +40,7 @@ import me.peiwo.peiwo.fragment.TabFindFragment;
 import me.peiwo.peiwo.fragment.TabFriendFragment;
 import me.peiwo.peiwo.fragment.TabWildcatFragment;
 import me.peiwo.peiwo.service.SynchronizedService;
-import me.peiwo.peiwo.util.PWUtils;
-import me.peiwo.peiwo.util.SharedPreferencesUtil;
-import me.peiwo.peiwo.util.UmengStatisticsAgent;
-import me.peiwo.peiwo.util.UserManager;
+import me.peiwo.peiwo.util.*;
 import me.peiwo.peiwo.widget.DrawerContentView;
 import me.peiwo.peiwo.widget.NavgationViewController;
 import me.peiwo.peiwo.widget.TabBarViewController.OnTabChangedListener;
@@ -120,8 +117,8 @@ public class MainActivity extends PWPreCallingActivity implements
             boolean isOldUser = SharedPreferencesUtil.getBooleanExtra(this, "old_user_" + UserManager.getUid(this), true);
             if (isOldUser) {
                 SharedPreferencesUtil.putBooleanExtra(this, "old_user_" + UserManager.getUid(this), false);
-                MsgDBCenterService.getInstance().insertSystemMessage();
             }
+            MsgDBCenterService.getInstance().insertSystemMessage();
         });
         mHandle.sendEmptyMessageDelayed(HANDLE_CHECK_OPEN_RECORD, 1000);
     }
@@ -329,6 +326,8 @@ public class MainActivity extends PWPreCallingActivity implements
                 return true;
             }
             sendBroadcast(new Intent(PWActionConfig.ACTION_FINISH_ALL).putExtra("finish_type", 0));
+            HourGlassAgent hourGlass = HourGlassAgent.getInstance();
+            hourGlass.setStatistics(false);
         }
         return super.dispatchKeyEvent(event);
     }
