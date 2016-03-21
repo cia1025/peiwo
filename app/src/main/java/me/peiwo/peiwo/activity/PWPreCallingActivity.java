@@ -4,24 +4,18 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import me.peiwo.peiwo.DfineAction;
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.net.ApiRequestWrapper;
-import me.peiwo.peiwo.net.AsynHttpClient;
+import me.peiwo.peiwo.net.MsgStructure;
+import me.peiwo.peiwo.util.CustomLog;
+import me.peiwo.peiwo.util.TimeUtil;
 import me.peiwo.peiwo.util.UserManager;
 import me.peiwo.peiwo.widget.CallWaitingView;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.subscriptions.CompositeSubscription;
 
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -35,13 +29,11 @@ public class PWPreCallingActivity extends BaseActivity {
     private CallWaitingView callWaitingView;
     private static final int HAS_CALL_PERMISSION = 1;
     private static final int HAS_NOT_CALL_PERMISSION = 0;
-    private CompositeSubscription mCompositeSubscription;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCompositeSubscription = new CompositeSubscription();
     }
 
     public interface OnCallPreparedListener {
@@ -50,55 +42,50 @@ public class PWPreCallingActivity extends BaseActivity {
         void onCallPreparedError(int error, Object ret);
     }
 
-//    public void prepareCalling(int mUid, int tUid, final int srcPermission, final float src_price, final Intent callIntent, final OnCallPreparedListener onCallPreparedListener, final boolean isHotValueTips) {
-//        if (isckeckPermissioning.get())
-//            return;
-//        isckeckPermissioning.set(true);
-//        PeiwoApp app = (PeiwoApp) getApplicationContext();
-//        if (app.getIsCalling()) {
-//            showToast(this, "您当前正在通话");
-//            return;
-//        }
-//        callWaitingView = new CallWaitingView(this);
-//        callWaitingView.show();
-//        ApiRequestWrapper.getPermission(this, mUid, tUid, new MsgStructure() {
-//            @Override
-//            public void onReceive(JSONObject data) {
-//                isckeckPermissioning.set(false);
-//                Observable.just(data).observeOn(AndroidSchedulers.mainThread()).subscribe(object -> {
-//                    hideAnimDialog();
-//                    // {"permission":1,"price":0}
-//                    if (object != null) {
-//                        //{"im_image_permission":1,"permission":1,"im_price":0,"anonymous_call_permission":0,"price":0.5,"im_permission":1}
-//                        int channel = object.optInt("channel", 1);
-//                        if (onCallPreparedListener != null) {
-//                            int permission = object.optInt("permission");
-//                            float price = Float.valueOf(String.format("%.1f", object.optDouble("price", 0)));
-//                            onCallPreparedListener.onCallPreparedSuccess(permission, price);
-//                            makeCall(permission, price, callIntent, isHotValueTips, false, channel);
-//                        }
-//                    } else {
-//                        if (onCallPreparedListener != null) {
-//                            onCallPreparedListener.onCallPreparedError(-1, null);
-//                            makeCall(srcPermission, src_price, callIntent, isHotValueTips, false, 0);
-//                        }
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onError(int error, Object ret) {
-//                isckeckPermissioning.set(false);
-//                Observable.just(error).observeOn(AndroidSchedulers.mainThread()).subscribe(integer -> {
-//                    hideAnimDialog();
-//                    if (onCallPreparedListener != null) {
-//                        onCallPreparedListener.onCallPreparedError(-1, null);
-//                        makeCall(srcPermission, src_price, callIntent, isHotValueTips, false, 0);
-//                    }
-//                });
-//            }
-//        });
-//    }
+    public void prepareCalling(int mUid, int tUid, final int srcPermission, final float src_price, final Intent callIntent, final OnCallPreparedListener onCallPreparedListener, final boolean isHotValueTips) {
+        if (isckeckPermissioning.get())
+            return;
+        isckeckPermissioning.set(true);
+        PeiwoApp app = (PeiwoApp) getApplicationContext();
+        if (app.getIsCalling()) {
+            showToast(this, "您当前正在通话");
+            return;
+        }
+        callWaitingView = new CallWaitingView(this);
+        callWaitingView.show();
+        ApiRequestWrapper.getPermission(this, mUid, tUid, new MsgStructure() {
+            @Override
+            public void onReceive(JSONObject data) {
+                isckeckPermissioning.set(false);
+                hideAnimDialog();
+                // {"permission":1,"price":0}
+                if (data != null) {
+                    if (onCallPreparedListener != null) {
+                        int permission = data.optInt("permission");
+                        float price = Float.valueOf(String.format("%.1f", data.optDouble("price", 0)));
+                        onCallPreparedListener.onCallPreparedSuccess(permission, price);
+                        makeCall(permission, price, callIntent, isHotValueTips, false);
+                    }
+                } else {
+                    if (onCallPreparedListener != null) {
+                        onCallPreparedListener.onCallPreparedError(-1, null);
+                        makeCall(srcPermission, src_price, callIntent, isHotValueTips, false);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onError(int error, Object ret) {
+                isckeckPermissioning.set(false);
+                hideAnimDialog();
+                if (onCallPreparedListener != null) {
+                    onCallPreparedListener.onCallPreparedError(-1, null);
+                    makeCall(srcPermission, src_price, callIntent, isHotValueTips, false);
+                }
+            }
+        });
+    }
 
     public void prepareCalling(int mUid, int tUid, final int srcPermission, final float src_price, final Intent callIntent, final OnCallPreparedListener onCallPreparedListener) {
         if (isckeckPermissioning.get())
@@ -111,86 +98,51 @@ public class PWPreCallingActivity extends BaseActivity {
         }
         callWaitingView = new CallWaitingView(this);
         callWaitingView.show();
-        Subscription subscription = Observable.combineLatest(getCallPermission(tUid), getCallChannel(tUid), (object, object2) -> {
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = new JSONObject();
-                jsonObject.put("permission", object);
-                jsonObject.put("channel", object2);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return jsonObject;
-        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<JSONObject>() {
+        ApiRequestWrapper.getPermission(this, mUid, tUid, new MsgStructure() {
             @Override
-            public void onCompleted() {
-
+            public void onReceive(JSONObject data) {
+                isckeckPermissioning.set(false);
+                hideAnimDialog();
+                // {"permission":1,"price":0}
+                if (data != null) {
+                    if (onCallPreparedListener != null) {
+                        int permission = data.optInt("permission");
+                        float price = Float.valueOf(String.format("%.1f", data.optDouble("price", 0)));
+                        onCallPreparedListener.onCallPreparedSuccess(permission, price);
+                        makeCall(permission, price, callIntent, false, false);
+                    }
+                } else {
+                    if (onCallPreparedListener != null) {
+                        onCallPreparedListener.onCallPreparedError(-1, null);
+                        makeCall(srcPermission, src_price, callIntent, false, false);
+                    }
+                }
             }
 
             @Override
-            public void onError(Throwable e) {
-                deliverError(e, onCallPreparedListener, callIntent, srcPermission, src_price);
-            }
-
-            @Override
-            public void onNext(JSONObject object) {
-                deliverNext(object, onCallPreparedListener, callIntent, srcPermission, src_price);
+            public void onError(int error, Object ret) {
+                isckeckPermissioning.set(false);
+                hideAnimDialog();
+                if (onCallPreparedListener != null) {
+                    onCallPreparedListener.onCallPreparedError(-1, null);
+                    makeCall(srcPermission, src_price, callIntent, false, false);
+                }
             }
         });
-        mCompositeSubscription.add(subscription);
-    }
-
-    private void deliverError(Throwable e, OnCallPreparedListener onCallPreparedListener, Intent callIntent, int srcPermission, float src_price) {
-        isckeckPermissioning.set(false);
-        hideAnimDialog();
-        if (onCallPreparedListener != null) {
-            onCallPreparedListener.onCallPreparedError(-1, null);
-            makeCall(srcPermission, src_price, callIntent, false, false, 0, null);
-        }
-    }
-
-    private void deliverNext(JSONObject _object, OnCallPreparedListener onCallPreparedListener, Intent callIntent, int srcPermission, float src_price) {
-        isckeckPermissioning.set(false);
-        hideAnimDialog();
-        //{"channel_id":"1005_441","im_image_permission":1,"im_permission":1,"permission":1,"im_price":0,"anonymous_call_permission":0,"price":0,"channel":1}
-        if (_object != null) {
-            JSONObject channelObject = _object.optJSONObject("channel");
-            JSONObject permissionObject = _object.optJSONObject("permission");
-            int channel = channelObject.optInt("channel", DfineAction.CALL_CHANNEL_NORMAL);
-            String channel_id = channelObject.optString("channel_id", null);
-            if (onCallPreparedListener != null) {
-                int permission = permissionObject.optInt("permission");
-                float price = Float.valueOf(String.format("%.1f", permissionObject.optDouble("price", 0)));
-                onCallPreparedListener.onCallPreparedSuccess(permission, price);
-                makeCall(permission, price, callIntent, false, false, channel, channel_id);
-            }
-        } else {
-            if (onCallPreparedListener != null) {
-                onCallPreparedListener.onCallPreparedError(-1, null);
-                makeCall(srcPermission, src_price, callIntent, false, false, 0, null);
-            }
-        }
-    }
-
-    private Observable<JSONObject> getCallChannel(int tuid) {
-        ArrayList<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("tuid", String.valueOf(tuid)));
-        return ApiRequestWrapper.apiGetJson(this, params, AsynHttpClient.API_CALL_CHANNEL);
-    }
-
-    private Observable<JSONObject> getCallPermission(int tuid) {
-        ArrayList<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("tuid", String.valueOf(tuid)));
-        return ApiRequestWrapper.apiGetJson(this, params, AsynHttpClient.API_USERINFO_PERMISSION);
     }
 
     private void hideAnimDialog() {
-        if (callWaitingView != null && callWaitingView.isShowing()) {
-            callWaitingView.dismiss();
-        }
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                if (callWaitingView != null && callWaitingView.isShowing()) {
+                    callWaitingView.dismiss();
+                }
+            }
+        });
     }
 
-    private void makeCall(int permission, final float price, final Intent callIntent, boolean isHotValueTips, final boolean isForceCall, int channel, String channel_id) {
+    private void makeCall(int permission, final float price, final Intent callIntent, boolean isHotValueTips, final boolean isForceCall) {
         if (permission == HAS_NOT_CALL_PERMISSION) { //无权限
 
 //        		if(isHotValueTips){
@@ -226,46 +178,19 @@ public class PWPreCallingActivity extends BaseActivity {
                         .setPositiveButton("呼叫", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                realCall(callIntent, price, channel, channel_id);
+                                realCall(callIntent, price);
                             }
                         }).create().show();
             }
         } else {
-            realCall(callIntent, price, channel, channel_id);
+            realCall(callIntent, price);
         }
     }
 
-    private void realCall(Intent callIntent, float price, int channel, String channel_id) {
+    private void realCall(Intent callIntent, float price) {
         if (callIntent != null) {
             callIntent.putExtra("price", price);
-            if (channel == 1) {
-                //agora
-                dispatchAgoraCall(callIntent, price, channel, channel_id);
-            } else {
-                startActivity(callIntent);
-            }
+            startActivity(callIntent);
         }
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        if (mCompositeSubscription != null) {
-            mCompositeSubscription.unsubscribe();
-        }
-    }
-
-    private void dispatchAgoraCall(Intent callIntent, float price, int channel, String channel_id) {
-//        Bundle bundle = callIntent.getExtras();
-//        Set<String> keys = bundle.keySet();
-//        for (String key : keys){
-//
-//        }
-        Intent intent = new Intent(this, AgoraCallOutActivity.class);
-        intent.putExtra(AgoraCallOutActivity.K_CALLEE_ID, callIntent.getIntExtra("tid", 0));
-        intent.putExtra(AgoraCallOutActivity.K_CHANNEL, channel);
-        intent.putExtra(AgoraCallOutActivity.K_CHANNEL_ID, channel_id);
-        intent.putExtra(AgoraCallOutActivity.K_PRICE, Double.valueOf(price * 100).intValue());
-        startActivity(intent);
     }
 }

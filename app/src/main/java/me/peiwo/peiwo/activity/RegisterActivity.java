@@ -51,6 +51,7 @@ public class RegisterActivity extends BaseActivity {
     Button btn_submit;
     private String mPhoneCode;
     private boolean mIsPhoneNumChange;
+    private Intent mCountIntent;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +65,7 @@ public class RegisterActivity extends BaseActivity {
         TextView tv_clause = (TextView) findViewById(R.id.tv_clause);
         tv_clause.setText(PWUtils.getClauselinks(this, "点击下一步按钮，即表示同意《陪我用户协议》", 13));
         tv_clause.setMovementMethod(LinkMovementMethod.getInstance());
+        mCountIntent = new Intent(this, CountDownService.class);
 
         Observable<TextViewAfterTextChangeEvent> et_phone_observable = RxTextView.afterTextChangeEvents(et_phoneno).observeOn(AndroidSchedulers.mainThread());
         et_phone_observable.subscribe(textViewAfterTextChangeEvent -> {
@@ -191,7 +193,7 @@ public class RegisterActivity extends BaseActivity {
                 mIsPhoneNumChange = false;
                 Observable.just(null).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
                     dismissAnimLoading();
-                    startService(new Intent(RegisterActivity.this, CountDownService.class));
+                    startService(mCountIntent);
 
                     Intent intent = new Intent(RegisterActivity.this, FillVerificationCodeActivity.class);
                     intent.putExtra("phone", getPhoneCode() + et_phoneno.getText().toString());

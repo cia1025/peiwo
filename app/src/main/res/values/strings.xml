@@ -324,14 +324,7 @@
     <string name="user_whom_calling_you">\@%s 希望与你通话</string>
     <string name="you_are_calling_with_whom">你正在与\@%s 通话</string>
     <string name="calling_in_background">后台打电话</string>
-
     <string name="notify_counts">[%d条]</string>
     <string name="title_activity_server_down">ServerDownActivity</string>
-    <string name="voice_captcha_had_been_sent">语音验证码已发出，请保持手机畅通</string>
-
-    <string name="title_activity_call_out">CallOutActivity</string>
-    <string name="title_activity_agora_call_in">AgoraCallInActivity</string>
-    <string name="title_activity_agora_wild_call">AgoraWildCallActivity</string>
-
 
 </resources>

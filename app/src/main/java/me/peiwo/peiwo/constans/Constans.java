@@ -14,7 +14,7 @@ public interface Constans {
     String SP_KEY_OPENTOKEN = "opentoken"; // 存第三方的token
     String SP_KEY_SOCIALTYPE = "socialtype"; // 存第三方的登录类型
     String SP_KEY_LOGINTYPE = "logintype";
-    String SP_KEY_PCODE = "phone_code";
+    String SP_KEY_PCODE="phone_code";
 
     String SP_KEY_CPU_INFO_ARM = "cpu_arm"; // cpu info
     String SP_KEY_WILD_GUIDE = "wild_guide";
@@ -104,8 +104,6 @@ public interface Constans {
     int PW_MESSAGE_FROM_FEED = 0x03;
     int PW_MESSAGE_FROM_WILDCAT_LOG = 0x04;
 
-
-    String AGORA_VENDOR_KEY = "6dd92d6dee704a6fa278a7314f37a22b";
 
     // 市场渠道
     // M360

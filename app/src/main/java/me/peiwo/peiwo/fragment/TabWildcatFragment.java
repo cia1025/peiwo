@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.R;
-import me.peiwo.peiwo.activity.AgoraWildCallActivity;
 import me.peiwo.peiwo.activity.ConstellationChooseActivity;
 import me.peiwo.peiwo.activity.WildCatCallActivity;
 import me.peiwo.peiwo.activity.WildcatGuideActivity;
@@ -123,8 +122,7 @@ public class TabWildcatFragment extends PPBaseFragment implements
             showToast(getActivity(), "无网络");
             return;
         }
-        //startActivity(new Intent(getActivity(), WildCatCallActivity.class));
-        startActivity(new Intent(getActivity(), AgoraWildCallActivity.class));
+        startActivity(new Intent(getActivity(), WildCatCallActivity.class));
     }
 
     private void startWildGuide() {

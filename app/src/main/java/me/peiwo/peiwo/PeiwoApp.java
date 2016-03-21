@@ -25,7 +25,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.umeng.update.UmengUpdateAgent;
-import io.agora.rtc.RtcEngine;
 import io.rong.imlib.AnnotationNotFoundException;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.MessageContent;
@@ -34,7 +33,6 @@ import me.peiwo.peiwo.activity.MsgAcceptedMsgActivity;
 import me.peiwo.peiwo.activity.ServerDownActivity;
 import me.peiwo.peiwo.activity.UpgradeAppActivity;
 import me.peiwo.peiwo.activity.WelcomeActivity;
-import me.peiwo.peiwo.callback.AgoraEngineEventHandler;
 import me.peiwo.peiwo.callback.ReceiveRongMessageListener;
 import me.peiwo.peiwo.constans.Constans;
 import me.peiwo.peiwo.constans.PWActionConfig;
@@ -165,8 +163,6 @@ public class PeiwoApp extends MultiDexApplication {
     }
 
 
-    private RtcEngine mAgoraRtcEngine;
-
     @Override
     public void onCreate() {
         //System.out.println("PeiwoApp onCreate: " + strProName);
@@ -207,17 +203,6 @@ public class PeiwoApp extends MultiDexApplication {
             setUpRongCloud();
 
             setUpAtuserAndNodisturb();
-            mAgoraRtcEngine = RtcEngine.create(this, Constans.AGORA_VENDOR_KEY, new AgoraEngineEventHandler(this));
-            setUpAgoraRtcEngine();
-        }
-    }
-
-    private void setUpAgoraRtcEngine() {
-        if (mAgoraRtcEngine != null) {
-            mAgoraRtcEngine.monitorHeadsetEvent(true);
-            mAgoraRtcEngine.monitorConnectionEvent(true);
-            mAgoraRtcEngine.monitorBluetoothHeadsetEvent(true);
-            mAgoraRtcEngine.enableHighPerfWifiMode(true);
         }
     }
 
@@ -944,10 +929,6 @@ public class PeiwoApp extends MultiDexApplication {
             receiveRongListeners.remove(listener);
     }
 
-
-    public RtcEngine getAgoraRtcEngine() {
-        return mAgoraRtcEngine;
-    }
 
 }
 

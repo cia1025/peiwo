@@ -49,8 +49,6 @@ public class VerifiCodeNotReceiveActivity extends BaseActivity {
                 CustomLog.d("getVoiceCaptcha() data is : " + data);
                 Observable.just(data).observeOn(AndroidSchedulers.mainThread()).subscribe(jsonObject -> {
                     dismissAnimLoading();
-                    showToast(VerifiCodeNotReceiveActivity.this, getString(R.string.voice_captcha_had_been_sent));
-                    finish();
                 });
             }
 

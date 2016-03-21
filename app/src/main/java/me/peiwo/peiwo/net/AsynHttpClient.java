@@ -308,7 +308,7 @@ public class AsynHttpClient {
     public static final String API_GROUPCHAT_PACKET_ICONS = "v1.0/setting/packet_icons";
     public static final String API_GETUPLOADCONFIG = "v1.0/hourglass/getuploadconfig";
     public static final String API_HOURGLASS_UPLOADDATA = "v1.0/hourglass/uploaddata";
-    public static final String API_CALL_CHANNEL = "v1.0/userinfo/channel";
+
 
     public static final String API_PRISE_COUNT = "v1.0/feed/pub/like/count";
     public static final String ENCODEING = "UTF-8";

@@ -23,7 +23,22 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
 import me.peiwo.peiwo.DfineAction;
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.R;
@@ -37,29 +52,21 @@ import me.peiwo.peiwo.eventbus.event.MsgTitleChangedEvent;
 import me.peiwo.peiwo.fragment.PPBaseFragment;
 import me.peiwo.peiwo.model.TabMsgModel;
 import me.peiwo.peiwo.model.TabfindGroupModel;
-import me.peiwo.peiwo.net.*;
+import me.peiwo.peiwo.net.ApiRequestWrapper;
+import me.peiwo.peiwo.net.AsynHttpClient;
+import me.peiwo.peiwo.net.MsgStructure;
+import me.peiwo.peiwo.net.NetUtil;
+import me.peiwo.peiwo.net.TcpProxy;
 import me.peiwo.peiwo.service.NetworkConnectivityListener.NetworkCallBack;
 import me.peiwo.peiwo.util.CustomLog;
 import me.peiwo.peiwo.util.TimeUtil;
 import me.peiwo.peiwo.util.UmengStatisticsAgent;
 import me.peiwo.peiwo.util.UserManager;
 import me.peiwo.peiwo.widget.PWPullToRefreshListView;
-import org.apache.http.NameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-
-import java.io.Serializable;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 public class TabMsgFragment extends PPBaseFragment implements
         OnItemClickListener, OnItemLongClickListener,
@@ -589,7 +596,7 @@ public class TabMsgFragment extends PPBaseFragment implements
                 public void onCallPreparedError(int error, Object ret) {
 
                 }
-            });
+            }, true);
         }
     }
 

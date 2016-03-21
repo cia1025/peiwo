@@ -176,6 +176,7 @@
     <orderEntry type="library" exported="" name="mta-sdk-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="libjingle_peerconnection" level="project" />
     <orderEntry type="library" exported="" name="rxbinding-0.3.0" level="project" />
+    <orderEntry type="library" exported="" name="agora-rtc-sdk" level="project" />
     <orderEntry type="library" exported="" name="alipaysdk" level="project" />
     <orderEntry type="library" exported="" name="MiPush_SDK_Client_2_2_13_sdk" level="project" />
     <orderEntry type="library" exported="" name="android-async-http-1.4.9" level="project" />

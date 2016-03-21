@@ -50,12 +50,13 @@ public class FillVerificationCodeActivity extends BaseActivity {
     private String mPhoneNum;
     private String mPassword;
     private static final long COUNT_DOWN_SEC = 30;
-    private static final int REQUEST_GET_VOICE_CAPTCHA = 0X11;
+    private Intent mCountIntent;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fill_verification_code);
         init();
+        mCountIntent = new Intent(this, CountDownService.class);
     }
 
     private void init() {
@@ -107,7 +108,7 @@ public class FillVerificationCodeActivity extends BaseActivity {
     void goUnreachPage() {
         Intent it = new Intent(this, VerifiCodeNotReceiveActivity.class);
         it.putExtra("phone", mPhoneNum);
-        startActivityForResult(it, REQUEST_GET_VOICE_CAPTCHA);
+        startActivity(it);
         HourGlassAgent hourGlassAgent = HourGlassAgent.getInstance();
         if (hourGlassAgent.getStatistics() && hourGlassAgent.getK41() == 0) {
             hourGlassAgent.setK41(1);
@@ -133,8 +134,8 @@ public class FillVerificationCodeActivity extends BaseActivity {
     }
 
     private void startCountService() {
-        Intent countIntent = new Intent(this, CountDownService.class);
-        startService(countIntent);
+        mCountIntent = new Intent(this, CountDownService.class);
+        startService(mCountIntent);
     }
 
     @Override

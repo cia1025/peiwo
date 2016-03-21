@@ -766,7 +766,6 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
         <activity
-
             android:name=".activity.MsgShowAlbumActvity"
             android:label="@string/title_activity_msg_show_album"
             android:screenOrientation="portrait"
@@ -781,24 +780,8 @@
             android:label="@string/title_activity_server_down"
             android:screenOrientation="portrait"
             android:noHistory="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity
-            android:name=".activity.AgoraCallOutActivity"
-            android:label="@string/title_activity_call_out"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
-
-        <activity
-            android:name=".activity.AgoraCallInActivity"
-            android:label="@string/title_activity_agora_call_in"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
-
-        <activity
-            android:name=".activity.AgoraWildCallActivity"
-            android:label="@string/title_activity_agora_wild_call"
-            android:screenOrientation="portrait"
-            android:theme="@style/call_theme"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
