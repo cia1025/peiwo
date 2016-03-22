@@ -610,11 +610,11 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
         // 对方挂断电话
         m_nRoleState = ROLE_VIRGIN;
         wildcatState = WildCatState.IDEL;
-        try {
-            CustomLog.d("HangUpByRemoteForWildcat. stop_match is : " + jsonCMD.getInt("stop_match"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            CustomLog.d("HangUpByRemoteForWildcat. stop_match is : " + jsonCMD.getInt("stop_match"));
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
         Intent intent = new Intent();
         intent.putExtra("type", STOP_CALL);
         intent.putExtra("data", jsonCMD.toString());
@@ -1412,7 +1412,11 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
             case DfineAction.MSG_WILDCAT_LIKE_RESPONSE: {
                 CustomLog.i(DfineAction.WEBRTC_TAG, "MSG_LIKE_RESPONSE");
                 clearSchedule(jsonCMD);
-                callEvent = new AgoraReceiveRemoteLikeEvent();
+                callEvent = new AgoraLikeResponseEvent();
+            }
+            break;
+            case DfineAction.WILDCAT_LIKE_NOTIFY_MESSAGE: {
+                callEvent = new AgoraRemoteLikeEvent();
             }
             break;
             case DfineAction.MSG_WILDCAT_INFINITE_MODE: {
@@ -1536,29 +1540,39 @@ public class CoreService extends Service implements NetworkCallBack, Observer, S
             }
             break;
             case DfineAction.IntentRewardResponseMessage:
-//                Intent data = new Intent();
-//                data.putExtra("data", jsonCMD.toString());
-//                data.putExtra("type", DfineAction.IntentRewardResponseMessage);
-//                EventBus.getDefault().post(new WildCatMessageEvent(data));
-//                EventBus.getDefault().post(new RealCallMessageEvent(data));
-                callEvent = JSON.parseObject(jsonCMD.toString(), AgoraIntentRewardResponseEvent.class);
+                if (channel == DfineAction.CALL_CHANNEL_AGORA)
+                    callEvent = JSON.parseObject(jsonCMD.toString(), AgoraIntentRewardResponseEvent.class);
+                else {
+                    Intent data = new Intent();
+                    data.putExtra("data", jsonCMD.toString());
+                    data.putExtra("type", DfineAction.IntentRewardResponseMessage);
+                    //EventBus.getDefault().post(new WildCatMessageEvent(data));
+                    EventBus.getDefault().post(new RealCallMessageEvent(data));
+                }
                 break;
             case DfineAction.PayRewardResponseMessage:
-//                Intent pay_data = new Intent();
-//                pay_data.putExtra("data", jsonCMD.toString());
-//                pay_data.putExtra("type", DfineAction.PayRewardResponseMessage);
-//                EventBus.getDefault().post(new WildCatMessageEvent(pay_data));
-//                EventBus.getDefault().post(new RealCallMessageEvent(pay_data));
-                callEvent = JSON.parseObject(jsonCMD.toString(), AgoraPayRewardResponseEvent.class);
+                if (channel == DfineAction.CALL_CHANNEL_AGORA)
+                    callEvent = JSON.parseObject(jsonCMD.toString(), AgoraPayRewardResponseEvent.class);
+                else {
+                    Intent pay_data = new Intent();
+                    pay_data.putExtra("data", jsonCMD.toString());
+                    pay_data.putExtra("type", DfineAction.PayRewardResponseMessage);
+                    //EventBus.getDefault().post(new WildCatMessageEvent(pay_data));
+                    EventBus.getDefault().post(new RealCallMessageEvent(pay_data));
+                }
                 break;
             case DfineAction.RewardedMessage:
                 //收到对方打赏
-//                Intent reward_data = new Intent();
-//                reward_data.putExtra("data", jsonCMD.toString());
-//                reward_data.putExtra("type", DfineAction.RewardedMessage);
-//                EventBus.getDefault().post(new WildCatMessageEvent(reward_data));
-//                EventBus.getDefault().post(new RealCallMessageEvent(reward_data));
-                callEvent = JSON.parseObject(jsonCMD.toString(), AgoraRewardedEvent.class);
+                if (channel == DfineAction.CALL_CHANNEL_AGORA)
+                    callEvent = JSON.parseObject(jsonCMD.toString(), AgoraRewardedEvent.class);
+                else {
+                    Intent reward_data = new Intent();
+                    reward_data.putExtra("data", jsonCMD.toString());
+                    reward_data.putExtra("type", DfineAction.RewardedMessage);
+                    //EventBus.getDefault().post(new WildCatMessageEvent(reward_data));
+                    EventBus.getDefault().post(new RealCallMessageEvent(reward_data));
+                }
+
                 break;
             default:
                 break;

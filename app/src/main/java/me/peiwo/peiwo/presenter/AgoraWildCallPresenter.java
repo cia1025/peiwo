@@ -2,15 +2,14 @@ package me.peiwo.peiwo.presenter;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Build;
 import android.support.v4.widget.ViewDragHelper;
 import android.text.TextUtils;
 import android.util.Log;
 import io.agora.rtc.Constants;
-import me.peiwo.peiwo.BuildConfig;
-import me.peiwo.peiwo.DfineAction;
-import me.peiwo.peiwo.PeiwoApp;
-import me.peiwo.peiwo.RxBus;
+import me.peiwo.peiwo.*;
 import me.peiwo.peiwo.activity.AgoraWildCallActivity;
 import me.peiwo.peiwo.activity.ChargeActivity;
 import me.peiwo.peiwo.model.PWUserModel;
@@ -38,7 +37,6 @@ import java.util.concurrent.TimeUnit;
  * Created by wallace on 16/3/14.
  */
 public class AgoraWildCallPresenter extends AgoraCallPresenter {
-    private static final int TIME_STAMP = (int) (System.currentTimeMillis() / 1000);
     private AgoraWildCallActivity activity;
     private PWUserModel selfUser;
     private AgoraWildCallReadyEvent callReadyEvent;
@@ -49,11 +47,21 @@ public class AgoraWildCallPresenter extends AgoraCallPresenter {
     private Subscription subscriptionTiming;//计时，3分钟&无限计时
     private Subscription subscriptionShowAds;
     private String[] wild_ads;
+    private SoundPool mSoundPool;
+    private int soundIdMetched;
+    private int soundIdPostLike;
 
     public AgoraWildCallPresenter(AgoraWildCallActivity activity) {
         super(activity);
         this.activity = activity;
+        mSoundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+        loadSounds();
         getWildCallAds();
+    }
+
+    private void loadSounds() {
+        soundIdMetched = mSoundPool.load(activity, R.raw.ppdl, 1);
+        soundIdPostLike = mSoundPool.load(activity, R.raw.dz, 1);
     }
 
     private void getWildCallAds() {
@@ -116,12 +124,32 @@ public class AgoraWildCallPresenter extends AgoraCallPresenter {
         setCalling(true, PeiwoApp.CALL_TYPE.CALL_WILD);
         DfineAction.CURRENT_CALL_STATUS = DfineAction.CURRENT_CALL_WILDCAT;
         selfUser = UserManager.getPWUser(activity);
+        showPayPhoneIfNeed();
         setUpNextEvent();
         sendWildcatMessage();
+        timerSendWildcatMessage();
+    }
+
+    private void showPayPhoneIfNeed() {
+        if (selfUser.gender == AsynHttpClient.GENDER_MASK_MALE)
+            activity.showPayPhoneView();
+        else activity.hidePayPhoneView();
+    }
+
+    /**
+     * 没2分钟发射一次wildcat message
+     */
+    private void timerSendWildcatMessage() {
+        Subscription subscription = Observable.interval(20, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
+            if (BuildConfig.DEBUG) log("send wild message interval 20s");
+            if (dialing())
+                TcpProxy.getInstance().sendWildcatMessage(selfUser.gender, 1, (int) (System.currentTimeMillis() / 1000), "");
+        });
+        mCompositeSubscription.add(subscription);
     }
 
     private void sendWildcatMessage() {
-        TcpProxy.getInstance().sendWildcatMessage(selfUser.gender, 1, TIME_STAMP, "");
+        TcpProxy.getInstance().sendWildcatMessage(selfUser.gender, 0, (int) (System.currentTimeMillis() / 1000), "");
     }
 
     private void setUpNextEvent() {
@@ -142,22 +170,10 @@ public class AgoraWildCallPresenter extends AgoraCallPresenter {
             setUpUserJoined((AgoraUserJoinedEvent) event);
         } else if (event instanceof AgoraOnLeaveChannelEvent) {
             setUpOnLeaveChannel((AgoraOnLeaveChannelEvent) event);
-        } else if (event instanceof AgoraUserOffineEvent) {
-            //setUpOnUserOffine((AgoraUserOffineEvent) event);
-        } else if (event instanceof AgoraReJoinChannelSuccessEvent) {
-            //setUpReJoinChannelSuccess((AgoraReJoinChannelSuccessEvent) event);
-        } else if (event instanceof AgoraConnectionInterruptedEvent) {
-            //setUpConnectionInterruped((AgoraConnectionInterruptedEvent) event);
-        } else if (event instanceof AgoraConnectionLostEvent) {
-            //lost connection
-            //setUpConnectLost((AgoraConnectionLostEvent) event);
-        } else if (event instanceof AgoraUserMuteAudioEvent) {
-            //setUpUserMute((AgoraUserMuteAudioEvent) event);
         } else if (event instanceof AgoraHungUpByServEvent) {
             if (BuildConfig.DEBUG) log("receive AgoraHungUpByServEvent");
             setUpHungUpByServer((AgoraHungUpByServEvent) event);
         } else if (event instanceof AgoraWildCallLikeEvent) {
-            //双方点赞，无限时模式
             setUpReceiveLikeEvent((AgoraWildCallLikeEvent) event);
         } else if (event instanceof AgoraStopCallResponseEvent) {
             setUpStopCallResponse((AgoraStopCallResponseEvent) event);
@@ -173,8 +189,21 @@ public class AgoraWildCallPresenter extends AgoraCallPresenter {
             setUpAgoraNetworkQuality((AgoraNetworkQualityEvent) event);
         } else if (event instanceof AgoraAudioQualityEvent) {
             setUpAgoraAudioQuality((AgoraAudioQualityEvent) event);
-        } else if (event instanceof AgoraReceiveRemoteLikeEvent) {
-            setUpReceiveRemoteLike((AgoraReceiveRemoteLikeEvent) event);
+        } else if (event instanceof AgoraLikeResponseEvent) {
+            setUpLikeResponse((AgoraLikeResponseEvent) event);
+        } else if (event instanceof AgoraRemoteLikeEvent) {
+            setUpRemoteLike((AgoraRemoteLikeEvent) event);
+        } else if (event instanceof AgoraUserOffineEvent) {
+            //setUpOnUserOffine((AgoraUserOffineEvent) event);
+        } else if (event instanceof AgoraReJoinChannelSuccessEvent) {
+            //setUpReJoinChannelSuccess((AgoraReJoinChannelSuccessEvent) event);
+        } else if (event instanceof AgoraConnectionInterruptedEvent) {
+            //setUpConnectionInterruped((AgoraConnectionInterruptedEvent) event);
+        } else if (event instanceof AgoraConnectionLostEvent) {
+            //lost connection
+            //setUpConnectLost((AgoraConnectionLostEvent) event);
+        } else if (event instanceof AgoraUserMuteAudioEvent) {
+            //setUpUserMute((AgoraUserMuteAudioEvent) event);
         }
     }
 
@@ -183,8 +212,18 @@ public class AgoraWildCallPresenter extends AgoraCallPresenter {
      *
      * @param event
      */
-    private void setUpReceiveRemoteLike(AgoraReceiveRemoteLikeEvent event) {
+    private void setUpRemoteLike(AgoraRemoteLikeEvent event) {
         activity.toast("对方已赞");
+        mSoundPool.play(soundIdPostLike, 1.0f, 1.0f, 0, 0, 1.0f);
+    }
+
+    /**
+     * 收到自己点赞的应答
+     *
+     * @param event
+     */
+    private void setUpLikeResponse(AgoraLikeResponseEvent event) {
+
     }
 
     /*******/
@@ -296,6 +335,11 @@ public class AgoraWildCallPresenter extends AgoraCallPresenter {
         substitutionOfUser();
     }
 
+    /**
+     * 双方点赞，无限时模式
+     *
+     * @param event
+     */
     private void setUpReceiveLikeEvent(AgoraWildCallLikeEvent event) {
         removeTimingSubscription();
         timeingInfinite();
@@ -357,12 +401,14 @@ public class AgoraWildCallPresenter extends AgoraCallPresenter {
         pauseMatchingAnimator();
         setOnPhone();
         activity.changeViewWithMatched(callReadyEvent.user.pic);
+        activity.hidePayPhoneView();
         countDown3M();
         activity.setRemoteNickName(callReadyEvent.user.nickname);
         if (callReadyEvent.user.tags != null && callReadyEvent.user.tags.length > 0)
             activity.setRemoteTags("#" + callReadyEvent.user.tags[0]);
         if (callReadyEvent.user.hint != null && callReadyEvent.user.hint.size() > 0)
             activity.setWildStyle(callReadyEvent.user.hint.get(0));
+        mSoundPool.play(soundIdMetched, 1.0f, 1.0f, 0, 0, 1.0f);
     }
 
     private void countDown3M() {
@@ -480,6 +526,8 @@ public class AgoraWildCallPresenter extends AgoraCallPresenter {
 
     public void onDestory() {
         super.onDestory();
+        if (mSoundPool != null) mSoundPool.release();
+        mSoundPool = null;
         cancelNotification();
     }
 
@@ -533,6 +581,7 @@ public class AgoraWildCallPresenter extends AgoraCallPresenter {
         //handsFree();
         setDialing();
         activity.hideWildCallAds();
+        showPayPhoneIfNeed();
         activity.changeViewWithMatching();
         resumeMatchingAnimator();
         TcpProxy.getInstance().substitutionUser(DfineAction.WILDCAT_STOP_CALL_NORMAL);

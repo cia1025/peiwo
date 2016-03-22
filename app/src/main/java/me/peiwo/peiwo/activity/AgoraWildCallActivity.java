@@ -76,6 +76,8 @@ public class AgoraWildCallActivity extends AgoraCallActivity {
     ImageView iv_ads;
     @Bind(R.id.v_iv_ads_container)
     View v_iv_ads_container;
+    @Bind(R.id.v_pay_phone)
+    View v_pay_phone;
     @Bind(R.id.self_view)
     PercentFrameLayout self_view;
 
@@ -232,6 +234,10 @@ public class AgoraWildCallActivity extends AgoraCallActivity {
                 break;
             case R.id.v_close_ads:
                 hideWildCallAds();
+                break;
+            case R.id.v_pay_phone:
+                presenter.quit();
+                toast("收费电话");
                 break;
         }
     }
@@ -459,5 +465,13 @@ public class AgoraWildCallActivity extends AgoraCallActivity {
     public void hideWildCallAds() {
         iv_ads.setImageBitmap(null);
         v_iv_ads_container.setVisibility(View.GONE);
+    }
+
+    public void showPayPhoneView() {
+        v_pay_phone.setVisibility(View.VISIBLE);
+    }
+
+    public void hidePayPhoneView() {
+        v_pay_phone.setVisibility(View.GONE);
     }
 }

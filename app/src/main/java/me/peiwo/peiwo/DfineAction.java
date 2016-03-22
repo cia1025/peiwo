@@ -195,9 +195,13 @@ public class DfineAction {
      */
     public static final int MSG_WILDCAT_LIKE = 0x65;        // 101
     /**
-     * 限时聊点赞应答
+     * 限时聊自己点赞应答
      */
     public static final int MSG_WILDCAT_LIKE_RESPONSE = 0x69;        //	105
+    /**
+     * 匿名聊收到对方点赞
+     */
+    public static final int WILDCAT_LIKE_NOTIFY_MESSAGE = 0x0072;
 
     /**
      * 双方点赞，无限模式

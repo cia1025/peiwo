@@ -34,6 +34,7 @@ import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.constans.Constans;
 import me.peiwo.peiwo.constans.PWActionConfig;
+import me.peiwo.peiwo.db.MsgDBCenterService;
 import me.peiwo.peiwo.eventbus.EventBus;
 import me.peiwo.peiwo.model.PWUserModel;
 import me.peiwo.peiwo.net.ApiRequestWrapper;
@@ -471,6 +472,7 @@ public class PhoneLoginActivity extends BaseActivity {
             EventBus.getDefault().post(new Intent(PWActionConfig.ACTION_LOGIN_IN));
             startActivity(new Intent(this, MainActivity.class));
             findViewById(R.id.btn_submit).setClickable(false);
+            MsgDBCenterService.getInstance().insertSystemMessage();
             finish();
         }
     }

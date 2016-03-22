@@ -698,7 +698,7 @@ public class PeiwoApp extends MultiDexApplication {
 
         realCallNotification = false;
         realCallNotificationReStart = false;
-        RongIMClient.getInstance().logout();
+        if (RongIMClient.getInstance() != null) RongIMClient.getInstance().logout();
         UserManager.clearUser(this);
         BriteDBHelperHolder dbHelperHolder = BriteDBHelperHolder.getInstance();
         dbHelperHolder.resetBriteDatebase();
