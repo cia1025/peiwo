@@ -322,7 +322,8 @@ public class SayHelloActivity extends BaseActivity implements
 		ArrayList<NameValuePair> paramList = new ArrayList<NameValuePair>();
 		paramList.add(new BasicNameValuePair(AsynHttpClient.KEY_TUID, String.valueOf(tUid)));
 		paramList.add(new BasicNameValuePair(AsynHttpClient.KEY_REASON, "0"));
-		ApiRequestWrapper.openAPIGET(getApplicationContext(), paramList, AsynHttpClient.API_REPORT_DOBLOCK, new MsgStructure() {
+		paramList.add(new BasicNameValuePair("type", "contact"));
+		ApiRequestWrapper.openAPIGET(getApplicationContext(), paramList, AsynHttpClient.API_REPORT_SEND, new MsgStructure() {
 
 			@Override
 			public void onReceive(JSONObject data) {

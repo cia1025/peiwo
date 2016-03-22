@@ -13,7 +13,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import butterknife.Bind;
 import com.qiniu.android.http.ResponseInfo;
@@ -36,7 +35,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class LazyGuyActivity extends BaseActivity implements View.OnTouchListener, MediaRecorder.OnErrorListener {
     private ImageView mic_btn;
@@ -441,25 +439,6 @@ public class LazyGuyActivity extends BaseActivity implements View.OnTouchListene
             }
 
         });
-    }
-
-    public <T extends String> void start123(List<T> list1) {
-        T myt = list1.get(1);
-        ArrayList<? extends String> that = null;
-        start123(that);
-    }
-
-    interface MyFace<T extends View> {
-        Void kkk(T sbs);
-    }
-
-    class Test<T extends LinearLayout> implements MyFace {
-        T mylayout;
-
-        @Override
-        public Void kkk(View sbs) {
-            return null;
-        }
     }
 
     private void handleVoice(String key, String voice_url) {

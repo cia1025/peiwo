@@ -66,7 +66,7 @@ public class CountDownService extends Service {
         }
         if (intent.getAction().equals(STOP_SELF)) {
             stopSelf();
-            if (mSubscription != null && mSubscription.isUnsubscribed()) {
+            if (mSubscription != null && !mSubscription.isUnsubscribed()) {
                 mSubscription.unsubscribe();
             }
         }

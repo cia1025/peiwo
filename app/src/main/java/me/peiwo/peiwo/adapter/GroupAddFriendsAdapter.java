@@ -33,7 +33,6 @@ public class GroupAddFriendsAdapter extends RecyclerView.Adapter<GroupAddFriends
     private final ArrayList<PWContactsModel> mWholeList;
     private final Context mContext;
     private ArrayList<PWContactsModel> mMembersToBeList = new ArrayList<>();
-    private int mMemberCounts;
     private ArrayList<GroupMemberModel> mMembersList = new ArrayList<>();
     private ArrayList<PWContactsModel> mFindOutList = new ArrayList<>();
 
@@ -44,13 +43,12 @@ public class GroupAddFriendsAdapter extends RecyclerView.Adapter<GroupAddFriends
         mFindOutList.clear();
     }
 
-    public GroupAddFriendsAdapter(Context context, ArrayList<PWContactsModel> friendsList, ArrayList<GroupMemberModel> membersList, int curMemberCounts) {
+    public GroupAddFriendsAdapter(Context context, ArrayList<PWContactsModel> friendsList, ArrayList<GroupMemberModel> membersList) {
         inflater = LayoutInflater.from(context);
         mWholeList = friendsList;
         mContext = context;
         mMembersList = membersList;
         mFindOutList.clear();
-        mMemberCounts = curMemberCounts;
     }
 
     public GroupAddFriendsAdapter(Context context, ArrayList<PWContactsModel> friendsList, ArrayList<GroupMemberModel> membersList, ArrayList<PWContactsModel> findList) {
@@ -103,7 +101,7 @@ public class GroupAddFriendsAdapter extends RecyclerView.Adapter<GroupAddFriends
         updateSelectImage(iv_selected);
         holder.itemView.setOnClickListener((v -> {
             CustomLog.d("onClick member to be list size is : " + mMembersToBeList.size());
-            int totalSize = mMemberCounts + mMembersToBeList.size();
+            int totalSize = /*mMemberCounts*/mMembersList.size() + mMembersToBeList.size();
             //创建群组方式需要加上自己充当人数
             if(mMembersList.size() == 0)
                 totalSize += 1;

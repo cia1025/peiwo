@@ -83,7 +83,7 @@ public class WildcatGuideActivity extends BaseActivity implements ViewPager.OnPa
         if (index >= MAX_PAGE) {
             finish();
             if (getIntent().getBooleanExtra(K_NEED_WILDCAT, false)) {
-                startActivity(new Intent(this, WildCatCallActivity.class));
+                startActivity(new Intent(this, AgoraWildCallActivity.class));
             }
         } else {
             vp_wild_guide.setCurrentItem(index, false);

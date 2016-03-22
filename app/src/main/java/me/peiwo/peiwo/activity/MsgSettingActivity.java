@@ -8,6 +8,15 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+
+import net.simonvt.numberpicker.NumberPicker;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.ref.WeakReference;
+import java.util.Locale;
+
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.constans.Constans;
@@ -16,12 +25,6 @@ import me.peiwo.peiwo.net.MsgStructure;
 import me.peiwo.peiwo.util.SharedPreferencesUtil;
 import me.peiwo.peiwo.util.TitleUtil;
 import me.peiwo.peiwo.util.UserManager;
-import net.simonvt.numberpicker.NumberPicker;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.lang.ref.WeakReference;
-import java.util.Locale;
 
 public class MsgSettingActivity extends BaseActivity implements
         NumberPicker.OnScrollListener, CompoundButton.OnCheckedChangeListener {
@@ -100,10 +103,10 @@ public class MsgSettingActivity extends BaseActivity implements
             if (Integer.valueOf(te.substring(0, te.indexOf(":"))) <= Integer
                     .valueOf(ts.substring(0, ts.indexOf(":")))) {
                 tv_nodisturb.setText(String.format(Locale.getDefault(),
-                        "勿扰时段(%s 至 次日%s)", ts, te));
+                        "来电勿扰(%s 至 次日%s)", ts, te));
             } else {
                 tv_nodisturb.setText(String.format(Locale.getDefault(),
-                        "勿扰时段(%s 至 %s)", ts, te));
+                        "来电勿扰(%s 至 %s)", ts, te));
             }
         }
     }
@@ -159,10 +162,10 @@ public class MsgSettingActivity extends BaseActivity implements
                 np_time_e.setValue(te);
                 if (te <= ts) {
                     tv_nodisturb.setText(String.format(Locale.getDefault(),
-                            "勿扰时段(%s:00 至 次日%s:00)", ts, te));
+                            "来电勿扰(%s:00 至 次日%s:00)", ts, te));
                 } else {
                     tv_nodisturb.setText(String.format(Locale.getDefault(),
-                            "勿扰时段(%s:00 至 %s:00)", ts, te));
+                            "来电勿扰(%s:00 至 %s:00)", ts, te));
                 }
                 boolean nopush = o.getBoolean("nopush");
                 boolean nodisturb = o.getBoolean("nodisturb");

@@ -225,8 +225,8 @@ public class AsynHttpClient {
     public static final String API_USERLIST_MAINLIST = "v4.0/userlist/mainlist";
     public static final String API_USERLIST_SEARCHBYTAG = "userlist/searchbytag";
 
-    public static final String API_REPORT_SEND = "report/send";
-    public static final String API_REPORT_DOBLOCK = "v1.0/report/send";
+    public static final String API_REPORT_SEND = "v1.0/report/send";
+    //public static final String API_REPORT_DOBLOCK = "v1.0/report/send";
     public static final String API_FRIEND_DELETE = "contact/delete";
     public static final String API_PAYMENT_ITEMS = "payment/items";
     public static final String API_PAYMENT_ORDER = "payment/order";
@@ -260,6 +260,8 @@ public class AsynHttpClient {
 
     public static final String API_CALLHISTORY_LIST = "callhistory/list";
     public static final String API_CALLHISTORY_DELETE = "callhistory/delete";
+
+    public static final String API_WILDCAT_PERMISSION = "v1.0/userinfo/wildcat_permission";
 
     //获取领取奖励
     public static final String API_REWARD_SOCIAL = "reward/social";
@@ -309,6 +311,8 @@ public class AsynHttpClient {
     public static final String API_GETUPLOADCONFIG = "v1.0/hourglass/getuploadconfig";
     public static final String API_HOURGLASS_UPLOADDATA = "v1.0/hourglass/uploaddata";
     public static final String API_CALL_CHANNEL = "v1.0/userinfo/channel";
+
+    public static final String API_WILDCAT_ADS = "v1.0/setting/wildcat_ads";
 
     public static final String API_PRISE_COUNT = "v1.0/feed/pub/like/count";
     public static final String ENCODEING = "UTF-8";

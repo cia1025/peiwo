@@ -1258,7 +1258,8 @@ public class UserInfoActivity
                         ArrayList<NameValuePair> paramList = new ArrayList<NameValuePair>();
                         paramList.add(new BasicNameValuePair(AsynHttpClient.KEY_TUID, String.valueOf(tUid)));
                         paramList.add(new BasicNameValuePair(AsynHttpClient.KEY_REASON, String.valueOf(which == 4 ? 0 : which + 1)));
-                        ApiRequestWrapper.openAPIGET(getApplicationContext(), paramList, AsynHttpClient.API_REPORT_DOBLOCK, new MsgStructure() {
+                        paramList.add(new BasicNameValuePair("type", "stranger"));
+                        ApiRequestWrapper.openAPIGET(getApplicationContext(), paramList, AsynHttpClient.API_REPORT_SEND, new MsgStructure() {
                             @Override
                             public void onReceive(JSONObject data) {
                                 mHandler.sendEmptyMessage(WHAT_DATA_RECEIVE_REPORT_SUCCESS);

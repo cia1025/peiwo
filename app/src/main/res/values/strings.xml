@@ -212,7 +212,7 @@
     <string name="group_profit_announcement">*可将当前收益以红包形式发放给群成员</string>
     <string name="group_recruition_announcement">*开启后群组可被陌生人发现并直接参与群聊</string>
     <string name="newbie_ticket_announcement">*设置后陌生人需缴纳费用才能进入群组，此收益由群成员共享，以红包形式结算</string>
-    <string name="your_balance_is_not_enough">你的账户余额不足，充值后再进群吧</string>
+    <string name="your_balance_is_not_enough_for_join_group">你的账户余额不足，充值后再进群吧</string>
     <string name="please_choose_your_pay_way">请选择支付方式</string>
     <string name="confirm_to_pay_with_money">确认支付%s元？</string>
     <string name="you_need_pay_group_ticket_with_money">进入该群组需支付%s元新人门票</string>
@@ -332,6 +332,10 @@
     <string name="title_activity_call_out">CallOutActivity</string>
     <string name="title_activity_agora_call_in">AgoraCallInActivity</string>
     <string name="title_activity_agora_wild_call">AgoraWildCallActivity</string>
+    <string name="home_page">主页</string>
+    <string name="feed_food">打赏</string>
+    <string name="hands_free">免提</string>
+    <string name="your_balance_is_not_enough_for_calling">您的账户余额不足，充值后再打给我吧！</string>
 
 
 </resources>

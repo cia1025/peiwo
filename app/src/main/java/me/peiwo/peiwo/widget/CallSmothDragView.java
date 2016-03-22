@@ -3,6 +3,7 @@ package me.peiwo.peiwo.widget;
 import android.content.Context;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -15,8 +16,9 @@ public class CallSmothDragView extends FrameLayout {
     private ViewDragHelper dragHelper;
     private View mDragView;
     private boolean callback = false;
-    public static final int OUTSIDE = 1;
-    public static final int INSIDE = 2;
+    private boolean enableDrag = false;
+    public static final int OUTSIDE = 3;
+    public static final int INSIDE = 4;
 
     public CallSmothDragView(Context context) {
         super(context);
@@ -35,6 +37,13 @@ public class CallSmothDragView extends FrameLayout {
 
     private void init() {
         dragHelper = ViewDragHelper.create(this, new ViewDragHelper.Callback() {
+
+            @Override
+            public void onViewDragStateChanged(int state) {
+                if (CallSmothDragView.this.listener != null)
+                    CallSmothDragView.this.listener.onDrag(state);
+            }
+
             @Override
             public boolean tryCaptureView(View child, int pointerId) {
                 return true;
@@ -47,7 +56,7 @@ public class CallSmothDragView extends FrameLayout {
 
             @Override
             public int clampViewPositionVertical(View child, int top, int dy) {
-                if (top >= 0) return 0;
+                if (top >= 0 || !enableDrag) return 0;
                 return top;
             }
 
@@ -58,6 +67,7 @@ public class CallSmothDragView extends FrameLayout {
 
             @Override
             public void onViewReleased(View releasedChild, float xvel, float yvel) {
+                Log.i("drag", "xvel==" + xvel + "--yvel==" + yvel);
                 boolean settle;
                 if (Math.abs(mDragView.getTop()) > getHeight() / 3) {
                     settle = dragHelper.settleCapturedViewAt(0, -getHeight());
@@ -115,6 +125,22 @@ public class CallSmothDragView extends FrameLayout {
 
     public void setCallDragListener(CallDragListener listener) {
         this.listener = listener;
+    }
+
+    private void reset() {
+        Log.i("drag", "reset");
+        if (mDragView != null && mDragView.getTop() > 0) {
+            Log.i("drag", "getTop > 0");
+            if (dragHelper.settleCapturedViewAt(0, 0)) {
+                Log.i("drag", "settleCapturedViewAt");
+                callback = true;
+                invalidate();
+            }
+        }
+    }
+
+    public void enableDrag(boolean enable) {
+        this.enableDrag = enable;
     }
 
     public interface CallDragListener {

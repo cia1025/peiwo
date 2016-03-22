@@ -197,7 +197,7 @@ public class PhoneLoginActivity extends BaseActivity {
 //                && socialType != -1) {
 //
 //            if (UserManager.getUserState(PhoneLoginActivity.this) != UserManager.STATE_UNINITED) {
-//                onAuthLoginSuccess(socialType, openid, opentoken);
+//                oAuthLoginSuccess(socialType, openid, opentoken);
 //            }
 //        }
 
@@ -325,7 +325,7 @@ public class PhoneLoginActivity extends BaseActivity {
         mSsoHandler.authorize(new AuthListener());
     }
 
-    private void onAuthLoginSuccess(int social_type, String social_uid, String access_token) {
+    private void oAuthLoginSuccess(int social_type, String social_uid, String access_token) {
 //        showAnimLoading();
 //        ApiRequestWrapper.signin(PhoneLoginActivity.this, String.valueOf(social_type), String.valueOf(social_uid), access_token, new MsgStructure() {
 //            @Override
@@ -493,7 +493,7 @@ public class PhoneLoginActivity extends BaseActivity {
                     opentoken2 = access_token;
                     UserManager.saveOpenResultInPreference(PhoneLoginActivity.this, openid, access_token, SOCIAL_TYPE_QQ);
                     //saveOpenResultInPreference(openid, access_token, SOCIAL_TYPE_QQ);
-                    onAuthLoginSuccess(SOCIAL_TYPE_QQ, openid, access_token);
+                    oAuthLoginSuccess(SOCIAL_TYPE_QQ, openid, access_token);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -653,7 +653,7 @@ public class PhoneLoginActivity extends BaseActivity {
             if (mAccessToken.isSessionValid()) {
                 UserManager.saveOpenResultInPreference(PhoneLoginActivity.this, mAccessToken.getUid(), mAccessToken.getToken(), SOCIAL_TYPE_WEIBO);
                 //saveOpenResultInPreference(mAccessToken.getUid(), mAccessToken.getToken(), SOCIAL_TYPE_WEIBO);
-                onAuthLoginSuccess(SOCIAL_TYPE_WEIBO, mAccessToken.getUid(), mAccessToken.getToken());
+                oAuthLoginSuccess(SOCIAL_TYPE_WEIBO, mAccessToken.getUid(), mAccessToken.getToken());
             } else {
             }
         }

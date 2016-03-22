@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import me.peiwo.peiwo.R;
+import me.peiwo.peiwo.activity.AgoraWildCallActivity;
 import me.peiwo.peiwo.activity.WildCatCallActivity;
 import me.peiwo.peiwo.util.FileManager;
 import me.peiwo.peiwo.widget.RoundProgressBar;
@@ -196,7 +197,7 @@ public class RecordingFragment extends PPBaseFragment {
             }).setPositiveButton("能，去限时聊", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(getActivity(), WildCatCallActivity.class);
+                    Intent intent = new Intent(getActivity(), AgoraWildCallActivity.class);
                     intent.putExtra(WildCatCallActivity.START_MAIN, 1);
                     startActivity(intent);
                     getActivity().finish();

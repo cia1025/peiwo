@@ -5,17 +5,13 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Handler;
-import android.os.Message;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Chronometer;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.*;
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.activity.BaseActivity;
 import me.peiwo.peiwo.activity.LazyGuyActivity;
@@ -31,6 +27,8 @@ import me.peiwo.peiwo.util.Md5Util;
 import me.peiwo.peiwo.util.PWUtils;
 import org.apache.http.NameValuePair;
 import org.json.JSONObject;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,17 +38,14 @@ import java.util.List;
 /**
  * Created by gaoxiang on 2015/10/19.
  */
-public class LazyVoiceLayout extends RelativeLayout implements View.OnClickListener, MediaPlayer.OnErrorListener {
+public class LazyVoiceLayout extends RelativeLayout implements MediaPlayer.OnErrorListener {
     private final Context mContext;
     private ImageView iv_play_btn;
     private Chronometer chronometer_time;
+    private TextView tv_voice_total_time;
     private State mState;
     private static final int WAVELINE_COUNTS = 40;
     private static final int ANIMATION_DURATION = 400;
-    private MyHandler mHandler;
-    private static final int LOAD_LAZY_VOICE = 0x10;
-    private static final int LOAD_LAZY_VOICE_ERROR = 0x11;
-    private Chronometer tv_voice_total_time;
     private List<Float> mLinesHeightList;
     private List<View> mLinesList;
     private String mFilePath;
@@ -71,94 +66,47 @@ public class LazyVoiceLayout extends RelativeLayout implements View.OnClickListe
         init();
     }
 
-    public LazyVoiceLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        mContext = context;
-        init();
-    }
-
     private void init() {
+        LayoutInflater.from(getContext()).inflate(R.layout.layout_lazy_preview, this);
+        tv_voice_total_time = (TextView) findViewById(R.id.tv_voice_total_time);
+        chronometer_time = (Chronometer) findViewById(R.id.chronometer_time);
+        iv_play_btn = (ImageView) findViewById(R.id.iv_play_default_btn);
         mState = State.IDLE;
         mLinesHeightList = new ArrayList<>();
         mLinesList = new ArrayList<>();
-        //setBackgroundColor(getResources().getColor(R.color.recorder_blue_color));
-        iv_play_btn = new ImageView(mContext);
-        chronometer_time = new Chronometer(mContext);
-        tv_voice_total_time = new Chronometer(mContext);
-        iv_play_btn.setOnClickListener(this);
-        iv_play_btn.setImageResource(R.drawable.icon_play_lazy);
-        RelativeLayout.LayoutParams lp_play_btn = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        RelativeLayout.LayoutParams lp_chronometer = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        RelativeLayout.LayoutParams lp_time = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp_play_btn.addRule(CENTER_VERTICAL);
-        lp_play_btn.leftMargin = PWUtils.getPXbyDP(mContext, 14);
-        lp_play_btn.rightMargin = PWUtils.getPXbyDP(mContext, 22);
-        lp_time.addRule(ALIGN_PARENT_RIGHT | ALIGN_PARENT_TOP);
-        lp_time.rightMargin = PWUtils.getPXbyDP(mContext, 12);
-        lp_time.topMargin = PWUtils.getPXbyDP(mContext, 6);
-        tv_voice_total_time.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
-        lp_chronometer.addRule(ALIGN_PARENT_RIGHT | ALIGN_PARENT_TOP);
-        lp_chronometer.rightMargin = PWUtils.getPXbyDP(mContext, 42);
-        lp_chronometer.topMargin = PWUtils.getPXbyDP(mContext, 6);
-        chronometer_time.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
-        chronometer_time.setTextColor(getResources().getColor(R.color.lazy_guy_voice_time_color));
-        tv_voice_total_time.setTextColor(getResources().getColor(R.color.lazy_guy_voice_time_color));
-        addView(iv_play_btn, lp_play_btn);
-        addView(tv_voice_total_time, lp_time);
-        addView(chronometer_time, lp_chronometer);
         addWaveLineViews();
-        addBaseLine();
-        int padding = PWUtils.getPXbyDP(mContext, 35);
-        setPadding(0, 0, 0, padding);
         boolean netAvailable = PWUtils.isNetWorkAvailable(mContext);
         if (netAvailable) {
             fetchDefaultVoice();
         } else {
-            if (mContext instanceof BaseActivity)
+            if (mContext instanceof BaseActivity) {
                 ((BaseActivity) mContext).showToast(mContext, getResources().getString(R.string.umeng_common_network_break_alert));
+            }
         }
-        mHandler = new MyHandler();
-//        mMediaPlayer.setOnErrorListener(this);
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (mContext instanceof LazyGuyActivity) {
-            ((LazyGuyActivity) mContext).stopPlaying();
-        }
-        switch (mState) {
-            case IDLE:
-//                if (mMediaPlayer != null && (mMediaPlayer.getDuration() / 1000) > 0) {
-//                    CustomLog.d("2media player duration is : " + (mMediaPlayer.getDuration() / 1000));
-                updateState(State.PLAYING, true);
-//                } else {
-//                    boolean netAvailable = PWUtils.isNetWorkAvailable(mContext);
-//                    if (netAvailable) {
-//                        fetchDefaultVoice();
-//                    } else {
-//                        if (mContext instanceof BaseActivity)
-//                            ((BaseActivity) mContext).showToast(mContext, getResources().getString(R.string.umeng_common_network_break_alert));
-//                    }
-//                }
-                break;
-            case PLAYING:
-                updateState(State.PAUSE, false);
-                break;
-            case PAUSE:
-                updateState(State.RESUME, false);
-                break;
-            case RESUME:
-                updateState(State.PAUSE, false);
-                break;
-            case PLAYDONE:
-                updateState(State.PLAYING, true);
-                break;
-            default:
-                break;
-        }
+        iv_play_btn.setOnClickListener(v -> {
+            if (mContext instanceof LazyGuyActivity) {
+                ((LazyGuyActivity) mContext).stopPlaying();
+            }
+            switch (mState) {
+                case IDLE:
+                    updateState(State.PLAYING, true);
+                    break;
+                case PLAYING:
+                    updateState(State.PAUSE, false);
+                    break;
+                case PAUSE:
+                    updateState(State.RESUME, false);
+                    break;
+                case RESUME:
+                    updateState(State.PAUSE, false);
+                    break;
+                case PLAYDONE:
+                    updateState(State.PLAYING, true);
+                    break;
+                default:
+                    break;
+            }
+        });
     }
 
     private void updateState(State state, boolean restartTimer) {
@@ -224,20 +172,17 @@ public class LazyVoiceLayout extends RelativeLayout implements View.OnClickListe
                 mFilePath = target.getAbsolutePath();
                 CustomLog.d("lazy_voice_url is : " + lazy_voice_url);
                 if (target.exists() && target.length() > 0) {
-                    Message msg = mHandler.obtainMessage();
-                    msg.what = LOAD_LAZY_VOICE;
-                    mHandler.sendMessage(msg);
+                    Observable.just(null).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+                        loadLazyVoice();
+                    });
                     CustomLog.d("file is exist.");
                 } else {
                     CustomLog.d("file is not exist.");
-
                     PWDownloader downloader = PWDownloader.getInstance();
                     downloader.add(lazy_voice_url, target, new DownloadCallback() {
                         @Override
                         public void onComplete(String path) {
-                            Message msg = mHandler.obtainMessage();
-                            msg.what = LOAD_LAZY_VOICE;
-                            mHandler.sendMessage(msg);
+                            loadLazyVoice();
                         }
 
                         @Override
@@ -250,7 +195,11 @@ public class LazyVoiceLayout extends RelativeLayout implements View.OnClickListe
 
             @Override
             public void onError(int error, Object ret) {
-
+                String tips = "failed " + error;
+                if (ret instanceof JSONObject) {
+                    tips = ((JSONObject) ret).optString("msg");
+                }
+                Toast.makeText(mContext, tips, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -258,10 +207,6 @@ public class LazyVoiceLayout extends RelativeLayout implements View.OnClickListe
     public void loadLazyVoice() {
         MediaPlayer player = new MediaPlayer();
         try {
-//            if (mMediaPlayer == null) {
-//                mMediaPlayer = new MediaPlayer();
-//            }
-
             player.reset();
             player.setDataSource(mFilePath);
             player.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -293,17 +238,6 @@ public class LazyVoiceLayout extends RelativeLayout implements View.OnClickListe
         }
     }
 
-    private void addBaseLine() {
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.height = PWUtils.getPXbyDP(mContext, 1);
-        lp.leftMargin = PWUtils.getPXbyDP(mContext, 63);
-        lp.addRule(ALIGN_PARENT_BOTTOM);
-        ImageView baseLine = new ImageView(mContext);
-        baseLine.setBackgroundColor(getResources().getColor(R.color.c_de2));
-        addView(baseLine, lp);
-    }
-
     private void addWaveLineViews() {
         for (int i = 0; i < WAVELINE_COUNTS; i++) {
             ImageView lineView = createLineView(i);
@@ -327,6 +261,7 @@ public class LazyVoiceLayout extends RelativeLayout implements View.OnClickListe
         lp.leftMargin = PWUtils.getPXbyDP(mContext, 60) + (PWUtils.getPXbyDP(mContext, 6) * i);
         lp.width = PWUtils.getPXbyDP(mContext, 8);
         lp.topMargin = PWUtils.getPXbyDP(mContext, 30);
+        lp.bottomMargin = PWUtils.getPXbyDP(mContext, 38);
         iv.setLayoutParams(lp);
         return iv;
     }
@@ -371,24 +306,6 @@ public class LazyVoiceLayout extends RelativeLayout implements View.OnClickListe
                         }
                     });
                 }
-            }
-        }
-    }
-
-    class MyHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case LOAD_LAZY_VOICE:
-                    if (!mFilePath.equals("")) {
-                        loadLazyVoice();
-                    }
-                    break;
-                case LOAD_LAZY_VOICE_ERROR:
-                    CustomLog.e("load lazy voice error.");
-                    break;
-                default:
-                    break;
             }
         }
     }

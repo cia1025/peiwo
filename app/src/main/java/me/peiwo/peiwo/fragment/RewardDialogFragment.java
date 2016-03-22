@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.activity.BaseCallActivity;
@@ -43,7 +44,9 @@ public class RewardDialogFragment extends DialogFragment implements View.OnClick
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View v = getActivity().getLayoutInflater().inflate(R.layout.layout_reward_dialog, null);
+        RelativeLayout rootView = new RelativeLayout(getActivity());
+        View v = getActivity().getLayoutInflater().inflate(R.layout.layout_reward_dialog, rootView, true);
+        //rootView.addView(v);
         tv_reward_message = (TextView) v.findViewById(R.id.tv_reward_message);
         tv_reward_price = (TextView) v.findViewById(R.id.tv_reward_price);
         btn_reward_action = (Button) v.findViewById(R.id.btn_reward_action);
@@ -72,7 +75,7 @@ public class RewardDialogFragment extends DialogFragment implements View.OnClick
             tv_reward_price.setText("￥" + String.format("%.2f", money));
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setView(v);
+        builder.setView(rootView);
         return builder.create();
     }
 

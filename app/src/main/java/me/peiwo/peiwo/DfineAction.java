@@ -318,8 +318,8 @@ public class DfineAction {
     public static final int IntentRewardMessage = 0x00F1;
     public static final int IntentRewardResponseMessage = 0x00F2;
     public static final int PayRewardMessage = 0x00F3;
-    public static final int PayRewardResponseMessage = 0x00F4;
-    public static final int RewardedMessage = 0x00F5;
+    public static final int PayRewardResponseMessage = 0x00F4; //244
+    public static final int RewardedMessage = 0x00F5;//245
 
 
     /**

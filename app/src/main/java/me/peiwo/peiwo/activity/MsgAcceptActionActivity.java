@@ -463,8 +463,9 @@ public class MsgAcceptActionActivity extends BaseActivity implements CompoundBut
                     }
                     ArrayList<NameValuePair> paramList = new ArrayList<NameValuePair>();
                     paramList.add(new BasicNameValuePair(AsynHttpClient.KEY_TUID, String.valueOf(model.uid)));
+                    paramList.add(new BasicNameValuePair("type", "friend"));
                     paramList.add(new BasicNameValuePair(AsynHttpClient.KEY_REASON, String.valueOf(which == 4 ? 0 : which + 1)));
-                    ApiRequestWrapper.openAPIGET(getApplicationContext(), paramList, AsynHttpClient.API_REPORT_DOBLOCK, new MsgStructure() {
+                    ApiRequestWrapper.openAPIGET(getApplicationContext(), paramList, AsynHttpClient.API_REPORT_SEND, new MsgStructure() {
                         @Override
                         public void onReceive(JSONObject data) {
                             distributeMessage(WHAT_DATA_RECEIVE_REPORT_SUCCESS, data);
