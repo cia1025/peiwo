@@ -14,7 +14,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-
 import me.peiwo.peiwo.constans.Constans;
 import me.peiwo.peiwo.widget.GroupBottomActionView;
 
@@ -59,7 +58,7 @@ public class ChatInputDetectorCompat {
 
                 mEditText.postDelayed(this::unlockContentHeightDelayed, 200L);
             }
-            if (event.getAction() == MotionEvent.ACTION_UP) {
+            if(event.getAction() == MotionEvent.ACTION_UP){
                 if (this.textMessageButtonPerformListener != null) {
                     this.textMessageButtonPerformListener.onTextMessageButtonPerform();
                 }
@@ -71,7 +70,6 @@ public class ChatInputDetectorCompat {
 
     public ChatInputDetectorCompat bindToEmotionButton(View emotionButton) {
         emotionButton.setOnClickListener(v -> {
-            MsgImageKeeper.getInstance().clear();
             if (mEmotionLayout instanceof GroupBottomActionView) {
                 GroupBottomActionView groupBottomActionView = (GroupBottomActionView) mEmotionLayout;
                 if (groupBottomActionView.isImageQuickSwitchShown()) {
@@ -106,7 +104,6 @@ public class ChatInputDetectorCompat {
 
     public ChatInputDetectorCompat bindTextMessageButton(View textMessageButton) {
         textMessageButton.setOnClickListener(v -> {
-            MsgImageKeeper.getInstance().clear();
             if (mEmotionLayout.isShown()) {
                 lockContentHeight();
                 hideEmotionLayout(true);
@@ -130,7 +127,6 @@ public class ChatInputDetectorCompat {
 
     public ChatInputDetectorCompat bindImageQuickSwitchButton(View imageQuickSwitchButton) {
         imageQuickSwitchButton.setOnClickListener(v -> {
-            MsgImageKeeper.getInstance().clear();
             if (mEmotionLayout instanceof GroupBottomActionView) {
                 GroupBottomActionView groupBottomActionView = (GroupBottomActionView) mEmotionLayout;
                 if (groupBottomActionView.isExpressionShown() || groupBottomActionView.consumingEvents()) {

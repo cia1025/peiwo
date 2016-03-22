@@ -10,18 +10,19 @@ import android.net.Uri;
  */
 public interface PWDBConfig {
 
-    String AUTOHORITY = "me.peiwo.message";
+    public static final String AUTOHORITY = "me.peiwo.message";
 
-    String DB_NAME_USER = "muser";
 
-    String TB_NAME_USER = "mprofile";
+    public static final String DB_NAME_USER = "muser";
+
+    public static final String TB_NAME_USER = "mprofile";
 
     /**
      * 联系人数据库表
      */
-    String TB_NAME_PW_CONTACTS = "pw_contacts";
+    public static final String TB_NAME_PW_CONTACTS = "pw_contacts";
 
-    class ContactsTable {
+    public static class ContactsTable {
         public static final String ID = "_id";
         public static final String UID = "uid";
         public static final String SYNC_ID = "sync_id";
@@ -47,9 +48,9 @@ public interface PWDBConfig {
     /**
      * 消息详细记录数据库表
      */
-    String TB_NAME_PW_DIALOGS = "pw_dialogs";
+    public static final String TB_NAME_PW_DIALOGS = "pw_dialogs";
 
-    class DialogsTable {
+    public static class DialogsTable {
         public static final String ID = "_id";
         public static final String CONTENT = "content";        //兼容低版本用
         public static final String DIALOG_ID = "dialog_id";        //每条短信的ID
@@ -101,9 +102,9 @@ public interface PWDBConfig {
     /**
      * 向你申请通话的人 数据库表
      */
-    String TB_NAME_PW_REQUESTS = "pw_requests";
+    public static final String TB_NAME_PW_REQUESTS = "pw_requests";
 
-    class RequestsTable {
+    public static class RequestsTable {
         public static final String ID = "_id";
         public static final String REQUEST_ID = "request_id";
         public static final String SYNC_ID = "sync_id";
@@ -124,23 +125,23 @@ public interface PWDBConfig {
         public static final Uri CONTENT_URI = Uri.parse("content://" + AUTOHORITY + "/" + TB_NAME_PW_REQUESTS);
     }
 
-    String TB_NAME_UID_MSGID = "uid_msgid";
+    public static final String TB_NAME_UID_MSGID = "uid_msgid";
 
-    class UidMsgId {
+    public static class UidMsgId {
         public static final String UID = "uid";
         public static final String MSG_ID = "msg_id";
         public static final Uri CONTENT_URI = Uri.parse("content://" + AUTOHORITY + "/" + TB_NAME_UID_MSGID);
     }
 
-    int TB_PW_MESSAGE_URI_CODE = 1;
-    int TB_PW_DIALOGS_URI_CODE = 2;
-    int TB_PW_CONTACTS_URI_CODE = 3;
-    int TB_PW_REQUESTS_URI_CODE = 4;
-    int TB_PW_UID_MSGID_URI_CODE = 5;
+    public static final int TB_PW_MESSAGE_URI_CODE = 1;
+    public static final int TB_PW_DIALOGS_URI_CODE = 2;
+    public static final int TB_PW_CONTACTS_URI_CODE = 3;
+    public static final int TB_PW_REQUESTS_URI_CODE = 4;
+    public static final int TB_PW_UID_MSGID_URI_CODE = 5;
 
     //联系人备注
-    String DB_NAME_MK_PREFIX = "rmk";
-    String TB_NAME_PW_REMARK = "pw_remark";
+    public static final String DB_NAME_MK_PREFIX = "rmk";
+    public static final String TB_NAME_PW_REMARK = "pw_remark";
 
     /**
      * 匿名聊记录被举报的用户映射表

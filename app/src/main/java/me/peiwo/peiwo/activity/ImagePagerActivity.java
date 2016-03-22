@@ -277,13 +277,6 @@ public class ImagePagerActivity extends BaseActivity {
             Toast.makeText(ImagePagerActivity.this, "图片已存在" + dst.getAbsolutePath(), Toast.LENGTH_SHORT).show();
             return;
         }
-
-        if (src.getAbsolutePath().contains("file:/")) {
-            int startIndex = src.getAbsolutePath().indexOf("/storage");
-            String filepath = src.getAbsolutePath().substring(startIndex);
-            src = new File(filepath);
-        }
-
         Observable<Boolean> observable = FileManager.copyFile(src, dst);
         Subscription subscription = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Boolean>() {
             @Override

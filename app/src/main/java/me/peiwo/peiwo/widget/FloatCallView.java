@@ -33,12 +33,12 @@ public class FloatCallView extends ImageView {
 
 
     private WindowManager.LayoutParams wmParams;
-    private WindowManager mWindowMgr;
+    private WindowManager wm;
     private int screenWidth;
     private int screenHeight;
 
     public void setParams(WindowManager windowManager, WindowManager.LayoutParams params) {
-        this.mWindowMgr = windowManager;
+        this.wm = windowManager;
         this.wmParams = params;
     }
 
@@ -87,7 +87,7 @@ public class FloatCallView extends ImageView {
                     wmParams.y = screenHeight - mHeight;
                 }
                 // Update suspended window position
-                mWindowMgr.updateViewLayout(this, wmParams);
+                wm.updateViewLayout(this, wmParams);
                 break;
             case MotionEvent.ACTION_UP:
                 if (isClick(SystemClock.uptimeMillis() - lastUptimeMillis)) {

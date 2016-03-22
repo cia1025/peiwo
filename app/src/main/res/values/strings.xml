@@ -287,7 +287,6 @@
     <string name="title_activity_groupchat_more_packet">GroupchatMorePacketActivity</string>
     <string name="title_activity_chat_repu_redbag">ChatRepuRedbagActivity</string>
     <string name="title_activity_verifi_code_not_receive">VerifiCodeNotReceiveActivity</string>
-    <string name="title_activity_msg_show_album">MsgShowAlbumActivity</string>
     <string name="stop_zhaoxin">该群未开放，被群成员邀请方可入群</string>
     <string name="title_activity_update_group_notice">UpdateGroupNoticeActivity</string>
     <string name="can_not_reach_verification_code">收不到验证码</string>
@@ -319,12 +318,12 @@
     <string name="password_set_failed">密码设置失败</string>
     <string name="redbag">[红包]</string>
     <string name="picture">[图片]</string>
-    <string name="title_activity_msg_album_full_screen">MsgAlbumFullScreenActivity</string>
     <string name="redbag_invalid">红包领取失败</string>
     <string name="user_whom_calling_you">\@%s 希望与你通话</string>
     <string name="you_are_calling_with_whom">你正在与\@%s 通话</string>
     <string name="calling_in_background">后台打电话</string>
-    <string name="notify_counts">[%d条]</string>
-    <string name="title_activity_server_down">ServerDownActivity</string>
+    <string name="title_activity_call_out">CallOutActivity</string>
+    <string name="title_activity_agora_call_in">AgoraCallInActivity</string>
+    <string name="title_activity_agora_wild_call">AgoraWildCallActivity</string>
 
 </resources>

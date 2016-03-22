@@ -59,7 +59,7 @@ public class CoreServiceBinder extends Binder {
             json.put("msg_type", DfineAction.MSG_SignIn);
             json.put("uid", mUid);
             json.put("sign", sign);
-            json.put("device_type", Build.MODEL+","+Build.VERSION.SDK_INT);
+            json.put("device_type", Build.MODEL + "," + Build.VERSION.SDK_INT);
             json.put("version", DfineAction.TCP_VERSION);
             json.put("app_version", PWUtils.getVersionCode(mContext));
             // 渠道号
@@ -95,6 +95,7 @@ public class CoreServiceBinder extends Binder {
         }
         return false;
     }
+
 
     public void JHFkk_Broadcast() {
 /*		if (m_threadTCP != null && m_threadTCP.isSocketConnect())

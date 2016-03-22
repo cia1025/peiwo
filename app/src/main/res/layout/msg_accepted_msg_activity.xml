@@ -174,7 +174,7 @@
                         android:id="@+id/view_input_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="20dp"
                         android:clickable="true"
                         android:onClick="click"
                         android:src="@drawable/iv_msgtxt_selector" />
@@ -184,7 +184,7 @@
                         android:id="@+id/iv_expression"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="13dp"
+                        android:layout_marginLeft="20dp"
                         android:clickable="true"
                         android:onClick="click"
                         android:src="@drawable/iv_express_selector" />
@@ -193,7 +193,7 @@
                         android:id="@+id/msg_send_img_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="17dp"
+                        android:layout_marginLeft="20dp"
                         android:clickable="true"
                         android:onClick="click"
                         android:src="@drawable/iv_imgquickswitch_selector" />
@@ -204,7 +204,7 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_chatredbag_selector"
                         android:id="@+id/v_redbag_start"
-                        android:layout_marginLeft="17dp"/>
+                        android:layout_marginLeft="20dp"/>
                 </LinearLayout>
 
                 <Button

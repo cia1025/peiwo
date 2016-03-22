@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.graphics.Color;
@@ -88,7 +87,6 @@ import me.peiwo.peiwo.net.PWUploader;
 import me.peiwo.peiwo.util.ChatInputDetectorCompat;
 import me.peiwo.peiwo.util.FileManager;
 import me.peiwo.peiwo.util.Md5Util;
-import me.peiwo.peiwo.util.MsgImageKeeper;
 import me.peiwo.peiwo.util.PWUtils;
 import me.peiwo.peiwo.util.UserManager;
 import me.peiwo.peiwo.util.group.ChatImageWrapper;
@@ -113,7 +111,6 @@ public class GroupChatActivity extends BaseActivity implements ReceiveRongMessag
     public static final int REQUEST_GROUP_HOMEPAGE = 1001;
     private static final int REQUEST_CODE_AT_MEMBER = 1002;
     private static final int REQUEST_CODE_REDBAG = 1003;
-    private static final int SELECT_MSG_IMG_OK = 1004;
 
     public static final String ACTION_CLEAR_MESSAGE = "me.peiwo.peiwo.ACTION_CLEAR_MESSAGE";
     public static final String ACTION_POST_MESSAGE = "me.peiwo.peiwo.ACTION_POST_MESSAGE";
@@ -122,7 +119,6 @@ public class GroupChatActivity extends BaseActivity implements ReceiveRongMessag
     public static final String K_POST_MESSAGE_TYPE = "msg_type";
     public static final String K_SHOW_NICK_NAME = "show_nick";
     public static final String K_NICK_NAME = "nick_name";
-
 
     private List<GroupBaseUserModel> atUsers;
 
@@ -160,7 +156,7 @@ public class GroupChatActivity extends BaseActivity implements ReceiveRongMessag
     private CompositeSubscription mSubscriptions;
     private boolean auto_scroll_to_last = true;
     private int last_msg_count;
-    //    private boolean show_errorcode = false;
+    private boolean show_errorcode = false;
     private boolean need_silent;
 
     @Override
@@ -176,11 +172,11 @@ public class GroupChatActivity extends BaseActivity implements ReceiveRongMessag
         dbService.cancelIMNotification();
         checkRongConnectStatus();
         //debug
-//        findViewById(R.id.v_send_message).setOnLongClickListener(v -> {
-////            Toast.makeText(this, "debug 模式", Toast.LENGTH_SHORT).show();
-//            show_errorcode = true;
-//            return true;
-//        });
+        findViewById(R.id.v_send_message).setOnLongClickListener(v -> {
+            Toast.makeText(this, "debug 模式", Toast.LENGTH_SHORT).show();
+            show_errorcode = true;
+            return true;
+        });
     }
 
     private void checkRongConnectStatus() {
@@ -243,7 +239,6 @@ public class GroupChatActivity extends BaseActivity implements ReceiveRongMessag
                 .bindImageQuickSwitchButton(v_image_quick_switch_start).build();
         setDetectorListeners();
         v_bottom_panel.post(() -> v_bottom_panel.getImageQuickSwitchView().setOnMoreActionClickListener(this::chooseMoreImage));
-        v_bottom_panel.post(() -> v_bottom_panel.getImageQuickSwitchView().setOnMoreActionClickListener(this::startShowAlbum));
         v_bottom_panel.post(() -> v_bottom_panel.getExpressionPanelView().setOnExpressionItemClickListener(this::expressionClick));
         v_bottom_panel.post(() -> v_bottom_panel.getExpressionPanelView().setOnExpressionDeleteEmotionListener(this::expressionDeleteClick));
         loadHistoryMessages();
@@ -700,15 +695,6 @@ public class GroupChatActivity extends BaseActivity implements ReceiveRongMessag
         et_message_input.onKeyDown(KeyEvent.KEYCODE_DEL, event);
     }
 
-    private void startShowAlbum() {
-        changeViewTextInputMode();
-        detectorCompat.interceptBackPress();
-        Intent intent = new Intent(this, MsgShowAlbumActvity.class);
-        MsgImageKeeper.getInstance().addAll(v_bottom_panel.getImageQuickSwitchView().getSelectedImages());
-        intent.putExtra(MsgShowAlbumActvity.ALBUM_SHOW_MODE, MsgShowAlbumActvity.ALBUM_SHOW_TILED);
-        startActivityForResult(intent, SELECT_MSG_IMG_OK);
-    }
-
     private void chooseMoreImage() {
         changeViewTextInputMode();
         detectorCompat.interceptBackPress();
@@ -860,7 +846,6 @@ public class GroupChatActivity extends BaseActivity implements ReceiveRongMessag
                 enterGroupHomePageVerifi();
                 break;
             case R.id.v_redbag_start:
-                MsgImageKeeper.getInstance().clear();
                 detectorCompat.interceptBackPress();
                 changeViewTextInputMode();
                 enterRedBagPagerVerifi();
@@ -933,25 +918,11 @@ public class GroupChatActivity extends BaseActivity implements ReceiveRongMessag
     private void sendTextOrImageMessageAction() {
         if (v_bottom_panel.isImageQuickSwitchShown()) {
             List<String> image_paths = v_bottom_panel.getImageQuickSwitchView().getSelectedImages();
-            int size = image_paths.size();
-            for (int i = 0; i < size; i++) {
-                String imgUrl = image_paths.get(i);
-                if (MsgImageKeeper.getInstance().getImgList().size() == 0 || !MsgImageKeeper.getInstance().contains(imgUrl)) {
-                    MsgImageKeeper.getInstance().getImgList().add(imgUrl);
-                }
-            }
-            List<String> sendImgUrls = new ArrayList<>();
-            sendImgUrls.addAll(MsgImageKeeper.getInstance().getImgList());
             detectorCompat.interceptBackPress();
             changeViewTextInputMode();
-            if (sendImgUrls.size() > 0) {
-                sendMultiImageMessage(sendImgUrls);
+            if (image_paths.size() > 0) {
+                sendMultiImageMessage(image_paths);
             }
-//            detectorCompat.interceptBackPress();
-//            changeViewTextInputMode();
-//            if (image_paths.size() > 0) {
-//                sendMultiImageMessage(image_paths);
-//            }
         } else {
             String text = et_message_input.getText().toString();
             sendSingleTextMessage(text);
@@ -1139,8 +1110,8 @@ public class GroupChatActivity extends BaseActivity implements ReceiveRongMessag
             if (errorCode == RongIMClient.ErrorCode.NOT_IN_GROUP) {
                 Snackbar.make(theActivity.v_recycler_message, "您不在这个群组", Snackbar.LENGTH_SHORT).show();
             }
-//            if (theActivity.show_errorcode)
-//                Snackbar.make(theActivity.v_recycler_message, "SendMessageCallback errcode == " + errorCode, Snackbar.LENGTH_LONG).show();
+            if (theActivity.show_errorcode)
+                Snackbar.make(theActivity.v_recycler_message, "SendMessageCallback errcode == " + errorCode, Snackbar.LENGTH_LONG).show();
             if (BuildConfig.DEBUG) {
                 Log.i("rongs", "error code=" + errorCode.getValue() + " -- group_id=" + theActivity.groupModel.group_id);
             }
@@ -1225,17 +1196,10 @@ public class GroupChatActivity extends BaseActivity implements ReceiveRongMessag
                     auto_scroll_to_last = true;
                     handleSendRedBag(data, GroupChatRedbagActivity.REDBAG_TYPE_PERSONAL);
                     break;
-                case SELECT_MSG_IMG_OK:
-                    ArrayList<String> msgUrls = data.getStringArrayListExtra(MsgShowAlbumActvity.MSG_IMG_URLS);
-                    sendMultiImageMessage(msgUrls);
-                    MsgImageKeeper.getInstance().clear();
-                    v_bottom_panel.getImageQuickSwitchView().clearSelectedUrls();
-                    break;
             }
         } else if (resultCode == GroupHomePageActvity.RESULT_GROUP_REDBAG) {
             //群红包
             auto_scroll_to_last = true;
-
             handleSendRedBag(data, GroupChatRedbagActivity.REDBAG_TYPE_GROUP);
         } else if (resultCode == GroupHomePageActvity.RESULT_GROUP_REPU_REDBAG) {
             //群声望红包
@@ -1468,10 +1432,6 @@ public class GroupChatActivity extends BaseActivity implements ReceiveRongMessag
             case GroupConstant.MessageType.TYPE_REPUTATION_REDBAG:
                 handleRedbagTypeAction(model, location);
                 break;
-            case GroupConstant.MessageType.TYPE_GIF:
-                //handle the
-                handleGifTypeAction(model, location);
-                break;
             default:
                 break;
         }
@@ -1556,22 +1516,6 @@ public class GroupChatActivity extends BaseActivity implements ReceiveRongMessag
         mSubscriptions.add(subscription);
     }
 
-    private void handleGifTypeAction(GroupMessageBaseModel model, int location) {
-        String[] items;
-        items = new String[]{"删除", "取消"};
-        GroupMessageGIFModel gifModel = (GroupMessageGIFModel) model;
-        new AlertDialog.Builder(this).setTitle("操作").setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which){
-                    case 0:
-                        deleteSingleRongMessage(model,location);
-                        break;
-                }
-            }
-        }).create().show();
-
-    }
 
     private void handleTextTypeAction(GroupMessageBaseModel model, int location) {
         boolean has_power = hasPower(model);

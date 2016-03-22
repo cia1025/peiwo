@@ -9,8 +9,8 @@ android {
         applicationId "me.peiwo.peiwo"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 2470
-        versionName "2.4.7"
+        versionCode 2460
+        versionName "2.4.6"
         multiDexEnabled true
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "dev", RONG_CLOUD_APP_KEY_VALUE: "c9kqb3rdk0zjj"]
         ndk {

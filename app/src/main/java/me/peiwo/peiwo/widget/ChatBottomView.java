@@ -4,10 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
-
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.util.EmotionInputDetector;
-import me.peiwo.peiwo.util.MsgImageKeeper;
 
 /**
  * Created by fuhaidong on 15/12/2.
@@ -115,7 +113,6 @@ public class ChatBottomView extends FrameLayout {
     private void changeViewStateNomal() {
         if (this.txtIndiView != null) {
             this.txtIndiView.setSelected(true);
-            MsgImageKeeper.getInstance().clear();
         }
         if (this.imageQuickIndiView != null) {
             this.imageQuickIndiView.setSelected(false);

@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.peiwo.peiwo.R;
@@ -67,10 +65,6 @@ public class AlbumSectionFragment extends Fragment {
             if (activity instanceof AlbumCompatActivity) {
                 AlbumCompatActivity albumCompatActivity = (AlbumCompatActivity) activity;
                 List<String> rst = adapter.getSelectedItems();
-                if (rst.isEmpty()) {
-                    Toast.makeText(getActivity(), "请至少选择一张图片", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 albumCompatActivity.resultAlbum((ArrayList<String>) rst);
             }
         });

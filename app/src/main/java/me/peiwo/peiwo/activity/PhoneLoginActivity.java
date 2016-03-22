@@ -15,7 +15,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import butterknife.Bind;
+
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent;
@@ -30,6 +30,14 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.ref.WeakReference;
+import java.util.concurrent.TimeUnit;
+
+import butterknife.Bind;
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.constans.Constans;
@@ -40,14 +48,13 @@ import me.peiwo.peiwo.net.ApiRequestWrapper;
 import me.peiwo.peiwo.net.AsynHttpClient;
 import me.peiwo.peiwo.net.MsgStructure;
 import me.peiwo.peiwo.net.TcpProxy;
-import me.peiwo.peiwo.util.*;
-import org.json.JSONException;
-import org.json.JSONObject;
+import me.peiwo.peiwo.util.HourGlassAgent;
+import me.peiwo.peiwo.util.PWUtils;
+import me.peiwo.peiwo.util.SharedPreferencesUtil;
+import me.peiwo.peiwo.util.TitleUtil;
+import me.peiwo.peiwo.util.UserManager;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-
-import java.lang.ref.WeakReference;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by fuhaidong on 14-9-25.
@@ -470,7 +477,6 @@ public class PhoneLoginActivity extends BaseActivity {
             islogin = true;
             EventBus.getDefault().post(new Intent(PWActionConfig.ACTION_LOGIN_IN));
             startActivity(new Intent(this, MainActivity.class));
-            findViewById(R.id.btn_submit).setClickable(false);
             finish();
         }
     }
@@ -548,16 +554,15 @@ public class PhoneLoginActivity extends BaseActivity {
                     public void onReceive(JSONObject data) {
                         // Trace.i("login data == " + data.toString());
                         Observable.just(data).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
+                            dismissAnimLoading();
                             PWUserModel modle = new PWUserModel(data);
                             if (UserManager.saveUser(PhoneLoginActivity.this, modle)) {
-                                if (!isresetpwd) {
+                                if (!isresetpwd)
                                     saveRegistInfo();
-                                }
                                 doHandleLogin();
                             } else {
                                 mHandler.sendEmptyMessage(WHAT_DATA_RECEIVE_ERROR);
                             }
-                            dismissAnimLoading();
                         });
 
                     }
@@ -567,6 +572,7 @@ public class PhoneLoginActivity extends BaseActivity {
                         Observable.just(error).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
                             dismissAnimLoading();
                             showErrorToast(ret, getString(R.string.logon_failed));
+
                         });
                     }
                 });

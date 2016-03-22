@@ -88,7 +88,7 @@ public class MsgAcceptActionActivity extends BaseActivity implements CompoundBut
         Intent data = getIntent();
         model = data.getParcelableExtra(K_DATA);
         ImageView civ_avatar = (ImageView) findViewById(R.id.civ_avatar);
-        CustomLog.d("init(). avatar_thumb is : " + model.avatar_thumbnail + ", avatart is : " + model.avatar);
+        CustomLog.d("init(). avatar_thumb is : "+model.avatar_thumbnail+", avatart is : "+model.avatar);
         ImageLoader.getInstance().displayImage(model.avatar_thumbnail, civ_avatar);
         //et_remark = (EditText) findViewById(R.id.et_remark);
         String user_note = UserManager.getNoteByUid(model.uid, this);
@@ -109,10 +109,10 @@ public class MsgAcceptActionActivity extends BaseActivity implements CompoundBut
             findViewById(R.id.v_remove_friend).setVisibility(View.GONE);
         }
         boolean isGroup = data.getBooleanExtra(GroupHomePageActvity.KEY_IS_GROUP, false);
-        if (isGroup) {
-            TextView tv_create_group = (TextView) findViewById(R.id.tv_create_group);
+        if(isGroup) {
+            TextView tv_create_group = (TextView)findViewById(R.id.tv_create_group);
             tv_create_group.setText(getResources().getString(R.string.group_settings));
-            TextView tv_rules = (TextView) findViewById(R.id.tv_create_group_rules);
+            TextView tv_rules = (TextView)findViewById(R.id.tv_create_group_rules);
             tv_rules.setText("");
             findViewById(R.id.layout_answer_free).setVisibility(View.GONE);
         }
@@ -290,11 +290,11 @@ public class MsgAcceptActionActivity extends BaseActivity implements CompoundBut
         ApiRequestWrapper.openAPIGET(this, params, AsynHttpClient.API_CHECK_GROUP_PERMISSION, new MsgStructure() {
             @Override
             public void onReceive(JSONObject data) {
-                CustomLog.d("checkCreateGroupPermission onRecieve. data is : " + data);
+                CustomLog.d("checkCreateGroupPermission onRecieve. data is : "+data);
                 JSONArray permissions = data.optJSONArray("permissions");
                 try {
                     CustomLog.d("checkCreateGroupPermission, permission is : " + permissions.get(0));
-                    if (permissions.get(0).equals(PERMISSION_CREATE_GROUP)) {
+                    if(permissions.get(0).equals(PERMISSION_CREATE_GROUP)) {
                         Observable.just(null).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
                             Intent it = new Intent(MsgAcceptActionActivity.this, CreateChatGroupActivity.class);
                             it.putExtra("friend_uid", model.uid);
@@ -315,7 +315,7 @@ public class MsgAcceptActionActivity extends BaseActivity implements CompoundBut
 
             @Override
             public void onError(int error, Object ret) {
-                CustomLog.d("checkCreateGroupPermission onError. error is : " + error);
+                CustomLog.d("checkCreateGroupPermission onError. error is : "+error);
                 showToast(MsgAcceptActionActivity.this, getResources().getString(R.string.request_failed));
             }
         });

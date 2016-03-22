@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="46dp">
+    android:layout_height="46dp"
+    >
 
     <TextView
-        android:id="@+id/tv_drawercontent_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:textColor="#020213"
+        android:textSize="14sp"
         android:layout_centerVertical="true"
+        android:id="@+id/tv_drawercontent_text"
         android:layout_marginLeft="23dp"
+        android:layout_alignParentLeft="true"
         android:drawablePadding="21dp"
         android:gravity="center_vertical"
-        android:textColor="#020213"
-        android:textSize="14sp" />
+        />
 
     <TextView
-        android:id="@+id/tv_extra"
+        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="18dp"
         android:textColor="#00b8d0"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="18dp"
+        android:id="@+id/tv_extra"
+        />
 
 </RelativeLayout>

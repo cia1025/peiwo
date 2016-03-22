@@ -34,12 +34,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="44dp">
-                <View
-                    android:layout_alignParentTop="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/c_de"
-                    />
+
                 <TextView
                     android:id="@+id/v_lable_money_total"
                     android:layout_width="wrap_content"
@@ -63,7 +58,6 @@
                     android:textColor="#4d4d4d"
                     android:background="@null"
                     android:textSize="13sp"
-                    android:text="5.20"
                     android:textColorHint="#d2d2d2"
                     android:hint="请输入红包金额"
                     android:inputType="numberDecimal"/>
