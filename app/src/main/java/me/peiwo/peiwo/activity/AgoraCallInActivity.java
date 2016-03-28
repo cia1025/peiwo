@@ -1,6 +1,7 @@
 package me.peiwo.peiwo.activity;
 
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.support.percent.PercentFrameLayout;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -34,12 +35,25 @@ import me.peiwo.peiwo.widget.RewardedView;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+=======
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import butterknife.Bind;
+import com.jakewharton.rxbinding.view.RxView;
+import me.peiwo.peiwo.R;
+import me.peiwo.peiwo.presenter.AgoraCallInPresenter;
+import rx.android.schedulers.AndroidSchedulers;
+
+import java.util.concurrent.TimeUnit;
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
 
 public class AgoraCallInActivity extends AgoraCallActivity {
     public static final String K_CALLED_EVENT = "called";
 
     private AgoraCallInPresenter presenter;
 
+<<<<<<< HEAD
     @Bind(R.id.call_smoth_dragview_in)
     CallSmothDragView call_smoth_dragview_in;
     @Bind(R.id.tv_nickname)
@@ -87,18 +101,37 @@ public class AgoraCallInActivity extends AgoraCallActivity {
 
     private String currentDuration = "00:00:00";
     private ImageLoader imageLoader;
+=======
+
+    @Bind(R.id.btn_answer)
+    Button btn_answer;
+    @Bind(R.id.btn_reject)
+    Button btn_reject;
+    @Bind(R.id.btn_hungup)
+    Button btn_hungup;
+    @Bind(R.id.tv_caller)
+    TextView tv_caller;
+    @Bind(R.id.tv_callee)
+    TextView tv_callee;
+    @Bind(R.id.btn_audio_mode)
+    Button btn_audio_mode;
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+<<<<<<< HEAD
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+=======
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
         setContentView(R.layout.activity_agora_call_in);
         presenter = new AgoraCallInPresenter(this);
         init();
         presenter.init();
     }
 
+<<<<<<< HEAD
     @Override
     public void onResume() {
         super.onResume();
@@ -271,10 +304,52 @@ public class AgoraCallInActivity extends AgoraCallActivity {
 
     public void animChargeGuide() {
         tv_charge_free_guide.animate().alpha(0.0f).start();
+=======
+
+    private void init() {
+        setUpView();
+        RxView.clicks(btn_answer).throttleFirst(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aVoid -> {
+            answerCall();
+        });
+        RxView.clicks(btn_reject).throttleFirst(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aVoid -> {
+            rejectCall();
+        });
+        RxView.clicks(btn_hungup).throttleFirst(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aVoid -> {
+            presenter.hungUp(true);
+        });
+        RxView.clicks(btn_audio_mode).throttleFirst(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aVoid -> {
+            Object tag = btn_audio_mode.getTag();
+            presenter.handleAudioMode(tag);
+        });
+    }
+
+
+    private void setUpView() {
+        btn_answer.setVisibility(View.VISIBLE);
+        btn_reject.setVisibility(View.VISIBLE);
+        btn_hungup.setVisibility(View.GONE);
+        btn_audio_mode.setText("现在是扬声器模式");
+        btn_audio_mode.setEnabled(false);
+    }
+
+    private void rejectCall() {
+        presenter.rejectCall();
+    }
+
+    private void answerCall() {
+        presenter.answerCall();
+    }
+
+
+    @Override
+    public void left_click(View v) {
+        onBackPressed();
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
     }
 
     @Override
     public void onBackPressed() {
+<<<<<<< HEAD
         //super.onBackPressed();
         if (hasRewardView()) {
             removeRewardView();
@@ -286,12 +361,19 @@ public class AgoraCallInActivity extends AgoraCallActivity {
     }
 
 
+=======
+        presenter.hungUp(true);
+        //super.onBackPressed();
+    }
+
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
     @Override
     protected void onDestroy() {
         presenter.onDestory();
         super.onDestroy();
     }
 
+<<<<<<< HEAD
 
     public boolean hasRewardView() {
         return findViewById(R.id.reward_view_id) != null;
@@ -365,5 +447,36 @@ public class AgoraCallInActivity extends AgoraCallActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(0, 0);
+=======
+    public void setCallerText(String text) {
+        tv_caller.setText(text);
+    }
+
+    public void setCalleeText(String text) {
+        tv_callee.setText(text);
+    }
+
+    public void setHungUpViewEnable(boolean enable) {
+        btn_hungup.setEnabled(enable);
+    }
+
+
+    public void setAudioTag(Object o) {
+        btn_audio_mode.setTag(o);
+    }
+
+    public void setAudioModeText(String text) {
+        btn_audio_mode.setText(text);
+    }
+
+    public void changeViewWithAnswer() {
+        btn_reject.setVisibility(View.GONE);
+        btn_answer.setVisibility(View.GONE);
+        btn_hungup.setVisibility(View.VISIBLE);
+    }
+
+    public void setAudioViewEnable(boolean enable) {
+        btn_audio_mode.setEnabled(enable);
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
     }
 }

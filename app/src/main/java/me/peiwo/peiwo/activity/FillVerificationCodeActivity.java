@@ -107,7 +107,6 @@ public class FillVerificationCodeActivity extends BaseActivity {
     @OnClick(R.id.btn_veri_code_unreach)
     void goUnreachPage() {
         Intent it = new Intent(this, VerifiCodeNotReceiveActivity.class);
-        it.putExtra("phone", mPhoneNum);
         startActivity(it);
         HourGlassAgent hourGlassAgent = HourGlassAgent.getInstance();
         if (hourGlassAgent.getStatistics() && hourGlassAgent.getK41() == 0) {

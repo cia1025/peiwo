@@ -12,11 +12,11 @@ import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
 import com.alibaba.fastjson.JSON;
 import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent;
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.adapter.ChatRedBagAdapter;
 import me.peiwo.peiwo.model.groupchat.PacketIconModel;
@@ -32,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +59,6 @@ public class IMChatRedbagActivity extends BaseActivity {
     TextView tv_redbag_img_provider;
     @Bind(R.id.v_lable_money_unit)
     TextView v_lable_money_unit;
-    @Bind(R.id.v_send_redbag)
-    ImageView v_send_redbag;
 
     private ChatRedBagAdapter adapter;
     private List<PacketIconModel> packIconsList = new ArrayList<>();
@@ -70,6 +69,7 @@ public class IMChatRedbagActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_imchat_redbag);
+//        v_send_redbag.post(() -> v_send_redbag.setEnabled(false));
         init();
         et_money_total.post(() -> et_money_total.getGlobalVisibleRect(r_et_money_total));
     }
@@ -95,18 +95,13 @@ public class IMChatRedbagActivity extends BaseActivity {
     private void combineLatestTextChangeForPersonal() {
         RxTextView.afterTextChangeEvents(et_money_total).observeOn(AndroidSchedulers.mainThread()).subscribe(moneySumEvent -> {
             String moneyTemp = moneySumEvent.editable().toString();
-            if (TextUtils.isEmpty(moneyTemp) || ".".equals(moneyTemp)) {
+            if(TextUtils.isEmpty(moneyTemp))
                 moneyTemp = "0";
-            }
             float money_sum = Float.valueOf(moneyTemp);
-            if (money_sum > 999) {
-                v_send_redbag.setEnabled(false);
+            if(money_sum > 999) {
                 moneySum999Error();
-            } else if (money_sum == 0) {
-                v_send_redbag.setEnabled(false);
             } else {
                 moneySumNice();
-                v_send_redbag.setEnabled(true);
             }
         });
     }
@@ -185,12 +180,7 @@ public class IMChatRedbagActivity extends BaseActivity {
         int id = v.getId();
         switch (id) {
             case R.id.v_send_redbag:
-                boolean netAvailable = PWUtils.isNetWorkAvailable(this);
-                if (netAvailable) {
-                    sendRedBag();
-                } else {
-                    showToast(this, getResources().getString(R.string.umeng_common_network_break_alert));
-                }
+                sendRedBag();
                 break;
             case R.id.v_more_packets:
                 Intent intent = new Intent(this, GroupchatMorePacketActivity.class);
@@ -210,7 +200,7 @@ public class IMChatRedbagActivity extends BaseActivity {
             api = AsynHttpClient.API_GROUP_MONEY_PACKET_SEND;
         }
         PacketIconModel packetIconModel = adapter.getSelectedPacketIcon();
-        packetIconModel.msg = TextUtils.isEmpty(et_redbag_leaveword.getText()) ? et_redbag_leaveword.getHint().toString() : et_redbag_leaveword.getText().toString();
+        packetIconModel.msg = et_redbag_leaveword.getText().toString();
         ArrayList<NameValuePair> params = new ArrayList<>();
 
         long money_cent = Math.round((Double.valueOf(et_money_total.getText().toString()) * 10 * 10));

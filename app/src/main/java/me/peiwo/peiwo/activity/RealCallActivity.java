@@ -50,12 +50,10 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 
 import java.lang.ref.WeakReference;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 拨打电话界面
@@ -144,7 +142,7 @@ public class RealCallActivity extends BaseCallActivity implements
     protected boolean isbreak = false;
     protected String mIncommingName;
 
-    //    protected TextView tv_newprice;
+//    protected TextView tv_newprice;
 //    protected TextView tv_net_status;
     protected long exitTime = 0;
     boolean isCalling = false;
@@ -207,7 +205,6 @@ public class RealCallActivity extends BaseCallActivity implements
     private HeadSetPlugReceiver headSetPlugReceiver;
     private TelephonyManager manager = null;
     private boolean isHangupForMe = false;
-    private AtomicBoolean needAlertDialog = new AtomicBoolean(true);
 
     private void resetPlayer() {
 //        Intent intent = new Intent(this, PlayerService.class);
@@ -324,7 +321,7 @@ public class RealCallActivity extends BaseCallActivity implements
             mHandler.sendEmptyMessageDelayed(HANDLE_TCP_CONNECT_TIMEOUT, 20000);// 延迟等待20s
         }
 
-        TextView tv_charge_free_guide = (TextView) findViewById(R.id.tv_charge_free_guide);
+        TextView tv_charge_free_guide = (TextView)findViewById(R.id.tv_charge_free_guide);
         switch (PeiwoApp.getApplication().getNetType()) {
             case NetUtil.WIFI_NETWORK:
                 tv_charge_free_guide.setText(getString(R.string.calling_outgoing_wifi));
@@ -421,7 +418,7 @@ public class RealCallActivity extends BaseCallActivity implements
                 sb.append(city);
             }
             //tv_address.setText(sb.toString());
-            TextView tv_charge_free_guide = (TextView) findViewById(R.id.tv_charge_free_guide);
+            TextView tv_charge_free_guide = (TextView)findViewById(R.id.tv_charge_free_guide);
             switch (PeiwoApp.getApplication().getNetType()) {
                 case NetUtil.WIFI_NETWORK:
                     tv_charge_free_guide.setText(getString(R.string.calling_incoming_wifi));
@@ -705,17 +702,6 @@ public class RealCallActivity extends BaseCallActivity implements
     }
 
     private void startCountTimeThread() {
-        final float price = getIntent().getFloatExtra("price", 0.0f);
-        AlertDialog alertDialog = new AlertDialog.Builder(RealCallActivity.this)
-                .setTitle("你的账户余额不足,费用扣完时本次通话将自动挂断")
-                .setPositiveButton(getString(R.string.ok), (dialog, which) -> {
-                    reChargeMoney();
-                    needAlertDialog.set(false);
-                })
-                .setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
-                    needAlertDialog.set(false);
-                }).create();
-
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -748,36 +734,20 @@ public class RealCallActivity extends BaseCallActivity implements
                         tv_call_duration.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
                         tv_call_duration.setText(mCountingDuration.toString());
                     }
-                    CustomLog.d("outcall ? " + (mCallFalg == DfineAction.OUTGOING_CALL) + ", current money is : " + UserManager.getPWUser(RealCallActivity.this).money);
                     //通话超过40s,双方可以互发图片
                     if (counttimeM == 0 && counttimeS == SEND_IMAGE_TIME) {
+//                        int outCallUid = mTargetUid;
+//                        int inCallUid = getTuid();
+//                        int tUid = inCallUid > 0 ? inCallUid : outCallUid;
+//                        CustomLog.d("countDown. incall uid is : "+inCallUid+", outCall uid is : "+outCallUid);
                         Intent it = new Intent();
                         it.putExtra("callee", mTargetUid);
                         it.setAction(Constans.ACTION_SEND_IMG_PERMISSION);
                         EventBus.getDefault().post(it);
                         CustomLog.d("countDown. target uid is : " + mTargetUid);
                     }
-                    //每30s扣费,同时更新数据库
-                    if (counttimeS % 30 == 0) {
-                        CustomLog.d("30s for every, price is : " + price);
-                        float balance = Float.valueOf(UserManager.getPWUser(RealCallActivity.this).money);
-                        CustomLog.d("30s for every, balance is : " + balance);
-                        BigDecimal b_half_price = new BigDecimal(Float.toString(price * 0.5f));
-                        BigDecimal b_balance = new BigDecimal(Float.toString(balance));
-                        float remainMoney = b_balance.subtract(b_half_price).floatValue();
-                        CustomLog.d("30s for every, remain money is : " + remainMoney);
-                        if (remainMoney > 0) {
-                            UserManager.updateMoney(RealCallActivity.this, String.valueOf(remainMoney));
-                        }
-                        if (needAlertDialog.get() && remainMoney < 2 * price) {
-                            showChargeDialog();
-                        }
-                    }
-                }
-            }
 
-            private void showChargeDialog() {
-                alertDialog.show();
+                }
             }
         });
     }
@@ -1358,7 +1328,7 @@ public class RealCallActivity extends BaseCallActivity implements
                     }
                     break;
                 case CoreService.CALL_BEGIN_RESPONSE:
-                    TextView tv_charge_free_guide = (TextView) theActivity.findViewById(R.id.tv_charge_free_guide);
+                    TextView tv_charge_free_guide = (TextView)theActivity.findViewById(R.id.tv_charge_free_guide);
                     Observable.timer(5, TimeUnit.SECONDS, AndroidSchedulers.mainThread()).subscribe(o -> {
                         tv_charge_free_guide.animate().alpha(0.0f).start();
                     });

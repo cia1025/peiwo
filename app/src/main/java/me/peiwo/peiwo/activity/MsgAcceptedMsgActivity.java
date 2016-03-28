@@ -22,9 +22,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.Bind;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.qiniu.android.http.ResponseInfo;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.fb.model.UserInfo;
@@ -93,7 +95,6 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
     public static final int WHAT_PREVIEW_GIF_FACE_CLOSE = 5003;
     private static final int REQUECT_CODE_IM_ACTION = 9003;
     private static final int REQUEST_GROUP_HOMEPAGE = 9004;
-    private static final int SELECT_MSG_IMG_OK = 9005;
 
     private ImageQuickSwitchView image_quick_switch;
 
@@ -331,9 +332,7 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
         }
 
         image_quick_switch = (ImageQuickSwitchView) findViewById(R.id.image_quick_switch);
-//        image_quick_switch.setOnMoreActionClickListener(this::startImageSwitch);
-        image_quick_switch.setOnMoreActionClickListener(() -> startShowAlbum());
-
+        image_quick_switch.setOnMoreActionClickListener(this::startImageSwitch);
         onGrabPacket();
         if (otherModel.uid != DfineAction.SYSTEM_UID) {
             lv_msgaccepted.setOnTouchListener((v, event) -> {
@@ -520,7 +519,7 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
             this.title_view.setText("系统消息");
             findViewById(R.id.iv_im_avatar).setVisibility(View.GONE);
         } else {
-            this.title_view.setText(title_str);
+            this.title_view.setText("您与" + title_str);
 //            ImageView iv_im_avatar = (ImageView) findViewById(R.id.iv_im_avatar);
 //            ImageLoader.getInstance().displayImage(avatar, iv_im_avatar);
         }
@@ -583,36 +582,21 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
                 mDetector.interceptBackPress();
                 changeViewTextInputMode();
                 enterRedBagPagerVerifi();
-                MsgImageKeeper.getInstance().clear();
                 break;
             case R.id.btn_send_text_btn:
                 //decideShowMoreLayout(R.id.btn_sendmsg);
                 adapter.setAutoScroll(true);
+
                 if (view_bottom_panel.isImageShown()) {
                     //ImageFetcher.getInstance().getSelectedImageList().addAll(image_quick_switch.getSelectedImages());
                     List<String> image_paths = image_quick_switch.getSelectedImages();
-                    int size = image_paths.size();
-                    for (int i = 0; i < size; i++) {
-                        String imgUrl = image_paths.get(i);
-                        if (MsgImageKeeper.getInstance().getImgList().size() == 0 || !MsgImageKeeper.getInstance().contains(imgUrl)) {
-                            MsgImageKeeper.getInstance().getImgList().add(imgUrl);
-                        }
-                    }
-                    List<String> sendImgUrls = new ArrayList<>();
-                    sendImgUrls.addAll(MsgImageKeeper.getInstance().getImgList());
-
-
                     mDetector.interceptBackPress();
-//                    if (image_paths.size() > 0) {
-                    if (sendImgUrls.size() > 0) {
+                    if (image_paths.size() > 0) {
                         if (img_permission) {
-//                            sendImageMsg(image_paths);
-                            sendImageMsg(sendImgUrls);
+                            sendImageMsg(image_paths);
                         } else {
-//                            checkImagePermission(image_paths);
-                            checkImagePermission(sendImgUrls);
+                            checkImagePermission(image_paths);
                         }
-                        MsgImageKeeper.getInstance().clear();
                     }
                     //view_bottom_panel.setVisibility(View.GONE);
                 } else {
@@ -723,16 +707,6 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
         });
     }
 
-
-    public void startShowAlbum() {
-        //start show album and with the
-        Intent intent = new Intent(this, MsgShowAlbumActvity.class);
-        MsgImageKeeper.getInstance().addAll(image_quick_switch.getSelectedImages());
-        intent.putExtra(MsgShowAlbumActvity.ALBUM_SHOW_MODE, MsgShowAlbumActvity.ALBUM_SHOW_TILED);
-        startActivityForResult(intent, SELECT_MSG_IMG_OK);
-
-    }
-
     public void startImageSwitch() {
 //        ImageFetcher.getInstance().getSelectedImageList().clear();
 //        Intent intent = new Intent(this, ImageChooseActivity.class);
@@ -838,7 +812,7 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
         final JSONObject detailsObject = new JSONObject();
 
         try {
-            im_packetJson.put("packet_id", Long.valueOf(packetIconModel.id));
+            im_packetJson.put("packet_id", packetIconModel.id);
             im_packetJson.put("icon_url", packetIconModel.send_icon);
             im_packetJson.put("msg", packetIconModel.msg);
             detailsObject.put("im_packet", im_packetJson);
@@ -1426,11 +1400,6 @@ public class MsgAcceptedMsgActivity extends PWPreCallingActivity implements
                 PacketIconModel packet = data.getParcelableExtra(IMChatRedbagActivity.K_SINGLE_PACKET);
                 sendRedBagMessage(packet);
             }
-        } else if (requestCode == SELECT_MSG_IMG_OK && resultCode == RESULT_OK) {
-            ArrayList<String> items = data.getStringArrayListExtra(MsgShowAlbumActvity.MSG_IMG_URLS);
-            checkImagePermission(items);
-            MsgImageKeeper.getInstance().clear();
-            image_quick_switch.clearSelectedUrls();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

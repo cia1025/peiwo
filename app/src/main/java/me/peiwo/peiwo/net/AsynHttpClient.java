@@ -185,7 +185,6 @@ public class AsynHttpClient {
     public static final String API_ACCOUNT_SIGNOUT = "account/signout";
     public static final String API_ACCOUNT_CAPTCHA = "account/captcha"; //提交手机号
     public static final String API_GET_CAPTCHA = "v1.0/account/captcha";
-    public static final String API_GET_VOICE_CAPTCHA = "v1.0/account/voice_captcha";
     //account/forgetpassword 参数为phone，captcha，新的password
     public static final String API_ACCOUNT_FORGETPWD = "account/forgetpassword";
     public static final String API_ACCOUNT_SET_USERINFO = "v1.0/account/setuserinfo";
@@ -310,7 +309,7 @@ public class AsynHttpClient {
     public static final String API_GROUPCHAT_PACKET_ICONS = "v1.0/setting/packet_icons";
     public static final String API_GETUPLOADCONFIG = "v1.0/hourglass/getuploadconfig";
     public static final String API_HOURGLASS_UPLOADDATA = "v1.0/hourglass/uploaddata";
-
+    public static final String API_CALL_CHANNEL = "v1.0/userinfo/channel";
 
     public static final String API_WILDCAT_ADS = "v1.0/setting/wildcat_ads";
 
@@ -432,7 +431,9 @@ public class AsynHttpClient {
                 resp = sHttpclient.execute(httpGet);
 
             }
-        } catch (ClientProtocolException | UnsupportedEncodingException e) {
+        } catch (ClientProtocolException e) {
+            CustomLog.e(DfineAction.HTTP_TAG, "request error = " + e.toString());
+        } catch (UnsupportedEncodingException e) {
             CustomLog.e(DfineAction.HTTP_TAG, "request error = " + e.toString());
         } catch (ConnectionPoolTimeoutException e) {
             CustomLog.e(DfineAction.HTTP_TAG, "request error = " + e.toString());
@@ -519,7 +520,11 @@ public class AsynHttpClient {
                     SharedPreferencesUtil.putLongExtra(PeiwoApp.getApplication(), KEY_CC_CURRENT_TIME, server_time * 1000);
                 }
             }
-        } catch (ParseException | JSONException | IOException e) {
+        } catch (ParseException e) {
+            CustomLog.e(DfineAction.HTTP_TAG, "request error2 = " + e.toString());
+        } catch (JSONException e) {
+            CustomLog.e(DfineAction.HTTP_TAG, "request error2 = " + e.toString());
+        } catch (IOException e) {
             CustomLog.e(DfineAction.HTTP_TAG, "request error2 = " + e.toString());
         }
 
@@ -527,10 +532,8 @@ public class AsynHttpClient {
             msg.onReceive(respJson);
             CustomLog.d("handleConnection3 response is : " + respJson);
         } else {
-            if ((errorNum < 0 || errorNum == ERR_USER_AUTH) && mmGlobalErr != null) {
+            if (errorNum == ERR_USER_AUTH && mmGlobalErr != null) {
                 mmGlobalErr.onError(errorNum, respJson);
-                msg.errorMessage = resString;
-                msg.onError(errorNum, respJson);
             } else {
                 msg.errorMessage = resString;
                 msg.onError(errorNum, respJson);

@@ -1,6 +1,7 @@
 package me.peiwo.peiwo.activity;
 
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.support.percent.PercentFrameLayout;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -32,6 +33,18 @@ import me.peiwo.peiwo.widget.RewardedView;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+=======
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import butterknife.Bind;
+import com.jakewharton.rxbinding.view.RxView;
+import me.peiwo.peiwo.R;
+import me.peiwo.peiwo.presenter.AgoraCallOutPresenter;
+import rx.android.schedulers.AndroidSchedulers;
+
+import java.util.concurrent.TimeUnit;
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
 
 public class AgoraCallOutActivity extends AgoraCallActivity {
     public static final String K_CALLEE_ID = "callee_id";
@@ -41,6 +54,7 @@ public class AgoraCallOutActivity extends AgoraCallActivity {
 
     private AgoraCallOutPresenter presenter;
 
+<<<<<<< HEAD
     @Bind(R.id.call_smoth_dragview_out)
     CallSmothDragView call_smoth_dragview_out;
     @Bind(R.id.tv_nickname)
@@ -81,17 +95,31 @@ public class AgoraCallOutActivity extends AgoraCallActivity {
 
     private String currentDuration = "00:00:00";
     private ImageLoader imageLoader;
+=======
+    @Bind(R.id.btn_hungup)
+    Button btn_hungup;
+    @Bind(R.id.tv_caller)
+    TextView tv_caller;
+    @Bind(R.id.tv_callee)
+    TextView tv_callee;
+    @Bind(R.id.btn_audio_mode)
+    Button btn_audio_mode;
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+<<<<<<< HEAD
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+=======
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
         setContentView(R.layout.activity_call_out);
         presenter = new AgoraCallOutPresenter(this);
         init();
         presenter.init();
     }
 
+<<<<<<< HEAD
     @Override
     public void onResume() {
         super.onResume();
@@ -217,6 +245,33 @@ public class AgoraCallOutActivity extends AgoraCallActivity {
 
     private void removeRewardedView() {
         self_view.removeView(findViewById(R.id.rewarded_view_id));
+=======
+    private void init() {
+        setUpInitView();
+    }
+
+    private void setUpInitView() {
+        setAudioModeText("现在是扬声器模式");
+        setAudioViewEnable(false);
+        RxView.clicks(btn_hungup).throttleFirst(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aVoid -> {
+            presenter.hungUp(true);
+        });
+        RxView.clicks(btn_audio_mode).throttleFirst(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aVoid -> {
+            Object tag = btn_audio_mode.getTag();
+            presenter.handleAudioMode(tag);
+        });
+    }
+
+    @Override
+    public void left_click(View v) {
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        presenter.hungUp(true);
+        //super.onBackPressed();
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
     }
 
     @Override
@@ -225,6 +280,7 @@ public class AgoraCallOutActivity extends AgoraCallActivity {
         super.onDestroy();
     }
 
+<<<<<<< HEAD
 
     public void setDurationContainerClickable(boolean clickable) {
         fl_duration_container.setClickable(clickable);
@@ -352,4 +408,30 @@ public class AgoraCallOutActivity extends AgoraCallActivity {
     }
 
 
+=======
+    public void setCallerText(String text) {
+        tv_caller.setText(text);
+    }
+
+    public void setCalleeText(String text) {
+        tv_callee.setText(text);
+    }
+
+    public void setAudioModeText(String text) {
+        btn_audio_mode.setText(text);
+    }
+
+    public void setAudioViewEnable(boolean enable) {
+        btn_audio_mode.setEnabled(enable);
+    }
+
+    public void setHungUpViewEnable(boolean enable) {
+        btn_hungup.setEnabled(enable);
+    }
+
+
+    public void setAudioTag(Object o) {
+        btn_audio_mode.setTag(o);
+    }
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
 }

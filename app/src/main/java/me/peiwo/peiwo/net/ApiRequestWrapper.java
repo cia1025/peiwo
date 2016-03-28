@@ -3,6 +3,7 @@ package me.peiwo.peiwo.net;
 import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
+import com.alibaba.fastjson.JSON;
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.activity.WelcomeActivity;
 import me.peiwo.peiwo.model.ProfileForUpdateModel;
@@ -13,6 +14,8 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+import rx.Observable;
+import rx.Subscriber;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -67,13 +70,13 @@ public class ApiRequestWrapper {
         paramList.add(new BasicNameValuePair("uid", String.valueOf(uid)));
         paramList.add(new BasicNameValuePair(AsynHttpClient.KEY_SOCIAL_TYPE,
                 String.valueOf(social_type)));
-        if(!TextUtils.isEmpty(social_uid)) {
+        if (!TextUtils.isEmpty(social_uid)) {
             paramList.add(new BasicNameValuePair(keyname, social_uid));
         }
         paramList.add(new BasicNameValuePair(keypwd, access_token));
         addSign(ctx, paramList, AsynHttpClient.API_ACCOUNT_BIND_SOCIAL,
                 SIGN_POST, session_data);
-        msg.requestUrl = buildPostUrl(AsynHttpClient.API_ACCOUNT_BIND_SOCIAL,paramList);
+        msg.requestUrl = buildPostUrl(AsynHttpClient.API_ACCOUNT_BIND_SOCIAL, paramList);
         msg.paramList = paramList;
         AsynHttpClient httpClient = AsynHttpClient.getInstance();
         httpClient.execHttpPost(msg);
@@ -112,7 +115,7 @@ public class ApiRequestWrapper {
         ArrayList<NameValuePair> paramList = new ArrayList<NameValuePair>();
         paramList.add(new BasicNameValuePair(AsynHttpClient.KEY_UID, String
                 .valueOf(uid)));
-        if(!TextUtils.isEmpty(cursor)){
+        if (!TextUtils.isEmpty(cursor)) {
             paramList.add(new BasicNameValuePair(AsynHttpClient.KEY_CURSOR, String
                     .valueOf(cursor)));
         }
@@ -652,7 +655,6 @@ public class ApiRequestWrapper {
     }
 
 
-
     public static void createOrder(Context c, int uid, String itemId,
                                    int channel, MsgStructure msg) {
         if (uid <= 0 || TextUtils.isEmpty(itemId)) {
@@ -666,7 +668,7 @@ public class ApiRequestWrapper {
         paramList.add(new BasicNameValuePair(AsynHttpClient.KEY_CHANNEL, String.valueOf(channel)));
 
         addSign(c, paramList, AsynHttpClient.API_PAYMENT_ORDER, SIGN_GET);
-        msg.requestUrl = buildGetUrl(AsynHttpClient.API_PAYMENT_ORDER,paramList);
+        msg.requestUrl = buildGetUrl(AsynHttpClient.API_PAYMENT_ORDER, paramList);
         msg.paramList = paramList;
         AsynHttpClient httpClient = AsynHttpClient.getInstance();
         httpClient.execHttpGet(msg);
@@ -824,6 +826,225 @@ public class ApiRequestWrapper {
                                    String apiMethod, MsgStructure msg) {
         request(c, params, apiMethod, false, msg);
     }
+
+    /********
+     * rx
+     *********/
+    public static <T> Observable<T> apiGet(Context c, ArrayList<NameValuePair> params, String apiMethod, Class<T> clazz) {
+        return Observable.create(new Observable.OnSubscribe<T>() {
+            @Override
+            public void call(Subscriber<? super T> subscriber) {
+                request(c, params, apiMethod, true, new MsgStructure() {
+                    @Override
+                    public void onReceive(JSONObject data) {
+                        if (subscriber != null && !subscriber.isUnsubscribed()) {
+                            T t = JSON.parseObject(data.toString(), clazz);
+                            subscriber.onNext(t);
+                        }
+                    }
+
+                    @Override
+                    public void onError(int error, Object ret) {
+                        if (subscriber != null && !subscriber.isUnsubscribed())
+                            subscriber.onError(new PWError(error, ret));
+                    }
+                });
+            }
+        });
+    }
+
+    public static <T> Observable<T> apiGetIntercept(Context c, ArrayList<NameValuePair> params, String apiMethod, Class<T> clazz) {
+        return Observable.create(new Observable.OnSubscribe<T>() {
+            @Override
+            public void call(Subscriber<? super T> subscriber) {
+                request(c, params, apiMethod, true, new MsgStructure() {
+                    @Override
+                    public boolean onInterceptRawData(String rawStr) {
+                        if (subscriber != null && !subscriber.isUnsubscribed()) {
+                            T t = JSON.parseObject(rawStr, clazz);
+                            subscriber.onNext(t);
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public void onReceive(JSONObject data) {
+
+                    }
+
+                    @Override
+                    public void onError(int error, Object ret) {
+                        if (subscriber != null && !subscriber.isUnsubscribed())
+                            subscriber.onError(new PWError(error, ret));
+                    }
+                });
+            }
+        });
+    }
+
+    public static <T> Observable<T> apiPost(Context c, ArrayList<NameValuePair> params, String apiMethod, Class<T> clazz) {
+        return Observable.create(new Observable.OnSubscribe<T>() {
+            @Override
+            public void call(Subscriber<? super T> subscriber) {
+                request(c, params, apiMethod, false, new MsgStructure() {
+                    @Override
+                    public void onReceive(JSONObject data) {
+                        if (subscriber != null && !subscriber.isUnsubscribed()) {
+                            T t = JSON.parseObject(data.toString(), clazz);
+                            subscriber.onNext(t);
+                        }
+                    }
+
+                    @Override
+                    public void onError(int error, Object ret) {
+                        if (subscriber != null && !subscriber.isUnsubscribed())
+                            subscriber.onError(new PWError(error, ret));
+                    }
+                });
+            }
+        });
+    }
+
+    public static <T> Observable<T> apiPostIntercept(Context c, ArrayList<NameValuePair> params, String apiMethod, Class<T> clazz) {
+        return Observable.create(new Observable.OnSubscribe<T>() {
+            @Override
+            public void call(Subscriber<? super T> subscriber) {
+                request(c, params, apiMethod, false, new MsgStructure() {
+                    @Override
+                    public boolean onInterceptRawData(String rawStr) {
+                        if (subscriber != null && !subscriber.isUnsubscribed()) {
+                            T t = JSON.parseObject(rawStr, clazz);
+                            subscriber.onNext(t);
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public void onReceive(JSONObject data) {
+
+                    }
+
+                    @Override
+                    public void onError(int error, Object ret) {
+                        if (subscriber != null && !subscriber.isUnsubscribed())
+                            subscriber.onError(new PWError(error, ret));
+                    }
+                });
+            }
+        });
+    }
+
+    public static Observable<JSONObject> apiGetJson(Context c, ArrayList<NameValuePair> params, String apiMethod) {
+        return Observable.create(new Observable.OnSubscribe<JSONObject>() {
+            @Override
+            public void call(Subscriber<? super JSONObject> subscriber) {
+                request(c, params, apiMethod, true, new MsgStructure() {
+                    @Override
+                    public void onReceive(JSONObject data) {
+                        if (subscriber != null && !subscriber.isUnsubscribed())
+                            subscriber.onNext(data);
+                    }
+
+                    @Override
+                    public void onError(int error, Object ret) {
+                        if (subscriber != null && !subscriber.isUnsubscribed())
+                            subscriber.onError(new PWError(error, ret));
+                    }
+                });
+            }
+        });
+    }
+
+    public static Observable<JSONObject> apiGetJsonIntercept(Context c, ArrayList<NameValuePair> params, String apiMethod) {
+        return Observable.create(new Observable.OnSubscribe<JSONObject>() {
+            @Override
+            public void call(Subscriber<? super JSONObject> subscriber) {
+                request(c, params, apiMethod, true, new MsgStructure() {
+                    @Override
+                    public boolean onInterceptRawData(String rawStr) {
+                        if (subscriber != null && !subscriber.isUnsubscribed()) {
+                            try {
+                                subscriber.onNext(new JSONObject(rawStr));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                subscriber.onError(new PWError(-1, rawStr));
+                            }
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public void onReceive(JSONObject data) {
+
+                    }
+
+                    @Override
+                    public void onError(int error, Object ret) {
+                        if (subscriber != null && !subscriber.isUnsubscribed())
+                            subscriber.onError(new PWError(error, ret));
+                    }
+                });
+            }
+        });
+    }
+
+    public static Observable<JSONObject> apiPostJson(Context c, ArrayList<NameValuePair> params, String apiMethod) {
+        return Observable.create(new Observable.OnSubscribe<JSONObject>() {
+            @Override
+            public void call(Subscriber<? super JSONObject> subscriber) {
+                request(c, params, apiMethod, false, new MsgStructure() {
+                    @Override
+                    public void onReceive(JSONObject data) {
+                        if (subscriber != null && !subscriber.isUnsubscribed())
+                            subscriber.onNext(data);
+                    }
+
+                    @Override
+                    public void onError(int error, Object ret) {
+                        if (subscriber != null && !subscriber.isUnsubscribed())
+                            subscriber.onError(new PWError(error, ret));
+                    }
+                });
+            }
+        });
+    }
+
+    public static Observable<JSONObject> apiPostJsonIntercept(Context c, ArrayList<NameValuePair> params, String apiMethod) {
+        return Observable.create(new Observable.OnSubscribe<JSONObject>() {
+            @Override
+            public void call(Subscriber<? super JSONObject> subscriber) {
+                request(c, params, apiMethod, false, new MsgStructure() {
+                    @Override
+                    public boolean onInterceptRawData(String rawStr) {
+                        if (subscriber != null && !subscriber.isUnsubscribed()) {
+                            try {
+                                subscriber.onNext(new JSONObject(rawStr));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                subscriber.onError(new PWError(-1, rawStr));
+                            }
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public void onReceive(JSONObject data) {
+
+                    }
+
+                    @Override
+                    public void onError(int error, Object ret) {
+                        if (subscriber != null && !subscriber.isUnsubscribed())
+                            subscriber.onError(new PWError(error, ret));
+                    }
+                });
+            }
+        });
+    }
+
+    /********
+     * rx
+     *********/
 
     private static void request(Context context,
                                 ArrayList<NameValuePair> params, String apiMethod, boolean get,

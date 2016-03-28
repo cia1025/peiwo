@@ -103,7 +103,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
-      <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -143,6 +142,7 @@
     <orderEntry type="library" exported="" name="mta-sdk-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="libjingle_peerconnection" level="project" />
     <orderEntry type="library" exported="" name="rxbinding-0.3.0" level="project" />
+    <orderEntry type="library" exported="" name="agora-rtc-sdk" level="project" />
     <orderEntry type="library" exported="" name="alipaysdk" level="project" />
     <orderEntry type="library" exported="" name="MiPush_SDK_Client_2_2_13_sdk" level="project" />
     <orderEntry type="library" exported="" name="android-async-http-1.4.9" level="project" />

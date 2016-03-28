@@ -57,10 +57,8 @@ import me.peiwo.peiwo.util.PWUtils;
 import me.peiwo.peiwo.util.TimeUtil;
 import me.peiwo.peiwo.util.group.ExpressionData;
 import me.peiwo.peiwo.widget.PWTextViewCompat;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import pl.droidsonroids.gif.GifImageView;
 import rx.Observable;
 import rx.Subscriber;
@@ -263,13 +261,13 @@ public class MsgAcceptAdapter extends PPBaseAdapter<MsgAcceptModel> {
                 case VIEW_TYPE_ME_PACKET:
                 case VIEW_TYPE_OTHER_PACKET:
                     if (viewType == VIEW_TYPE_OTHER_PACKET) {
-                        convertView = inflater.inflate(R.layout.layout_im_chat_redbag_other, parent, false);
+                        convertView = inflater.inflate(R.layout.layout_groupchat_redbag_other, parent, false);
                     } else {
                         convertView = inflater.inflate(R.layout.layout_groupchat_redbag_self, parent, false);
                     }
                     packetHolder = new PacketViewHolder();
-                    packetHolder.iv_redbag_icon = (ImageView) convertView.findViewById(R.id.iv_redbag_icon);
-                    packetHolder.tv_redbag_msg = (TextView) convertView.findViewById(R.id.tv_redbag_msg);
+                    packetHolder.iv_redbag_icon = (ImageView)convertView.findViewById(R.id.iv_redbag_icon);
+                    packetHolder.tv_redbag_msg = (TextView)convertView.findViewById(R.id.tv_redbag_msg);
                     packetHolder.iv_avatar = (ImageView) convertView.findViewById(R.id.iv_avatar);
                     packetHolder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
                     packetHolder.iv_remind = (ImageView) convertView.findViewById(R.id.v_resend);
@@ -285,7 +283,6 @@ public class MsgAcceptAdapter extends PPBaseAdapter<MsgAcceptModel> {
                 holder.iv_icon = (ImageView) convertView.findViewById(R.id.iv_icon);
                 holder.tv_content = (PWTextViewCompat) convertView.findViewById(R.id.tv_content);
                 holder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
-                holder.ll_content = (LinearLayout) convertView.findViewById(R.id.ll_content);
                 convertView.setTag(holder);
             }
         } else {
@@ -423,9 +420,12 @@ public class MsgAcceptAdapter extends PPBaseAdapter<MsgAcceptModel> {
                 attentionHolder.attention_layout.setBackgroundResource(R.drawable.btn_chat_follow_n);
                 attentionHolder.attention_icon.setVisibility(View.VISIBLE);
                 attentionHolder.attention_btn.setText("关注");
-                attentionHolder.attention_layout.setOnClickListener(arg0 -> {
+                attentionHolder.attention_layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View arg0) {
 //                        ((MsgAcceptedMsgActivity) mContext).focusContact(model.id, model.dialog_id);
-                    ((MsgAcceptedMsgActivity) mContext).sendVoiceRequest();
+                        ((MsgAcceptedMsgActivity) mContext).sendVoiceRequest();
+                    }
                 });
             } else {
                 attentionHolder.attentior_default_text.setBackgroundResource(R.drawable.bg_chat_follow_p);
@@ -537,7 +537,7 @@ public class MsgAcceptAdapter extends PPBaseAdapter<MsgAcceptModel> {
             voiceHolder.iv_uface.setOnClickListener(v -> startUserInfo(String.valueOf(otherModel.uid)));
 
         } else if (packetHolder != null) {
-            CustomLog.d("packetHolder. model is : " + model);
+            CustomLog.d("packetHolder. model is : "+model);
             if (!TextUtils.isEmpty(model.displayTime)) {
                 packetHolder.tv_time.setVisibility(View.VISIBLE);
                 packetHolder.tv_time.setText(model.displayTime);
@@ -560,7 +560,7 @@ public class MsgAcceptAdapter extends PPBaseAdapter<MsgAcceptModel> {
             }
             imageLoader.displayImage(model.packetIconModel.send_icon, packetHolder.iv_redbag_icon);
             String leave_msg = model.packetIconModel.msg;
-            packetHolder.tv_redbag_msg.setText(leave_msg);
+            packetHolder.tv_redbag_msg.setText(TextUtils.isEmpty(leave_msg) ? "我是红包快戳我" : leave_msg);
             packetHolder.iv_redbag_icon.setOnClickListener(v -> {
                 mGrabPacketListener.onGrabPacket(model.packetIconModel);
             });
@@ -598,9 +598,19 @@ public class MsgAcceptAdapter extends PPBaseAdapter<MsgAcceptModel> {
             }
             if (MessageModel.DIALOG_TYPE_CALL_HISTORY == model.dialog_type && ("对方已拒绝".equals(model.content) || "已取消".equals(model.content) || "未接听".equals(model.content)) && viewType != VIEW_TYPE_ME) {
                 holder.tv_content.setTextColor(c_red);
-            }/* else if (MessageModel.DIALOG_TYPE_TIP == model.dialog_type) {
-                holder.tv_content.setText(model.content);
-            } */else {
+            } else if (MessageModel.DIALOG_TYPE_TIP == model.dialog_type) {
+                try {
+                    JSONObject detailObj = new JSONObject(model.details);
+                    JSONObject styleObj = (JSONObject) detailObj.get("style");
+                    int textColor = styleObj.optInt("text");
+                    int bgColor = styleObj.optInt("background");
+                    holder.tv_content.setBackgroundColor(bgColor);
+                    holder.tv_content.setTextColor(textColor);
+                    holder.tv_content.setText(model.content);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
                 if (viewType == VIEW_TYPE_ME) {
                     holder.tv_content.setTextColor(c_white);
                 } else {
@@ -644,20 +654,6 @@ public class MsgAcceptAdapter extends PPBaseAdapter<MsgAcceptModel> {
                     holder.iv_layout.setVisibility(View.GONE);
                     holder.tv_time.setVisibility(View.VISIBLE);
                     holder.tv_time.setText(model.content);
-                    holder.tv_time.setTextSize(12);
-                    try {
-                        JSONObject detailObj = new JSONObject(model.details);
-                        JSONObject styleObj = (JSONObject) detailObj.get("style");
-                        int textColor = styleObj.optInt("text");
-                        int bgColor = styleObj.optInt("background");
-                        holder.tv_time.setBackgroundColor(bgColor);
-                        holder.tv_time.setTextColor(textColor);
-                        int ver_pad = PWUtils.getPXbyDP(mContext, 12);
-                        int hor_pad = PWUtils.getPXbyDP(mContext, 4);
-                        holder.tv_time.setPadding(ver_pad, hor_pad, ver_pad, hor_pad);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                 }
                 break;
                 case MessageModel.DIALOG_TYPE_HOTVALUE: {
@@ -858,20 +854,23 @@ public class MsgAcceptAdapter extends PPBaseAdapter<MsgAcceptModel> {
         }
         final File f_src = src;
 
-        new AlertDialog.Builder(mContext).setTitle(/*name*/"操作")
-                .setItems(menuString, (dialog, which) -> {
-                    switch (which) {
-                        case 0:
+        new AlertDialog.Builder(mContext).setTitle(name)
+                .setItems(menuString, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
 //                                if (f_src != null && f_src.exists() && f_src.length() > 0) {
 //                                    Toast.makeText(mContext, "图片已保存", Toast.LENGTH_SHORT).show();
 //                                } else {
-                            saveImageToStorage(f_src);
+                                saveImageToStorage(f_src);
 //                                }
-                            break;
-                        case 1:
-                            deleteMsg(model, position);
-                            break;
+                                break;
+                            case 1:
+                                deleteMsg(model, position);
+                                break;
 
+                        }
                     }
                 }).create().show();
     }
@@ -930,7 +929,7 @@ public class MsgAcceptAdapter extends PPBaseAdapter<MsgAcceptModel> {
                 name = String.valueOf(otherModel.uid);
             }
         }
-        new AlertDialog.Builder(mContext).setTitle(/*name*/"操作")
+        new AlertDialog.Builder(mContext).setTitle(name)
                 .setItems(menuString, (arg0, arg1) -> {
                             switch (arg1) {
                                 case 0:
@@ -967,7 +966,7 @@ public class MsgAcceptAdapter extends PPBaseAdapter<MsgAcceptModel> {
                 name = String.valueOf(otherModel.uid);
             }
         }
-        new AlertDialog.Builder(mContext).setTitle(/*name*/"操作")
+        new AlertDialog.Builder(mContext).setTitle(name)
                 .setItems(menuString, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
@@ -999,7 +998,6 @@ public class MsgAcceptAdapter extends PPBaseAdapter<MsgAcceptModel> {
         String where = PWDBConfig.DialogsTable.ID + " = ?";
         String[] selectionArgs = new String[]{String.valueOf(model.id)};
         mContext.getContentResolver().delete(PWDBConfig.DialogsTable.CONTENT_URI, where, selectionArgs);
-        setAutoScroll(false);
     }
 
     public void setUserData(PWUserModel meModel, PWUserModel otherModel) {
@@ -1024,7 +1022,6 @@ public class MsgAcceptAdapter extends PPBaseAdapter<MsgAcceptModel> {
         TextView tv_time;
         ImageView iv_uface;
         ImageView iv_icon;
-        LinearLayout ll_content;
         RelativeLayout iv_layout;
         ProgressBar sending_bar;
         ImageView iv_remind;

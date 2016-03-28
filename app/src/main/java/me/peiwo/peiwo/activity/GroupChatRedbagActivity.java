@@ -133,12 +133,8 @@ public class GroupChatRedbagActivity extends BaseActivity {
     }
 
     private void combineLatestTextChangeForGroup() {
-        RxTextView.afterTextChangeEvents(et_money_total).subscribe(textViewAfterTextChangeEvent -> {
-            String money_text = textViewAfterTextChangeEvent.editable().toString();
-            if (TextUtils.isEmpty(money_text) || ".".equals(money_text)) {
-                money_text = "0";
-            }
-            float temp = Float.valueOf(money_text) * 100;
+        RxTextView.afterTextChangeEvents(et_money_total).skip(1).subscribe(textViewAfterTextChangeEvent -> {
+            float temp = Float.valueOf(textViewAfterTextChangeEvent.editable().toString()) * 100;
             if (temp > groupModel.amount) {
                 float amount1 = groupModel.amount / 100.0f;
                 et_money_total.setText(String.valueOf(amount1));
@@ -350,11 +346,6 @@ public class GroupChatRedbagActivity extends BaseActivity {
 
     @Override
     public void click(View v) {
-        boolean netAvailable = PWUtils.isNetWorkAvailable(this);
-        if (!netAvailable) {
-            showToast(this, getResources().getString(R.string.umeng_common_network_break_alert));
-            return;
-        }
         int id = v.getId();
         switch (id) {
             case R.id.v_send_redbag:

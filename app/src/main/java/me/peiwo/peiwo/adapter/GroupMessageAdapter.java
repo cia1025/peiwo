@@ -11,40 +11,30 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.download.ImageDownloader;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.activity.ImagePagerActivity;
 import me.peiwo.peiwo.activity.UserInfoActivity;
 import me.peiwo.peiwo.constans.GroupConstant;
 import me.peiwo.peiwo.model.ImageModel;
-import me.peiwo.peiwo.model.groupchat.GroupMessageBaseModel;
-import me.peiwo.peiwo.model.groupchat.GroupMessageDecorationModel;
-import me.peiwo.peiwo.model.groupchat.GroupMessageGIFModel;
-import me.peiwo.peiwo.model.groupchat.GroupMessageImageModel;
-import me.peiwo.peiwo.model.groupchat.GroupMessageRedBagModel;
-import me.peiwo.peiwo.model.groupchat.GroupMessageRedBagTipModel;
-import me.peiwo.peiwo.model.groupchat.GroupMessageRepuRedBagModel;
-import me.peiwo.peiwo.model.groupchat.GroupMessageRepuRedBagTipModel;
-import me.peiwo.peiwo.model.groupchat.GroupMessageTextModel;
+import me.peiwo.peiwo.model.groupchat.*;
 import me.peiwo.peiwo.util.PWUtils;
 import me.peiwo.peiwo.util.TimeUtil;
 import me.peiwo.peiwo.util.group.ChatImageWrapper;
 import me.peiwo.peiwo.util.group.ExpressionData;
 import me.peiwo.peiwo.widget.PWTextViewCompat;
 import pl.droidsonroids.gif.GifImageView;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by fuhaidong on 15/12/9.
@@ -480,31 +470,17 @@ public class GroupMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             GroupMessageBaseModel baseModel = getItemObject(i);
             if (baseModel.dialog_type == GroupConstant.MessageType.TYPE_IMAGE) {
                 GroupMessageImageModel imageModel = (GroupMessageImageModel) baseModel;
-                String tempUrl;
-                if (!imageModel.image.image_url.startsWith("http")) {
-                    tempUrl = ImageDownloader.Scheme.FILE.wrap(imageModel.image.image_url);
-                } else {
-                    tempUrl = imageModel.image.image_url;
-                }
-                models.add(new ImageModel(tempUrl));
+                models.add(new ImageModel(imageModel.image.image_url));
             }
         }
-
         int position = 0;
-        String tempUrl;
-        if (!currImageModel.image.image_url.startsWith("http")) {
-            tempUrl = ImageDownloader.Scheme.FILE.wrap(currImageModel.image.image_url);
-        } else {
-            tempUrl = currImageModel.image.image_url;
-        }
+        String curr_image_url = currImageModel.image.image_url;
         for (int i = 0, z = models.size(); i < z; i++) {
-            if (tempUrl.equals(models.get(i).image_url)) {
+            if (curr_image_url.equals(models.get(i).image_url)) {
                 position = i;
                 break;
             }
         }
-
-
         Intent intent = new Intent(context, ImagePagerActivity.class);
         intent.putParcelableArrayListExtra(ImagePagerActivity.KEY_URL_LIST, models);
         intent.putExtra(ImagePagerActivity.KEY_POS, position);

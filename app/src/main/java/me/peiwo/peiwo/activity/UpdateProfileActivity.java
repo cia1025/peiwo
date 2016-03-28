@@ -3,10 +3,12 @@ package me.peiwo.peiwo.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,15 +22,6 @@ import android.widget.TextView;
 
 import com.qiniu.android.http.ResponseInfo;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Locale;
-
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.callback.UploadCallback;
 import me.peiwo.peiwo.constans.PWActionConfig;
@@ -41,17 +34,19 @@ import me.peiwo.peiwo.net.ApiRequestWrapper;
 import me.peiwo.peiwo.net.AsynHttpClient;
 import me.peiwo.peiwo.net.MsgStructure;
 import me.peiwo.peiwo.net.PWUploader;
-import me.peiwo.peiwo.util.CustomLog;
-import me.peiwo.peiwo.util.ImageUtil;
-import me.peiwo.peiwo.util.LocationUtil;
+import me.peiwo.peiwo.util.*;
 import me.peiwo.peiwo.util.LocationUtil.GetLocationCallback;
-import me.peiwo.peiwo.util.PWUtils;
-import me.peiwo.peiwo.util.TimeUtil;
-import me.peiwo.peiwo.util.TitleUtil;
-import me.peiwo.peiwo.util.UmengStatisticsAgent;
-import me.peiwo.peiwo.util.UserManager;
 import me.peiwo.peiwo.widget.FlowLayout;
 import me.peiwo.peiwo.widget.ProfileFaceGridView;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * 新的更新用户资料页面
@@ -786,11 +781,9 @@ public class UpdateProfileActivity extends BaseActivity implements
                                 dgv_images.reload(mProfile.images);
                                 requestGetComplement();
                                 imageNum = mProfile.images.size();
-                                needAlert = true;
                                 break;
                             case 1:
                                 replacePhotoBylocal(index);
-                                needAlert = true;
                                 break;
                             case 2:
                                 replacePhotoByGallery(index);
@@ -1163,7 +1156,7 @@ public class UpdateProfileActivity extends BaseActivity implements
 //        startActivityForResult(intent, REQUEST_CODE_BYCAMERA_CROP);
 //    }
 
-    private String mImageKey = "";
+    private String mImageKey;
 
     private void uploadImgBySCS(final ImageModel imgModel) {
         showAnimLoading("", false, false, false);

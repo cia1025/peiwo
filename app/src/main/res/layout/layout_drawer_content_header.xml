@@ -1,57 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="15dp">
+    android:paddingBottom="15dp"
+    >
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="170dp"
-        android:background="@drawable/bg_drawer_header">
+        android:background="@drawable/bg_drawer_header"
+        >
 
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/iv_drawer_avatar"
             android:layout_width="74dp"
             android:layout_height="74dp"
+            android:id="@+id/iv_drawer_avatar"
+            android:layout_marginTop="20dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp" />
+            />
 
         <TextView
-            android:id="@+id/tv_drawer_uname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_below="@+id/iv_drawer_avatar"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="12dp"
-            android:ems="10"
-            android:gravity="center"
-            android:textColor="@color/c_white"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/tv_drawer_pwnum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_drawer_uname"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
             android:ems="10"
             android:gravity="center"
+            android:id="@+id/tv_drawer_uname"
             android:textColor="@color/c_white"
-            android:textSize="11sp" />
+            android:textSize="15sp"
+            android:layout_marginTop="12dp"
+            />
+
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/tv_drawer_uname"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center"
+            android:id="@+id/tv_drawer_pwnum"
+            android:textColor="@color/c_white"
+            android:textSize="11sp"
+            />
 
 
         <ImageView
-            android:id="@+id/v_update_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_drawer_profile"
+            android:id="@+id/v_update_profile"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/ic_drawer_profile" />
+            />
     </RelativeLayout>
 </LinearLayout>

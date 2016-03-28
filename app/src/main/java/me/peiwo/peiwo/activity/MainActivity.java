@@ -117,8 +117,12 @@ public class MainActivity extends PWPreCallingActivity implements
             boolean isOldUser = SharedPreferencesUtil.getBooleanExtra(this, "old_user_" + UserManager.getUid(this), true);
             if (isOldUser) {
                 SharedPreferencesUtil.putBooleanExtra(this, "old_user_" + UserManager.getUid(this), false);
+                MsgDBCenterService.getInstance().insertSystemMessage();
             }
+<<<<<<< HEAD
 //            MsgDBCenterService.getInstance().insertSystemMessage();
+=======
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
         });
         mHandle.sendEmptyMessageDelayed(HANDLE_CHECK_OPEN_RECORD, 1000);
     }

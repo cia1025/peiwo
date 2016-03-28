@@ -1,5 +1,6 @@
 package me.peiwo.peiwo.presenter;
 
+<<<<<<< HEAD
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -19,12 +20,20 @@ import rx.subscriptions.CompositeSubscription;
 
 import java.util.concurrent.TimeUnit;
 
+=======
+import me.peiwo.peiwo.PeiwoApp;
+import me.peiwo.peiwo.activity.BaseActivity;
+import me.peiwo.peiwo.constans.Constans;
+import rx.subscriptions.CompositeSubscription;
+
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
 /**
  * Created by wallace on 16/3/15.
  */
 public class AgoraCallPresenter extends BasePresenter {
     protected CompositeSubscription mCompositeSubscription;
     protected PeiwoApp application;
+<<<<<<< HEAD
     protected int channel;
     private boolean headset_on = false;
     protected static final long MAX_DELAY = 15;//second
@@ -86,6 +95,14 @@ public class AgoraCallPresenter extends BasePresenter {
             }
         });
         mCompositeSubscription.add(subscription);
+=======
+    protected static final long MAX_DELAY = 15;//second
+
+    public AgoraCallPresenter(BaseActivity activity) {
+        super(activity);
+        application = (PeiwoApp) activity.getApplicationContext();
+        mCompositeSubscription = new CompositeSubscription();
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
     }
 
     public void setCalling(boolean iscall, PeiwoApp.CALL_TYPE call_type) {
@@ -93,18 +110,25 @@ public class AgoraCallPresenter extends BasePresenter {
             application.setCalling(iscall, call_type);
     }
 
+<<<<<<< HEAD
     protected void setEnableSpeakerphone(boolean b) {
+=======
+    public void setEnableSpeakerphone(boolean b) {
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
         application.getAgoraRtcEngine().setEnableSpeakerphone(b);
     }
 
     protected void unsubscribe() {
         if (mCompositeSubscription != null)
             mCompositeSubscription.unsubscribe();
+<<<<<<< HEAD
         cancelNotification();
     }
 
     public void cancelNotification() {
         notificationManager.cancel(notifyId);
+=======
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
     }
 
     protected void joinChannel(String channel_id, String who, int uid) {
@@ -112,6 +136,7 @@ public class AgoraCallPresenter extends BasePresenter {
     }
 
     protected void leaveChannel() {
+<<<<<<< HEAD
         if (channel == DfineAction.CALL_CHANNEL_AGORA)
             application.getAgoraRtcEngine().leaveChannel();
         else TcpProxy.getInstance().closeRTC();
@@ -234,4 +259,9 @@ public class AgoraCallPresenter extends BasePresenter {
     protected boolean dialing() {
         return call_state == CALL_STATE_DIALING;
     }
+=======
+        application.getAgoraRtcEngine().leaveChannel();
+    }
+
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
 }

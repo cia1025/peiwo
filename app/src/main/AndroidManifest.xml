@@ -767,13 +767,14 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
-            android:name=".activity.MsgShowAlbumActvity"
-            android:label="@string/title_activity_msg_show_album"
+            android:name=".activity.AgoraCallOutActivity"
+            android:label="@string/title_activity_call_out"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+        </activity>
         <activity
-            android:name=".activity.MsgAlbumFullScreenActivity"
-            android:label="@string/title_activity_msg_album_full_screen"
+            android:name=".activity.AgoraCallInActivity"
+            android:label="@string/title_activity_agora_call_in"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity

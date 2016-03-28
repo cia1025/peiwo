@@ -40,7 +40,6 @@ import me.peiwo.peiwo.util.CustomLog;
 import me.peiwo.peiwo.util.ImageUtil;
 import me.peiwo.peiwo.util.PWUtils;
 import me.peiwo.peiwo.util.UserManager;
-import me.peiwo.peiwo.widget.ControllableSwitchCompat;
 import net.simonvt.numberpicker.NumberPicker;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -212,19 +211,9 @@ public class GroupHomePageActvity extends BaseActivity {
 //                    update_time
                     double total_prestige_value = Math.round(object.optDouble("total_prestige_value") * 100) / 100.0;
                     double prestige_value = Math.round(object.optDouble("prestige_value") * 100) / 100.0;
-//                    if (total_prestige_value < 0.0) {
-//                        switch_recruition.setClickable(false);
-//                    }
-                    if (total_prestige_value < 100) {
-                        ((ControllableSwitchCompat) switch_recruition).setIsControlled(true);
-                        ((ControllableSwitchCompat) switch_recruition).setToastContent("群声望不足100，无法开启招新");
-                    } else if (prestige_value < 10) {
-                        ((ControllableSwitchCompat) switch_recruition).setIsControlled(true);
-                        ((ControllableSwitchCompat) switch_recruition).setToastContent("当前群声望不足10，无法开启招新");
-                    } else {
-                        ((ControllableSwitchCompat) switch_recruition).setIsControlled(false);
+                    if (total_prestige_value < 0.0) {
+                        switch_recruition.setClickable(false);
                     }
-
                     if (GroupConstant.MemberType.NEWBIE.equals(mGroupModel.member_type)) {
                         //游客
                         tv_repu_value.setText(String.valueOf(total_prestige_value));
@@ -335,6 +324,7 @@ public class GroupHomePageActvity extends BaseActivity {
     }
 
     private void fetchMembers() {
+        showAnimLoading();
         mMemberList.clear();
         ArrayList<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair(KEY_GROUP_ID, group_id));
@@ -372,6 +362,7 @@ public class GroupHomePageActvity extends BaseActivity {
                     mAdapter.setOnMemberSelectedListener(this::handleOnMemberSelected);
                     mRecyclerview.setAdapter(mAdapter);
                     tv_show_all_members.setText(getString(R.string.show_all_group_members, members.length()));
+                    dismissAnimLoading();
                 });
             }
 
@@ -386,6 +377,7 @@ public class GroupHomePageActvity extends BaseActivity {
                 CustomLog.d("fetchMembers. error is : " + error + ", ret is : " + ret);
                 Observable.just(null).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
                     showToast(GroupHomePageActvity.this, getString(R.string.load_failed));
+                    dismissAnimLoading();
                 });
             }
         });
@@ -437,7 +429,6 @@ public class GroupHomePageActvity extends BaseActivity {
     }
 
     private void fetchMySetting() {
-        showAnimLoading();
         ArrayList<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair(KEY_GROUP_ID, group_id));
         ApiRequestWrapper.openAPIGET(this, params, AsynHttpClient.API_GET_GROUP_MEMBER_EXTRA, new MsgStructure() {
@@ -445,7 +436,6 @@ public class GroupHomePageActvity extends BaseActivity {
             public void onReceive(JSONObject data) {
                 CustomLog.d("fetchMySetting onReceive. data is : " + data);
                 Observable.just(data).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
-                    dismissAnimLoading();
                     mNickName = o.optString(KEY_NICK_NAME);
                     int show_nickname = o.optInt(KEY_SHOW_NICK_NAME);
                     //int notify_flag = o.optInt(KEY_NOTIFY_FLAG);
@@ -464,9 +454,6 @@ public class GroupHomePageActvity extends BaseActivity {
             @Override
             public void onError(int error, Object ret) {
                 CustomLog.d("fetchMySetting onError. error is : " + error);
-                Observable.just(null).observeOn(AndroidSchedulers.mainThread()).subscribe(o -> {
-                    dismissAnimLoading();
-                });
             }
         });
     }
@@ -522,11 +509,6 @@ public class GroupHomePageActvity extends BaseActivity {
     }
 
     public void click(View v) {
-        boolean netAvailable = PWUtils.isNetWorkAvailable(this);
-        if (!netAvailable) {
-            showToast(this, getResources().getString(R.string.umeng_common_network_break_alert));
-            return;
-        }
         switch (v.getId()) {
             case R.id.layout_group_announcement:
                 Intent it = new Intent(this, UpdateGroupNoticeActivity.class);

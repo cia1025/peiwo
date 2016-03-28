@@ -1,5 +1,6 @@
 package me.peiwo.peiwo.activity;
 
+<<<<<<< HEAD
 import android.animation.*;
 import android.annotation.TargetApi;
 import android.content.res.Resources;
@@ -35,11 +36,30 @@ import java.util.concurrent.TimeUnit;
 public class AgoraWildCallActivity extends AgoraCallActivity {
 
     private Animator matchingAnim;
+=======
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import butterknife.Bind;
+import me.peiwo.peiwo.R;
+import me.peiwo.peiwo.presenter.AgoraWildCallPresenter;
+import me.peiwo.peiwo.widget.CallSmothDragView;
+
+public class AgoraWildCallActivity extends AgoraCallActivity {
+
+    private AnimatorSet matchingAnim;
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
     //private String channel_id;
     @Bind(R.id.call_smoth_dragview)
     CallSmothDragView call_smoth_dragview;
     @Bind(R.id.iv_matching_anim)
     View iv_matching_anim;
+<<<<<<< HEAD
     @Bind(R.id.tv_network_tips)
     TextView tv_network_tips;
     @Bind(R.id.v_call_control)
@@ -83,6 +103,8 @@ public class AgoraWildCallActivity extends AgoraCallActivity {
 
     @Bind(R.id.v_black_screen)
     View v_black_screen;
+=======
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
 
     private AgoraWildCallPresenter presenter;
 
@@ -95,6 +117,7 @@ public class AgoraWildCallActivity extends AgoraCallActivity {
         presenter.init();
     }
 
+<<<<<<< HEAD
     @Override
     public void onResume() {
         super.onResume();
@@ -112,11 +135,18 @@ public class AgoraWildCallActivity extends AgoraCallActivity {
         } else {
             presenter.quit();
         }
+=======
+
+    @Override
+    public void onBackPressed() {
+        presenter.quit();
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
         //super.onBackPressed();
     }
 
 
     private void init() {
+<<<<<<< HEAD
         LayoutTransition transition = new LayoutTransition();
         transition.setAnimator(LayoutTransition.APPEARING, transition.getAnimator(LayoutTransition.APPEARING));
         self_view.setLayoutTransition(transition);
@@ -193,6 +223,45 @@ public class AgoraWildCallActivity extends AgoraCallActivity {
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
         }
+=======
+        startMatchingAnim();
+        call_smoth_dragview.setCallDragListener(this::handleDragState);
+    }
+
+    public void startMatchingAnim() {
+        ObjectAnimator animatorXEnlarge = ObjectAnimator.ofFloat(iv_matching_anim, "scaleX", 1.0f, 1.5f);
+        animatorXEnlarge.setRepeatCount(ValueAnimator.INFINITE);
+        animatorXEnlarge.setRepeatMode(ValueAnimator.REVERSE);
+        animatorXEnlarge.setDuration(2000);
+
+        ObjectAnimator animatorYEnlarge = ObjectAnimator.ofFloat(iv_matching_anim, "scaleY", 1.0f, 1.5f);
+        animatorYEnlarge.setRepeatCount(ValueAnimator.INFINITE);
+        animatorYEnlarge.setRepeatMode(ValueAnimator.REVERSE);
+        animatorYEnlarge.setDuration(2000);
+
+        ObjectAnimator animatorXShrink = ObjectAnimator.ofFloat(iv_matching_anim, "scaleX", 1.5f, 1.0f);
+        animatorXShrink.setRepeatCount(ValueAnimator.INFINITE);
+        animatorXShrink.setRepeatMode(ValueAnimator.REVERSE);
+        animatorXShrink.setDuration(1000);
+
+        ObjectAnimator animatorYShrink = ObjectAnimator.ofFloat(iv_matching_anim, "scaleY", 1.5f, 1.0f);
+        animatorYShrink.setRepeatCount(ValueAnimator.INFINITE);
+        animatorYShrink.setRepeatMode(ValueAnimator.REVERSE);
+        animatorYShrink.setDuration(1000);
+
+//        ObjectAnimator animatorAlpha = ObjectAnimator.ofFloat(iv_matching_anim, "alpha", 1.0f, 0.2f);
+//        animatorAlpha.setRepeatCount(ValueAnimator.INFINITE);
+//        animatorAlpha.setRepeatMode(ValueAnimator.REVERSE);
+        AnimatorSet animatorSet1 = new AnimatorSet();
+        animatorSet1.playTogether(animatorXEnlarge, animatorYEnlarge);
+        AnimatorSet animatorSet2 = new AnimatorSet();
+        animatorSet2.playTogether(animatorXShrink, animatorYShrink);
+
+        matchingAnim = new AnimatorSet();
+        matchingAnim.playSequentially(animatorSet1, animatorSet2);
+        matchingAnim.setInterpolator(new DecelerateInterpolator());
+        matchingAnim.start();
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
     }
 
     private void handleDragState(int state) {
@@ -217,6 +286,7 @@ public class AgoraWildCallActivity extends AgoraCallActivity {
         int id = v.getId();
         switch (id) {
             case R.id.iv_quit:
+<<<<<<< HEAD
                 presenter.quit();
                 break;
 
@@ -238,10 +308,24 @@ public class AgoraWildCallActivity extends AgoraCallActivity {
             case R.id.v_pay_phone:
                 presenter.quit();
                 toast("收费电话");
+=======
+                onBackPressed();
+//                if (v.getTag() == null) {
+//                    presenter.pauseMatchingAnimator();
+//                    v.setTag("haha");
+//                } else {
+//                    presenter.resumeMatchingAnimator();
+//                    v.setTag(null);
+//                }
+                break;
+
+            default:
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
                 break;
         }
     }
 
+<<<<<<< HEAD
     private void likeRemoteUser(View v) {
         v.setSelected(true);
         v.setEnabled(false);
@@ -260,6 +344,8 @@ public class AgoraWildCallActivity extends AgoraCallActivity {
                 }).create().show();
     }
 
+=======
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public void pauseAnimator() {
         if (matchingAnim != null && !matchingAnim.isPaused()) {
@@ -281,6 +367,7 @@ public class AgoraWildCallActivity extends AgoraCallActivity {
             matchingAnim.resume();
         }
     }
+<<<<<<< HEAD
 
     public void showNetWorkTips(String tips) {
         if (tv_network_tips.getVisibility() == View.VISIBLE) {
@@ -474,4 +561,6 @@ public class AgoraWildCallActivity extends AgoraCallActivity {
     public void hidePayPhoneView() {
         v_pay_phone.setVisibility(View.GONE);
     }
+=======
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
 }

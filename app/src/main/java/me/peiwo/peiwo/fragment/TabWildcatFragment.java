@@ -14,10 +14,14 @@ import android.widget.Toast;
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.R;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import me.peiwo.peiwo.activity.AgoraWildCallActivity;
 import me.peiwo.peiwo.activity.ChargeActivity;
 >>>>>>> ef0fd79745cfc7f2142d30f43876e23d0762bef7
+=======
+import me.peiwo.peiwo.activity.AgoraWildCallActivity;
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
 import me.peiwo.peiwo.activity.ConstellationChooseActivity;
 import me.peiwo.peiwo.activity.WildcatGuideActivity;
 import me.peiwo.peiwo.constans.Constans;
@@ -137,6 +141,7 @@ public class TabWildcatFragment extends PPBaseFragment implements
             return;
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
         startActivity(new Intent(getActivity(), WildCatCallActivity.class));
 =======
         //startActivity(new Intent(getActivity(), WildCatCallActivity.class));
@@ -182,6 +187,10 @@ public class TabWildcatFragment extends PPBaseFragment implements
                 .setNegativeButton("取消", null)
                 .create().show();
 >>>>>>> ef0fd79745cfc7f2142d30f43876e23d0762bef7
+=======
+        //startActivity(new Intent(getActivity(), WildCatCallActivity.class));
+        startActivity(new Intent(getActivity(), AgoraWildCallActivity.class));
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
     }
 
     private void startWildGuide() {

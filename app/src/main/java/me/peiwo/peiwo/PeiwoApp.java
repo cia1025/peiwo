@@ -25,14 +25,16 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.umeng.update.UmengUpdateAgent;
+import io.agora.rtc.RtcEngine;
 import io.rong.imlib.AnnotationNotFoundException;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.MessageContent;
 import io.rong.message.CommandMessage;
 import me.peiwo.peiwo.activity.MsgAcceptedMsgActivity;
-import me.peiwo.peiwo.activity.ServerDownActivity;
+import me.peiwo.peiwo.activity.SplashActivity;
 import me.peiwo.peiwo.activity.UpgradeAppActivity;
 import me.peiwo.peiwo.activity.WelcomeActivity;
+import me.peiwo.peiwo.callback.AgoraEngineEventHandler;
 import me.peiwo.peiwo.callback.ReceiveRongMessageListener;
 import me.peiwo.peiwo.constans.Constans;
 import me.peiwo.peiwo.constans.PWActionConfig;
@@ -163,6 +165,8 @@ public class PeiwoApp extends MultiDexApplication {
     }
 
 
+    private RtcEngine mAgoraRtcEngine;
+
     @Override
     public void onCreate() {
         //System.out.println("PeiwoApp onCreate: " + strProName);
@@ -203,6 +207,17 @@ public class PeiwoApp extends MultiDexApplication {
             setUpRongCloud();
 
             setUpAtuserAndNodisturb();
+            mAgoraRtcEngine = RtcEngine.create(this, Constans.AGORA_VENDOR_KEY, new AgoraEngineEventHandler(this));
+            setUpAgoraRtcEngine();
+        }
+    }
+
+    private void setUpAgoraRtcEngine() {
+        if (mAgoraRtcEngine != null) {
+            mAgoraRtcEngine.monitorHeadsetEvent(true);
+            mAgoraRtcEngine.monitorConnectionEvent(true);
+            mAgoraRtcEngine.monitorBluetoothHeadsetEvent(true);
+            mAgoraRtcEngine.enableHighPerfWifiMode(true);
         }
     }
 
@@ -629,7 +644,7 @@ public class PeiwoApp extends MultiDexApplication {
             public void onError(int error, Object ret) {
                 CustomLog.d("addGlobalErrHandle, onError. ret is : " + ret);
                 AsynHttpClient.getInstance().clearAllRequest();
-                restartApp(error, ret);
+                restartApp(error);
             }
         });
     }
@@ -650,7 +665,7 @@ public class PeiwoApp extends MultiDexApplication {
                 if (error == AsynHttpClient.ERR_USER_AUTH) {
                     showToast(getApplicationContext(), "用户认证失败，请重新登录");
                 } else {
-                    //showToast(getApplicationContext(), "我们正在升级服务器，请10分钟后再打开陪我使用");
+                    showToast(getApplicationContext(), "我们正在升级服务器，请10分钟后再打开陪我使用");
                 }
             }
         });
@@ -786,9 +801,7 @@ public class PeiwoApp extends MultiDexApplication {
         return mInstance;
     }
 
-    public void restartApp(int nError, Object ret) {
-        if (ret != null && ret instanceof JSONObject)
-            alertServerDown(ret.toString());
+    public void restartApp(int nError) {
         if (getStartWelcome()) {
             return;
         }
@@ -800,44 +813,19 @@ public class PeiwoApp extends MultiDexApplication {
         mNotifyMgr.cancel(Constans.NOTIFY_ID_CALL_BACKGROUND);
         mNotifyMgr.cancel(Constans.NOTIFY_ID_IM_MESSAGE);
 
-        Intent intent = null;
-        if (nError < 0) {
-//            intent.setClass(PeiwoApp.this, SplashActivity.class);
-//            intent.setAction(PWActionConfig.ACTION_SERVER_DOWNTIME);
-//            if (ret != null && ret instanceof JSONObject) {
-//                intent.putExtra("data", ret.toString());
-//            }
+        Intent intent = new Intent();
+        if (nError / 500 == 1) {
+            intent.setClass(PeiwoApp.this, SplashActivity.class);
+            intent.setAction(PWActionConfig.ACTION_SERVER_DOWNTIME);
         } else {
-            intent = new Intent();
             logoutLocalUser();
             intent.setClass(PeiwoApp.this, WelcomeActivity.class);
         }
-        if (intent != null && isRunningForeground()) {
+        if (isRunningForeground()) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK
                     | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
-    }
-
-    private boolean showed = false;
-
-    public void dissServerDownShowed() {
-        showed = false;
-    }
-
-    public boolean isServerDown() {
-        return showed;
-    }
-
-    private void alertServerDown(String json) {
-        if (showed) return;
-        showed = true;
-        Observable.just(json).observeOn(AndroidSchedulers.mainThread()).subscribe(s -> {
-            Intent intent = new Intent(this, ServerDownActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("data", s);
-            startActivity(intent);
-        });
     }
 
 
@@ -929,6 +917,10 @@ public class PeiwoApp extends MultiDexApplication {
             receiveRongListeners.remove(listener);
     }
 
+
+    public RtcEngine getAgoraRtcEngine() {
+        return mAgoraRtcEngine;
+    }
 
 }
 

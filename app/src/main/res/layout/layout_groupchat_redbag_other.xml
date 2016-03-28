@@ -72,9 +72,11 @@
             android:orientation="vertical"
             android:background="@drawable/bg_chat_picket_item"
             android:layout_toRightOf="@+id/iv_avatar"
+            android:layout_below="@+id/v_avatar_identity"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="6dp"
-            android:layout_below="@+id/v_avatar_identity">
+            >
+
 
             <ImageView
                 android:id="@+id/iv_redbag_icon"

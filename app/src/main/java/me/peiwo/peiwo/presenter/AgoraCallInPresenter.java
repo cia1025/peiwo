@@ -1,5 +1,6 @@
 package me.peiwo.peiwo.presenter;
 
+<<<<<<< HEAD
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v4.widget.ViewDragHelper;
@@ -10,10 +11,15 @@ import org.json.JSONObject;
 
 import java.util.concurrent.TimeUnit;
 
+=======
+import android.content.Intent;
+import android.util.Log;
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
 import io.agora.rtc.Constants;
 import me.peiwo.peiwo.BuildConfig;
 import me.peiwo.peiwo.DfineAction;
 import me.peiwo.peiwo.PeiwoApp;
+<<<<<<< HEAD
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.RxBus;
 import me.peiwo.peiwo.activity.AgoraCallInActivity;
@@ -42,6 +48,20 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+=======
+import me.peiwo.peiwo.RxBus;
+import me.peiwo.peiwo.activity.AgoraCallInActivity;
+import me.peiwo.peiwo.model.agora.*;
+import me.peiwo.peiwo.net.TcpProxy;
+import me.peiwo.peiwo.util.UserManager;
+import org.json.JSONException;
+import org.json.JSONObject;
+import rx.Observable;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+
+import java.util.concurrent.TimeUnit;
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
 
 /**
  * Created by wallace on 16/3/15.
@@ -56,10 +76,13 @@ public class AgoraCallInPresenter extends AgoraCallPresenter {
     private AgoraCallInActivity activity;
 
     private int call_stop_reason = DfineAction.REAL_STOP_CALL_NORMAL;
+<<<<<<< HEAD
     private boolean canInvalidate = true;
     private boolean joined = false;
     private AgoraUser user;
     private AgoraCalledMessageEvent.Data data;
+=======
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
 
     public AgoraCallInPresenter(AgoraCallInActivity activity) {
         super(activity);
@@ -75,13 +98,18 @@ public class AgoraCallInPresenter extends AgoraCallPresenter {
             activity.finish();
         caller_id = calledMessageEvent.data.user.uid;
         callee_id = UserManager.getUid(activity);
+<<<<<<< HEAD
         if (BuildConfig.DEBUG)
             Log.i("agora", "call in caller_id==" + caller_id + "--callee_id==" + callee_id);
         initView();
+=======
+        if (BuildConfig.DEBUG) Log.i("agora", "call in caller_id==" + caller_id + "--callee_id==" + callee_id);
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
         timerAnswerTimeout();
         setUpNextEvent();
     }
 
+<<<<<<< HEAD
     private void initView() {
         activity.initConnectingView();
         initCalleeMsg();
@@ -102,6 +130,8 @@ public class AgoraCallInPresenter extends AgoraCallPresenter {
         activity.setNickName(callee_id, name);
     }
 
+=======
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
     private void setUpNextEvent() {
         Subscription subscription = RxBus.provider().toObserverable().filter(o -> o instanceof AgoraCallEvent).observeOn(AndroidSchedulers.mainThread()).subscribe(event -> {
             dispatcCallEvent((AgoraCallEvent) event);
@@ -118,11 +148,17 @@ public class AgoraCallInPresenter extends AgoraCallPresenter {
             setUpOnUserOffine((AgoraUserOffineEvent) event);
         } else if (event instanceof AgoraStopCallResponseEvent) {
             //stop call response
+<<<<<<< HEAD
 //            hungUp(true);
             setUpStopCallResponse();
         } else if (event instanceof AgoraHungUpByServEvent) {
             setUpHungUpByServer();
 //            hungUp(false);
+=======
+            hungUp(true);
+        } else if (event instanceof AgoraHungUpByServEvent) {
+            hungUp(false);
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
         } else if (event instanceof AgoraReJoinChannelSuccessEvent) {
             setUpReJoinChannelSuccess((AgoraReJoinChannelSuccessEvent) event);
         } else if (event instanceof AgoraConnectionInterruptedEvent) {
@@ -133,6 +169,7 @@ public class AgoraCallInPresenter extends AgoraCallPresenter {
             setUpConnectionLost((AgoraConnectionLostEvent) event);
         } else if (event instanceof AgoraUserMuteAudioEvent) {
             setUpUserMute((AgoraUserMuteAudioEvent) event);
+<<<<<<< HEAD
         } else if (event instanceof AgoraIntentRewardResponseEvent) {
             setUpIntentRewardResponse((AgoraIntentRewardResponseEvent) event);
         } else if (event instanceof AgoraRewardedEvent) {
@@ -174,6 +211,11 @@ public class AgoraCallInPresenter extends AgoraCallPresenter {
     }
 
 
+=======
+        }
+    }
+
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
     private void setUpUserMute(AgoraUserMuteAudioEvent event) {
         if (event.uid == caller_id) {
             activity.toast(String.format("caller %s", event.muted ? "开启静音" : "关闭静音"));
@@ -183,6 +225,10 @@ public class AgoraCallInPresenter extends AgoraCallPresenter {
     }
 
     private void setUpOnJoinChannelSuccess(AgoraJoinChannelSuccessEvent event) {
+<<<<<<< HEAD
+=======
+        activity.setAudioViewEnable(true);
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
         call_stop_reason = DfineAction.REAL_STOP_CALL_CALLING_NORMAL;
         try {
             String message = new JSONObject().put("msg_type", DfineAction.MSG_CallBeginMessage).toString();
@@ -201,6 +247,7 @@ public class AgoraCallInPresenter extends AgoraCallPresenter {
         //对方重新加入，dissmiss timer
         if (timer_caller_subscription != null)
             mCompositeSubscription.remove(timer_caller_subscription);
+<<<<<<< HEAD
 //        if (!joined) {
 //            joined = true;
 //            activity.initJoinedView();
@@ -232,6 +279,8 @@ public class AgoraCallInPresenter extends AgoraCallPresenter {
         });
 
         mCompositeSubscription.add(subscribe);
+=======
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
     }
 
     private void setUpConnectionInterruped(AgoraConnectionInterruptedEvent event) {
@@ -239,8 +288,12 @@ public class AgoraCallInPresenter extends AgoraCallPresenter {
     }
 
     private void timerCalleeTimeout() {
+<<<<<<< HEAD
         if (timer_callee_subscription != null && !timer_callee_subscription.isUnsubscribed())
             return;
+=======
+        if (timer_callee_subscription != null && !timer_callee_subscription.isUnsubscribed()) return;
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
         if (BuildConfig.DEBUG) Log.i("agora", "callee " + callee_id + "计时开始");
         timer_callee_subscription = Observable.timer(MAX_DELAY, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             //超时,退出
@@ -268,8 +321,12 @@ public class AgoraCallInPresenter extends AgoraCallPresenter {
     }
 
     private void timeCallerTimeout() {
+<<<<<<< HEAD
         if (timer_caller_subscription != null && !timer_caller_subscription.isUnsubscribed())
             return;
+=======
+        if (timer_caller_subscription != null && !timer_caller_subscription.isUnsubscribed()) return;
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
         if (BuildConfig.DEBUG) Log.i("agora", "caller " + caller_id + "计时开始");
         timer_caller_subscription = Observable.timer(MAX_DELAY, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             //超时，退出
@@ -284,11 +341,18 @@ public class AgoraCallInPresenter extends AgoraCallPresenter {
 
     private void timerAnswerTimeout() {
         //设置应答超时时间
+<<<<<<< HEAD
         if (timer_answer_subscription != null && !timer_answer_subscription.isUnsubscribed())
             return;
         if (BuildConfig.DEBUG) Log.i("agora", "callee answer" + callee_id + "应答计时开始");
 //        activity.setCallerText("caller is " + caller_id);
 //        activity.setCalleeText("callee is " + callee_id);
+=======
+        if (timer_answer_subscription != null && !timer_answer_subscription.isUnsubscribed()) return;
+        if (BuildConfig.DEBUG) Log.i("agora", "callee answer" + callee_id + "应答计时开始");
+        activity.setCallerText("caller is " + caller_id);
+        activity.setCalleeText("callee is " + callee_id);
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
         timer_answer_subscription = Observable.timer(MAX_DELAY, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             //应答超时，退出
             hungUp(true);
@@ -297,7 +361,11 @@ public class AgoraCallInPresenter extends AgoraCallPresenter {
     }
 
     public synchronized void hungUp(boolean send_stopcall_message) {
+<<<<<<< HEAD
 //        activity.setHungUpViewEnable(false);
+=======
+        activity.setHungUpViewEnable(false);
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
         unsubscribe();
         if (send_stopcall_message)
             sendStopCallMessage();
@@ -317,16 +385,34 @@ public class AgoraCallInPresenter extends AgoraCallPresenter {
         }
     }
 
+<<<<<<< HEAD
 
     public void rejectCall() {
         if (timer_answer_subscription != null)
             mCompositeSubscription.remove(timer_answer_subscription);
+=======
+    public void handleAudioMode(Object tag) {
+        if (tag == null) {
+            activity.setAudioTag("audio");
+            setEnableSpeakerphone(false);
+            activity.setAudioModeText("现在是听筒模式");
+        } else {
+            activity.setAudioTag(null);
+            setEnableSpeakerphone(true);
+            activity.setAudioModeText("现在是扬声器模式");
+        }
+    }
+
+    public void rejectCall() {
+        if (timer_answer_subscription != null) mCompositeSubscription.remove(timer_answer_subscription);
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
         TcpProxy.getInstance().rejectCall("reject");
         //会收到服务端hungupbyservmessage
         hungUp(true);
     }
 
     public void answerCall() {
+<<<<<<< HEAD
         if (timer_answer_subscription != null)
             mCompositeSubscription.remove(timer_answer_subscription);
 //        activity.changeViewWithAnswer();
@@ -336,6 +422,10 @@ public class AgoraCallInPresenter extends AgoraCallPresenter {
             startChargeGuideAnim();
             countTime();
         }
+=======
+        if (timer_answer_subscription != null) mCompositeSubscription.remove(timer_answer_subscription);
+        activity.changeViewWithAnswer();
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
         sendAnswerMessage();
         joinChannel(calledMessageEvent.data.channel_id, "i am " + callee_id, callee_id);
     }
@@ -355,6 +445,7 @@ public class AgoraCallInPresenter extends AgoraCallPresenter {
         setCalling(false, PeiwoApp.CALL_TYPE.CALL_NONE);
         DfineAction.CURRENT_CALL_STATUS = DfineAction.CURRENT_CALL_NOT;
     }
+<<<<<<< HEAD
 
     public void handleDragState(int state) {
         if (state == CallSmothDragView.OUTSIDE) {
@@ -425,4 +516,6 @@ public class AgoraCallInPresenter extends AgoraCallPresenter {
         activity.finish();
     }
 
+=======
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
 }

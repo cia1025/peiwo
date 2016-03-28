@@ -28,6 +28,7 @@ public class AgoraCallActivity extends BaseActivity {
     public void toast(String toast) {
         Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
     }
+<<<<<<< HEAD
 
     /**
      * 刷新金额
@@ -81,4 +82,6 @@ public class AgoraCallActivity extends BaseActivity {
     public void enableDrag(boolean enable) {
 
     }
+=======
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
 }

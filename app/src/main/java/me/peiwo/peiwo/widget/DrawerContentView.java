@@ -110,10 +110,7 @@ public class DrawerContentView extends RecyclerView {
                     if (!mList.isEmpty() && mList.size() > 5) {
                         DrawerContentModel lazyModel = mList.get(ITEM_INDEX_UPDATE_LAZYGUY);
                         lazyModel.setHasVoice(true);
-                        if (DrawerContentView.this.getScrollState() == RecyclerView.SCROLL_STATE_IDLE && !DrawerContentView.this.isComputingLayout()) {
-                            adapter.notifyItemChanged(ITEM_INDEX_UPDATE_LAZYGUY);
-                        }
-
+                        adapter.notifyItemChanged(ITEM_INDEX_UPDATE_LAZYGUY);
                     }
                 }
             }
@@ -123,9 +120,7 @@ public class DrawerContentView extends RecyclerView {
                 if (!mList.isEmpty() && mList.size() > 5) {
                     DrawerContentModel lazyModel = mList.get(ITEM_INDEX_UPDATE_LAZYGUY);
                     lazyModel.setHasVoice(false);
-                    if (DrawerContentView.this.getScrollState() == RecyclerView.SCROLL_STATE_IDLE && !DrawerContentView.this.isComputingLayout()) {
-                        adapter.notifyItemChanged(ITEM_INDEX_UPDATE_LAZYGUY);
-                    }
+                    adapter.notifyItemChanged(ITEM_INDEX_UPDATE_LAZYGUY);
                 }
             }
         });
@@ -288,7 +283,7 @@ public class DrawerContentView extends RecyclerView {
         model = new DrawerContentModel(false, "新声记录", 0, VIEW_TYPE_ITEM);
         mList.add(model);
         model = new DrawerContentModel(false, "个人声望", 0, VIEW_TYPE_ITEM);
-        model.voice_var = String.format("%.2f", Float.valueOf(TextUtils.isEmpty(pwUser.score) ? "0" : pwUser.score));
+        model.voice_var = String.format("%.2f", Float.valueOf(pwUser.score));
         mList.add(model);
 //        model = new DrawerContentModel(false, "合拍统计", 0, VIEW_TYPE_ITEM);
 //        mList.add(model);

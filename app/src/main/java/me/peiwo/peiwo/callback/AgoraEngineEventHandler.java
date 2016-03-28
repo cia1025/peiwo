@@ -53,7 +53,10 @@ public class AgoraEngineEventHandler extends IRtcEngineEventHandler {
     public void onAudioQuality(int uid, int quality, short delay, short lost) {
         if (BuildConfig.DEBUG)
             log("onAudioQuality()--uid==" + uid + "--quality==" + quality + "--delay==" + delay + "--lost==" + lost);
+<<<<<<< HEAD
         RxBus.provider().send(new AgoraAudioQualityEvent(uid, quality, delay, lost));
+=======
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
     }
 
     @Override
@@ -76,7 +79,10 @@ public class AgoraEngineEventHandler extends IRtcEngineEventHandler {
     @Override
     public void onNetworkQuality(int quality) {
         if (BuildConfig.DEBUG) log("onNetworkQuality()--quality==" + quality);
+<<<<<<< HEAD
         RxBus.provider().send(new AgoraNetworkQualityEvent(quality));
+=======
+>>>>>>> 565f4dfcc21fd4710896162e9996805d0bed5198
     }
 
     @Override

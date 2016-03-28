@@ -1,5 +1,6 @@
 package me.peiwo.peiwo.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import butterknife.OnClick;
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.constans.Constans;
@@ -221,8 +223,8 @@ public class WantMakeMoney extends BaseActivity {
         setMoneyBG();
         TextView btn_getmoney = (TextView) findViewById(R.id.btn_getmoney);
 //        if (mUser.gender == AsynHttpClient.GENDER_MASK_FEMALE) {
-        btn_getmoney.setText("提现");
-        btn_getmoney.setEnabled(true);
+            btn_getmoney.setText("提现");
+            btn_getmoney.setEnabled(true);
 //        } else {
 //            btn_getmoney.setText("暂未开放");
 //            btn_getmoney.setEnabled(false);
@@ -248,7 +250,6 @@ public class WantMakeMoney extends BaseActivity {
                 CustomLog.d("onReceive. data is : " + data);
                 Message msg = mHandler.obtainMessage(WHAT_DATA_UPDATE_BALANCE);
                 String money = (data.optString("money"));
-                UserManager.updateMoney(WantMakeMoney.this, money);
                 msg.obj = money;
                 mHandler.sendMessage(msg);
             }
