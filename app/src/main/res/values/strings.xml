@@ -326,8 +326,6 @@
     <string name="calling_in_background">后台打电话</string>
     <string name="notify_counts">[%d条]</string>
     <string name="title_activity_server_down">ServerDownActivity</string>
-<<<<<<< HEAD
-=======
     <string name="voice_captcha_had_been_sent">语音验证码已发出，请保持手机畅通</string>
 
     <string name="title_activity_call_out">CallOutActivity</string>
@@ -337,7 +335,5 @@
     <string name="feed_food">打赏</string>
     <string name="hands_free">免提</string>
     <string name="your_balance_is_not_enough_for_calling">您的账户余额不足，充值后再打给我吧！</string>
-
->>>>>>> ef0fd79745cfc7f2142d30f43876e23d0762bef7
 
 </resources>

@@ -780,10 +780,6 @@
             android:name=".activity.ServerDownActivity"
             android:label="@string/title_activity_server_down"
             android:noHistory="true"
-<<<<<<< HEAD
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        </activity>
-=======
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
@@ -809,7 +805,6 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/call_theme" />
->>>>>>> ef0fd79745cfc7f2142d30f43876e23d0762bef7
     </application>
 
 </manifest>
