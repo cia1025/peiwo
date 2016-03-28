@@ -2,9 +2,11 @@
 <resources>
 
     <!-- Just adding these so I wont have to remove a lot of code from NumberPicker.java. -->
-    <item name="np__increment" type="id" />
-    <item name="np__decrement" type="id" />
-    <item name="pb_loading" type="id" />
-    <item name="tips_id" type="id" />
+    <item name="np__increment" type="id"/>
+    <item name="np__decrement" type="id"/>
+    <item name="pb_loading" type="id"/>
+    <item name="tips_id" type="id"/>
+    <item name="reward_view_id" type="id"/>
+    <item name="rewarded_view_id" type="id"/>
 
 </resources>

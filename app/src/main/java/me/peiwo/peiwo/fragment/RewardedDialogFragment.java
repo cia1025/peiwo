@@ -7,6 +7,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import me.peiwo.peiwo.R;
@@ -31,7 +32,9 @@ public class RewardedDialogFragment extends DialogFragment implements View.OnCli
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View v = getActivity().getLayoutInflater().inflate(R.layout.layout_rewarded_dialog, null);
+        RelativeLayout rootView = new RelativeLayout(getActivity());
+        View v = getActivity().getLayoutInflater().inflate(R.layout.layout_rewarded_dialog, rootView, true);
+        //rootView.addView(v);
         ImageView iv_avatar = (ImageView) v.findViewById(R.id.iv_avatar);
         TextView tv_reward_from = (TextView) v.findViewById(R.id.tv_reward_from);
         tv_reward_from.setText(getArguments().getString("reward_from") + "给我打赏");
@@ -47,7 +50,7 @@ public class RewardedDialogFragment extends DialogFragment implements View.OnCli
             tv_reward_price.setText("￥" + String.format("%.2f", money));
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setView(v);
+        builder.setView(rootView);
         return builder.create();
     }
 

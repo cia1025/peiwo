@@ -123,7 +123,7 @@ public class CreateChatGroupActivity extends BaseActivity implements TextWatcher
         }
         String titleStr = getString(R.string.create_group);
         if (isInvolveFriends()) {
-            mAdapter = new GroupAddFriendsAdapter(this, mList, mMemberList, mGroupModel.member_number);
+            mAdapter = new GroupAddFriendsAdapter(this, mList, mMemberList);
             titleStr = getString(R.string.involve_group_member_with_counts, mGroupModel.member_number);
             ImageLoader.getInstance().displayImage(mGroupModel.avatar, civ_choose_album);
             et_group_name.setText(mGroupModel.group_name);
@@ -201,7 +201,7 @@ public class CreateChatGroupActivity extends BaseActivity implements TextWatcher
             doSearch(result);
         } else {
             if (isInvolveFriends()) {
-                mAdapter = new GroupAddFriendsAdapter(this, mList, mMemberList, mGroupModel.member_number);
+                mAdapter = new GroupAddFriendsAdapter(this, mList, mMemberList);
             } else {
                 mAdapter = new GroupAddFriendsAdapter(this, mList);
             }

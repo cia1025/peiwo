@@ -176,7 +176,7 @@ public class ConstellationChooseActivity extends BaseActivity implements Adapter
             showToast(this, "网络连接失败");
             return;
         }
-        Intent intent = new Intent(this, WildCatCallActivity.class);
+        Intent intent = new Intent(this, AgoraWildCallActivity.class);
         intent.putExtra(WildCatCallActivity.K_CONSTELL, constell);
         startActivity(intent);
         finish();

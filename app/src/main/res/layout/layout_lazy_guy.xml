@@ -24,7 +24,6 @@
             app:layout_heightPercent="20%"
             app:layout_marginTopPercent="36%"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/bg_blue_small_radius"
             />
 
         <TextView

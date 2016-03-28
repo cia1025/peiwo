@@ -156,10 +156,25 @@ public class DfineAction {
 	public static final int MSG_WILDCAT_EXIT_MATCHING = 0x63;	//	99
 	/** 退出限时聊匹配应答 */
     public static final int MSG_WILDCAT_EXIT_MATCHING_RESPONSE = 0x64; //100
+<<<<<<< HEAD
 	/** 限时聊点赞 */
     public static final int MSG_WILDCAT_LIKE = 0x65;		// 101
     /** 限时聊点赞应答 */
     public static final int MSG_WILDCAT_LIKE_RESPONSE = 0x69;		//	105
+=======
+    /**
+     * 限时聊点赞
+     */
+    public static final int MSG_WILDCAT_LIKE = 0x65;        // 101
+    /**
+     * 限时聊自己点赞应答
+     */
+    public static final int MSG_WILDCAT_LIKE_RESPONSE = 0x69;        //	105
+    /**
+     * 匿名聊收到对方点赞
+     */
+    public static final int WILDCAT_LIKE_NOTIFY_MESSAGE = 0x0072;
+>>>>>>> ef0fd79745cfc7f2142d30f43876e23d0762bef7
 
     /** 双方点赞，无限模式*/
     public static final int MSG_WILDCAT_INFINITE_MODE = 0x66;    //102
@@ -249,8 +264,8 @@ public class DfineAction {
     public static final int IntentRewardMessage = 0x00F1;
     public static final int IntentRewardResponseMessage = 0x00F2;
     public static final int PayRewardMessage = 0x00F3;
-    public static final int PayRewardResponseMessage = 0x00F4;
-    public static final int RewardedMessage = 0x00F5;
+    public static final int PayRewardResponseMessage = 0x00F4; //244
+    public static final int RewardedMessage = 0x00F5;//245
 
 
     /**

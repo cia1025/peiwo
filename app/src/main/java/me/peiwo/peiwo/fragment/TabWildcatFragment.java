@@ -1,25 +1,37 @@
 package me.peiwo.peiwo.fragment;
 
 import android.content.Intent;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import me.peiwo.peiwo.PeiwoApp;
 import me.peiwo.peiwo.R;
+<<<<<<< HEAD
+=======
+import me.peiwo.peiwo.activity.AgoraWildCallActivity;
+import me.peiwo.peiwo.activity.ChargeActivity;
+>>>>>>> ef0fd79745cfc7f2142d30f43876e23d0762bef7
 import me.peiwo.peiwo.activity.ConstellationChooseActivity;
-import me.peiwo.peiwo.activity.WildCatCallActivity;
 import me.peiwo.peiwo.activity.WildcatGuideActivity;
 import me.peiwo.peiwo.constans.Constans;
 import me.peiwo.peiwo.constans.UMEventIDS;
+import me.peiwo.peiwo.net.ApiRequestWrapper;
 import me.peiwo.peiwo.net.AsynHttpClient;
 import me.peiwo.peiwo.util.*;
-import rx.Observable;
+import org.json.JSONObject;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.subscriptions.CompositeSubscription;
+
+import java.util.ArrayList;
 
 /**
  * Created by fuhaidong on 14-9-10.
@@ -28,6 +40,7 @@ public class TabWildcatFragment extends PPBaseFragment implements
         View.OnClickListener {
 
     private TextView btn_match_constellation;
+    private CompositeSubscription mCompositeSubscription;
 
     public static TabWildcatFragment newInstance() {
         return new TabWildcatFragment();
@@ -47,6 +60,7 @@ public class TabWildcatFragment extends PPBaseFragment implements
     }
 
     private void init(View v) {
+        mCompositeSubscription = new CompositeSubscription();
         View btn_start_wildcat = v.findViewById(R.id.btn_start_wildcat);
         btn_start_wildcat.setOnClickListener(this);
         int gender = UserManager.getGender(getActivity());
@@ -70,7 +84,7 @@ public class TabWildcatFragment extends PPBaseFragment implements
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser)
+        if (isVisibleToUser)
             UmengStatisticsAgent.onEvent(getActivity(), UMEventIDS.UMENEWVOICE);
     }
 
@@ -122,7 +136,52 @@ public class TabWildcatFragment extends PPBaseFragment implements
             showToast(getActivity(), "无网络");
             return;
         }
+<<<<<<< HEAD
         startActivity(new Intent(getActivity(), WildCatCallActivity.class));
+=======
+        //startActivity(new Intent(getActivity(), WildCatCallActivity.class));
+        wildcallIfhasPermission();
+    }
+
+    private void wildcallIfhasPermission() {
+        Subscription subscription = ApiRequestWrapper.apiGetJson(getActivity(), new ArrayList<>(), AsynHttpClient.API_WILDCAT_PERMISSION).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<JSONObject>() {
+            @Override
+            public void onStart() {
+                showAnimLoading("", false, false);
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                dismissAnimLoading();
+                Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNext(JSONObject object) {
+                dismissAnimLoading();
+                if (object.optInt("permission") == 1)
+                    startActivity(new Intent(getActivity(), AgoraWildCallActivity.class));
+                else
+                    upgradePermission();
+            }
+        });
+        mCompositeSubscription.add(subscription);
+    }
+
+    private void upgradePermission() {
+        new AlertDialog.Builder(getActivity())
+                .setTitle("升级权限")
+                .setPositiveButton("确定", (dialog, which) -> {
+                    new Intent(getActivity(), ChargeActivity.class);
+                })
+                .setNegativeButton("取消", null)
+                .create().show();
+>>>>>>> ef0fd79745cfc7f2142d30f43876e23d0762bef7
     }
 
     private void startWildGuide() {

@@ -201,7 +201,7 @@ public class GroupJoinBaseAdapter<T> extends PPBaseAdapter<T> {
     private void charge() {
         Resources res = context.getResources();
         new AlertDialog.Builder(context)
-                .setTitle(res.getString(R.string.your_balance_is_not_enough))
+                .setTitle(res.getString(R.string.your_balance_is_not_enough_for_join_group))
                 .setNegativeButton(res.getString(R.string.cancel), null)
                 .setPositiveButton(res.getString(R.string.charge), (dialog, which) -> {
                     context.startActivity(new Intent(context, ChargeActivity.class));

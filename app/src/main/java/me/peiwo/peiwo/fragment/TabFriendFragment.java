@@ -3,7 +3,6 @@ package me.peiwo.peiwo.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -117,7 +116,7 @@ public class TabFriendFragment extends PPBaseFragment implements
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_pw_contacts, container, false);
         emptyView = v.findViewById(R.id.layout_empty);
-        emptyView.setOnClickListener(v1 -> startActivity(new Intent(getActivity(), WildCatCallActivity.class)));
+        emptyView.setOnClickListener(v1 -> startActivity(new Intent(getActivity(), AgoraWildCallActivity.class)));
 //        View iv_icon_friends_blank = emptyView.findViewById(R.id.iv_icon_friends_blank);
 //        iv_icon_friends_blank.setOnClickListener(v1 -> startActivity(new Intent(getActivity(), WildCatCallActivity.class)));
         pullToRefreshListView = (PWPullToRefreshListView) v.findViewById(R.id.pullToRefreshListView);
@@ -158,7 +157,7 @@ public class TabFriendFragment extends PPBaseFragment implements
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         TcpProxy.getInstance().requestFriendPubFlow();
-        if(isVisibleToUser)
+        if (isVisibleToUser)
             UmengStatisticsAgent.onEvent(getActivity(), UMEventIDS.UMECOBBERPAGE);
     }
 
@@ -227,7 +226,7 @@ public class TabFriendFragment extends PPBaseFragment implements
     private void requestServer() {
 //        try {
         BriteDatabase briteDatabase = BriteDBHelperHolder.getInstance().getBriteDatabase(getActivity());
-        if(briteDatabase == null) return;
+        if (briteDatabase == null) return;
         String sql = String.format("select sync_id from %s order by sync_id desc limit 1", PWDBConfig.TB_PW_CONTACTS);
         Subscription subscription = briteDatabase.createQuery(PWDBConfig.TB_PW_CONTACTS, sql)
                 .map(query -> {
@@ -294,7 +293,7 @@ public class TabFriendFragment extends PPBaseFragment implements
                 try {
                     //Log.i("mergedb", "call == " + (Looper.myLooper() == Looper.getMainLooper()));
                     BriteDatabase database = BriteDBHelperHolder.getInstance().getBriteDatabase(getActivity());
-                    if(database == null) return;
+                    if (database == null) return;
                     BriteDatabase.Transaction transaction = database.newTransaction();
                     String insert_sql = String.format("insert or replace into %s (uid, sync_id, avatar, avatar_thumbnail, birthday, price, gender, name, slogan, city, province, contact_id, signin_time, contact_state, call_duration) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", PWDBConfig.TB_PW_CONTACTS);
                     for (PWContactsModel model : childs) {
@@ -433,7 +432,7 @@ public class TabFriendFragment extends PPBaseFragment implements
     public void deleteSingleFriendFromDB(String uid) {
         //Log.i("friend", "deleteSingleFriendFromDB");
         BriteDatabase database = BriteDBHelperHolder.getInstance().getBriteDatabase(getActivity());
-        if(database == null) return;
+        if (database == null) return;
         //int rows =
         database.delete(PWDBConfig.TB_PW_CONTACTS, "uid = ?", uid);
         //Log.i("friend", "rows == " + rows);
@@ -608,7 +607,7 @@ public class TabFriendFragment extends PPBaseFragment implements
     private void loadDataFromLocal(boolean auto_load_from_server) {
         try {
             BriteDatabase briteDatabase = BriteDBHelperHolder.getInstance().getBriteDatabase(getActivity());
-            if(briteDatabase == null) return;
+            if (briteDatabase == null) return;
             String sql = String.format("select * from %s where contact_state = 0 order by signin_time desc", PWDBConfig.TB_PW_CONTACTS);
             Observable<SqlBrite.Query> observable = briteDatabase.createQuery(PWDBConfig.TB_PW_CONTACTS, sql);
             //loadDataFromLocal这个方法被调用多少次就会产生多少个subscription，db改变时就会调用多少次observable.subscribe，就会执行query

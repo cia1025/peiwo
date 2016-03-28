@@ -1,24 +1,43 @@
 package me.peiwo.peiwo.activity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import me.peiwo.peiwo.DfineAction;
 import me.peiwo.peiwo.PeiwoApp;
+import me.peiwo.peiwo.R;
 import me.peiwo.peiwo.net.ApiRequestWrapper;
 import me.peiwo.peiwo.net.MsgStructure;
 import me.peiwo.peiwo.util.CustomLog;
 import me.peiwo.peiwo.util.TimeUtil;
 import me.peiwo.peiwo.util.UserManager;
 import me.peiwo.peiwo.widget.CallWaitingView;
+<<<<<<< HEAD
 import org.json.JSONObject;
 
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+=======
+import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.subscriptions.CompositeSubscription;
+
+>>>>>>> ef0fd79745cfc7f2142d30f43876e23d0762bef7
 /**
  * Created by fuhaidong on 14/11/25.
  * 打电话前的base activity，如果有activity存在需要校验权限跟价格的，需要继承这个父类
@@ -158,13 +177,10 @@ public class PWPreCallingActivity extends BaseActivity {
         if (price > Float.valueOf(money)) {
             if (!isFinishing()) {
                 new AlertDialog.Builder(this)
-                        .setMessage("您的账户余额不足，充值后再打给我吧！")
+                        .setMessage(R.string.your_balance_is_not_enough_for_calling)
                         .setNegativeButton("取消", null)
-                        .setPositiveButton("充值", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                startActivity(new Intent(PWPreCallingActivity.this, ChargeActivity.class));
-                            }
+                        .setPositiveButton("充值", (dialog, which) -> {
+                            startActivity(new Intent(PWPreCallingActivity.this, ChargeActivity.class));
                         }).create().show();
             }
             return;
@@ -175,11 +191,16 @@ public class PWPreCallingActivity extends BaseActivity {
                         .setMessage(String.format(Locale.getDefault(),
                                 "接听后将按照%.1f元/分钟计费,是否继续呼叫?", price))
                         .setNegativeButton("取消", null)
+<<<<<<< HEAD
                         .setPositiveButton("呼叫", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 realCall(callIntent, price);
                             }
+=======
+                        .setPositiveButton("呼叫", (dialog, which) -> {
+                            realCall(callIntent, price, channel, channel_id);
+>>>>>>> ef0fd79745cfc7f2142d30f43876e23d0762bef7
                         }).create().show();
             }
         } else {

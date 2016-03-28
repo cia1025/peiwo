@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:background="@drawable/bg_blue_small_radius"
+                android:paddingBottom="35dp"
+                android:layout_height="120dp">
+
+    <ImageView
+        android:id="@+id/iv_play_default_btn"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/icon_play_lazy"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:clickable="true"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/tv_voice_total_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="6dp"
+        android:text="00:21"
+        android:singleLine="true"
+        android:textColor="@color/lazy_guy_voice_time_color"
+        android:textSize="10sp"/>
+    <Chronometer
+        android:id="@+id/chronometer_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="42dp"
+        android:layout_marginTop="6dp"
+        android:text="00:25"
+        android:singleLine="true"
+        android:textColor="@color/lazy_guy_voice_time_color"
+        android:textSize="10sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="60dp"
+        android:layout_alignLeft="@+id/tv_group_name"
+        android:background="@color/c_de2"/>
+</RelativeLayout>

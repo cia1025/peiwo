@@ -440,7 +440,7 @@ public class GroupExhibitionActivity extends BaseActivity {
     private void charge() {
         Resources res = getResources();
         new AlertDialog.Builder(this)
-                .setTitle(res.getString(R.string.your_balance_is_not_enough))
+                .setTitle(res.getString(R.string.your_balance_is_not_enough_for_join_group))
                 .setNegativeButton(res.getString(R.string.cancel), null)
                 .setPositiveButton(res.getString(R.string.charge), (dialog, which) -> {
                     this.startActivity(new Intent(this, ChargeActivity.class));
